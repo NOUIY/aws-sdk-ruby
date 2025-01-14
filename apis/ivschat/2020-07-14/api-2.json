@@ -2,9 +2,10 @@
   "version":"2.0",
   "metadata":{
     "apiVersion":"2020-07-14",
+    "auth":["aws.auth#sigv4"],
     "endpointPrefix":"ivschat",
-    "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"ivschat",
     "serviceFullName":"Amazon Interactive Video Service Chat",
     "serviceId":"ivschat",
@@ -262,6 +263,7 @@
       "input":{"shape":"UpdateLoggingConfigurationRequest"},
       "output":{"shape":"UpdateLoggingConfigurationResponse"},
       "errors":[
+        {"shape":"ConflictException"},
         {"shape":"AccessDeniedException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"PendingVerification"},
@@ -302,13 +304,17 @@
       "type":"string",
       "max":63,
       "min":3,
-      "pattern":"^[a-z0-9-.]+$"
+      "pattern":"[a-z0-9-.]+"
     },
-    "ChatToken":{"type":"string"},
+    "ChatToken":{
+      "type":"string",
+      "sensitive":true
+    },
     "ChatTokenAttributes":{
       "type":"map",
       "key":{"shape":"String"},
-      "value":{"shape":"String"}
+      "value":{"shape":"String"},
+      "sensitive":true
     },
     "ChatTokenCapabilities":{
       "type":"list",
@@ -354,27 +360,27 @@
         "userId"
       ],
       "members":{
-        "attributes":{"shape":"ChatTokenAttributes"},
-        "capabilities":{"shape":"ChatTokenCapabilities"},
         "roomIdentifier":{"shape":"RoomIdentifier"},
+        "userId":{"shape":"UserID"},
+        "capabilities":{"shape":"ChatTokenCapabilities"},
         "sessionDurationInMinutes":{"shape":"SessionDurationInMinutes"},
-        "userId":{"shape":"UserID"}
+        "attributes":{"shape":"ChatTokenAttributes"}
       }
     },
     "CreateChatTokenResponse":{
       "type":"structure",
       "members":{
-        "sessionExpirationTime":{"shape":"Time"},
         "token":{"shape":"ChatToken"},
-        "tokenExpirationTime":{"shape":"Time"}
+        "tokenExpirationTime":{"shape":"Time"},
+        "sessionExpirationTime":{"shape":"Time"}
       }
     },
     "CreateLoggingConfigurationRequest":{
       "type":"structure",
       "required":["destinationConfiguration"],
       "members":{
-        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "name":{"shape":"LoggingConfigurationName"},
+        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "tags":{"shape":"Tags"}
       }
     },
@@ -382,13 +388,13 @@
       "type":"structure",
       "members":{
         "arn":{"shape":"LoggingConfigurationArn"},
-        "createTime":{"shape":"Time"},
-        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "id":{"shape":"LoggingConfigurationID"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
         "name":{"shape":"LoggingConfigurationName"},
+        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "state":{"shape":"CreateLoggingConfigurationState"},
-        "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "tags":{"shape":"Tags"}
       }
     },
     "CreateLoggingConfigurationState":{
@@ -398,27 +404,27 @@
     "CreateRoomRequest":{
       "type":"structure",
       "members":{
-        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"},
-        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
-        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
-        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "name":{"shape":"RoomName"},
-        "tags":{"shape":"Tags"}
+        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
+        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
+        "messageReviewHandler":{"shape":"MessageReviewHandler"},
+        "tags":{"shape":"Tags"},
+        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"}
       }
     },
     "CreateRoomResponse":{
       "type":"structure",
       "members":{
         "arn":{"shape":"RoomArn"},
-        "createTime":{"shape":"Time"},
         "id":{"shape":"RoomID"},
-        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"},
-        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
-        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
-        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "name":{"shape":"RoomName"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
+        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
+        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
+        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"}
       }
     },
     "DeleteLoggingConfigurationRequest":{
@@ -431,13 +437,13 @@
     "DeleteMessageRequest":{
       "type":"structure",
       "required":[
-        "id",
-        "roomIdentifier"
+        "roomIdentifier",
+        "id"
       ],
       "members":{
+        "roomIdentifier":{"shape":"RoomIdentifier"},
         "id":{"shape":"MessageID"},
-        "reason":{"shape":"Reason"},
-        "roomIdentifier":{"shape":"RoomIdentifier"}
+        "reason":{"shape":"Reason"}
       }
     },
     "DeleteMessageResponse":{
@@ -457,14 +463,14 @@
       "type":"string",
       "max":64,
       "min":1,
-      "pattern":"^[a-zA-Z0-9_.-]+$"
+      "pattern":"[a-zA-Z0-9_.-]+"
     },
     "DestinationConfiguration":{
       "type":"structure",
       "members":{
+        "s3":{"shape":"S3DestinationConfiguration"},
         "cloudWatchLogs":{"shape":"CloudWatchLogsDestinationConfiguration"},
-        "firehose":{"shape":"FirehoseDestinationConfiguration"},
-        "s3":{"shape":"S3DestinationConfiguration"}
+        "firehose":{"shape":"FirehoseDestinationConfiguration"}
       },
       "union":true
     },
@@ -475,9 +481,9 @@
         "userId"
       ],
       "members":{
-        "reason":{"shape":"Reason"},
         "roomIdentifier":{"shape":"RoomIdentifier"},
-        "userId":{"shape":"UserID"}
+        "userId":{"shape":"UserID"},
+        "reason":{"shape":"Reason"}
       }
     },
     "DisconnectUserResponse":{
@@ -522,13 +528,13 @@
       "type":"structure",
       "members":{
         "arn":{"shape":"LoggingConfigurationArn"},
-        "createTime":{"shape":"Time"},
-        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "id":{"shape":"LoggingConfigurationID"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
         "name":{"shape":"LoggingConfigurationName"},
+        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "state":{"shape":"LoggingConfigurationState"},
-        "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "tags":{"shape":"Tags"}
       }
     },
     "GetRoomRequest":{
@@ -542,22 +548,22 @@
       "type":"structure",
       "members":{
         "arn":{"shape":"RoomArn"},
-        "createTime":{"shape":"Time"},
         "id":{"shape":"RoomID"},
-        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"},
-        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
-        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
-        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "name":{"shape":"RoomName"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
+        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
+        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
+        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"}
       }
     },
     "ID":{
       "type":"string",
       "max":12,
       "min":12,
-      "pattern":"^[a-zA-Z0-9]+$"
+      "pattern":"[a-zA-Z0-9]+"
     },
     "InternalServerException":{
       "type":"structure",
@@ -573,14 +579,14 @@
       "type":"string",
       "max":170,
       "min":0,
-      "pattern":"^$|^arn:aws:lambda:[a-z0-9-]+:[0-9]{12}:function:.+"
+      "pattern":"$|^arn:aws:lambda:[a-z0-9-]+:[0-9]{12}:function:.+.*"
     },
     "Limit":{"type":"integer"},
     "ListLoggingConfigurationsRequest":{
       "type":"structure",
       "members":{
-        "maxResults":{"shape":"MaxLoggingConfigurationResults"},
-        "nextToken":{"shape":"PaginationToken"}
+        "nextToken":{"shape":"PaginationToken"},
+        "maxResults":{"shape":"MaxLoggingConfigurationResults"}
       }
     },
     "ListLoggingConfigurationsResponse":{
@@ -594,19 +600,19 @@
     "ListRoomsRequest":{
       "type":"structure",
       "members":{
-        "loggingConfigurationIdentifier":{"shape":"LoggingConfigurationIdentifier"},
+        "name":{"shape":"RoomName"},
+        "nextToken":{"shape":"PaginationToken"},
         "maxResults":{"shape":"MaxRoomResults"},
         "messageReviewHandlerUri":{"shape":"LambdaArn"},
-        "name":{"shape":"RoomName"},
-        "nextToken":{"shape":"PaginationToken"}
+        "loggingConfigurationIdentifier":{"shape":"LoggingConfigurationIdentifier"}
       }
     },
     "ListRoomsResponse":{
       "type":"structure",
       "required":["rooms"],
       "members":{
-        "nextToken":{"shape":"PaginationToken"},
-        "rooms":{"shape":"RoomList"}
+        "rooms":{"shape":"RoomList"},
+        "nextToken":{"shape":"PaginationToken"}
       }
     },
     "ListTagsForResourceRequest":{
@@ -631,25 +637,25 @@
       "type":"string",
       "max":512,
       "min":1,
-      "pattern":"^[\\.\\-_/#A-Za-z0-9]+$"
+      "pattern":"[\\.\\-_/#A-Za-z0-9]+"
     },
     "LoggingConfigurationArn":{
       "type":"string",
       "max":128,
       "min":1,
-      "pattern":"^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$"
+      "pattern":"arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+"
     },
     "LoggingConfigurationID":{
       "type":"string",
       "max":12,
       "min":12,
-      "pattern":"^[a-zA-Z0-9]+$"
+      "pattern":"[a-zA-Z0-9]+"
     },
     "LoggingConfigurationIdentifier":{
       "type":"string",
       "max":128,
       "min":1,
-      "pattern":"^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+$"
+      "pattern":"arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+"
     },
     "LoggingConfigurationIdentifierList":{
       "type":"list",
@@ -665,7 +671,7 @@
       "type":"string",
       "max":128,
       "min":0,
-      "pattern":"^[a-zA-Z0-9-_]*$"
+      "pattern":"[a-zA-Z0-9-_]*"
     },
     "LoggingConfigurationState":{
       "type":"string",
@@ -683,22 +689,24 @@
       "type":"structure",
       "members":{
         "arn":{"shape":"LoggingConfigurationArn"},
-        "createTime":{"shape":"Time"},
-        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "id":{"shape":"LoggingConfigurationID"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
         "name":{"shape":"LoggingConfigurationName"},
+        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "state":{"shape":"LoggingConfigurationState"},
-        "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "tags":{"shape":"Tags"}
       }
     },
     "MaxLoggingConfigurationResults":{
       "type":"integer",
+      "box":true,
       "max":50,
       "min":1
     },
     "MaxRoomResults":{
       "type":"integer",
+      "box":true,
       "max":50,
       "min":1
     },
@@ -706,13 +714,13 @@
       "type":"string",
       "max":12,
       "min":12,
-      "pattern":"^[a-zA-Z0-9]+$"
+      "pattern":"[a-zA-Z0-9]+"
     },
     "MessageReviewHandler":{
       "type":"structure",
       "members":{
-        "fallbackResult":{"shape":"FallbackResult"},
-        "uri":{"shape":"LambdaArn"}
+        "uri":{"shape":"LambdaArn"},
+        "fallbackResult":{"shape":"FallbackResult"}
       }
     },
     "PaginationToken":{
@@ -741,11 +749,11 @@
       "type":"string",
       "max":128,
       "min":1,
-      "pattern":"^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$"
+      "pattern":"arn:aws:ivschat:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+"
     },
     "ResourceId":{
       "type":"string",
-      "pattern":"^[a-zA-Z0-9]+$"
+      "pattern":"[a-zA-Z0-9]+"
     },
     "ResourceNotFoundException":{
       "type":"structure",
@@ -773,19 +781,19 @@
       "type":"string",
       "max":128,
       "min":1,
-      "pattern":"^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+$"
+      "pattern":"arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+"
     },
     "RoomID":{
       "type":"string",
       "max":12,
       "min":12,
-      "pattern":"^[a-zA-Z0-9]+$"
+      "pattern":"[a-zA-Z0-9]+"
     },
     "RoomIdentifier":{
       "type":"string",
       "max":128,
       "min":1,
-      "pattern":"^arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+$"
+      "pattern":"arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+"
     },
     "RoomList":{
       "type":"list",
@@ -793,11 +801,13 @@
     },
     "RoomMaxMessageLength":{
       "type":"integer",
+      "box":true,
       "max":500,
       "min":1
     },
     "RoomMaxMessageRatePerSecond":{
       "type":"integer",
+      "box":true,
       "max":100,
       "min":1
     },
@@ -805,19 +815,19 @@
       "type":"string",
       "max":128,
       "min":0,
-      "pattern":"^[a-zA-Z0-9-_]*$"
+      "pattern":"[a-zA-Z0-9-_]*"
     },
     "RoomSummary":{
       "type":"structure",
       "members":{
         "arn":{"shape":"RoomArn"},
-        "createTime":{"shape":"Time"},
         "id":{"shape":"RoomID"},
-        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"},
-        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "name":{"shape":"RoomName"},
+        "messageReviewHandler":{"shape":"MessageReviewHandler"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
         "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"}
       }
     },
     "S3DestinationConfiguration":{
@@ -830,13 +840,13 @@
     "SendEventRequest":{
       "type":"structure",
       "required":[
-        "eventName",
-        "roomIdentifier"
+        "roomIdentifier",
+        "eventName"
       ],
       "members":{
-        "attributes":{"shape":"EventAttributes"},
+        "roomIdentifier":{"shape":"RoomIdentifier"},
         "eventName":{"shape":"EventName"},
-        "roomIdentifier":{"shape":"RoomIdentifier"}
+        "attributes":{"shape":"EventAttributes"}
       }
     },
     "SendEventResponse":{
@@ -848,16 +858,16 @@
     "ServiceQuotaExceededException":{
       "type":"structure",
       "required":[
-        "limit",
         "message",
         "resourceId",
-        "resourceType"
+        "resourceType",
+        "limit"
       ],
       "members":{
-        "limit":{"shape":"Limit"},
         "message":{"shape":"ErrorMessage"},
         "resourceId":{"shape":"ResourceId"},
-        "resourceType":{"shape":"ResourceType"}
+        "resourceType":{"shape":"ResourceType"},
+        "limit":{"shape":"Limit"}
       },
       "error":{
         "httpStatusCode":402,
@@ -867,6 +877,7 @@
     },
     "SessionDurationInMinutes":{
       "type":"integer",
+      "box":true,
       "max":180,
       "min":1
     },
@@ -917,16 +928,16 @@
     "ThrottlingException":{
       "type":"structure",
       "required":[
-        "limit",
         "message",
         "resourceId",
-        "resourceType"
+        "resourceType",
+        "limit"
       ],
       "members":{
-        "limit":{"shape":"Limit"},
         "message":{"shape":"ErrorMessage"},
         "resourceId":{"shape":"ResourceId"},
-        "resourceType":{"shape":"ResourceType"}
+        "resourceType":{"shape":"ResourceType"},
+        "limit":{"shape":"Limit"}
       },
       "error":{
         "httpStatusCode":429,
@@ -966,22 +977,22 @@
       "type":"structure",
       "required":["identifier"],
       "members":{
-        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "identifier":{"shape":"LoggingConfigurationIdentifier"},
-        "name":{"shape":"LoggingConfigurationName"}
+        "name":{"shape":"LoggingConfigurationName"},
+        "destinationConfiguration":{"shape":"DestinationConfiguration"}
       }
     },
     "UpdateLoggingConfigurationResponse":{
       "type":"structure",
       "members":{
         "arn":{"shape":"LoggingConfigurationArn"},
-        "createTime":{"shape":"Time"},
-        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "id":{"shape":"LoggingConfigurationID"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
         "name":{"shape":"LoggingConfigurationName"},
+        "destinationConfiguration":{"shape":"DestinationConfiguration"},
         "state":{"shape":"UpdateLoggingConfigurationState"},
-        "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "tags":{"shape":"Tags"}
       }
     },
     "UpdateLoggingConfigurationState":{
@@ -993,32 +1004,33 @@
       "required":["identifier"],
       "members":{
         "identifier":{"shape":"RoomIdentifier"},
-        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"},
-        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
+        "name":{"shape":"RoomName"},
         "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
+        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
         "messageReviewHandler":{"shape":"MessageReviewHandler"},
-        "name":{"shape":"RoomName"}
+        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"}
       }
     },
     "UpdateRoomResponse":{
       "type":"structure",
       "members":{
         "arn":{"shape":"RoomArn"},
-        "createTime":{"shape":"Time"},
         "id":{"shape":"RoomID"},
-        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"},
-        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
-        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
-        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "name":{"shape":"RoomName"},
+        "createTime":{"shape":"Time"},
+        "updateTime":{"shape":"Time"},
+        "maximumMessageRatePerSecond":{"shape":"RoomMaxMessageRatePerSecond"},
+        "maximumMessageLength":{"shape":"RoomMaxMessageLength"},
+        "messageReviewHandler":{"shape":"MessageReviewHandler"},
         "tags":{"shape":"Tags"},
-        "updateTime":{"shape":"Time"}
+        "loggingConfigurationIdentifiers":{"shape":"LoggingConfigurationIdentifierList"}
       }
     },
     "UserID":{
       "type":"string",
       "max":128,
-      "min":1
+      "min":1,
+      "sensitive":true
     },
     "ValidationException":{
       "type":"structure",
@@ -1027,9 +1039,9 @@
         "reason"
       ],
       "members":{
-        "fieldList":{"shape":"ValidationExceptionFieldList"},
         "message":{"shape":"ErrorMessage"},
-        "reason":{"shape":"ValidationExceptionReason"}
+        "reason":{"shape":"ValidationExceptionReason"},
+        "fieldList":{"shape":"ValidationExceptionFieldList"}
       },
       "error":{
         "httpStatusCode":400,
@@ -1040,12 +1052,12 @@
     "ValidationExceptionField":{
       "type":"structure",
       "required":[
-        "message",
-        "name"
+        "name",
+        "message"
       ],
       "members":{
-        "message":{"shape":"ErrorMessage"},
-        "name":{"shape":"FieldName"}
+        "name":{"shape":"FieldName"},
+        "message":{"shape":"ErrorMessage"}
       }
     },
     "ValidationExceptionFieldList":{

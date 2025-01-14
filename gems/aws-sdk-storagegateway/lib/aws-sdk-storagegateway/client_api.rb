@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::StorageGateway
   # @api private
   module ClientApi
@@ -37,6 +38,7 @@ module Aws::StorageGateway
     AutomaticTapeCreationPolicyInfos = Shapes::ListShape.new(name: 'AutomaticTapeCreationPolicyInfos')
     AutomaticTapeCreationRule = Shapes::StructureShape.new(name: 'AutomaticTapeCreationRule')
     AutomaticTapeCreationRules = Shapes::ListShape.new(name: 'AutomaticTapeCreationRules')
+    AutomaticUpdatePolicy = Shapes::StringShape.new(name: 'AutomaticUpdatePolicy')
     AvailabilityMonitorTestStatus = Shapes::StringShape.new(name: 'AvailabilityMonitorTestStatus')
     BandwidthDownloadRateLimit = Shapes::IntegerShape.new(name: 'BandwidthDownloadRateLimit')
     BandwidthRateLimitInterval = Shapes::StructureShape.new(name: 'BandwidthRateLimitInterval')
@@ -164,6 +166,7 @@ module Aws::StorageGateway
     DoubleObject = Shapes::FloatShape.new(name: 'DoubleObject')
     Ec2InstanceId = Shapes::StringShape.new(name: 'Ec2InstanceId')
     Ec2InstanceRegion = Shapes::StringShape.new(name: 'Ec2InstanceRegion')
+    EncryptionType = Shapes::StringShape.new(name: 'EncryptionType')
     EndpointNetworkConfiguration = Shapes::StructureShape.new(name: 'EndpointNetworkConfiguration')
     EndpointType = Shapes::StringShape.new(name: 'EndpointType')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
@@ -300,7 +303,9 @@ module Aws::StorageGateway
     ShutdownGatewayOutput = Shapes::StructureShape.new(name: 'ShutdownGatewayOutput')
     SnapshotDescription = Shapes::StringShape.new(name: 'SnapshotDescription')
     SnapshotId = Shapes::StringShape.new(name: 'SnapshotId')
+    SoftwareUpdatePreferences = Shapes::StructureShape.new(name: 'SoftwareUpdatePreferences')
     SoftwareUpdatesEndDate = Shapes::StringShape.new(name: 'SoftwareUpdatesEndDate')
+    SoftwareVersion = Shapes::StringShape.new(name: 'SoftwareVersion')
     Squash = Shapes::StringShape.new(name: 'Squash')
     StartAvailabilityMonitorTestInput = Shapes::StructureShape.new(name: 'StartAvailabilityMonitorTestInput')
     StartAvailabilityMonitorTestOutput = Shapes::StructureShape.new(name: 'StartAvailabilityMonitorTestOutput')
@@ -558,7 +563,8 @@ module Aws::StorageGateway
     CreateNFSFileShareInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "ClientToken"))
     CreateNFSFileShareInput.add_member(:nfs_file_share_defaults, Shapes::ShapeRef.new(shape: NFSFileShareDefaults, location_name: "NFSFileShareDefaults"))
     CreateNFSFileShareInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
-    CreateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    CreateNFSFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    CreateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     CreateNFSFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     CreateNFSFileShareInput.add_member(:role, Shapes::ShapeRef.new(shape: Role, required: true, location_name: "Role"))
     CreateNFSFileShareInput.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationARN, required: true, location_name: "LocationARN"))
@@ -583,7 +589,8 @@ module Aws::StorageGateway
 
     CreateSMBFileShareInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "ClientToken"))
     CreateSMBFileShareInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
-    CreateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    CreateSMBFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    CreateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     CreateSMBFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     CreateSMBFileShareInput.add_member(:role, Shapes::ShapeRef.new(shape: Role, required: true, location_name: "Role"))
     CreateSMBFileShareInput.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationARN, required: true, location_name: "LocationARN"))
@@ -831,6 +838,7 @@ module Aws::StorageGateway
     DescribeGatewayInformationOutput.add_member(:gateway_capacity, Shapes::ShapeRef.new(shape: GatewayCapacity, location_name: "GatewayCapacity"))
     DescribeGatewayInformationOutput.add_member(:supported_gateway_capacities, Shapes::ShapeRef.new(shape: SupportedGatewayCapacities, location_name: "SupportedGatewayCapacities"))
     DescribeGatewayInformationOutput.add_member(:host_environment_id, Shapes::ShapeRef.new(shape: HostEnvironmentId, location_name: "HostEnvironmentId"))
+    DescribeGatewayInformationOutput.add_member(:software_version, Shapes::ShapeRef.new(shape: SoftwareVersion, location_name: "SoftwareVersion"))
     DescribeGatewayInformationOutput.struct_class = Types::DescribeGatewayInformationOutput
 
     DescribeMaintenanceStartTimeInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
@@ -842,6 +850,7 @@ module Aws::StorageGateway
     DescribeMaintenanceStartTimeOutput.add_member(:day_of_week, Shapes::ShapeRef.new(shape: DayOfWeek, location_name: "DayOfWeek"))
     DescribeMaintenanceStartTimeOutput.add_member(:day_of_month, Shapes::ShapeRef.new(shape: DayOfMonth, location_name: "DayOfMonth"))
     DescribeMaintenanceStartTimeOutput.add_member(:timezone, Shapes::ShapeRef.new(shape: GatewayTimezone, location_name: "Timezone"))
+    DescribeMaintenanceStartTimeOutput.add_member(:software_update_preferences, Shapes::ShapeRef.new(shape: SoftwareUpdatePreferences, location_name: "SoftwareUpdatePreferences"))
     DescribeMaintenanceStartTimeOutput.struct_class = Types::DescribeMaintenanceStartTimeOutput
 
     DescribeNFSFileSharesInput.add_member(:file_share_arn_list, Shapes::ShapeRef.new(shape: FileShareARNList, required: true, location_name: "FileShareARNList"))
@@ -1040,6 +1049,8 @@ module Aws::StorageGateway
     GatewayInfo.add_member(:ec2_instance_region, Shapes::ShapeRef.new(shape: Ec2InstanceRegion, location_name: "Ec2InstanceRegion"))
     GatewayInfo.add_member(:host_environment, Shapes::ShapeRef.new(shape: HostEnvironment, location_name: "HostEnvironment"))
     GatewayInfo.add_member(:host_environment_id, Shapes::ShapeRef.new(shape: HostEnvironmentId, location_name: "HostEnvironmentId"))
+    GatewayInfo.add_member(:deprecation_date, Shapes::ShapeRef.new(shape: DeprecationDate, location_name: "DeprecationDate"))
+    GatewayInfo.add_member(:software_version, Shapes::ShapeRef.new(shape: SoftwareVersion, location_name: "SoftwareVersion"))
     GatewayInfo.struct_class = Types::GatewayInfo
 
     GatewayNetworkInterfaces.member = Shapes::ShapeRef.new(shape: NetworkInterface)
@@ -1176,7 +1187,8 @@ module Aws::StorageGateway
     NFSFileShareInfo.add_member(:file_share_id, Shapes::ShapeRef.new(shape: FileShareId, location_name: "FileShareId"))
     NFSFileShareInfo.add_member(:file_share_status, Shapes::ShapeRef.new(shape: FileShareStatus, location_name: "FileShareStatus"))
     NFSFileShareInfo.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
-    NFSFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, location_name: "KMSEncrypted"))
+    NFSFileShareInfo.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    NFSFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     NFSFileShareInfo.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     NFSFileShareInfo.add_member(:path, Shapes::ShapeRef.new(shape: Path, location_name: "Path"))
     NFSFileShareInfo.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
@@ -1263,7 +1275,8 @@ module Aws::StorageGateway
     SMBFileShareInfo.add_member(:file_share_id, Shapes::ShapeRef.new(shape: FileShareId, location_name: "FileShareId"))
     SMBFileShareInfo.add_member(:file_share_status, Shapes::ShapeRef.new(shape: FileShareStatus, location_name: "FileShareStatus"))
     SMBFileShareInfo.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
-    SMBFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, location_name: "KMSEncrypted"))
+    SMBFileShareInfo.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    SMBFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     SMBFileShareInfo.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     SMBFileShareInfo.add_member(:path, Shapes::ShapeRef.new(shape: Path, location_name: "Path"))
     SMBFileShareInfo.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
@@ -1318,6 +1331,9 @@ module Aws::StorageGateway
 
     ShutdownGatewayOutput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     ShutdownGatewayOutput.struct_class = Types::ShutdownGatewayOutput
+
+    SoftwareUpdatePreferences.add_member(:automatic_update_policy, Shapes::ShapeRef.new(shape: AutomaticUpdatePolicy, location_name: "AutomaticUpdatePolicy"))
+    SoftwareUpdatePreferences.struct_class = Types::SoftwareUpdatePreferences
 
     StartAvailabilityMonitorTestInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
     StartAvailabilityMonitorTestInput.struct_class = Types::StartAvailabilityMonitorTestInput
@@ -1480,17 +1496,19 @@ module Aws::StorageGateway
     UpdateGatewaySoftwareNowOutput.struct_class = Types::UpdateGatewaySoftwareNowOutput
 
     UpdateMaintenanceStartTimeInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
-    UpdateMaintenanceStartTimeInput.add_member(:hour_of_day, Shapes::ShapeRef.new(shape: HourOfDay, required: true, location_name: "HourOfDay"))
-    UpdateMaintenanceStartTimeInput.add_member(:minute_of_hour, Shapes::ShapeRef.new(shape: MinuteOfHour, required: true, location_name: "MinuteOfHour"))
+    UpdateMaintenanceStartTimeInput.add_member(:hour_of_day, Shapes::ShapeRef.new(shape: HourOfDay, location_name: "HourOfDay"))
+    UpdateMaintenanceStartTimeInput.add_member(:minute_of_hour, Shapes::ShapeRef.new(shape: MinuteOfHour, location_name: "MinuteOfHour"))
     UpdateMaintenanceStartTimeInput.add_member(:day_of_week, Shapes::ShapeRef.new(shape: DayOfWeek, location_name: "DayOfWeek"))
     UpdateMaintenanceStartTimeInput.add_member(:day_of_month, Shapes::ShapeRef.new(shape: DayOfMonth, location_name: "DayOfMonth"))
+    UpdateMaintenanceStartTimeInput.add_member(:software_update_preferences, Shapes::ShapeRef.new(shape: SoftwareUpdatePreferences, location_name: "SoftwareUpdatePreferences"))
     UpdateMaintenanceStartTimeInput.struct_class = Types::UpdateMaintenanceStartTimeInput
 
     UpdateMaintenanceStartTimeOutput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     UpdateMaintenanceStartTimeOutput.struct_class = Types::UpdateMaintenanceStartTimeOutput
 
     UpdateNFSFileShareInput.add_member(:file_share_arn, Shapes::ShapeRef.new(shape: FileShareARN, required: true, location_name: "FileShareARN"))
-    UpdateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    UpdateNFSFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    UpdateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     UpdateNFSFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     UpdateNFSFileShareInput.add_member(:nfs_file_share_defaults, Shapes::ShapeRef.new(shape: NFSFileShareDefaults, location_name: "NFSFileShareDefaults"))
     UpdateNFSFileShareInput.add_member(:default_storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "DefaultStorageClass"))
@@ -1510,7 +1528,8 @@ module Aws::StorageGateway
     UpdateNFSFileShareOutput.struct_class = Types::UpdateNFSFileShareOutput
 
     UpdateSMBFileShareInput.add_member(:file_share_arn, Shapes::ShapeRef.new(shape: FileShareARN, required: true, location_name: "FileShareARN"))
-    UpdateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    UpdateSMBFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    UpdateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     UpdateSMBFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     UpdateSMBFileShareInput.add_member(:default_storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "DefaultStorageClass"))
     UpdateSMBFileShareInput.add_member(:object_acl, Shapes::ShapeRef.new(shape: ObjectACL, location_name: "ObjectACL"))
@@ -1623,9 +1642,11 @@ module Aws::StorageGateway
 
       api.metadata = {
         "apiVersion" => "2013-06-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "storagegateway",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWS Storage Gateway",
         "serviceId" => "Storage Gateway",
         "signatureVersion" => "v4",

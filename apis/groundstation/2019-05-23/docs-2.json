@@ -13,10 +13,10 @@
     "DeleteMissionProfile": "<p>Deletes a mission profile.</p>",
     "DescribeContact": "<p>Describes an existing contact.</p>",
     "DescribeEphemeris": "<p>Describes an existing ephemeris.</p>",
-    "GetAgentConfiguration": "<p>Gets the latest configuration information for a registered agent.</p>",
+    "GetAgentConfiguration": "<note> <p> For use by AWS Ground Station Agent and shouldn't be called directly.</p> </note> <p>Gets the latest configuration information for a registered agent.</p>",
     "GetConfig": "<p>Returns <code>Config</code> information.</p> <p>Only one <code>Config</code> response can be returned.</p>",
     "GetDataflowEndpointGroup": "<p>Returns the dataflow endpoint group.</p>",
-    "GetMinuteUsage": "<p>Returns the number of minutes used by account.</p>",
+    "GetMinuteUsage": "<p>Returns the number of reserved minutes used by account.</p>",
     "GetMissionProfile": "<p>Returns a mission profile.</p>",
     "GetSatellite": "<p>Returns a satellite.</p>",
     "ListConfigs": "<p>Returns a list of <code>Config</code> objects.</p>",
@@ -27,11 +27,11 @@
     "ListMissionProfiles": "<p>Returns a list of mission profiles.</p>",
     "ListSatellites": "<p>Returns a list of satellites.</p>",
     "ListTagsForResource": "<p>Returns a list of tags for a specified resource.</p>",
-    "RegisterAgent": "<p>Registers a new agent with AWS Groundstation.</p>",
+    "RegisterAgent": "<note> <p> For use by AWS Ground Station Agent and shouldn't be called directly.</p> </note> <p> Registers a new agent with AWS Ground Station. </p>",
     "ReserveContact": "<p>Reserves a contact using specified parameters.</p>",
     "TagResource": "<p>Assigns a tag to a resource.</p>",
     "UntagResource": "<p>Deassigns a resource tag.</p>",
-    "UpdateAgentStatus": "<p>Update the status of the agent.</p>",
+    "UpdateAgentStatus": "<note> <p> For use by AWS Ground Station Agent and shouldn't be called directly.</p> </note> <p>Update the status of the agent.</p>",
     "UpdateConfig": "<p>Updates the <code>Config</code> used when scheduling contacts.</p> <p>Updating a <code>Config</code> will not update the execution parameters for existing future contacts scheduled with this <code>Config</code>.</p>",
     "UpdateEphemeris": "<p>Updates an existing ephemeris</p>",
     "UpdateMissionProfile": "<p>Updates a mission profile.</p> <p>Updating a mission profile will not update the execution parameters for existing future contacts.</p>"
@@ -43,6 +43,13 @@
         "GetMissionProfileResponse$region": "<p>Region of a mission profile.</p>",
         "GroundStationData$region": "<p>Ground station Region.</p>",
         "MissionProfileListItem$region": "<p>Region of a mission profile.</p>"
+      }
+    },
+    "AgentCpuCoresList": {
+      "base": null,
+      "refs": {
+        "AgentDetails$agentCpuCores": "<p>List of CPU cores reserved for the agent.</p>",
+        "AgentDetails$reservedCpuCores": "<note> <p>This field should not be used. Use agentCpuCores instead.</p> </note> <p>List of CPU cores reserved for processes other than the agent running on the EC2 instance.</p>"
       }
     },
     "AgentDetails": {
@@ -159,6 +166,24 @@
         "DiscoveryData$capabilityArns": "<p>List of capabilities to associate with agent.</p>"
       }
     },
+    "CapabilityHealth": {
+      "base": null,
+      "refs": {
+        "EndpointDetails$healthStatus": "<p>A dataflow endpoint health status. This field is ignored when calling <code>CreateDataflowEndpointGroup</code>.</p>"
+      }
+    },
+    "CapabilityHealthReason": {
+      "base": null,
+      "refs": {
+        "CapabilityHealthReasonList$member": null
+      }
+    },
+    "CapabilityHealthReasonList": {
+      "base": null,
+      "refs": {
+        "EndpointDetails$healthReasons": "<p>Health reasons for a dataflow endpoint. This field is ignored when calling <code>CreateDataflowEndpointGroup</code>.</p>"
+      }
+    },
     "ComponentStatusData": {
       "base": "<p>Data on the status of agent components.</p>",
       "refs": {
@@ -171,7 +196,7 @@
         "UpdateAgentStatusRequest$componentStatuses": "<p>List of component statuses for agent.</p>"
       }
     },
-    "ComponentType": {
+    "ComponentTypeString": {
       "base": null,
       "refs": {
         "ComponentStatusData$componentType": "<p>The Component type.</p>",
@@ -353,10 +378,10 @@
     "DataflowEndpointGroupDurationInSeconds": {
       "base": null,
       "refs": {
-        "CreateDataflowEndpointGroupRequest$contactPostPassDurationSeconds": "<p>Amount of time, in seconds, after a contact ends for the contact to remain in a <code>POSTPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>POSTPASS</code> state.</p>",
-        "CreateDataflowEndpointGroupRequest$contactPrePassDurationSeconds": "<p>Amount of time, in seconds, prior to contact start for the contact to remain in a <code>PREPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>PREPASS</code> state.</p>",
-        "GetDataflowEndpointGroupResponse$contactPostPassDurationSeconds": "<p>Amount of time, in seconds, after a contact ends for the contact to remain in a <code>POSTPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>POSTPASS</code> state.</p>",
-        "GetDataflowEndpointGroupResponse$contactPrePassDurationSeconds": "<p>Amount of time, in seconds, prior to contact start for the contact to remain in a <code>PREPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>PREPASS</code> state.</p>"
+        "CreateDataflowEndpointGroupRequest$contactPostPassDurationSeconds": "<p>Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.</p>",
+        "CreateDataflowEndpointGroupRequest$contactPrePassDurationSeconds": "<p>Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.</p>",
+        "GetDataflowEndpointGroupResponse$contactPostPassDurationSeconds": "<p>Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.</p>",
+        "GetDataflowEndpointGroupResponse$contactPrePassDurationSeconds": "<p>Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.</p>"
       }
     },
     "DataflowEndpointGroupIdResponse": {
@@ -454,7 +479,7 @@
     "DiscoveryData": {
       "base": "<p>Data for agent discovery.</p>",
       "refs": {
-        "RegisterAgentRequest$discoveryData": "<p>Data for associating and agent with the capabilities it is managing.</p>"
+        "RegisterAgentRequest$discoveryData": "<p>Data for associating an agent with the capabilities it is managing.</p>"
       }
     },
     "Double": {
@@ -469,12 +494,12 @@
     "DurationInSeconds": {
       "base": null,
       "refs": {
-        "CreateMissionProfileRequest$contactPostPassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>",
-        "CreateMissionProfileRequest$contactPrePassDurationSeconds": "<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>",
+        "CreateMissionProfileRequest$contactPostPassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.</p>",
+        "CreateMissionProfileRequest$contactPrePassDurationSeconds": "<p>Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.</p>",
         "GetMissionProfileResponse$contactPostPassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>",
         "GetMissionProfileResponse$contactPrePassDurationSeconds": "<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>",
-        "UpdateMissionProfileRequest$contactPostPassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>",
-        "UpdateMissionProfileRequest$contactPrePassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>"
+        "UpdateMissionProfileRequest$contactPostPassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.</p>",
+        "UpdateMissionProfileRequest$contactPrePassDurationSeconds": "<p>Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.</p>"
       }
     },
     "Eirp": {
@@ -716,6 +741,7 @@
     "Integer": {
       "base": null,
       "refs": {
+        "AgentCpuCoresList$member": null,
         "ConnectionDetails$mtu": "<p>Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.</p>",
         "GetMinuteUsageResponse$estimatedMinutesRemaining": "<p>Estimated number of minutes remaining for an account, specific to the month being requested.</p>",
         "GetMinuteUsageResponse$totalReservedMinuteAllocation": "<p>Total number of reserved minutes allocated, specific to the month being requested.</p>",
@@ -723,7 +749,6 @@
         "GetMinuteUsageResponse$upcomingMinutesScheduled": "<p>Upcoming minutes scheduled for an account, specific to the month being requested.</p>",
         "IntegerRange$maximum": "<p>A maximum value.</p>",
         "IntegerRange$minimum": "<p>A minimum value.</p>",
-        "ReservedCpuCoresList$member": null,
         "SocketAddress$port": "<p>Port of a socket address.</p>"
       }
     },
@@ -763,6 +788,12 @@
       "base": null,
       "refs": {
         "KmsKey$kmsAliasArn": "<p>KMS Alias Arn.</p>"
+      }
+    },
+    "KeyAliasName": {
+      "base": null,
+      "refs": {
+        "KmsKey$kmsAliasName": "<p>KMS Alias Name.</p>"
       }
     },
     "KeyArn": {
@@ -903,7 +934,7 @@
       }
     },
     "OEMEphemeris": {
-      "base": "<p>Ephemeris data in Orbit Ephemeris Message (OEM) format.</p>",
+      "base": "<p> Ephemeris data in Orbit Ephemeris Message (OEM) format. </p> <p> AWS Ground Station processes OEM Customer Provided Ephemerides according to the <a href=\"https://public.ccsds.org/Pubs/502x0b3e1.pdf\">CCSDS standard</a> with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see <a href=\"https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format\">OEM ephemeris format</a> in the AWS Ground Station user guide. </p>",
       "refs": {
         "EphemerisData$oem": null
       }
@@ -985,12 +1016,6 @@
     "ReserveContactRequest": {
       "base": "<p/>",
       "refs": {
-      }
-    },
-    "ReservedCpuCoresList": {
-      "base": null,
-      "refs": {
-        "AgentDetails$reservedCpuCores": "<p>Number of Cpu cores reserved for agent.</p>"
       }
     },
     "ResourceLimitExceededException": {
@@ -1241,11 +1266,15 @@
         "ContactData$postPassEndTime": "<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>",
         "ContactData$prePassStartTime": "<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>",
         "ContactData$startTime": "<p>Start time of a contact in UTC.</p>",
+        "ContactData$visibilityEndTime": "<p> Projected time in UTC your satellite will set below the <a href=\"https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html\">receive mask</a>. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. <i>This field is not present for contacts with a <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i> </p>",
+        "ContactData$visibilityStartTime": "<p> Projected time in UTC your satellite will rise above the <a href=\"https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html\">receive mask</a>. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. <i>This field is not present for contacts with a <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i> </p>",
         "CreateEphemerisRequest$expirationTime": "<p>An overall expiration time for the ephemeris in UTC, after which it will become <code>EXPIRED</code>.</p>",
         "DescribeContactResponse$endTime": "<p>End time of a contact in UTC.</p>",
         "DescribeContactResponse$postPassEndTime": "<p>Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.</p>",
         "DescribeContactResponse$prePassStartTime": "<p>Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.</p>",
         "DescribeContactResponse$startTime": "<p>Start time of a contact in UTC.</p>",
+        "DescribeContactResponse$visibilityEndTime": "<p> Projected time in UTC your satellite will set below the <a href=\"https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html\">receive mask</a>. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. </p>",
+        "DescribeContactResponse$visibilityStartTime": "<p> Projected time in UTC your satellite will rise above the <a href=\"https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html\">receive mask</a>. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. </p>",
         "DescribeEphemerisResponse$creationTime": "<p>The time the ephemeris was uploaded in UTC.</p>",
         "EphemerisItem$creationTime": "<p>The time the ephemeris was uploaded in UTC.</p>",
         "EphemerisMetaData$epoch": "<p>The epoch of a default, ephemeris from Space Track in UTC.</p> <p>This field is not populated for customer-provided ephemerides.</p>",

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::SSO
   # @api private
   module ClientApi
@@ -111,9 +112,11 @@ module Aws::SSO
 
       api.metadata = {
         "apiVersion" => "2019-06-10",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "portal.sso",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "SSO",
         "serviceFullName" => "AWS Single Sign-On",
         "serviceId" => "SSO",
@@ -127,6 +130,7 @@ module Aws::SSO
         o.http_method = "GET"
         o.http_request_uri = "/federation/credentials"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: GetRoleCredentialsRequest)
         o.output = Shapes::ShapeRef.new(shape: GetRoleCredentialsResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
@@ -140,6 +144,7 @@ module Aws::SSO
         o.http_method = "GET"
         o.http_request_uri = "/assignment/roles"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: ListAccountRolesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListAccountRolesResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
@@ -159,6 +164,7 @@ module Aws::SSO
         o.http_method = "GET"
         o.http_request_uri = "/assignment/accounts"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: ListAccountsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListAccountsResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
@@ -178,6 +184,7 @@ module Aws::SSO
         o.http_method = "POST"
         o.http_request_uri = "/logout"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: LogoutRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)

@@ -27,6 +27,7 @@ module Aws::CloudTrail
   # See {Seahorse::Client::RequestContext} for more information.
   #
   # ## Error Classes
+  # * {AccessDeniedException}
   # * {AccountHasOngoingImportException}
   # * {AccountNotFoundException}
   # * {AccountNotRegisteredException}
@@ -41,14 +42,17 @@ module Aws::CloudTrail
   # * {CloudTrailAccessNotEnabledException}
   # * {CloudTrailInvalidClientTokenIdException}
   # * {CloudWatchLogsDeliveryUnavailableException}
+  # * {ConcurrentModificationException}
   # * {ConflictException}
   # * {DelegatedAdminAccountLimitExceededException}
   # * {EventDataStoreARNInvalidException}
   # * {EventDataStoreAlreadyExistsException}
+  # * {EventDataStoreFederationEnabledException}
   # * {EventDataStoreHasOngoingImportException}
   # * {EventDataStoreMaxLimitExceededException}
   # * {EventDataStoreNotFoundException}
   # * {EventDataStoreTerminationProtectedException}
+  # * {GenerateResponseException}
   # * {ImportNotFoundException}
   # * {InactiveEventDataStoreException}
   # * {InactiveQueryException}
@@ -101,7 +105,9 @@ module Aws::CloudTrail
   # * {ResourcePolicyNotValidException}
   # * {ResourceTypeNotSupportedException}
   # * {S3BucketDoesNotExistException}
+  # * {ServiceQuotaExceededException}
   # * {TagsLimitExceededException}
+  # * {ThrottlingException}
   # * {TrailAlreadyExistsException}
   # * {TrailNotFoundException}
   # * {TrailNotProvidedException}
@@ -112,6 +118,16 @@ module Aws::CloudTrail
   module Errors
 
     extend Aws::Errors::DynamicErrors
+
+    class AccessDeniedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudTrail::Types::AccessDeniedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
 
     class AccountHasOngoingImportException < ServiceError
 
@@ -253,6 +269,16 @@ module Aws::CloudTrail
       end
     end
 
+    class ConcurrentModificationException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudTrail::Types::ConcurrentModificationException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
     class ConflictException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -293,6 +319,16 @@ module Aws::CloudTrail
       end
     end
 
+    class EventDataStoreFederationEnabledException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudTrail::Types::EventDataStoreFederationEnabledException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
     class EventDataStoreHasOngoingImportException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -328,6 +364,16 @@ module Aws::CloudTrail
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CloudTrail::Types::EventDataStoreTerminationProtectedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class GenerateResponseException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudTrail::Types::GenerateResponseException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -853,11 +899,31 @@ module Aws::CloudTrail
       end
     end
 
+    class ServiceQuotaExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudTrail::Types::ServiceQuotaExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
     class TagsLimitExceededException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CloudTrail::Types::TagsLimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class ThrottlingException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudTrail::Types::ThrottlingException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

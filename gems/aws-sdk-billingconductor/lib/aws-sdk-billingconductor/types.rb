@@ -53,7 +53,8 @@ module Aws::BillingConductor
     end
 
     # The set of accounts that will be under the billing group. The set of
-    # accounts resemble the linked accounts in a consolidated family.
+    # accounts resemble the linked accounts in a consolidated billing
+    # family.
     #
     # @!attribute [rw] linked_account_ids
     #   The account IDs that make up the billing group. Account IDs must be
@@ -61,10 +62,17 @@ module Aws::BillingConductor
     #   another billing group.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] auto_associate
+    #   Specifies if this billing group will automatically associate newly
+    #   added Amazon Web Services accounts that join your consolidated
+    #   billing family.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/AccountGrouping AWS API Documentation
     #
     class AccountGrouping < Struct.new(
-      :linked_account_ids)
+      :linked_account_ids,
+      :auto_associate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -164,6 +172,29 @@ module Aws::BillingConductor
     class AssociateResourceResponseElement < Struct.new(
       :arn,
       :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The key-value pair that represents the attribute by which the
+    # `BillingGroupCostReportResults` are grouped. For example, if you want
+    # a service-level breakdown for Amazon Simple Storage Service (Amazon
+    # S3) of the billing group, the attribute will be a key-value pair of
+    # `"PRODUCT_NAME"` and `"S3"`.
+    #
+    # @!attribute [rw] key
+    #   The key in a key-value pair that describes the margin summary.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value in a key-value pair that describes the margin summary.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/Attribute AWS API Documentation
+    #
+    class Attribute < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -297,6 +328,59 @@ module Aws::BillingConductor
       include Aws::Structure
     end
 
+    # A paginated call to retrieve a list of summary reports of actual
+    # Amazon Web Services charges and the calculated Amazon Web Services
+    # charges, broken down by attributes.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Number (ARN) that uniquely identifies the
+    #   billing group.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_cost
+    #   The actual Amazon Web Services charges for the billing group.
+    #   @return [String]
+    #
+    # @!attribute [rw] proforma_cost
+    #   The hypothetical Amazon Web Services charges based on the associated
+    #   pricing plan of a billing group.
+    #   @return [String]
+    #
+    # @!attribute [rw] margin
+    #   The billing group margin.
+    #   @return [String]
+    #
+    # @!attribute [rw] margin_percentage
+    #   The percentage of the billing group margin.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The displayed currency.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   The list of key-value pairs that represent the attributes by which
+    #   the `BillingGroupCostReportResults` are grouped. For example, if you
+    #   want the Amazon S3 service-level breakdown of a billing group for
+    #   November 2023, the attributes list will contain a key-value pair of
+    #   `"PRODUCT_NAME"` and `"S3"` and a key-value pair of
+    #   `"BILLING_PERIOD"` and `"Nov 2023"`.
+    #   @return [Array<Types::Attribute>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/BillingGroupCostReportResultElement AWS API Documentation
+    #
+    class BillingGroupCostReportResultElement < Struct.new(
+      :arn,
+      :aws_cost,
+      :proforma_cost,
+      :margin,
+      :margin_percentage,
+      :currency,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A representation of a billing group.
     #
     # @!attribute [rw] name
@@ -341,6 +425,11 @@ module Aws::BillingConductor
     #   The reason why the billing group is in its current status.
     #   @return [String]
     #
+    # @!attribute [rw] account_grouping
+    #   Specifies if the billing group has automatic account association
+    #   (`AutoAssociate`) enabled.
+    #   @return [Types::ListBillingGroupAccountGrouping]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/BillingGroupListElement AWS API Documentation
     #
     class BillingGroupListElement < Struct.new(
@@ -353,8 +442,33 @@ module Aws::BillingConductor
       :creation_time,
       :last_modified_time,
       :status,
-      :status_reason)
+      :status_reason,
+      :account_grouping)
       SENSITIVE = [:name, :description]
+      include Aws::Structure
+    end
+
+    # A time range for which the margin summary is effective. The time range
+    # can be up to 12 months.
+    #
+    # @!attribute [rw] inclusive_start_billing_period
+    #   The inclusive start billing period that defines a billing period
+    #   range for the margin summary.
+    #   @return [String]
+    #
+    # @!attribute [rw] exclusive_end_billing_period
+    #   The exclusive end billing period that defines a billing period range
+    #   for the margin summary. For example, if you choose a billing period
+    #   that starts in October 2023 and ends in December 2023, the margin
+    #   summary will only include data from October 2023 and November 2023.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/BillingPeriodRange AWS API Documentation
+    #
+    class BillingPeriodRange < Struct.new(
+      :inclusive_start_billing_period,
+      :exclusive_end_billing_period)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -417,7 +531,8 @@ module Aws::BillingConductor
     #
     # @!attribute [rw] account_grouping
     #   The set of accounts that will be under the billing group. The set of
-    #   accounts resemble the linked accounts in a consolidated family.
+    #   accounts resemble the linked accounts in a consolidated billing
+    #   family.
     #   @return [Types::AccountGrouping]
     #
     # @!attribute [rw] computation_preference
@@ -500,6 +615,11 @@ module Aws::BillingConductor
     #   for a custom line item.
     #   @return [Types::CustomLineItemChargeDetails]
     #
+    # @!attribute [rw] account_id
+    #   The Amazon Web Services account in which this custom line item will
+    #   be applied to.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/CreateCustomLineItemInput AWS API Documentation
     #
     class CreateCustomLineItemInput < Struct.new(
@@ -509,7 +629,8 @@ module Aws::BillingConductor
       :billing_group_arn,
       :billing_period_range,
       :tags,
-      :charge_details)
+      :charge_details,
+      :account_id)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -746,12 +867,17 @@ module Aws::BillingConductor
     #   is a fee or credit.
     #   @return [String]
     #
+    # @!attribute [rw] line_item_filters
+    #   A representation of the line item filter.
+    #   @return [Array<Types::LineItemFilter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/CustomLineItemChargeDetails AWS API Documentation
     #
     class CustomLineItemChargeDetails < Struct.new(
       :flat,
       :percentage,
-      :type)
+      :type,
+      :line_item_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -817,6 +943,11 @@ module Aws::BillingConductor
     #   The number of resources that are associated to the custom line item.
     #   @return [Integer]
     #
+    # @!attribute [rw] account_id
+    #   The Amazon Web Services account in which this custom line item will
+    #   be applied to.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/CustomLineItemListElement AWS API Documentation
     #
     class CustomLineItemListElement < Struct.new(
@@ -829,7 +960,8 @@ module Aws::BillingConductor
       :billing_group_arn,
       :creation_time,
       :last_modified_time,
-      :association_size)
+      :association_size,
+      :account_id)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -905,6 +1037,20 @@ module Aws::BillingConductor
     #   The end billing period of the custom line item version.
     #   @return [String]
     #
+    # @!attribute [rw] arn
+    #   A list of custom line item Amazon Resource Names (ARNs) to retrieve
+    #   information.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The inclusive start time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] account_id
+    #   The Amazon Web Services account in which this custom line item will
+    #   be applied to.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/CustomLineItemVersionListElement AWS API Documentation
     #
     class CustomLineItemVersionListElement < Struct.new(
@@ -918,7 +1064,10 @@ module Aws::BillingConductor
       :last_modified_time,
       :association_size,
       :start_billing_period,
-      :end_billing_period)
+      :end_billing_period,
+      :arn,
+      :start_time,
+      :account_id)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -967,7 +1116,7 @@ module Aws::BillingConductor
     end
 
     # @!attribute [rw] arn
-    #   Then ARN of the deleted custom line item.
+    #   The ARN of the deleted custom line item.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/DeleteCustomLineItemOutput AWS API Documentation
@@ -1125,6 +1274,60 @@ module Aws::BillingConductor
       include Aws::Structure
     end
 
+    # @!attribute [rw] arn
+    #   The Amazon Resource Number (ARN) that uniquely identifies the
+    #   billing group.
+    #   @return [String]
+    #
+    # @!attribute [rw] billing_period_range
+    #   A time range for which the margin summary is effective. You can
+    #   specify up to 12 months.
+    #   @return [Types::BillingPeriodRange]
+    #
+    # @!attribute [rw] group_by
+    #   A list of strings that specify the attributes that are used to break
+    #   down costs in the margin summary reports for the billing group. For
+    #   example, you can view your costs by the Amazon Web Service name or
+    #   the billing period.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of margin summary reports to retrieve.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used on subsequent calls to get reports.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/GetBillingGroupCostReportInput AWS API Documentation
+    #
+    class GetBillingGroupCostReportInput < Struct.new(
+      :arn,
+      :billing_period_range,
+      :group_by,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] billing_group_cost_report_results
+    #   The list of margin summary reports.
+    #   @return [Array<Types::BillingGroupCostReportResultElement>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used on subsequent calls to get reports.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/GetBillingGroupCostReportOutput AWS API Documentation
+    #
+    class GetBillingGroupCostReportOutput < Struct.new(
+      :billing_group_cost_report_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An unexpected error occurred while processing a request.
     #
     # @!attribute [rw] message
@@ -1143,24 +1346,56 @@ module Aws::BillingConductor
       include Aws::Structure
     end
 
+    # A representation of the line item filter for your custom line item.
+    # You can use line item filters to include or exclude specific resource
+    # values from the billing group's total cost. For example, if you
+    # create a custom line item and you want to filter out a value, such as
+    # Savings Plan discounts, you can update `LineItemFilter` to exclude it.
+    #
+    # @!attribute [rw] attribute
+    #   The attribute of the line item filter. This specifies what attribute
+    #   that you can filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] match_option
+    #   The match criteria of the line item filter. This parameter specifies
+    #   whether not to include the resource value from the billing group
+    #   total cost.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values of the line item filter. This specifies the values to
+    #   filter on. Currently, you can only exclude Savings Plan discounts.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/LineItemFilter AWS API Documentation
+    #
+    class LineItemFilter < Struct.new(
+      :attribute,
+      :match_option,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The filter on the account ID of the linked account, or any of the
     # following:
     #
-    # `MONITORED`\: linked accounts that are associated to billing groups.
+    # `MONITORED`: linked accounts that are associated to billing groups.
     #
-    # `UNMONITORED`\: linked accounts that are not associated to billing
+    # `UNMONITORED`: linked accounts that are not associated to billing
     # groups.
     #
-    # `Billing Group Arn`\: linked accounts that are associated to the
+    # `Billing Group Arn`: linked accounts that are associated to the
     # provided Billing Group Arn.
     #
     # @!attribute [rw] association
-    #   `MONITORED`\: linked accounts that are associated to billing groups.
+    #   `MONITORED`: linked accounts that are associated to billing groups.
     #
-    #   `UNMONITORED`\: linked accounts that are not associated to billing
+    #   `UNMONITORED`: linked accounts that are not associated to billing
     #   groups.
     #
-    #   `Billing Group Arn`\: linked accounts that are associated to the
+    #   `Billing Group Arn`: linked accounts that are associated to the
     #   provided Billing Group Arn.
     #   @return [String]
     #
@@ -1168,11 +1403,17 @@ module Aws::BillingConductor
     #   The Amazon Web Services account ID to filter on.
     #   @return [String]
     #
+    # @!attribute [rw] account_ids
+    #   The list of Amazon Web Services IDs to retrieve their associated
+    #   billing group for a given time range.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/ListAccountAssociationsFilter AWS API Documentation
     #
     class ListAccountAssociationsFilter < Struct.new(
       :association,
-      :account_id)
+      :account_id,
+      :account_ids)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1185,12 +1426,12 @@ module Aws::BillingConductor
     #   The filter on the account ID of the linked account, or any of the
     #   following:
     #
-    #   `MONITORED`\: linked accounts that are associated to billing groups.
+    #   `MONITORED`: linked accounts that are associated to billing groups.
     #
-    #   `UNMONITORED`\: linked accounts that aren't associated to billing
+    #   `UNMONITORED`: linked accounts that aren't associated to billing
     #   groups.
     #
-    #   `Billing Group Arn`\: linked accounts that are associated to the
+    #   `Billing Group Arn`: linked accounts that are associated to the
     #   provided billing group Arn.
     #   @return [Types::ListAccountAssociationsFilter]
     #
@@ -1223,6 +1464,22 @@ module Aws::BillingConductor
     class ListAccountAssociationsOutput < Struct.new(
       :linked_accounts,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies if the billing group has the following features enabled.
+    #
+    # @!attribute [rw] auto_associate
+    #   Specifies if this billing group will automatically associate newly
+    #   added Amazon Web Services accounts that join your consolidated
+    #   billing family.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/ListBillingGroupAccountGrouping AWS API Documentation
+    #
+    class ListBillingGroupAccountGrouping < Struct.new(
+      :auto_associate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1302,11 +1559,24 @@ module Aws::BillingConductor
     #   information.
     #   @return [String]
     #
+    # @!attribute [rw] statuses
+    #   A list of billing groups to retrieve their current status for a
+    #   specific time range
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] auto_associate
+    #   Specifies if this billing group will automatically associate newly
+    #   added Amazon Web Services accounts that join your consolidated
+    #   billing family.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/ListBillingGroupsFilter AWS API Documentation
     #
     class ListBillingGroupsFilter < Struct.new(
       :arns,
-      :pricing_plan)
+      :pricing_plan,
+      :statuses,
+      :auto_associate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1375,12 +1645,17 @@ module Aws::BillingConductor
     #   is a `fee` or `credit`.
     #   @return [String]
     #
+    # @!attribute [rw] line_item_filters
+    #   A representation of the line item filter.
+    #   @return [Array<Types::LineItemFilter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/ListCustomLineItemChargeDetails AWS API Documentation
     #
     class ListCustomLineItemChargeDetails < Struct.new(
       :flat,
       :percentage,
-      :type)
+      :type,
+      :line_item_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1518,13 +1793,19 @@ module Aws::BillingConductor
     #   A list of custom line item ARNs to retrieve information.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] account_ids
+    #   The Amazon Web Services accounts in which this custom line item will
+    #   be applied to.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/ListCustomLineItemsFilter AWS API Documentation
     #
     class ListCustomLineItemsFilter < Struct.new(
       :names,
       :billing_groups,
-      :arns)
-      SENSITIVE = []
+      :arns,
+      :account_ids)
+      SENSITIVE = [:names]
       include Aws::Structure
     end
 
@@ -2058,6 +2339,26 @@ module Aws::BillingConductor
     #   The set of tiering configurations for the pricing rule.
     #   @return [Types::Tiering]
     #
+    # @!attribute [rw] usage_type
+    #   Usage type is the unit that each service uses to measure the usage
+    #   of a specific type of resource.
+    #
+    #   If the `Scope` attribute is set to `SKU`, this attribute indicates
+    #   which usage type the `PricingRule` is modifying. For example,
+    #   `USW2-BoxUsage:m2.2xlarge` describes an` M2 High Memory Double Extra
+    #   Large` instance in the US West (Oregon) Region.     </p>
+    #   @return [String]
+    #
+    # @!attribute [rw] operation
+    #   Operation is the specific Amazon Web Services action covered by this
+    #   line item. This describes the specific usage of the line item.
+    #
+    #   If the `Scope` attribute is set to `SKU`, this attribute indicates
+    #   which operation the `PricingRule` is modifying. For example, a value
+    #   of `RunInstances:0202` indicates the operation of running an Amazon
+    #   EC2 instance.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/PricingRuleListElement AWS API Documentation
     #
     class PricingRuleListElement < Struct.new(
@@ -2072,7 +2373,9 @@ module Aws::BillingConductor
       :creation_time,
       :last_modified_time,
       :billing_entity,
-      :tiering)
+      :tiering,
+      :usage_type,
+      :operation)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -2209,6 +2512,22 @@ module Aws::BillingConductor
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
+    # Specifies if the billing group has the following features enabled.
+    #
+    # @!attribute [rw] auto_associate
+    #   Specifies if this billing group will automatically associate newly
+    #   added Amazon Web Services accounts that join your consolidated
+    #   billing family.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/UpdateBillingGroupAccountGrouping AWS API Documentation
+    #
+    class UpdateBillingGroupAccountGrouping < Struct.new(
+      :auto_associate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the billing group being updated.
     #   @return [String]
@@ -2232,6 +2551,11 @@ module Aws::BillingConductor
     #   A description of the billing group.
     #   @return [String]
     #
+    # @!attribute [rw] account_grouping
+    #   Specifies if the billing group has automatic account association
+    #   (`AutoAssociate`) enabled.
+    #   @return [Types::UpdateBillingGroupAccountGrouping]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/UpdateBillingGroupInput AWS API Documentation
     #
     class UpdateBillingGroupInput < Struct.new(
@@ -2239,7 +2563,8 @@ module Aws::BillingConductor
       :name,
       :status,
       :computation_preference,
-      :description)
+      :description,
+      :account_grouping)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -2284,6 +2609,11 @@ module Aws::BillingConductor
     #   The reason why the billing group is in its current status.
     #   @return [String]
     #
+    # @!attribute [rw] account_grouping
+    #   Specifies if the billing group has automatic account association
+    #   (`AutoAssociate`) enabled.
+    #   @return [Types::UpdateBillingGroupAccountGrouping]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/UpdateBillingGroupOutput AWS API Documentation
     #
     class UpdateBillingGroupOutput < Struct.new(
@@ -2295,7 +2625,8 @@ module Aws::BillingConductor
       :size,
       :last_modified_time,
       :status,
-      :status_reason)
+      :status_reason,
+      :account_grouping)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -2313,11 +2644,16 @@ module Aws::BillingConductor
     #   new charge details of a percentage custom line item.
     #   @return [Types::UpdateCustomLineItemPercentageChargeDetails]
     #
+    # @!attribute [rw] line_item_filters
+    #   A representation of the line item filter.
+    #   @return [Array<Types::LineItemFilter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/billingconductor-2021-07-30/UpdateCustomLineItemChargeDetails AWS API Documentation
     #
     class UpdateCustomLineItemChargeDetails < Struct.new(
       :flat,
-      :percentage)
+      :percentage,
+      :line_item_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2647,7 +2983,7 @@ module Aws::BillingConductor
     end
 
     # The input doesn't match with the constraints specified by Amazon Web
-    # Services services.
+    # Services.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -2691,3 +3027,4 @@ module Aws::BillingConductor
 
   end
 end
+

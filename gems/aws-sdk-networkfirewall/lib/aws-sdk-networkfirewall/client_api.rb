@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::NetworkFirewall
   # @api private
   module ClientApi
@@ -18,6 +19,8 @@ module Aws::NetworkFirewall
     Address = Shapes::StructureShape.new(name: 'Address')
     AddressDefinition = Shapes::StringShape.new(name: 'AddressDefinition')
     Addresses = Shapes::ListShape.new(name: 'Addresses')
+    AnalysisResult = Shapes::StructureShape.new(name: 'AnalysisResult')
+    AnalysisResultList = Shapes::ListShape.new(name: 'AnalysisResultList')
     AssociateFirewallPolicyRequest = Shapes::StructureShape.new(name: 'AssociateFirewallPolicyRequest')
     AssociateFirewallPolicyResponse = Shapes::StructureShape.new(name: 'AssociateFirewallPolicyResponse')
     AssociateSubnetsRequest = Shapes::StructureShape.new(name: 'AssociateSubnetsRequest')
@@ -31,6 +34,8 @@ module Aws::NetworkFirewall
     CIDRCount = Shapes::IntegerShape.new(name: 'CIDRCount')
     CIDRSummary = Shapes::StructureShape.new(name: 'CIDRSummary')
     CapacityUsageSummary = Shapes::StructureShape.new(name: 'CapacityUsageSummary')
+    Certificates = Shapes::ListShape.new(name: 'Certificates')
+    CheckCertificateRevocationStatusActions = Shapes::StructureShape.new(name: 'CheckCertificateRevocationStatusActions')
     CollectionMember_String = Shapes::StringShape.new(name: 'CollectionMember_String')
     ConfigurationSyncState = Shapes::StringShape.new(name: 'ConfigurationSyncState')
     CreateFirewallPolicyRequest = Shapes::StructureShape.new(name: 'CreateFirewallPolicyRequest')
@@ -39,6 +44,8 @@ module Aws::NetworkFirewall
     CreateFirewallResponse = Shapes::StructureShape.new(name: 'CreateFirewallResponse')
     CreateRuleGroupRequest = Shapes::StructureShape.new(name: 'CreateRuleGroupRequest')
     CreateRuleGroupResponse = Shapes::StructureShape.new(name: 'CreateRuleGroupResponse')
+    CreateTLSInspectionConfigurationRequest = Shapes::StructureShape.new(name: 'CreateTLSInspectionConfigurationRequest')
+    CreateTLSInspectionConfigurationResponse = Shapes::StructureShape.new(name: 'CreateTLSInspectionConfigurationResponse')
     CustomAction = Shapes::StructureShape.new(name: 'CustomAction')
     CustomActions = Shapes::ListShape.new(name: 'CustomActions')
     DeleteFirewallPolicyRequest = Shapes::StructureShape.new(name: 'DeleteFirewallPolicyRequest')
@@ -49,6 +56,8 @@ module Aws::NetworkFirewall
     DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
     DeleteRuleGroupRequest = Shapes::StructureShape.new(name: 'DeleteRuleGroupRequest')
     DeleteRuleGroupResponse = Shapes::StructureShape.new(name: 'DeleteRuleGroupResponse')
+    DeleteTLSInspectionConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteTLSInspectionConfigurationRequest')
+    DeleteTLSInspectionConfigurationResponse = Shapes::StructureShape.new(name: 'DeleteTLSInspectionConfigurationResponse')
     DescribeFirewallPolicyRequest = Shapes::StructureShape.new(name: 'DescribeFirewallPolicyRequest')
     DescribeFirewallPolicyResponse = Shapes::StructureShape.new(name: 'DescribeFirewallPolicyResponse')
     DescribeFirewallRequest = Shapes::StructureShape.new(name: 'DescribeFirewallRequest')
@@ -61,6 +70,8 @@ module Aws::NetworkFirewall
     DescribeRuleGroupMetadataResponse = Shapes::StructureShape.new(name: 'DescribeRuleGroupMetadataResponse')
     DescribeRuleGroupRequest = Shapes::StructureShape.new(name: 'DescribeRuleGroupRequest')
     DescribeRuleGroupResponse = Shapes::StructureShape.new(name: 'DescribeRuleGroupResponse')
+    DescribeTLSInspectionConfigurationRequest = Shapes::StructureShape.new(name: 'DescribeTLSInspectionConfigurationRequest')
+    DescribeTLSInspectionConfigurationResponse = Shapes::StructureShape.new(name: 'DescribeTLSInspectionConfigurationResponse')
     Description = Shapes::StringShape.new(name: 'Description')
     Destination = Shapes::StringShape.new(name: 'Destination')
     Dimension = Shapes::StructureShape.new(name: 'Dimension')
@@ -82,6 +93,7 @@ module Aws::NetworkFirewall
     FirewallStatusValue = Shapes::StringShape.new(name: 'FirewallStatusValue')
     Firewalls = Shapes::ListShape.new(name: 'Firewalls')
     Flags = Shapes::ListShape.new(name: 'Flags')
+    FlowTimeouts = Shapes::StructureShape.new(name: 'FlowTimeouts')
     GeneratedRulesType = Shapes::StringShape.new(name: 'GeneratedRulesType')
     HashMapKey = Shapes::StringShape.new(name: 'HashMapKey')
     HashMapValue = Shapes::StringShape.new(name: 'HashMapValue')
@@ -95,6 +107,7 @@ module Aws::NetworkFirewall
     IPSetReferenceMap = Shapes::MapShape.new(name: 'IPSetReferenceMap')
     IPSetReferenceName = Shapes::StringShape.new(name: 'IPSetReferenceName')
     IPSets = Shapes::MapShape.new(name: 'IPSets')
+    IdentifiedType = Shapes::StringShape.new(name: 'IdentifiedType')
     InsufficientCapacityException = Shapes::StructureShape.new(name: 'InsufficientCapacityException')
     InternalServerError = Shapes::StructureShape.new(name: 'InternalServerError')
     InvalidOperationException = Shapes::StructureShape.new(name: 'InvalidOperationException')
@@ -111,6 +124,8 @@ module Aws::NetworkFirewall
     ListFirewallsResponse = Shapes::StructureShape.new(name: 'ListFirewallsResponse')
     ListRuleGroupsRequest = Shapes::StructureShape.new(name: 'ListRuleGroupsRequest')
     ListRuleGroupsResponse = Shapes::StructureShape.new(name: 'ListRuleGroupsResponse')
+    ListTLSInspectionConfigurationsRequest = Shapes::StructureShape.new(name: 'ListTLSInspectionConfigurationsRequest')
+    ListTLSInspectionConfigurationsResponse = Shapes::StructureShape.new(name: 'ListTLSInspectionConfigurationsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     LogDestinationConfig = Shapes::StructureShape.new(name: 'LogDestinationConfig')
@@ -128,6 +143,7 @@ module Aws::NetworkFirewall
     PerObjectStatus = Shapes::StructureShape.new(name: 'PerObjectStatus')
     PerObjectSyncStatus = Shapes::StringShape.new(name: 'PerObjectSyncStatus')
     PolicyString = Shapes::StringShape.new(name: 'PolicyString')
+    PolicyVariables = Shapes::StructureShape.new(name: 'PolicyVariables')
     Port = Shapes::StringShape.new(name: 'Port')
     PortRange = Shapes::StructureShape.new(name: 'PortRange')
     PortRangeBound = Shapes::IntegerShape.new(name: 'PortRangeBound')
@@ -149,6 +165,7 @@ module Aws::NetworkFirewall
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceOwnerCheckException = Shapes::StructureShape.new(name: 'ResourceOwnerCheckException')
     ResourceStatus = Shapes::StringShape.new(name: 'ResourceStatus')
+    RevocationCheckAction = Shapes::StringShape.new(name: 'RevocationCheckAction')
     RuleCapacity = Shapes::IntegerShape.new(name: 'RuleCapacity')
     RuleDefinition = Shapes::StructureShape.new(name: 'RuleDefinition')
     RuleGroup = Shapes::StructureShape.new(name: 'RuleGroup')
@@ -156,6 +173,7 @@ module Aws::NetworkFirewall
     RuleGroupResponse = Shapes::StructureShape.new(name: 'RuleGroupResponse')
     RuleGroupType = Shapes::StringShape.new(name: 'RuleGroupType')
     RuleGroups = Shapes::ListShape.new(name: 'RuleGroups')
+    RuleIdList = Shapes::ListShape.new(name: 'RuleIdList')
     RuleOption = Shapes::StructureShape.new(name: 'RuleOption')
     RuleOptions = Shapes::ListShape.new(name: 'RuleOptions')
     RuleOrder = Shapes::StringShape.new(name: 'RuleOrder')
@@ -165,6 +183,12 @@ module Aws::NetworkFirewall
     RulesSource = Shapes::StructureShape.new(name: 'RulesSource')
     RulesSourceList = Shapes::StructureShape.new(name: 'RulesSourceList')
     RulesString = Shapes::StringShape.new(name: 'RulesString')
+    ServerCertificate = Shapes::StructureShape.new(name: 'ServerCertificate')
+    ServerCertificateConfiguration = Shapes::StructureShape.new(name: 'ServerCertificateConfiguration')
+    ServerCertificateConfigurations = Shapes::ListShape.new(name: 'ServerCertificateConfigurations')
+    ServerCertificateScope = Shapes::StructureShape.new(name: 'ServerCertificateScope')
+    ServerCertificateScopes = Shapes::ListShape.new(name: 'ServerCertificateScopes')
+    ServerCertificates = Shapes::ListShape.new(name: 'ServerCertificates')
     Setting = Shapes::StringShape.new(name: 'Setting')
     Settings = Shapes::ListShape.new(name: 'Settings')
     Source = Shapes::StringShape.new(name: 'Source')
@@ -187,6 +211,7 @@ module Aws::NetworkFirewall
     StatelessRules = Shapes::ListShape.new(name: 'StatelessRules')
     StatelessRulesAndCustomActions = Shapes::StructureShape.new(name: 'StatelessRulesAndCustomActions')
     StatusMessage = Shapes::StringShape.new(name: 'StatusMessage')
+    StatusReason = Shapes::StringShape.new(name: 'StatusReason')
     StreamExceptionPolicy = Shapes::StringShape.new(name: 'StreamExceptionPolicy')
     SubnetMapping = Shapes::StructureShape.new(name: 'SubnetMapping')
     SubnetMappings = Shapes::ListShape.new(name: 'SubnetMappings')
@@ -196,6 +221,10 @@ module Aws::NetworkFirewall
     TCPFlag = Shapes::StringShape.new(name: 'TCPFlag')
     TCPFlagField = Shapes::StructureShape.new(name: 'TCPFlagField')
     TCPFlags = Shapes::ListShape.new(name: 'TCPFlags')
+    TLSInspectionConfiguration = Shapes::StructureShape.new(name: 'TLSInspectionConfiguration')
+    TLSInspectionConfigurationMetadata = Shapes::StructureShape.new(name: 'TLSInspectionConfigurationMetadata')
+    TLSInspectionConfigurationResponse = Shapes::StructureShape.new(name: 'TLSInspectionConfigurationResponse')
+    TLSInspectionConfigurations = Shapes::ListShape.new(name: 'TLSInspectionConfigurations')
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
@@ -206,7 +235,9 @@ module Aws::NetworkFirewall
     TagsPaginationMaxResults = Shapes::IntegerShape.new(name: 'TagsPaginationMaxResults')
     TargetType = Shapes::StringShape.new(name: 'TargetType')
     TargetTypes = Shapes::ListShape.new(name: 'TargetTypes')
+    TcpIdleTimeoutRangeBound = Shapes::IntegerShape.new(name: 'TcpIdleTimeoutRangeBound')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
+    TlsCertificateData = Shapes::StructureShape.new(name: 'TlsCertificateData')
     UnsupportedOperationException = Shapes::StructureShape.new(name: 'UnsupportedOperationException')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
@@ -226,6 +257,8 @@ module Aws::NetworkFirewall
     UpdateRuleGroupResponse = Shapes::StructureShape.new(name: 'UpdateRuleGroupResponse')
     UpdateSubnetChangeProtectionRequest = Shapes::StructureShape.new(name: 'UpdateSubnetChangeProtectionRequest')
     UpdateSubnetChangeProtectionResponse = Shapes::StructureShape.new(name: 'UpdateSubnetChangeProtectionResponse')
+    UpdateTLSInspectionConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateTLSInspectionConfigurationRequest')
+    UpdateTLSInspectionConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateTLSInspectionConfigurationResponse')
     UpdateToken = Shapes::StringShape.new(name: 'UpdateToken')
     VariableDefinition = Shapes::StringShape.new(name: 'VariableDefinition')
     VariableDefinitionList = Shapes::ListShape.new(name: 'VariableDefinitionList')
@@ -239,6 +272,13 @@ module Aws::NetworkFirewall
     Address.struct_class = Types::Address
 
     Addresses.member = Shapes::ShapeRef.new(shape: Address)
+
+    AnalysisResult.add_member(:identified_rule_ids, Shapes::ShapeRef.new(shape: RuleIdList, location_name: "IdentifiedRuleIds"))
+    AnalysisResult.add_member(:identified_type, Shapes::ShapeRef.new(shape: IdentifiedType, location_name: "IdentifiedType"))
+    AnalysisResult.add_member(:analysis_detail, Shapes::ShapeRef.new(shape: CollectionMember_String, location_name: "AnalysisDetail"))
+    AnalysisResult.struct_class = Types::AnalysisResult
+
+    AnalysisResultList.member = Shapes::ShapeRef.new(shape: AnalysisResult)
 
     AssociateFirewallPolicyRequest.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, location_name: "UpdateToken"))
     AssociateFirewallPolicyRequest.add_member(:firewall_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "FirewallArn"))
@@ -280,6 +320,12 @@ module Aws::NetworkFirewall
     CapacityUsageSummary.add_member(:cid_rs, Shapes::ShapeRef.new(shape: CIDRSummary, location_name: "CIDRs"))
     CapacityUsageSummary.struct_class = Types::CapacityUsageSummary
 
+    Certificates.member = Shapes::ShapeRef.new(shape: TlsCertificateData)
+
+    CheckCertificateRevocationStatusActions.add_member(:revoked_status_action, Shapes::ShapeRef.new(shape: RevocationCheckAction, location_name: "RevokedStatusAction"))
+    CheckCertificateRevocationStatusActions.add_member(:unknown_status_action, Shapes::ShapeRef.new(shape: RevocationCheckAction, location_name: "UnknownStatusAction"))
+    CheckCertificateRevocationStatusActions.struct_class = Types::CheckCertificateRevocationStatusActions
+
     CreateFirewallPolicyRequest.add_member(:firewall_policy_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "FirewallPolicyName"))
     CreateFirewallPolicyRequest.add_member(:firewall_policy, Shapes::ShapeRef.new(shape: FirewallPolicy, required: true, location_name: "FirewallPolicy"))
     CreateFirewallPolicyRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
@@ -318,11 +364,23 @@ module Aws::NetworkFirewall
     CreateRuleGroupRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     CreateRuleGroupRequest.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "EncryptionConfiguration"))
     CreateRuleGroupRequest.add_member(:source_metadata, Shapes::ShapeRef.new(shape: SourceMetadata, location_name: "SourceMetadata"))
+    CreateRuleGroupRequest.add_member(:analyze_rule_group, Shapes::ShapeRef.new(shape: Boolean, location_name: "AnalyzeRuleGroup"))
     CreateRuleGroupRequest.struct_class = Types::CreateRuleGroupRequest
 
     CreateRuleGroupResponse.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
     CreateRuleGroupResponse.add_member(:rule_group_response, Shapes::ShapeRef.new(shape: RuleGroupResponse, required: true, location_name: "RuleGroupResponse"))
     CreateRuleGroupResponse.struct_class = Types::CreateRuleGroupResponse
+
+    CreateTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "TLSInspectionConfigurationName"))
+    CreateTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration, Shapes::ShapeRef.new(shape: TLSInspectionConfiguration, required: true, location_name: "TLSInspectionConfiguration"))
+    CreateTLSInspectionConfigurationRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
+    CreateTLSInspectionConfigurationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateTLSInspectionConfigurationRequest.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "EncryptionConfiguration"))
+    CreateTLSInspectionConfigurationRequest.struct_class = Types::CreateTLSInspectionConfigurationRequest
+
+    CreateTLSInspectionConfigurationResponse.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
+    CreateTLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_response, Shapes::ShapeRef.new(shape: TLSInspectionConfigurationResponse, required: true, location_name: "TLSInspectionConfigurationResponse"))
+    CreateTLSInspectionConfigurationResponse.struct_class = Types::CreateTLSInspectionConfigurationResponse
 
     CustomAction.add_member(:action_name, Shapes::ShapeRef.new(shape: ActionName, required: true, location_name: "ActionName"))
     CustomAction.add_member(:action_definition, Shapes::ShapeRef.new(shape: ActionDefinition, required: true, location_name: "ActionDefinition"))
@@ -357,6 +415,13 @@ module Aws::NetworkFirewall
 
     DeleteRuleGroupResponse.add_member(:rule_group_response, Shapes::ShapeRef.new(shape: RuleGroupResponse, required: true, location_name: "RuleGroupResponse"))
     DeleteRuleGroupResponse.struct_class = Types::DeleteRuleGroupResponse
+
+    DeleteTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "TLSInspectionConfigurationArn"))
+    DeleteTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "TLSInspectionConfigurationName"))
+    DeleteTLSInspectionConfigurationRequest.struct_class = Types::DeleteTLSInspectionConfigurationRequest
+
+    DeleteTLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_response, Shapes::ShapeRef.new(shape: TLSInspectionConfigurationResponse, required: true, location_name: "TLSInspectionConfigurationResponse"))
+    DeleteTLSInspectionConfigurationResponse.struct_class = Types::DeleteTLSInspectionConfigurationResponse
 
     DescribeFirewallPolicyRequest.add_member(:firewall_policy_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "FirewallPolicyName"))
     DescribeFirewallPolicyRequest.add_member(:firewall_policy_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "FirewallPolicyArn"))
@@ -407,12 +472,22 @@ module Aws::NetworkFirewall
     DescribeRuleGroupRequest.add_member(:rule_group_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "RuleGroupName"))
     DescribeRuleGroupRequest.add_member(:rule_group_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "RuleGroupArn"))
     DescribeRuleGroupRequest.add_member(:type, Shapes::ShapeRef.new(shape: RuleGroupType, location_name: "Type"))
+    DescribeRuleGroupRequest.add_member(:analyze_rule_group, Shapes::ShapeRef.new(shape: Boolean, location_name: "AnalyzeRuleGroup"))
     DescribeRuleGroupRequest.struct_class = Types::DescribeRuleGroupRequest
 
     DescribeRuleGroupResponse.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
     DescribeRuleGroupResponse.add_member(:rule_group, Shapes::ShapeRef.new(shape: RuleGroup, location_name: "RuleGroup"))
     DescribeRuleGroupResponse.add_member(:rule_group_response, Shapes::ShapeRef.new(shape: RuleGroupResponse, required: true, location_name: "RuleGroupResponse"))
     DescribeRuleGroupResponse.struct_class = Types::DescribeRuleGroupResponse
+
+    DescribeTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "TLSInspectionConfigurationArn"))
+    DescribeTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "TLSInspectionConfigurationName"))
+    DescribeTLSInspectionConfigurationRequest.struct_class = Types::DescribeTLSInspectionConfigurationRequest
+
+    DescribeTLSInspectionConfigurationResponse.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
+    DescribeTLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration, Shapes::ShapeRef.new(shape: TLSInspectionConfiguration, location_name: "TLSInspectionConfiguration"))
+    DescribeTLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_response, Shapes::ShapeRef.new(shape: TLSInspectionConfigurationResponse, required: true, location_name: "TLSInspectionConfigurationResponse"))
+    DescribeTLSInspectionConfigurationResponse.struct_class = Types::DescribeTLSInspectionConfigurationResponse
 
     Dimension.add_member(:value, Shapes::ShapeRef.new(shape: DimensionValue, required: true, location_name: "Value"))
     Dimension.struct_class = Types::Dimension
@@ -462,6 +537,8 @@ module Aws::NetworkFirewall
     FirewallPolicy.add_member(:stateful_rule_group_references, Shapes::ShapeRef.new(shape: StatefulRuleGroupReferences, location_name: "StatefulRuleGroupReferences"))
     FirewallPolicy.add_member(:stateful_default_actions, Shapes::ShapeRef.new(shape: StatefulActions, location_name: "StatefulDefaultActions"))
     FirewallPolicy.add_member(:stateful_engine_options, Shapes::ShapeRef.new(shape: StatefulEngineOptions, location_name: "StatefulEngineOptions"))
+    FirewallPolicy.add_member(:tls_inspection_configuration_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "TLSInspectionConfigurationArn"))
+    FirewallPolicy.add_member(:policy_variables, Shapes::ShapeRef.new(shape: PolicyVariables, location_name: "PolicyVariables"))
     FirewallPolicy.struct_class = Types::FirewallPolicy
 
     FirewallPolicyMetadata.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
@@ -490,6 +567,9 @@ module Aws::NetworkFirewall
     Firewalls.member = Shapes::ShapeRef.new(shape: FirewallMetadata)
 
     Flags.member = Shapes::ShapeRef.new(shape: TCPFlag)
+
+    FlowTimeouts.add_member(:tcp_idle_timeout_seconds, Shapes::ShapeRef.new(shape: TcpIdleTimeoutRangeBound, location_name: "TcpIdleTimeoutSeconds"))
+    FlowTimeouts.struct_class = Types::FlowTimeouts
 
     Header.add_member(:protocol, Shapes::ShapeRef.new(shape: StatefulRuleProtocol, required: true, location_name: "Protocol"))
     Header.add_member(:source, Shapes::ShapeRef.new(shape: Source, required: true, location_name: "Source"))
@@ -566,6 +646,14 @@ module Aws::NetworkFirewall
     ListRuleGroupsResponse.add_member(:rule_groups, Shapes::ShapeRef.new(shape: RuleGroups, location_name: "RuleGroups"))
     ListRuleGroupsResponse.struct_class = Types::ListRuleGroupsResponse
 
+    ListTLSInspectionConfigurationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "NextToken"))
+    ListTLSInspectionConfigurationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PaginationMaxResults, location_name: "MaxResults"))
+    ListTLSInspectionConfigurationsRequest.struct_class = Types::ListTLSInspectionConfigurationsRequest
+
+    ListTLSInspectionConfigurationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "NextToken"))
+    ListTLSInspectionConfigurationsResponse.add_member(:tls_inspection_configurations, Shapes::ShapeRef.new(shape: TLSInspectionConfigurations, location_name: "TLSInspectionConfigurations"))
+    ListTLSInspectionConfigurationsResponse.struct_class = Types::ListTLSInspectionConfigurationsResponse
+
     ListTagsForResourceRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "NextToken"))
     ListTagsForResourceRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: TagsPaginationMaxResults, location_name: "MaxResults"))
     ListTagsForResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "ResourceArn"))
@@ -602,6 +690,9 @@ module Aws::NetworkFirewall
     PerObjectStatus.add_member(:sync_status, Shapes::ShapeRef.new(shape: PerObjectSyncStatus, location_name: "SyncStatus"))
     PerObjectStatus.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, location_name: "UpdateToken"))
     PerObjectStatus.struct_class = Types::PerObjectStatus
+
+    PolicyVariables.add_member(:rule_variables, Shapes::ShapeRef.new(shape: IPSets, location_name: "RuleVariables"))
+    PolicyVariables.struct_class = Types::PolicyVariables
 
     PortRange.add_member(:from_port, Shapes::ShapeRef.new(shape: PortRangeBound, required: true, location_name: "FromPort"))
     PortRange.add_member(:to_port, Shapes::ShapeRef.new(shape: PortRangeBound, required: true, location_name: "ToPort"))
@@ -663,9 +754,12 @@ module Aws::NetworkFirewall
     RuleGroupResponse.add_member(:source_metadata, Shapes::ShapeRef.new(shape: SourceMetadata, location_name: "SourceMetadata"))
     RuleGroupResponse.add_member(:sns_topic, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "SnsTopic"))
     RuleGroupResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: LastUpdateTime, location_name: "LastModifiedTime"))
+    RuleGroupResponse.add_member(:analysis_results, Shapes::ShapeRef.new(shape: AnalysisResultList, location_name: "AnalysisResults"))
     RuleGroupResponse.struct_class = Types::RuleGroupResponse
 
     RuleGroups.member = Shapes::ShapeRef.new(shape: RuleGroupMetadata)
+
+    RuleIdList.member = Shapes::ShapeRef.new(shape: CollectionMember_String)
 
     RuleOption.add_member(:keyword, Shapes::ShapeRef.new(shape: Keyword, required: true, location_name: "Keyword"))
     RuleOption.add_member(:settings, Shapes::ShapeRef.new(shape: Settings, location_name: "Settings"))
@@ -690,6 +784,28 @@ module Aws::NetworkFirewall
     RulesSourceList.add_member(:generated_rules_type, Shapes::ShapeRef.new(shape: GeneratedRulesType, required: true, location_name: "GeneratedRulesType"))
     RulesSourceList.struct_class = Types::RulesSourceList
 
+    ServerCertificate.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ResourceArn"))
+    ServerCertificate.struct_class = Types::ServerCertificate
+
+    ServerCertificateConfiguration.add_member(:server_certificates, Shapes::ShapeRef.new(shape: ServerCertificates, location_name: "ServerCertificates"))
+    ServerCertificateConfiguration.add_member(:scopes, Shapes::ShapeRef.new(shape: ServerCertificateScopes, location_name: "Scopes"))
+    ServerCertificateConfiguration.add_member(:certificate_authority_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "CertificateAuthorityArn"))
+    ServerCertificateConfiguration.add_member(:check_certificate_revocation_status, Shapes::ShapeRef.new(shape: CheckCertificateRevocationStatusActions, location_name: "CheckCertificateRevocationStatus"))
+    ServerCertificateConfiguration.struct_class = Types::ServerCertificateConfiguration
+
+    ServerCertificateConfigurations.member = Shapes::ShapeRef.new(shape: ServerCertificateConfiguration)
+
+    ServerCertificateScope.add_member(:sources, Shapes::ShapeRef.new(shape: Addresses, location_name: "Sources"))
+    ServerCertificateScope.add_member(:destinations, Shapes::ShapeRef.new(shape: Addresses, location_name: "Destinations"))
+    ServerCertificateScope.add_member(:source_ports, Shapes::ShapeRef.new(shape: PortRanges, location_name: "SourcePorts"))
+    ServerCertificateScope.add_member(:destination_ports, Shapes::ShapeRef.new(shape: PortRanges, location_name: "DestinationPorts"))
+    ServerCertificateScope.add_member(:protocols, Shapes::ShapeRef.new(shape: ProtocolNumbers, location_name: "Protocols"))
+    ServerCertificateScope.struct_class = Types::ServerCertificateScope
+
+    ServerCertificateScopes.member = Shapes::ShapeRef.new(shape: ServerCertificateScope)
+
+    ServerCertificates.member = Shapes::ShapeRef.new(shape: ServerCertificate)
+
     Settings.member = Shapes::ShapeRef.new(shape: Setting)
 
     SourceMetadata.add_member(:source_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "SourceArn"))
@@ -700,6 +816,7 @@ module Aws::NetworkFirewall
 
     StatefulEngineOptions.add_member(:rule_order, Shapes::ShapeRef.new(shape: RuleOrder, location_name: "RuleOrder"))
     StatefulEngineOptions.add_member(:stream_exception_policy, Shapes::ShapeRef.new(shape: StreamExceptionPolicy, location_name: "StreamExceptionPolicy"))
+    StatefulEngineOptions.add_member(:flow_timeouts, Shapes::ShapeRef.new(shape: FlowTimeouts, location_name: "FlowTimeouts"))
     StatefulEngineOptions.struct_class = Types::StatefulEngineOptions
 
     StatefulRule.add_member(:action, Shapes::ShapeRef.new(shape: StatefulAction, required: true, location_name: "Action"))
@@ -762,6 +879,28 @@ module Aws::NetworkFirewall
 
     TCPFlags.member = Shapes::ShapeRef.new(shape: TCPFlagField)
 
+    TLSInspectionConfiguration.add_member(:server_certificate_configurations, Shapes::ShapeRef.new(shape: ServerCertificateConfigurations, location_name: "ServerCertificateConfigurations"))
+    TLSInspectionConfiguration.struct_class = Types::TLSInspectionConfiguration
+
+    TLSInspectionConfigurationMetadata.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    TLSInspectionConfigurationMetadata.add_member(:arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "Arn"))
+    TLSInspectionConfigurationMetadata.struct_class = Types::TLSInspectionConfigurationMetadata
+
+    TLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "TLSInspectionConfigurationArn"))
+    TLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "TLSInspectionConfigurationName"))
+    TLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "TLSInspectionConfigurationId"))
+    TLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_status, Shapes::ShapeRef.new(shape: ResourceStatus, location_name: "TLSInspectionConfigurationStatus"))
+    TLSInspectionConfigurationResponse.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
+    TLSInspectionConfigurationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    TLSInspectionConfigurationResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: LastUpdateTime, location_name: "LastModifiedTime"))
+    TLSInspectionConfigurationResponse.add_member(:number_of_associations, Shapes::ShapeRef.new(shape: NumberOfAssociations, location_name: "NumberOfAssociations"))
+    TLSInspectionConfigurationResponse.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "EncryptionConfiguration"))
+    TLSInspectionConfigurationResponse.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "Certificates"))
+    TLSInspectionConfigurationResponse.add_member(:certificate_authority, Shapes::ShapeRef.new(shape: TlsCertificateData, location_name: "CertificateAuthority"))
+    TLSInspectionConfigurationResponse.struct_class = Types::TLSInspectionConfigurationResponse
+
+    TLSInspectionConfigurations.member = Shapes::ShapeRef.new(shape: TLSInspectionConfigurationMetadata)
+
     Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKey, required: true, location_name: "Key"))
     Tag.add_member(:value, Shapes::ShapeRef.new(shape: TagValue, required: true, location_name: "Value"))
     Tag.struct_class = Types::Tag
@@ -780,6 +919,12 @@ module Aws::NetworkFirewall
 
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     ThrottlingException.struct_class = Types::ThrottlingException
+
+    TlsCertificateData.add_member(:certificate_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "CertificateArn"))
+    TlsCertificateData.add_member(:certificate_serial, Shapes::ShapeRef.new(shape: CollectionMember_String, location_name: "CertificateSerial"))
+    TlsCertificateData.add_member(:status, Shapes::ShapeRef.new(shape: CollectionMember_String, location_name: "Status"))
+    TlsCertificateData.add_member(:status_message, Shapes::ShapeRef.new(shape: StatusReason, location_name: "StatusMessage"))
+    TlsCertificateData.struct_class = Types::TlsCertificateData
 
     UnsupportedOperationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     UnsupportedOperationException.struct_class = Types::UnsupportedOperationException
@@ -871,6 +1016,7 @@ module Aws::NetworkFirewall
     UpdateRuleGroupRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     UpdateRuleGroupRequest.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "EncryptionConfiguration"))
     UpdateRuleGroupRequest.add_member(:source_metadata, Shapes::ShapeRef.new(shape: SourceMetadata, location_name: "SourceMetadata"))
+    UpdateRuleGroupRequest.add_member(:analyze_rule_group, Shapes::ShapeRef.new(shape: Boolean, location_name: "AnalyzeRuleGroup"))
     UpdateRuleGroupRequest.struct_class = Types::UpdateRuleGroupRequest
 
     UpdateRuleGroupResponse.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
@@ -889,6 +1035,18 @@ module Aws::NetworkFirewall
     UpdateSubnetChangeProtectionResponse.add_member(:subnet_change_protection, Shapes::ShapeRef.new(shape: Boolean, location_name: "SubnetChangeProtection"))
     UpdateSubnetChangeProtectionResponse.struct_class = Types::UpdateSubnetChangeProtectionResponse
 
+    UpdateTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "TLSInspectionConfigurationArn"))
+    UpdateTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration_name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "TLSInspectionConfigurationName"))
+    UpdateTLSInspectionConfigurationRequest.add_member(:tls_inspection_configuration, Shapes::ShapeRef.new(shape: TLSInspectionConfiguration, required: true, location_name: "TLSInspectionConfiguration"))
+    UpdateTLSInspectionConfigurationRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
+    UpdateTLSInspectionConfigurationRequest.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "EncryptionConfiguration"))
+    UpdateTLSInspectionConfigurationRequest.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
+    UpdateTLSInspectionConfigurationRequest.struct_class = Types::UpdateTLSInspectionConfigurationRequest
+
+    UpdateTLSInspectionConfigurationResponse.add_member(:update_token, Shapes::ShapeRef.new(shape: UpdateToken, required: true, location_name: "UpdateToken"))
+    UpdateTLSInspectionConfigurationResponse.add_member(:tls_inspection_configuration_response, Shapes::ShapeRef.new(shape: TLSInspectionConfigurationResponse, required: true, location_name: "TLSInspectionConfigurationResponse"))
+    UpdateTLSInspectionConfigurationResponse.struct_class = Types::UpdateTLSInspectionConfigurationResponse
+
     VariableDefinitionList.member = Shapes::ShapeRef.new(shape: VariableDefinition)
 
     VpcIds.member = Shapes::ShapeRef.new(shape: VpcId)
@@ -901,9 +1059,11 @@ module Aws::NetworkFirewall
 
       api.metadata = {
         "apiVersion" => "2020-11-12",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "network-firewall",
         "jsonVersion" => "1.0",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Network Firewall",
         "serviceFullName" => "AWS Network Firewall",
         "serviceId" => "Network Firewall",
@@ -982,6 +1142,19 @@ module Aws::NetworkFirewall
         o.errors << Shapes::ShapeRef.new(shape: InsufficientCapacityException)
       end)
 
+      api.add_operation(:create_tls_inspection_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateTLSInspectionConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateTLSInspectionConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateTLSInspectionConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: InsufficientCapacityException)
+      end)
+
       api.add_operation(:delete_firewall, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteFirewall"
         o.http_method = "POST"
@@ -1034,6 +1207,19 @@ module Aws::NetworkFirewall
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
+      end)
+
+      api.add_operation(:delete_tls_inspection_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteTLSInspectionConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteTLSInspectionConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteTLSInspectionConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
       end)
 
@@ -1109,6 +1295,18 @@ module Aws::NetworkFirewall
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
 
+      api.add_operation(:describe_tls_inspection_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeTLSInspectionConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeTLSInspectionConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeTLSInspectionConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:disassociate_subnets, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DisassociateSubnets"
         o.http_method = "POST"
@@ -1166,6 +1364,23 @@ module Aws::NetworkFirewall
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_tls_inspection_configurations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListTLSInspectionConfigurations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListTLSInspectionConfigurationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListTLSInspectionConfigurationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1336,6 +1551,19 @@ module Aws::NetworkFirewall
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidTokenException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceOwnerCheckException)
+      end)
+
+      api.add_operation(:update_tls_inspection_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateTLSInspectionConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateTLSInspectionConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateTLSInspectionConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidTokenException)
       end)
     end
 

@@ -10,6 +10,78 @@
 module Aws::CostExplorer
   module Types
 
+    # Details about the analysis.
+    #
+    # @!attribute [rw] savings_plans_purchase_analysis_details
+    #   Details about the Savings Plans purchase analysis.
+    #   @return [Types::SavingsPlansPurchaseAnalysisDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/AnalysisDetails AWS API Documentation
+    #
+    class AnalysisDetails < Struct.new(
+      :savings_plans_purchase_analysis_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The requested analysis can't be found.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/AnalysisNotFoundException AWS API Documentation
+    #
+    class AnalysisNotFoundException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of the analysis.
+    #
+    # @!attribute [rw] estimated_completion_time
+    #   The estimated time for when the analysis will complete.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_completion_time
+    #   The completion time of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_started_time
+    #   The start time of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_status
+    #   The status of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The error code used for the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_id
+    #   The analysis ID that's associated with the commitment purchase
+    #   analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] commitment_purchase_analysis_configuration
+    #   The configuration for the commitment purchase analysis.
+    #   @return [Types::CommitmentPurchaseAnalysisConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/AnalysisSummary AWS API Documentation
+    #
+    class AnalysisSummary < Struct.new(
+      :estimated_completion_time,
+      :analysis_completion_time,
+      :analysis_started_time,
+      :analysis_status,
+      :error_code,
+      :analysis_id,
+      :commitment_purchase_analysis_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An unusual cost pattern. This consists of the detailed metadata and
     # the current status of the anomaly object.
     #
@@ -26,8 +98,8 @@ module Aws::CostExplorer
     #   @return [String]
     #
     # @!attribute [rw] dimension_value
-    #   The dimension for the anomaly (for example, an Amazon Web Service in
-    #   a service monitor).
+    #   The dimension for the anomaly (for example, an Amazon Web Services
+    #   service in a service monitor).
     #   @return [String]
     #
     # @!attribute [rw] root_causes
@@ -140,7 +212,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -150,24 +221,22 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values
     #         are combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is
     #       supported.
     #
     #       * For example, you can filter for linked account names that
-    #         start with “a”.
+    #         start with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME",
+    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical
@@ -180,17 +249,15 @@ module Aws::CostExplorer
     #       DataTransfer)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION",
-    #       "Values": [ "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key":
-    #       "TagName", "Values": ["Value1"] \} \} ]\}, \{"Not":
-    #       \{"Dimensions": \{ "Key": "USAGE_TYPE", "Values":
-    #       ["DataTransfer"] \}\}\} ] \} `
-    #
+    #       `{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values":
+    #       [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -256,10 +323,27 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # The association between a monitor, threshold, and list of subscribers
-    # used to deliver notifications about anomalies detected by a monitor
-    # that exceeds a threshold. The content consists of the detailed
-    # metadata and the current status of the `AnomalySubscription` object.
+    # An `AnomalySubscription` resource (also referred to as an alert
+    # subscription) sends notifications about specific anomalies that meet
+    # an alerting criteria defined by you.
+    #
+    # You can specify the frequency of the alerts and the subscribers to
+    # notify.
+    #
+    # Anomaly subscriptions can be associated with one or more [
+    # `AnomalyMonitor` ][1] resources, and they only send notifications
+    # about anomalies detected by those associated monitors. You can also
+    # configure a threshold to further control which anomalies are included
+    # in the notifications.
+    #
+    # Anomalies that don’t exceed the chosen threshold and therefore don’t
+    # trigger notifications from an anomaly subscription will still be
+    # available on the console and from the [ `GetAnomalies` ][2] API.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html
+    # [2]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html
     #
     # @!attribute [rw] subscription_arn
     #   The `AnomalySubscription` Amazon Resource Name (ARN).
@@ -280,19 +364,31 @@ module Aws::CostExplorer
     # @!attribute [rw] threshold
     #   (deprecated)
     #
-    #   The dollar value that triggers a notification if the threshold is
-    #   exceeded.
+    #   An absolute dollar value that must be exceeded by the anomaly's
+    #   total impact (see [Impact][1] for more details) for an anomaly
+    #   notification to be generated.
     #
     #   This field has been deprecated. To specify a threshold, use
     #   ThresholdExpression. Continued use of Threshold will be treated as
     #   shorthand syntax for a ThresholdExpression.
     #
     #   One of Threshold or ThresholdExpression is required for this
-    #   resource.
+    #   resource. You cannot specify both.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html
     #   @return [Float]
     #
     # @!attribute [rw] frequency
-    #   The frequency that anomaly reports are sent over email.
+    #   The frequency that anomaly notifications are sent. Notifications are
+    #   sent either over email (for DAILY and WEEKLY frequencies) or SNS
+    #   (for IMMEDIATE frequency). For more information, see [Creating an
+    #   Amazon SNS topic for anomaly notifications][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html
     #   @return [String]
     #
     # @!attribute [rw] subscription_name
@@ -304,40 +400,44 @@ module Aws::CostExplorer
     #   want to generate alerts for. This supports dimensions and nested
     #   expressions. The supported dimensions are
     #   `ANOMALY_TOTAL_IMPACT_ABSOLUTE` and
-    #   `ANOMALY_TOTAL_IMPACT_PERCENTAGE`. The supported nested expression
-    #   types are `AND` and `OR`. The match option `GREATER_THAN_OR_EQUAL`
-    #   is required. Values must be numbers between 0 and 10,000,000,000.
+    #   `ANOMALY_TOTAL_IMPACT_PERCENTAGE`, corresponding to an anomaly’s
+    #   TotalImpact and TotalImpactPercentage, respectively (see [Impact][2]
+    #   for more details). The supported nested expression types are `AND`
+    #   and `OR`. The match option `GREATER_THAN_OR_EQUAL` is required.
+    #   Values must be numbers between 0 and 10,000,000,000 in string
+    #   format.
     #
     #   One of Threshold or ThresholdExpression is required for this
-    #   resource.
+    #   resource. You cannot specify both.
     #
     #   The following are examples of valid ThresholdExpressions:
     #
-    #   * Absolute threshold: `\{ "Dimensions": \{ "Key":
+    #   * Absolute threshold: `{ "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }`
     #
-    #   * Percentage threshold: `\{ "Dimensions": \{ "Key":
+    #   * Percentage threshold: `{ "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }`
     #
-    #   * `AND` two thresholds together: `\{ "And": [ \{ "Dimensions": \{
+    #   * `AND` two thresholds together: `{ "And": [ { "Dimensions": {
     #     "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}, \{
-    #     "Dimensions": \{ "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
-    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ]
-    #     \} \} ] \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, {
+    #     "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
+    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] }
+    #     } ] }`
     #
-    #   * `OR` two thresholds together: `\{ "Or": [ \{ "Dimensions": \{
-    #     "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}, \{
-    #     "Dimensions": \{ "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
-    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ]
-    #     \} \} ] \}`
+    #   * `OR` two thresholds together: `{ "Or": [ { "Dimensions": { "Key":
+    #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, {
+    #     "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
+    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] }
+    #     } ] }`
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html
+    #   [2]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html
     #   @return [Types::Expression]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/AnomalySubscription AWS API Documentation
@@ -355,6 +455,20 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
+    # A request to backfill is already in progress. Once the previous
+    # request is complete, you can create another request.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/BackfillLimitExceededException AWS API Documentation
+    #
+    class BackfillLimitExceededException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The requested report expired. Update the date interval and try again.
     #
     # @!attribute [rw] message
@@ -364,6 +478,20 @@ module Aws::CostExplorer
     #
     class BillExpirationException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for the commitment purchase analysis.
+    #
+    # @!attribute [rw] savings_plans_purchase_analysis_configuration
+    #   The configuration for the Savings Plans purchase analysis.
+    #   @return [Types::SavingsPlansPurchaseAnalysisConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/CommitmentPurchaseAnalysisConfiguration AWS API Documentation
+    #
+    class CommitmentPurchaseAnalysisConfiguration < Struct.new(
+      :savings_plans_purchase_analysis_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -387,12 +515,58 @@ module Aws::CostExplorer
     #   The status of a cost allocation tag.
     #   @return [String]
     #
+    # @!attribute [rw] last_updated_date
+    #   The last date that the tag was either activated or deactivated.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_used_date
+    #   The last month that the tag was used on an Amazon Web Services
+    #   resource.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/CostAllocationTag AWS API Documentation
     #
     class CostAllocationTag < Struct.new(
       :tag_key,
       :type,
-      :status)
+      :status,
+      :last_updated_date,
+      :last_used_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The cost allocation tag backfill request structure that contains
+    # metadata and details of a certain backfill.
+    #
+    # @!attribute [rw] backfill_from
+    #   The date the backfill starts from.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_at
+    #   The time when the backfill was requested.
+    #   @return [String]
+    #
+    # @!attribute [rw] completed_at
+    #   The backfill completion time.
+    #   @return [String]
+    #
+    # @!attribute [rw] backfill_status
+    #   The status of the cost allocation tag backfill request.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The time when the backfill status was last updated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/CostAllocationTagBackfillRequest AWS API Documentation
+    #
+    class CostAllocationTagBackfillRequest < Struct.new(
+      :backfill_from,
+      :requested_at,
+      :completed_at,
+      :backfill_status,
+      :last_updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -593,10 +767,7 @@ module Aws::CostExplorer
     #   An [Expression][1] object used to categorize costs. This supports
     #   dimensions, tags, and nested expressions. Currently the only
     #   dimensions supported are `LINKED_ACCOUNT`, `SERVICE_CODE`,
-    #   `RECORD_TYPE`, and `LINKED_ACCOUNT_NAME`.
-    #
-    #   Root level `OR` isn't supported. We recommend that you create a
-    #   separate rule instead.
+    #   `RECORD_TYPE`, `LINKED_ACCOUNT_NAME`, `REGION`, and `USAGE_TYPE`.
     #
     #   `RECORD_TYPE` is a dimension used for Cost Explorer APIs, and is
     #   also supported for Cost Category expressions. This dimension uses
@@ -1396,6 +1567,26 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
+    # The DynamoDB reservations that Amazon Web Services recommends that you
+    # purchase.
+    #
+    # @!attribute [rw] capacity_units
+    #   The capacity unit of the recommended reservation.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region of the recommended reservation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/DynamoDBCapacityDetails AWS API Documentation
+    #
+    class DynamoDBCapacityDetails < Struct.new(
+      :capacity_units,
+      :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The EBS field that contains a list of EBS metrics that are associated
     # with the current instance.
     #
@@ -1426,7 +1617,7 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Details about the Amazon EC2 instances that Amazon Web Services
+    # Details about the Amazon EC2 reservations that Amazon Web Services
     # recommends that you purchase.
     #
     # @!attribute [rw] family
@@ -1597,8 +1788,8 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Details about the Amazon OpenSearch Service instances that Amazon Web
-    # Services recommends that you purchase.
+    # Details about the Amazon OpenSearch Service reservations that Amazon
+    # Web Services recommends that you purchase.
     #
     # @!attribute [rw] instance_class
     #   The class of instance that Amazon Web Services recommends.
@@ -1633,7 +1824,7 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Details about the Amazon ElastiCache instances that Amazon Web
+    # Details about the Amazon ElastiCache reservations that Amazon Web
     # Services recommends that you purchase.
     #
     # @!attribute [rw] family
@@ -1694,7 +1885,6 @@ module Aws::CostExplorer
     #
     #     * Specify the `Dimensions` field to define a filter that acts on
     #       the [ `DimensionValues` ][1].
-    #
     #   * For each filter type, you can set the dimension name and values
     #     for the filters that you plan to use.
     #
@@ -1704,23 +1894,21 @@ module Aws::CostExplorer
     #       Virginia)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #       “us-west-1” ] \} \}`
+    #       `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #       "us-west-1" ] } }`
     #
     #     * As shown in the previous example, lists of dimension values are
     #       combined with `OR` when applying the filter.
-    #
     #   * You can also set different match options to further control how
     #     the filter behaves. Not all APIs support match options. Refer to
     #     the documentation for each specific API to see what is supported.
     #
     #     * For example, you can filter for linked account names that start
-    #       with “a”.
+    #       with "a".
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #       "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #       `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions":
+    #       [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     # * Compound `Expression` types with logical operations.
     #
     #   * You can use multiple `Expression` types and the logical operators
@@ -1731,17 +1919,16 @@ module Aws::CostExplorer
     #     us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE !=
     #     DataTransfer)`.
     #
-    #   * The corresponding `Expression` for this example is as follows: `\{
-    #     "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION", "Values": [
-    #     "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key": "TagName",
-    #     "Values": ["Value1"] \} \} ]\}, \{"Not": \{"Dimensions": \{ "Key":
-    #     "USAGE_TYPE", "Values": ["DataTransfer"] \}\}\} ] \} `
-    #
+    #   * The corresponding `Expression` for this example is as follows: `{
+    #     "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+    #     "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #     "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #     "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #   <note markdown="1"> Because each `Expression` can have only one operator, the service
     #   returns an error if more than one is specified. The following
-    #   example shows an `Expression` object that creates an error: ` \{
-    #   "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #   "DataTransfer" ] \} \} `
+    #   example shows an `Expression` object that creates an error: ` {
+    #   "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #   "DataTransfer" ] } } `
     #
     #    The following is an example of the corresponding error message:
     #   `"Expression has more than one roots. Only one root operator is
@@ -1832,7 +2019,8 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # A request to generate a recommendation is already in progress.
+    # A request to generate a recommendation or analysis is already in
+    # progress.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -2038,6 +2226,116 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
+    # @!attribute [rw] granularity
+    #   How granular you want the data to be. You can enable data at hourly
+    #   or daily granularity.
+    #   @return [String]
+    #
+    # @!attribute [rw] services
+    #   The service metadata for the service or services you want to query.
+    #   If not specified, all elements are returned.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] approximation_dimension
+    #   The service to evaluate for the usage records. You can choose
+    #   resource-level data at daily granularity, or hourly granularity with
+    #   or without resource-level data.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetApproximateUsageRecordsRequest AWS API Documentation
+    #
+    class GetApproximateUsageRecordsRequest < Struct.new(
+      :granularity,
+      :services,
+      :approximation_dimension)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] services
+    #   The service metadata for the service or services in the response.
+    #   @return [Hash<String,Integer>]
+    #
+    # @!attribute [rw] total_records
+    #   The total number of usage records for all services in the services
+    #   list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] lookback_period
+    #   The lookback period that's used for the estimation.
+    #   @return [Types::DateInterval]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetApproximateUsageRecordsResponse AWS API Documentation
+    #
+    class GetApproximateUsageRecordsResponse < Struct.new(
+      :services,
+      :total_records,
+      :lookback_period)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_id
+    #   The analysis ID that's associated with the commitment purchase
+    #   analysis.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetCommitmentPurchaseAnalysisRequest AWS API Documentation
+    #
+    class GetCommitmentPurchaseAnalysisRequest < Struct.new(
+      :analysis_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] estimated_completion_time
+    #   The estimated time for when the analysis will complete.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_completion_time
+    #   The completion time of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_started_time
+    #   The start time of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_id
+    #   The analysis ID that's associated with the commitment purchase
+    #   analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_status
+    #   The status of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The error code used for the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_details
+    #   Details about the analysis.
+    #   @return [Types::AnalysisDetails]
+    #
+    # @!attribute [rw] commitment_purchase_analysis_configuration
+    #   The configuration for the commitment purchase analysis.
+    #   @return [Types::CommitmentPurchaseAnalysisConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetCommitmentPurchaseAnalysisResponse AWS API Documentation
+    #
+    class GetCommitmentPurchaseAnalysisResponse < Struct.new(
+      :estimated_completion_time,
+      :analysis_completion_time,
+      :analysis_started_time,
+      :analysis_id,
+      :analysis_status,
+      :error_code,
+      :analysis_details,
+      :commitment_purchase_analysis_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] time_period
     #   Sets the start date and end date for retrieving Amazon Web Services
     #   costs. The start date is inclusive, but the end date is exclusive.
@@ -2112,6 +2410,15 @@ module Aws::CostExplorer
     #   get all tag values, including empty strings.
     #   @return [Array<Types::GroupDefinition>]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] next_page_token
     #   The token to retrieve the next set of results. Amazon Web Services
     #   provides the token when the response from a previous call has more
@@ -2126,6 +2433,7 @@ module Aws::CostExplorer
       :filter,
       :metrics,
       :group_by,
+      :billing_view_arn,
       :next_page_token)
       SENSITIVE = []
       include Aws::Structure
@@ -2234,6 +2542,15 @@ module Aws::CostExplorer
     #   groups: `DIMENSION`, `TAG`, `COST_CATEGORY`.
     #   @return [Array<Types::GroupDefinition>]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] next_page_token
     #   The token to retrieve the next set of results. Amazon Web Services
     #   provides the token when the response from a previous call has more
@@ -2248,6 +2565,7 @@ module Aws::CostExplorer
       :filter,
       :metrics,
       :group_by,
+      :billing_view_arn,
       :next_page_token)
       SENSITIVE = []
       include Aws::Structure
@@ -2323,7 +2641,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -2333,24 +2650,22 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values
     #         are combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is
     #       supported.
     #
     #       * For example, you can filter for linked account names that
-    #         start with “a”.
+    #         start with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME",
+    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical
@@ -2363,17 +2678,15 @@ module Aws::CostExplorer
     #       DataTransfer)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION",
-    #       "Values": [ "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key":
-    #       "TagName", "Values": ["Value1"] \} \} ]\}, \{"Not":
-    #       \{"Dimensions": \{ "Key": "USAGE_TYPE", "Values":
-    #       ["DataTransfer"] \}\}\} ] \} `
-    #
+    #       `{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values":
+    #       [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -2426,6 +2739,15 @@ module Aws::CostExplorer
     #   `SearchString` key values aren't supported.
     #   @return [Array<Types::SortDefinition>]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] max_results
     #   This field is only used when the `SortBy` value is provided in the
     #   request.
@@ -2452,6 +2774,7 @@ module Aws::CostExplorer
       :cost_category_name,
       :filter,
       :sort_by,
+      :billing_view_arn,
       :max_results,
       :next_page_token)
       SENSITIVE = []
@@ -2584,6 +2907,15 @@ module Aws::CostExplorer
     #   * `SAVINGS_PLAN_ARN`
     #   @return [Types::Expression]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] prediction_interval_level
     #   Cost Explorer always returns the mean forecast as a single point.
     #   You can request a prediction interval around the mean by specifying
@@ -2600,6 +2932,7 @@ module Aws::CostExplorer
       :metric,
       :granularity,
       :filter,
+      :billing_view_arn,
       :prediction_interval_level)
       SENSITIVE = []
       include Aws::Structure
@@ -2666,11 +2999,11 @@ module Aws::CostExplorer
     #     is with. Possible values are the following:
     #
     #     \- Amazon Web Services(Amazon Web Services): The entity that sells
-    #     Amazon Web Services.
+    #     Amazon Web Services services.
     #
     #     \- AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian
-    #     entity that's an acting reseller for Amazon Web Services in
-    #     India.
+    #     entity that's an acting reseller for Amazon Web Services services
+    #     in India.
     #
     #     \- Amazon Web Services Marketplace: The entity that supports the
     #     sale of solutions that are built on Amazon Web Services by
@@ -2820,7 +3153,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -2830,24 +3162,22 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values
     #         are combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is
     #       supported.
     #
     #       * For example, you can filter for linked account names that
-    #         start with “a”.
+    #         start with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME",
+    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical
@@ -2860,17 +3190,15 @@ module Aws::CostExplorer
     #       DataTransfer)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION",
-    #       "Values": [ "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key":
-    #       "TagName", "Values": ["Value1"] \} \} ]\}, \{"Not":
-    #       \{"Dimensions": \{ "Key": "USAGE_TYPE", "Values":
-    #       ["DataTransfer"] \}\}\} ] \} `
-    #
+    #       `{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values":
+    #       [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -2924,6 +3252,15 @@ module Aws::CostExplorer
     #   `SearchString` aren't supported.
     #   @return [Array<Types::SortDefinition>]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] max_results
     #   This field is only used when SortBy is provided in the request. The
     #   maximum number of objects that are returned for this request. If
@@ -2948,6 +3285,7 @@ module Aws::CostExplorer
       :context,
       :filter,
       :sort_by,
+      :billing_view_arn,
       :max_results,
       :next_page_token)
       SENSITIVE = []
@@ -3195,7 +3533,7 @@ module Aws::CostExplorer
     # @!attribute [rw] sort_by
     #   The value by which you want to sort the data.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `OnDemandCost`
     #
@@ -3295,7 +3633,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -3305,24 +3642,22 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values
     #         are combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is
     #       supported.
     #
     #       * For example, you can filter for linked account names that
-    #         start with “a”.
+    #         start with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME",
+    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical
@@ -3335,17 +3670,15 @@ module Aws::CostExplorer
     #       DataTransfer)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION",
-    #       "Values": [ "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key":
-    #       "TagName", "Values": ["Value1"] \} \} ]\}, \{"Not":
-    #       \{"Dimensions": \{ "Key": "USAGE_TYPE", "Values":
-    #       ["DataTransfer"] \}\}\} ] \} `
-    #
+    #       `{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values":
+    #       [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -3493,6 +3826,15 @@ module Aws::CostExplorer
     #
     #   * SERVICE
     #
+    #     <note markdown="1"> If not specified, the `SERVICE` filter defaults to Amazon Elastic
+    #     Compute Cloud - Compute. Supported values for `SERVICE` are Amazon
+    #     Elastic Compute Cloud - Compute, Amazon Relational Database
+    #     Service, Amazon ElastiCache, Amazon Redshift, and Amazon
+    #     Elasticsearch Service. The value for the `SERVICE` filter should
+    #     not exceed "1".
+    #
+    #      </note>
+    #
     #   * SCOPE
     #
     #   * TENANCY
@@ -3510,7 +3852,7 @@ module Aws::CostExplorer
     # @!attribute [rw] sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `UtilizationPercentage`
     #
@@ -3623,7 +3965,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -3633,24 +3974,22 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values
     #         are combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is
     #       supported.
     #
     #       * For example, you can filter for linked account names that
-    #         start with “a”.
+    #         start with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME",
+    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical
@@ -3663,17 +4002,15 @@ module Aws::CostExplorer
     #       DataTransfer)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION",
-    #       "Values": [ "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key":
-    #       "TagName", "Values": ["Value1"] \} \} ]\}, \{"Not":
-    #       \{"Dimensions": \{ "Key": "USAGE_TYPE", "Values":
-    #       ["DataTransfer"] \}\}\} ] \} `
-    #
+    #       `{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values":
+    #       [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -3772,6 +4109,36 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
+    # @!attribute [rw] recommendation_detail_id
+    #   The ID that is associated with the Savings Plan recommendation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetSavingsPlanPurchaseRecommendationDetailsRequest AWS API Documentation
+    #
+    class GetSavingsPlanPurchaseRecommendationDetailsRequest < Struct.new(
+      :recommendation_detail_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendation_detail_id
+    #   The ID that is associated with the Savings Plan recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_detail_data
+    #   Contains detailed information about a specific Savings Plan
+    #   recommendation.
+    #   @return [Types::RecommendationDetailData]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetSavingsPlanPurchaseRecommendationDetailsResponse AWS API Documentation
+    #
+    class GetSavingsPlanPurchaseRecommendationDetailsResponse < Struct.new(
+      :recommendation_detail_id,
+      :recommendation_detail_data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] time_period
     #   The time period that you want the usage and costs for. The `Start`
     #   date must be within 13 months. The `End` date must be after the
@@ -3835,7 +4202,7 @@ module Aws::CostExplorer
     # @!attribute [rw] sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `SpendCoveredBySavingsPlan`
     #
@@ -4028,7 +4395,7 @@ module Aws::CostExplorer
     # @!attribute [rw] sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `UtilizationPercentage`
     #
@@ -4134,7 +4501,7 @@ module Aws::CostExplorer
     # @!attribute [rw] sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `UtilizationPercentage`
     #
@@ -4217,7 +4584,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -4227,24 +4593,22 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values
     #         are combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is
     #       supported.
     #
     #       * For example, you can filter for linked account names that
-    #         start with “a”.
+    #         start with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME",
+    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical
@@ -4257,17 +4621,15 @@ module Aws::CostExplorer
     #       DataTransfer)`.
     #
     #     * The corresponding `Expression` for this example is as follows:
-    #       `\{ "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION",
-    #       "Values": [ "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key":
-    #       "TagName", "Values": ["Value1"] \} \} ]\}, \{"Not":
-    #       \{"Dimensions": \{ "Key": "USAGE_TYPE", "Values":
-    #       ["DataTransfer"] \}\}\} ] \} `
-    #
+    #       `{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values":
+    #       [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -4320,6 +4682,15 @@ module Aws::CostExplorer
     #   supported.
     #   @return [Array<Types::SortDefinition>]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] max_results
     #   This field is only used when SortBy is provided in the request. The
     #   maximum number of objects that are returned for this request. If
@@ -4343,6 +4714,7 @@ module Aws::CostExplorer
       :tag_key,
       :filter,
       :sort_by,
+      :billing_view_arn,
       :max_results,
       :next_page_token)
       SENSITIVE = []
@@ -4459,6 +4831,15 @@ module Aws::CostExplorer
     #   * `SAVINGS_PLAN_ARN`
     #   @return [Types::Expression]
     #
+    # @!attribute [rw] billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing
+    #   view you want to interact with or retrieve information from when
+    #   making API calls related to Amazon Web Services Billing and Cost
+    #   Management features. The BillingViewArn can be retrieved by calling
+    #   the ListBillingViews API.
+    #   @return [String]
+    #
     # @!attribute [rw] prediction_interval_level
     #   Amazon Web Services Cost Explorer always returns the mean forecast
     #   as a single point. You can request a prediction interval around the
@@ -4475,6 +4856,7 @@ module Aws::CostExplorer
       :metric,
       :granularity,
       :filter,
+      :billing_view_arn,
       :prediction_interval_level)
       SENSITIVE = []
       include Aws::Structure
@@ -4582,33 +4964,38 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Details about the instances that Amazon Web Services recommends that
-    # you purchase.
+    # Details about the reservations that Amazon Web Services recommends
+    # that you purchase.
     #
     # @!attribute [rw] ec2_instance_details
-    #   The Amazon EC2 instances that Amazon Web Services recommends that
+    #   The Amazon EC2 reservations that Amazon Web Services recommends that
     #   you purchase.
     #   @return [Types::EC2InstanceDetails]
     #
     # @!attribute [rw] rds_instance_details
-    #   The Amazon RDS instances that Amazon Web Services recommends that
+    #   The Amazon RDS reservations that Amazon Web Services recommends that
     #   you purchase.
     #   @return [Types::RDSInstanceDetails]
     #
     # @!attribute [rw] redshift_instance_details
-    #   The Amazon Redshift instances that Amazon Web Services recommends
+    #   The Amazon Redshift reservations that Amazon Web Services recommends
     #   that you purchase.
     #   @return [Types::RedshiftInstanceDetails]
     #
     # @!attribute [rw] elasticache_instance_details
-    #   The ElastiCache instances that Amazon Web Services recommends that
-    #   you purchase.
+    #   The ElastiCache reservations that Amazon Web Services recommends
+    #   that you purchase.
     #   @return [Types::ElastiCacheInstanceDetails]
     #
     # @!attribute [rw] es_instance_details
-    #   The Amazon OpenSearch Service instances that Amazon Web Services
+    #   The Amazon OpenSearch Service reservations that Amazon Web Services
     #   recommends that you purchase.
     #   @return [Types::ESInstanceDetails]
+    #
+    # @!attribute [rw] memory_db_instance_details
+    #   The MemoryDB reservations that Amazon Web Services recommends that
+    #   you purchase.
+    #   @return [Types::MemoryDBInstanceDetails]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/InstanceDetails AWS API Documentation
     #
@@ -4617,7 +5004,8 @@ module Aws::CostExplorer
       :rds_instance_details,
       :redshift_instance_details,
       :elasticache_instance_details,
-      :es_instance_details)
+      :es_instance_details,
+      :memory_db_instance_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4644,6 +5032,89 @@ module Aws::CostExplorer
     #
     class LimitExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_status
+    #   The status of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_page_token
+    #   The token to retrieve the next set of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   The number of analyses that you want returned in a single response
+    #   object.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] analysis_ids
+    #   The analysis IDs associated with the commitment purchase analyses.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCommitmentPurchaseAnalysesRequest AWS API Documentation
+    #
+    class ListCommitmentPurchaseAnalysesRequest < Struct.new(
+      :analysis_status,
+      :next_page_token,
+      :page_size,
+      :analysis_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_summary_list
+    #   The list of analyses.
+    #   @return [Array<Types::AnalysisSummary>]
+    #
+    # @!attribute [rw] next_page_token
+    #   The token to retrieve the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCommitmentPurchaseAnalysesResponse AWS API Documentation
+    #
+    class ListCommitmentPurchaseAnalysesResponse < Struct.new(
+      :analysis_summary_list,
+      :next_page_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to retrieve the next set of results. Amazon Web Services
+    #   provides the token when the response from a previous call has more
+    #   results than the maximum page size.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects that are returned for this request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCostAllocationTagBackfillHistoryRequest AWS API Documentation
+    #
+    class ListCostAllocationTagBackfillHistoryRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] backfill_requests
+    #   The list of historical cost allocation tag backfill requests.
+    #   @return [Array<Types::CostAllocationTagBackfillRequest>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to retrieve the next set of results. Amazon Web Services
+    #   provides the token when the response from a previous call has more
+    #   results than the maximum page size.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCostAllocationTagBackfillHistoryResponse AWS API Documentation
+    #
+    class ListCostAllocationTagBackfillHistoryResponse < Struct.new(
+      :backfill_requests,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4827,6 +5298,42 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
+    # Details about the MemoryDB reservations that Amazon Web Services
+    # recommends that you purchase.
+    #
+    # @!attribute [rw] family
+    #   The instance family of the recommended reservation.
+    #   @return [String]
+    #
+    # @!attribute [rw] node_type
+    #   The node type of the recommended reservation.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region of the recommended reservation.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_generation
+    #   Determines whether the recommendation is for a current generation
+    #   instance.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] size_flex_eligible
+    #   Determines whether the recommended reservation is size flexible.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/MemoryDBInstanceDetails AWS API Documentation
+    #
+    class MemoryDBInstanceDetails < Struct.new(
+      :family,
+      :node_type,
+      :region,
+      :current_generation,
+      :size_flex_eligible)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The aggregated value for a metric.
     #
     # @!attribute [rw] amount
@@ -4924,7 +5431,7 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Details about the Amazon RDS instances that Amazon Web Services
+    # Details about the Amazon RDS reservations that Amazon Web Services
     # recommends that you purchase.
     #
     # @!attribute [rw] family
@@ -4982,8 +5489,223 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Details about the Amazon Redshift instances that Amazon Web Services
-    # recommends that you purchase.
+    # The details and metrics for the given recommendation.
+    #
+    # @!attribute [rw] account_scope
+    #   The account scope that you want your recommendations for. Amazon Web
+    #   Services calculates recommendations including the management account
+    #   and member accounts if the value is set to PAYER. If the value is
+    #   LINKED, recommendations are calculated for individual member
+    #   accounts only.
+    #   @return [String]
+    #
+    # @!attribute [rw] lookback_period_in_days
+    #   How many days of previous usage that Amazon Web Services considers
+    #   when making this recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] savings_plans_type
+    #   The requested Savings Plan recommendation type.
+    #   @return [String]
+    #
+    # @!attribute [rw] term_in_years
+    #   The term of the commitment in years.
+    #   @return [String]
+    #
+    # @!attribute [rw] payment_option
+    #   The payment option for the commitment (for example, All Upfront or
+    #   No Upfront).
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The AccountID that the recommendation is generated for.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code that Amazon Web Services used to generate the
+    #   recommendation and present potential savings.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_family
+    #   The instance family of the recommended Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The region the recommendation is generated for.
+    #   @return [String]
+    #
+    # @!attribute [rw] offering_id
+    #   The unique ID that's used to distinguish Savings Plans from one
+    #   another.
+    #   @return [String]
+    #
+    # @!attribute [rw] generation_timestamp
+    #   The period of time that you want the usage and costs for.
+    #   @return [String]
+    #
+    # @!attribute [rw] latest_usage_timestamp
+    #   The period of time that you want the usage and costs for.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_average_hourly_on_demand_spend
+    #   The average value of hourly On-Demand spend over the lookback period
+    #   of the applicable usage type.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_maximum_hourly_on_demand_spend
+    #   The highest value of hourly On-Demand spend over the lookback period
+    #   of the applicable usage type.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_minimum_hourly_on_demand_spend
+    #   The lowest value of hourly On-Demand spend over the lookback period
+    #   of the applicable usage type.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_average_utilization
+    #   The estimated utilization of the recommended Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_monthly_savings_amount
+    #   The estimated monthly savings amount based on the recommended
+    #   Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_on_demand_cost
+    #   The remaining On-Demand cost estimated to not be covered by the
+    #   recommended Savings Plan, over the length of the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_on_demand_cost_with_current_commitment
+    #   The estimated On-Demand costs you expect with no additional
+    #   commitment, based on your usage of the selected time period and the
+    #   Savings Plan you own.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_roi
+    #   The estimated return on investment that's based on the recommended
+    #   Savings Plan that you purchased. This is calculated as
+    #   estimatedSavingsAmount/estimatedSPCost*100.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_sp_cost
+    #   The cost of the recommended Savings Plan over the length of the
+    #   lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_savings_amount
+    #   The estimated savings amount that's based on the recommended
+    #   Savings Plan over the length of the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_savings_percentage
+    #   The estimated savings percentage relative to the total cost of
+    #   applicable On-Demand usage over the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] existing_hourly_commitment
+    #   The existing hourly commitment for the Savings Plan type.
+    #   @return [String]
+    #
+    # @!attribute [rw] hourly_commitment_to_purchase
+    #   The recommended hourly commitment level for the Savings Plan type
+    #   and the configuration that's based on the usage during the lookback
+    #   period.
+    #   @return [String]
+    #
+    # @!attribute [rw] upfront_cost
+    #   The upfront cost of the recommended Savings Plan, based on the
+    #   selected payment option.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_average_coverage
+    #   The average value of hourly coverage over the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_average_coverage
+    #   The estimated coverage of the recommended Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] metrics_over_lookback_period
+    #   The related hourly cost, coverage, and utilization metrics over the
+    #   lookback period.
+    #   @return [Array<Types::RecommendationDetailHourlyMetrics>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/RecommendationDetailData AWS API Documentation
+    #
+    class RecommendationDetailData < Struct.new(
+      :account_scope,
+      :lookback_period_in_days,
+      :savings_plans_type,
+      :term_in_years,
+      :payment_option,
+      :account_id,
+      :currency_code,
+      :instance_family,
+      :region,
+      :offering_id,
+      :generation_timestamp,
+      :latest_usage_timestamp,
+      :current_average_hourly_on_demand_spend,
+      :current_maximum_hourly_on_demand_spend,
+      :current_minimum_hourly_on_demand_spend,
+      :estimated_average_utilization,
+      :estimated_monthly_savings_amount,
+      :estimated_on_demand_cost,
+      :estimated_on_demand_cost_with_current_commitment,
+      :estimated_roi,
+      :estimated_sp_cost,
+      :estimated_savings_amount,
+      :estimated_savings_percentage,
+      :existing_hourly_commitment,
+      :hourly_commitment_to_purchase,
+      :upfront_cost,
+      :current_average_coverage,
+      :estimated_average_coverage,
+      :metrics_over_lookback_period)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the hourly metrics for the given recommendation over the
+    # lookback period.
+    #
+    # @!attribute [rw] start_time
+    #   The period of time that you want the usage and costs for.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_on_demand_cost
+    #   The remaining On-Demand cost estimated to not be covered by the
+    #   recommended Savings Plan, over the length of the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_coverage
+    #   The current amount of Savings Plans eligible usage that the Savings
+    #   Plan covered.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_coverage
+    #   The estimated coverage amount based on the recommended Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_new_commitment_utilization
+    #   The estimated utilization for the recommended Savings Plan.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/RecommendationDetailHourlyMetrics AWS API Documentation
+    #
+    class RecommendationDetailHourlyMetrics < Struct.new(
+      :start_time,
+      :estimated_on_demand_cost,
+      :current_coverage,
+      :estimated_coverage,
+      :estimated_new_commitment_utilization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the Amazon Redshift reservations that Amazon Web
+    # Services recommends that you purchase.
     #
     # @!attribute [rw] family
     #   The instance family of the recommended reservation.
@@ -5218,8 +5940,8 @@ module Aws::CostExplorer
     #   @return [String]
     #
     # @!attribute [rw] instance_details
-    #   Details about the instances that Amazon Web Services recommends that
-    #   you purchase.
+    #   Details about the reservations that Amazon Web Services recommends
+    #   that you purchase.
     #   @return [Types::InstanceDetails]
     #
     # @!attribute [rw] recommended_number_of_instances_to_purchase
@@ -5313,6 +6035,34 @@ module Aws::CostExplorer
     #   How much purchasing this instance costs you on a monthly basis.
     #   @return [String]
     #
+    # @!attribute [rw] reserved_capacity_details
+    #   Details about the reservations that Amazon Web Services recommends
+    #   that you purchase.
+    #   @return [Types::ReservedCapacityDetails]
+    #
+    # @!attribute [rw] recommended_number_of_capacity_units_to_purchase
+    #   The number of reserved capacity units that Amazon Web Services
+    #   recommends that you purchase.
+    #   @return [String]
+    #
+    # @!attribute [rw] minimum_number_of_capacity_units_used_per_hour
+    #   The minimum number of provisioned capacity units that you used in an
+    #   hour during the historical period. Amazon Web Services uses this to
+    #   calculate your recommended reservation purchases.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_number_of_capacity_units_used_per_hour
+    #   The maximum number of provisioned capacity units that you used in an
+    #   hour during the historical period. Amazon Web Services uses this to
+    #   calculate your recommended reservation purchases.
+    #   @return [String]
+    #
+    # @!attribute [rw] average_number_of_capacity_units_used_per_hour
+    #   The average number of provisioned capacity units that you used in an
+    #   hour during the historical period. Amazon Web Services uses this to
+    #   calculate your recommended reservation purchases.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ReservationPurchaseRecommendationDetail AWS API Documentation
     #
     class ReservationPurchaseRecommendationDetail < Struct.new(
@@ -5334,27 +6084,37 @@ module Aws::CostExplorer
       :estimated_monthly_on_demand_cost,
       :estimated_reservation_cost_for_lookback_period,
       :upfront_cost,
-      :recurring_standard_monthly_cost)
+      :recurring_standard_monthly_cost,
+      :reserved_capacity_details,
+      :recommended_number_of_capacity_units_to_purchase,
+      :minimum_number_of_capacity_units_used_per_hour,
+      :maximum_number_of_capacity_units_used_per_hour,
+      :average_number_of_capacity_units_used_per_hour)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Information about this specific recommendation, such as the timestamp
-    # for when Amazon Web Services made a specific recommendation.
+    # Information about a recommendation, such as the timestamp for when
+    # Amazon Web Services made a specific recommendation.
     #
     # @!attribute [rw] recommendation_id
-    #   The ID for this specific recommendation.
+    #   The ID for the recommendation.
     #   @return [String]
     #
     # @!attribute [rw] generation_timestamp
-    #   The timestamp for when Amazon Web Services made this recommendation.
+    #   The timestamp for when Amazon Web Services made the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_metadata
+    #   Additional metadata that might be applicable to the recommendation.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ReservationPurchaseRecommendationMetadata AWS API Documentation
     #
     class ReservationPurchaseRecommendationMetadata < Struct.new(
       :recommendation_id,
-      :generation_timestamp)
+      :generation_timestamp,
+      :additional_metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5413,6 +6173,22 @@ module Aws::CostExplorer
       :value,
       :attributes,
       :utilization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the reservations that Amazon Web Services recommends
+    # that you purchase.
+    #
+    # @!attribute [rw] dynamo_db_capacity_details
+    #   The DynamoDB reservations that Amazon Web Services recommends that
+    #   you purchase.
+    #   @return [Types::DynamoDBCapacityDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ReservedCapacityDetails AWS API Documentation
+    #
+    class ReservedCapacityDetails < Struct.new(
+      :dynamo_db_capacity_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5591,19 +6367,19 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # Metadata for this recommendation set.
+    # Metadata for a recommendation set.
     #
     # @!attribute [rw] recommendation_id
-    #   The ID for this specific recommendation.
+    #   The ID for the recommendation.
     #   @return [String]
     #
     # @!attribute [rw] generation_timestamp
-    #   The timestamp for when Amazon Web Services made this recommendation.
+    #   The timestamp for when Amazon Web Services made the recommendation.
     #   @return [String]
     #
     # @!attribute [rw] lookback_period_in_days
     #   The number of days of previous usage that Amazon Web Services
-    #   considers when making this recommendation.
+    #   considers when making the recommendation.
     #   @return [String]
     #
     # @!attribute [rw] additional_metadata
@@ -5654,14 +6430,15 @@ module Aws::CostExplorer
       include Aws::Structure
     end
 
-    # The combination of Amazon Web Service, linked account, linked account
-    # name, Region, and usage type where a cost anomaly is observed. The
+    # The combination of Amazon Web Services service, linked account, linked
+    # account name, Region, and usage type where a cost anomaly is observed,
+    # along with the dollar and percentage amount of the anomaly impact. The
     # linked account name will only be available when the account name can
     # be identified.
     #
     # @!attribute [rw] service
-    #   The Amazon Web Service name that's associated with the cost
-    #   anomaly.
+    #   The Amazon Web Services service name that's associated with the
+    #   cost anomaly.
     #   @return [String]
     #
     # @!attribute [rw] region
@@ -5673,14 +6450,18 @@ module Aws::CostExplorer
     #   The member account value that's associated with the cost anomaly.
     #   @return [String]
     #
-    # @!attribute [rw] usage_type
-    #   The `UsageType` value that's associated with the cost anomaly.
-    #   @return [String]
-    #
     # @!attribute [rw] linked_account_name
     #   The member account name value that's associated with the cost
     #   anomaly.
     #   @return [String]
+    #
+    # @!attribute [rw] usage_type
+    #   The `UsageType` value that's associated with the cost anomaly.
+    #   @return [String]
+    #
+    # @!attribute [rw] impact
+    #   The dollar impact for the root cause.
+    #   @return [Types::RootCauseImpact]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/RootCause AWS API Documentation
     #
@@ -5688,8 +6469,69 @@ module Aws::CostExplorer
       :service,
       :region,
       :linked_account,
+      :linked_account_name,
       :usage_type,
-      :linked_account_name)
+      :impact)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The dollar value of the root cause.
+    #
+    # @!attribute [rw] contribution
+    #   The dollar amount that this root cause contributed to the anomaly's
+    #   TotalImpact.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/RootCauseImpact AWS API Documentation
+    #
+    class RootCauseImpact < Struct.new(
+      :contribution)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Savings Plans commitment details.
+    #
+    # @!attribute [rw] payment_option
+    #   The payment option for the Savings Plans commitment.
+    #   @return [String]
+    #
+    # @!attribute [rw] savings_plans_type
+    #   The Savings Plans type.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Region associated with the Savings Plans commitment.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_family
+    #   The instance family of the Savings Plans commitment.
+    #   @return [String]
+    #
+    # @!attribute [rw] term_in_years
+    #   The term that you want the Savings Plans commitment for.
+    #   @return [String]
+    #
+    # @!attribute [rw] savings_plans_commitment
+    #   The Savings Plans commitment.
+    #   @return [Float]
+    #
+    # @!attribute [rw] offering_id
+    #   The unique ID that's used to distinguish Savings Plans commitments
+    #   from one another.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/SavingsPlans AWS API Documentation
+    #
+    class SavingsPlans < Struct.new(
+      :payment_option,
+      :savings_plans_type,
+      :region,
+      :instance_family,
+      :term_in_years,
+      :savings_plans_commitment,
+      :offering_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5807,6 +6649,176 @@ module Aws::CostExplorer
       :region,
       :instance_family,
       :offering_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for the Savings Plans purchase analysis.
+    #
+    # @!attribute [rw] account_scope
+    #   The account scope that you want your analysis for.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The account that the analysis is for.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] savings_plans_to_add
+    #   Savings Plans to include in the analysis.
+    #   @return [Array<Types::SavingsPlans>]
+    #
+    # @!attribute [rw] savings_plans_to_exclude
+    #   Savings Plans to exclude from the analysis.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] look_back_time_period
+    #   The time period associated with the analysis.
+    #   @return [Types::DateInterval]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/SavingsPlansPurchaseAnalysisConfiguration AWS API Documentation
+    #
+    class SavingsPlansPurchaseAnalysisConfiguration < Struct.new(
+      :account_scope,
+      :account_id,
+      :analysis_type,
+      :savings_plans_to_add,
+      :savings_plans_to_exclude,
+      :look_back_time_period)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the Savings Plans purchase analysis.
+    #
+    # @!attribute [rw] currency_code
+    #   The currency code used for the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] lookback_period_in_hours
+    #   The lookback period in hours that's used to generate the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_average_coverage
+    #   The average value of hourly coverage over the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_average_hourly_on_demand_spend
+    #   The average value of hourly On-Demand spend over the lookback
+    #   period.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_maximum_hourly_on_demand_spend
+    #   The highest value of hourly On-Demand spend over the lookback
+    #   period.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_minimum_hourly_on_demand_spend
+    #   The lowest value of hourly On-Demand spend over the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_on_demand_spend
+    #   The current total On-Demand spend over the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] existing_hourly_commitment
+    #   The existing hourly commitment for the Savings Plan type.
+    #   @return [String]
+    #
+    # @!attribute [rw] hourly_commitment_to_purchase
+    #   The recommended or custom hourly commitment.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_average_coverage
+    #   The estimated coverage of the Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_average_utilization
+    #   The estimated utilization of the Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_monthly_savings_amount
+    #   The estimated monthly savings amount based on the Savings Plan.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_on_demand_cost
+    #   The remaining On-Demand cost estimated to not be covered by the
+    #   Savings Plan over the length of the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_on_demand_cost_with_current_commitment
+    #   The estimated On-Demand cost you expect with no additional
+    #   commitment based on your usage of the selected time period and the
+    #   Savings Plan you own.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_roi
+    #   The estimated return on investment that's based on the Savings Plan
+    #   and estimated savings. This is calculated as
+    #   estimatedSavingsAmount/estimatedSPCost*100.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_savings_amount
+    #   The estimated savings amount that's based on the Savings Plan over
+    #   the length of the lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_savings_percentage
+    #   The estimated savings percentage relative to the total cost over the
+    #   cost calculation lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_commitment_cost
+    #   The estimated cost of the Savings Plan over the length of the
+    #   lookback period.
+    #   @return [String]
+    #
+    # @!attribute [rw] latest_usage_timestamp
+    #   The date and time of the last hour that went into the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] upfront_cost
+    #   The upfront cost of the Savings Plan based on the selected payment
+    #   option.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_metadata
+    #   Additional metadata that might be applicable to the commitment.
+    #   @return [String]
+    #
+    # @!attribute [rw] metrics_over_lookback_period
+    #   The related hourly cost, coverage, and utilization metrics over the
+    #   lookback period.
+    #   @return [Array<Types::RecommendationDetailHourlyMetrics>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/SavingsPlansPurchaseAnalysisDetails AWS API Documentation
+    #
+    class SavingsPlansPurchaseAnalysisDetails < Struct.new(
+      :currency_code,
+      :lookback_period_in_hours,
+      :current_average_coverage,
+      :current_average_hourly_on_demand_spend,
+      :current_maximum_hourly_on_demand_spend,
+      :current_minimum_hourly_on_demand_spend,
+      :current_on_demand_spend,
+      :existing_hourly_commitment,
+      :hourly_commitment_to_purchase,
+      :estimated_average_coverage,
+      :estimated_average_utilization,
+      :estimated_monthly_savings_amount,
+      :estimated_on_demand_cost,
+      :estimated_on_demand_cost_with_current_commitment,
+      :estimated_roi,
+      :estimated_savings_amount,
+      :estimated_savings_percentage,
+      :estimated_commitment_cost,
+      :latest_usage_timestamp,
+      :upfront_cost,
+      :additional_metadata,
+      :metrics_over_lookback_period)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5945,6 +6957,11 @@ module Aws::CostExplorer
     #   of the applicable usage type.
     #   @return [String]
     #
+    # @!attribute [rw] recommendation_detail_id
+    #   Contains detailed information about a specific Savings Plan
+    #   recommendation.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/SavingsPlansPurchaseRecommendationDetail AWS API Documentation
     #
     class SavingsPlansPurchaseRecommendationDetail < Struct.new(
@@ -5963,7 +6980,8 @@ module Aws::CostExplorer
       :estimated_monthly_savings_amount,
       :current_minimum_hourly_on_demand_spend,
       :current_maximum_hourly_on_demand_spend,
-      :current_average_hourly_on_demand_spend)
+      :current_average_hourly_on_demand_spend,
+      :recommendation_detail_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6275,6 +7293,67 @@ module Aws::CostExplorer
     class SortDefinition < Struct.new(
       :key,
       :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] commitment_purchase_analysis_configuration
+    #   The configuration for the commitment purchase analysis.
+    #   @return [Types::CommitmentPurchaseAnalysisConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/StartCommitmentPurchaseAnalysisRequest AWS API Documentation
+    #
+    class StartCommitmentPurchaseAnalysisRequest < Struct.new(
+      :commitment_purchase_analysis_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_id
+    #   The analysis ID that's associated with the commitment purchase
+    #   analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_started_time
+    #   The start time of the analysis.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimated_completion_time
+    #   The estimated time for when the analysis will complete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/StartCommitmentPurchaseAnalysisResponse AWS API Documentation
+    #
+    class StartCommitmentPurchaseAnalysisResponse < Struct.new(
+      :analysis_id,
+      :analysis_started_time,
+      :estimated_completion_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] backfill_from
+    #   The date you want the backfill to start from. The date can only be a
+    #   first day of the month (a billing start date). Dates can't precede
+    #   the previous twelve months, or in the future.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/StartCostAllocationTagBackfillRequest AWS API Documentation
+    #
+    class StartCostAllocationTagBackfillRequest < Struct.new(
+      :backfill_from)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] backfill_request
+    #   An object containing detailed metadata of your new backfill request.
+    #   @return [Types::CostAllocationTagBackfillRequest]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/StartCostAllocationTagBackfillResponse AWS API Documentation
+    #
+    class StartCostAllocationTagBackfillResponse < Struct.new(
+      :backfill_request)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6640,6 +7719,9 @@ module Aws::CostExplorer
     #   This field has been deprecated. To update a threshold, use
     #   ThresholdExpression. Continued use of Threshold will be treated as
     #   shorthand syntax for a ThresholdExpression.
+    #
+    #   You can specify either Threshold or ThresholdExpression, but not
+    #   both.
     #   @return [Float]
     #
     # @!attribute [rw] frequency
@@ -6664,37 +7746,44 @@ module Aws::CostExplorer
     #   anomalies that you want to generate alerts for. This supports
     #   dimensions and nested expressions. The supported dimensions are
     #   `ANOMALY_TOTAL_IMPACT_ABSOLUTE` and
-    #   `ANOMALY_TOTAL_IMPACT_PERCENTAGE`. The supported nested expression
-    #   types are `AND` and `OR`. The match option `GREATER_THAN_OR_EQUAL`
-    #   is required. Values must be numbers between 0 and 10,000,000,000.
+    #   `ANOMALY_TOTAL_IMPACT_PERCENTAGE`, corresponding to an anomaly’s
+    #   TotalImpact and TotalImpactPercentage, respectively (see [Impact][2]
+    #   for more details). The supported nested expression types are `AND`
+    #   and `OR`. The match option `GREATER_THAN_OR_EQUAL` is required.
+    #   Values must be numbers between 0 and 10,000,000,000 in string
+    #   format.
+    #
+    #   You can specify either Threshold or ThresholdExpression, but not
+    #   both.
     #
     #   The following are examples of valid ThresholdExpressions:
     #
-    #   * Absolute threshold: `\{ "Dimensions": \{ "Key":
+    #   * Absolute threshold: `{ "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }`
     #
-    #   * Percentage threshold: `\{ "Dimensions": \{ "Key":
+    #   * Percentage threshold: `{ "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }`
     #
-    #   * `AND` two thresholds together: `\{ "And": [ \{ "Dimensions": \{
+    #   * `AND` two thresholds together: `{ "And": [ { "Dimensions": {
     #     "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}, \{
-    #     "Dimensions": \{ "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
-    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ]
-    #     \} \} ] \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, {
+    #     "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
+    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] }
+    #     } ] }`
     #
-    #   * `OR` two thresholds together: `\{ "Or": [ \{ "Dimensions": \{
-    #     "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}, \{
-    #     "Dimensions": \{ "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
-    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ]
-    #     \} \} ] \}`
+    #   * `OR` two thresholds together: `{ "Or": [ { "Dimensions": { "Key":
+    #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, {
+    #     "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
+    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] }
+    #     } ] }`
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html
+    #   [2]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html
     #   @return [Types::Expression]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/UpdateAnomalySubscriptionRequest AWS API Documentation
@@ -6865,3 +7954,4 @@ module Aws::CostExplorer
 
   end
 end
+

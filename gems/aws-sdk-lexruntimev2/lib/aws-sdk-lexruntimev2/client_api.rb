@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::LexRuntimeV2
   # @api private
   module ClientApi
@@ -62,6 +63,7 @@ module Aws::LexRuntimeV2
     IntentState = Shapes::StringShape.new(name: 'IntentState')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     Interpretation = Shapes::StructureShape.new(name: 'Interpretation')
+    InterpretationSource = Shapes::StringShape.new(name: 'InterpretationSource')
     Interpretations = Shapes::ListShape.new(name: 'Interpretations')
     LocaleId = Shapes::StringShape.new(name: 'LocaleId')
     Message = Shapes::StructureShape.new(name: 'Message')
@@ -242,6 +244,7 @@ module Aws::LexRuntimeV2
     Interpretation.add_member(:nlu_confidence, Shapes::ShapeRef.new(shape: ConfidenceScore, location_name: "nluConfidence"))
     Interpretation.add_member(:sentiment_response, Shapes::ShapeRef.new(shape: SentimentResponse, location_name: "sentimentResponse"))
     Interpretation.add_member(:intent, Shapes::ShapeRef.new(shape: Intent, location_name: "intent"))
+    Interpretation.add_member(:interpretation_source, Shapes::ShapeRef.new(shape: InterpretationSource, location_name: "interpretationSource"))
     Interpretation.struct_class = Types::Interpretation
 
     Interpretations.member = Shapes::ShapeRef.new(shape: Interpretation)
@@ -456,10 +459,12 @@ module Aws::LexRuntimeV2
 
       api.metadata = {
         "apiVersion" => "2020-08-07",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "runtime-v2-lex",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
         "protocolSettings" => {"h2"=>"eventstream"},
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "Lex Runtime V2",
         "serviceFullName" => "Amazon Lex Runtime V2",
         "serviceId" => "Lex Runtime V2",
@@ -532,6 +537,7 @@ module Aws::LexRuntimeV2
         o.http_method = "POST"
         o.http_request_uri = "/bots/{botId}/botAliases/{botAliasId}/botLocales/{localeId}/sessions/{sessionId}/utterance"
         o['authtype'] = "v4-unsigned-body"
+        o['unsignedPayload'] = true
         o.input = Shapes::ShapeRef.new(shape: RecognizeUtteranceRequest)
         o.output = Shapes::ShapeRef.new(shape: RecognizeUtteranceResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)

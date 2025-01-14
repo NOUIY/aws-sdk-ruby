@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Organizations
   # @api private
   module ClientApi
@@ -915,9 +916,11 @@ module Aws::Organizations
 
       api.metadata = {
         "apiVersion" => "2016-11-28",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "organizations",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Organizations",
         "serviceFullName" => "AWS Organizations",
         "serviceId" => "Organizations",
@@ -1382,6 +1385,7 @@ module Aws::Organizations
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: AWSOrganizationsNotInUseException)
         o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConstraintViolationException)
         o.errors << Shapes::ShapeRef.new(shape: HandshakeConstraintViolationException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)

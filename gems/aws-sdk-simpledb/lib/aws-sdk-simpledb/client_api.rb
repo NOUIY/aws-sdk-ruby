@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::SimpleDB
   # @api private
   module ClientApi
@@ -14,7 +15,7 @@ module Aws::SimpleDB
     include Seahorse::Model
 
     Attribute = Shapes::StructureShape.new(name: 'Attribute')
-    AttributeDoesNotExist = Shapes::StructureShape.new(name: 'AttributeDoesNotExist')
+    AttributeDoesNotExist = Shapes::StructureShape.new(name: 'AttributeDoesNotExist', error: {"code"=>"AttributeDoesNotExist", "httpStatusCode"=>404, "senderFault"=>true})
     AttributeList = Shapes::ListShape.new(name: 'AttributeList', flattened: true)
     AttributeNameList = Shapes::ListShape.new(name: 'AttributeNameList', flattened: true)
     BatchDeleteAttributesRequest = Shapes::StructureShape.new(name: 'BatchDeleteAttributesRequest')
@@ -28,39 +29,39 @@ module Aws::SimpleDB
     DomainMetadataRequest = Shapes::StructureShape.new(name: 'DomainMetadataRequest')
     DomainMetadataResult = Shapes::StructureShape.new(name: 'DomainMetadataResult')
     DomainNameList = Shapes::ListShape.new(name: 'DomainNameList', flattened: true)
-    DuplicateItemName = Shapes::StructureShape.new(name: 'DuplicateItemName')
+    DuplicateItemName = Shapes::StructureShape.new(name: 'DuplicateItemName', error: {"code"=>"DuplicateItemName", "httpStatusCode"=>400, "senderFault"=>true})
     Float = Shapes::FloatShape.new(name: 'Float')
     GetAttributesRequest = Shapes::StructureShape.new(name: 'GetAttributesRequest')
     GetAttributesResult = Shapes::StructureShape.new(name: 'GetAttributesResult')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
-    InvalidNextToken = Shapes::StructureShape.new(name: 'InvalidNextToken')
-    InvalidNumberPredicates = Shapes::StructureShape.new(name: 'InvalidNumberPredicates')
-    InvalidNumberValueTests = Shapes::StructureShape.new(name: 'InvalidNumberValueTests')
-    InvalidParameterValue = Shapes::StructureShape.new(name: 'InvalidParameterValue')
-    InvalidQueryExpression = Shapes::StructureShape.new(name: 'InvalidQueryExpression')
+    InvalidNextToken = Shapes::StructureShape.new(name: 'InvalidNextToken', error: {"code"=>"InvalidNextToken", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidNumberPredicates = Shapes::StructureShape.new(name: 'InvalidNumberPredicates', error: {"code"=>"InvalidNumberPredicates", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidNumberValueTests = Shapes::StructureShape.new(name: 'InvalidNumberValueTests', error: {"code"=>"InvalidNumberValueTests", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidParameterValue = Shapes::StructureShape.new(name: 'InvalidParameterValue', error: {"code"=>"InvalidParameterValue", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidQueryExpression = Shapes::StructureShape.new(name: 'InvalidQueryExpression', error: {"code"=>"InvalidQueryExpression", "httpStatusCode"=>400, "senderFault"=>true})
     Item = Shapes::StructureShape.new(name: 'Item')
     ItemList = Shapes::ListShape.new(name: 'ItemList', flattened: true)
     ListDomainsRequest = Shapes::StructureShape.new(name: 'ListDomainsRequest')
     ListDomainsResult = Shapes::StructureShape.new(name: 'ListDomainsResult')
     Long = Shapes::IntegerShape.new(name: 'Long')
-    MissingParameter = Shapes::StructureShape.new(name: 'MissingParameter')
-    NoSuchDomain = Shapes::StructureShape.new(name: 'NoSuchDomain')
-    NumberDomainAttributesExceeded = Shapes::StructureShape.new(name: 'NumberDomainAttributesExceeded')
-    NumberDomainBytesExceeded = Shapes::StructureShape.new(name: 'NumberDomainBytesExceeded')
-    NumberDomainsExceeded = Shapes::StructureShape.new(name: 'NumberDomainsExceeded')
-    NumberItemAttributesExceeded = Shapes::StructureShape.new(name: 'NumberItemAttributesExceeded')
-    NumberSubmittedAttributesExceeded = Shapes::StructureShape.new(name: 'NumberSubmittedAttributesExceeded')
-    NumberSubmittedItemsExceeded = Shapes::StructureShape.new(name: 'NumberSubmittedItemsExceeded')
+    MissingParameter = Shapes::StructureShape.new(name: 'MissingParameter', error: {"code"=>"MissingParameter", "httpStatusCode"=>400, "senderFault"=>true})
+    NoSuchDomain = Shapes::StructureShape.new(name: 'NoSuchDomain', error: {"code"=>"NoSuchDomain", "httpStatusCode"=>400, "senderFault"=>true})
+    NumberDomainAttributesExceeded = Shapes::StructureShape.new(name: 'NumberDomainAttributesExceeded', error: {"code"=>"NumberDomainAttributesExceeded", "httpStatusCode"=>409, "senderFault"=>true})
+    NumberDomainBytesExceeded = Shapes::StructureShape.new(name: 'NumberDomainBytesExceeded', error: {"code"=>"NumberDomainBytesExceeded", "httpStatusCode"=>409, "senderFault"=>true})
+    NumberDomainsExceeded = Shapes::StructureShape.new(name: 'NumberDomainsExceeded', error: {"code"=>"NumberDomainsExceeded", "httpStatusCode"=>409, "senderFault"=>true})
+    NumberItemAttributesExceeded = Shapes::StructureShape.new(name: 'NumberItemAttributesExceeded', error: {"code"=>"NumberItemAttributesExceeded", "httpStatusCode"=>409, "senderFault"=>true})
+    NumberSubmittedAttributesExceeded = Shapes::StructureShape.new(name: 'NumberSubmittedAttributesExceeded', error: {"code"=>"NumberSubmittedAttributesExceeded", "httpStatusCode"=>409, "senderFault"=>true})
+    NumberSubmittedItemsExceeded = Shapes::StructureShape.new(name: 'NumberSubmittedItemsExceeded', error: {"code"=>"NumberSubmittedItemsExceeded", "httpStatusCode"=>409, "senderFault"=>true})
     PutAttributesRequest = Shapes::StructureShape.new(name: 'PutAttributesRequest')
     ReplaceableAttribute = Shapes::StructureShape.new(name: 'ReplaceableAttribute')
     ReplaceableAttributeList = Shapes::ListShape.new(name: 'ReplaceableAttributeList', flattened: true)
     ReplaceableItem = Shapes::StructureShape.new(name: 'ReplaceableItem')
     ReplaceableItemList = Shapes::ListShape.new(name: 'ReplaceableItemList', flattened: true)
-    RequestTimeout = Shapes::StructureShape.new(name: 'RequestTimeout')
+    RequestTimeout = Shapes::StructureShape.new(name: 'RequestTimeout', error: {"code"=>"RequestTimeout", "httpStatusCode"=>408, "senderFault"=>true})
     SelectRequest = Shapes::StructureShape.new(name: 'SelectRequest')
     SelectResult = Shapes::StructureShape.new(name: 'SelectResult')
     String = Shapes::StringShape.new(name: 'String')
-    TooManyRequestedAttributes = Shapes::StructureShape.new(name: 'TooManyRequestedAttributes')
+    TooManyRequestedAttributes = Shapes::StructureShape.new(name: 'TooManyRequestedAttributes', error: {"code"=>"TooManyRequestedAttributes", "httpStatusCode"=>400, "senderFault"=>true})
     UpdateCondition = Shapes::StructureShape.new(name: 'UpdateCondition')
 
     Attribute.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Name"))
@@ -77,25 +78,25 @@ module Aws::SimpleDB
     AttributeNameList.member = Shapes::ShapeRef.new(shape: String, location_name: "AttributeName")
 
     BatchDeleteAttributesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DomainName"))
-    BatchDeleteAttributesRequest.add_member(:items, Shapes::ShapeRef.new(shape: DeletableItemList, required: true, location_name: "Items"))
+    BatchDeleteAttributesRequest.add_member(:items, Shapes::ShapeRef.new(shape: DeletableItemList, required: true, location_name: "Item"))
     BatchDeleteAttributesRequest.struct_class = Types::BatchDeleteAttributesRequest
 
     BatchPutAttributesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DomainName"))
-    BatchPutAttributesRequest.add_member(:items, Shapes::ShapeRef.new(shape: ReplaceableItemList, required: true, location_name: "Items"))
+    BatchPutAttributesRequest.add_member(:items, Shapes::ShapeRef.new(shape: ReplaceableItemList, required: true, location_name: "Item"))
     BatchPutAttributesRequest.struct_class = Types::BatchPutAttributesRequest
 
     CreateDomainRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DomainName"))
     CreateDomainRequest.struct_class = Types::CreateDomainRequest
 
     DeletableItem.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ItemName"))
-    DeletableItem.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, location_name: "Attributes"))
+    DeletableItem.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, location_name: "Attribute"))
     DeletableItem.struct_class = Types::DeletableItem
 
     DeletableItemList.member = Shapes::ShapeRef.new(shape: DeletableItem, location_name: "Item")
 
     DeleteAttributesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DomainName"))
     DeleteAttributesRequest.add_member(:item_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ItemName"))
-    DeleteAttributesRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, location_name: "Attributes"))
+    DeleteAttributesRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, location_name: "Attribute"))
     DeleteAttributesRequest.add_member(:expected, Shapes::ShapeRef.new(shape: UpdateCondition, location_name: "Expected"))
     DeleteAttributesRequest.struct_class = Types::DeleteAttributesRequest
 
@@ -121,11 +122,11 @@ module Aws::SimpleDB
 
     GetAttributesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DomainName"))
     GetAttributesRequest.add_member(:item_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ItemName"))
-    GetAttributesRequest.add_member(:attribute_names, Shapes::ShapeRef.new(shape: AttributeNameList, location_name: "AttributeNames"))
+    GetAttributesRequest.add_member(:attribute_names, Shapes::ShapeRef.new(shape: AttributeNameList, location_name: "AttributeName"))
     GetAttributesRequest.add_member(:consistent_read, Shapes::ShapeRef.new(shape: Boolean, location_name: "ConsistentRead"))
     GetAttributesRequest.struct_class = Types::GetAttributesRequest
 
-    GetAttributesResult.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, location_name: "Attributes"))
+    GetAttributesResult.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, location_name: "Attribute"))
     GetAttributesResult.struct_class = Types::GetAttributesResult
 
     InvalidNextToken.add_member(:box_usage, Shapes::ShapeRef.new(shape: Float, location_name: "BoxUsage"))
@@ -145,7 +146,7 @@ module Aws::SimpleDB
 
     Item.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Name"))
     Item.add_member(:alternate_name_encoding, Shapes::ShapeRef.new(shape: String, location_name: "AlternateNameEncoding"))
-    Item.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, required: true, location_name: "Attributes"))
+    Item.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeList, required: true, location_name: "Attribute"))
     Item.struct_class = Types::Item
 
     ItemList.member = Shapes::ShapeRef.new(shape: Item, location_name: "Item")
@@ -154,7 +155,7 @@ module Aws::SimpleDB
     ListDomainsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     ListDomainsRequest.struct_class = Types::ListDomainsRequest
 
-    ListDomainsResult.add_member(:domain_names, Shapes::ShapeRef.new(shape: DomainNameList, location_name: "DomainNames"))
+    ListDomainsResult.add_member(:domain_names, Shapes::ShapeRef.new(shape: DomainNameList, location_name: "DomainName"))
     ListDomainsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     ListDomainsResult.struct_class = Types::ListDomainsResult
 
@@ -184,7 +185,7 @@ module Aws::SimpleDB
 
     PutAttributesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DomainName"))
     PutAttributesRequest.add_member(:item_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ItemName"))
-    PutAttributesRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: ReplaceableAttributeList, required: true, location_name: "Attributes"))
+    PutAttributesRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: ReplaceableAttributeList, required: true, location_name: "Attribute"))
     PutAttributesRequest.add_member(:expected, Shapes::ShapeRef.new(shape: UpdateCondition, location_name: "Expected"))
     PutAttributesRequest.struct_class = Types::PutAttributesRequest
 
@@ -196,7 +197,7 @@ module Aws::SimpleDB
     ReplaceableAttributeList.member = Shapes::ShapeRef.new(shape: ReplaceableAttribute, location_name: "Attribute")
 
     ReplaceableItem.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ItemName"))
-    ReplaceableItem.add_member(:attributes, Shapes::ShapeRef.new(shape: ReplaceableAttributeList, required: true, location_name: "Attributes"))
+    ReplaceableItem.add_member(:attributes, Shapes::ShapeRef.new(shape: ReplaceableAttributeList, required: true, location_name: "Attribute"))
     ReplaceableItem.struct_class = Types::ReplaceableItem
 
     ReplaceableItemList.member = Shapes::ShapeRef.new(shape: ReplaceableItem, location_name: "Item")
@@ -209,7 +210,7 @@ module Aws::SimpleDB
     SelectRequest.add_member(:consistent_read, Shapes::ShapeRef.new(shape: Boolean, location_name: "ConsistentRead"))
     SelectRequest.struct_class = Types::SelectRequest
 
-    SelectResult.add_member(:items, Shapes::ShapeRef.new(shape: ItemList, location_name: "Items"))
+    SelectResult.add_member(:items, Shapes::ShapeRef.new(shape: ItemList, location_name: "Item"))
     SelectResult.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     SelectResult.struct_class = Types::SelectResult
 
@@ -232,6 +233,7 @@ module Aws::SimpleDB
         "endpointPrefix" => "sdb",
         "protocol" => "query",
         "serviceFullName" => "Amazon SimpleDB",
+        "serviceId" => "SimpleDB",
         "signatureVersion" => "v2",
         "uid" => "sdb-2009-04-15",
         "xmlNamespace" => "http://sdb.amazonaws.com/doc/2009-04-15/",

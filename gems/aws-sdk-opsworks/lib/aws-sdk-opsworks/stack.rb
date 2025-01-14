@@ -40,7 +40,7 @@ module Aws::OpsWorks
       data[:stack_id]
     end
 
-    # The stack name.
+    # The stack name. Stack names can be a maximum of 64 characters.
     # @return [String]
     def name
       data[:name]
@@ -52,8 +52,9 @@ module Aws::OpsWorks
       data[:arn]
     end
 
-    # The stack AWS region, such as "ap-northeast-2". For more information
-    # about AWS regions, see [Regions and Endpoints][1].
+    # The stack Amazon Web Services Region, such as `ap-northeast-2`. For
+    # more information about Amazon Web Services Regions, see [Regions and
+    # Endpoints][1].
     #
     #
     #
@@ -75,7 +76,7 @@ module Aws::OpsWorks
       data[:attributes]
     end
 
-    # The stack AWS Identity and Access Management (IAM) role.
+    # The stack Identity and Access Management (IAM) role.
     # @return [String]
     def service_role_arn
       data[:service_role_arn]
@@ -129,7 +130,7 @@ module Aws::OpsWorks
     # values or to pass data to recipes. The string should be in the
     # following format:
     #
-    # `"\{"key1": "value1", "key2": "value2",...\}"`
+    # `"{"key1": "value1", "key2": "value2",...}"`
     #
     # For more information on custom JSON, see [Use Custom JSON to Modify
     # the Stack Configuration Attributes][1].
@@ -166,7 +167,7 @@ module Aws::OpsWorks
       data[:use_custom_cookbooks]
     end
 
-    # Whether the stack automatically associates the AWS OpsWorks Stacks
+    # Whether the stack automatically associates the OpsWorks Stacks
     # built-in security groups with the stack's layers.
     # @return [Boolean]
     def use_opsworks_security_groups
@@ -232,7 +233,9 @@ module Aws::OpsWorks
     #
     # @return [self]
     def load
-      resp = @client.describe_stacks(stack_ids: [@id])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_stacks(stack_ids: [@id])
+      end
       @data = resp.stacks[0]
       self
     end
@@ -347,7 +350,9 @@ module Aws::OpsWorks
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -419,17 +424,18 @@ module Aws::OpsWorks
     #   the same type. It can have any number of custom layers. Built-in
     #   layers are not available in Chef 12 stacks.
     # @option options [required, String] :name
-    #   The layer name, which is used by the console.
+    #   The layer name, which is used by the console. Layer names can be a
+    #   maximum of 32 characters.
     # @option options [required, String] :shortname
     #   For custom layers only, use this parameter to specify the layer's
-    #   short name, which is used internally by AWS OpsWorks Stacks and by
-    #   Chef recipes. The short name is also used as the name for the
-    #   directory where your app files are installed. It can have a maximum of
-    #   200 characters, which are limited to the alphanumeric characters,
-    #   '-', '\_', and '.'.
+    #   short name, which is used internally by OpsWorks Stacks and by Chef
+    #   recipes. The short name is also used as the name for the directory
+    #   where your app files are installed. It can have a maximum of 32
+    #   characters, which are limited to the alphanumeric characters, '-',
+    #   '\_', and '.'.
     #
-    #   The built-in layers' short names are defined by AWS OpsWorks Stacks.
-    #   For more information, see the [Layer Reference][1].
+    #   Built-in layer short names are defined by OpsWorks Stacks. For more
+    #   information, see the [Layer Reference][1].
     #
     #
     #
@@ -454,7 +460,7 @@ module Aws::OpsWorks
     #   A JSON-formatted string containing custom stack configuration and
     #   deployment attributes to be installed on the layer's instances. For
     #   more information, see [ Using Custom JSON][1]. This feature is
-    #   supported as of version 1.7.42 of the AWS CLI.
+    #   supported as of version 1.7.42 of the CLI.
     #
     #
     #
@@ -508,7 +514,9 @@ module Aws::OpsWorks
     # @return [Layer]
     def create_layer(options = {})
       options = options.merge(stack_id: @id)
-      resp = @client.create_layer(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_layer(options)
+      end
       Layer.new(
         id: resp.data.layer_id,
         client: @client
@@ -522,7 +530,9 @@ module Aws::OpsWorks
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(stack_id: @id)
-      resp = @client.delete_stack(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_stack(options)
+      end
       resp.data
     end
 
@@ -543,7 +553,9 @@ module Aws::OpsWorks
       batches = Enumerator.new do |y|
         batch = []
         options = options.merge(stack_id: @id)
-        resp = @client.describe_layers(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_layers(options)
+        end
         resp.data.layers.each do |l|
           batch << Layer.new(
             id: l.layer_id,

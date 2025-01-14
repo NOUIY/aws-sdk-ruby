@@ -138,11 +138,84 @@ module Aws::ElasticLoadBalancingV2
     #
     class AddTagsOutput < Aws::EmptyStructure; end
 
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_contents
+    #   The revocation file to add.
+    #   @return [Array<Types::RevocationContent>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AddTrustStoreRevocationsInput AWS API Documentation
+    #
+    class AddTrustStoreRevocationsInput < Struct.new(
+      :trust_store_arn,
+      :revocation_contents)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_revocations
+    #   Information about the revocation file added to the trust store.
+    #   @return [Array<Types::TrustStoreRevocation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AddTrustStoreRevocationsOutput AWS API Documentation
+    #
+    class AddTrustStoreRevocationsOutput < Struct.new(
+      :trust_store_revocations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the override status applied to a target.
+    #
+    # @!attribute [rw] state
+    #   The state of the override.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason
+    #   The reason code for the state.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the override state that provides additional
+    #   details.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AdministrativeOverride AWS API Documentation
+    #
+    class AdministrativeOverride < Struct.new(
+      :state,
+      :reason,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The specified allocation ID does not exist.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AllocationIdNotFoundException AWS API Documentation
     #
     class AllocationIdNotFoundException < Aws::EmptyStructure; end
+
+    # Information about anomaly detection and mitigation.
+    #
+    # @!attribute [rw] result
+    #   The latest anomaly detection result.
+    #   @return [String]
+    #
+    # @!attribute [rw] mitigation_in_effect
+    #   Indicates whether anomaly mitigation is in progress.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AnomalyDetection AWS API Documentation
+    #
+    class AnomalyDetection < Struct.new(
+      :result,
+      :mitigation_in_effect)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Request parameters to use when integrating with Amazon Cognito to
     # authenticate users.
@@ -326,13 +399,21 @@ module Aws::ElasticLoadBalancingV2
     #   from the IPv4 range of the subnet.
     #   @return [Array<Types::LoadBalancerAddress>]
     #
+    # @!attribute [rw] source_nat_ipv_6_prefixes
+    #   \[Network Load Balancers with UDP listeners\] The IPv6 prefixes to
+    #   use for source NAT. For each subnet, specify an IPv6 prefix (/80
+    #   netmask) from the subnet CIDR block or `auto_assigned` to use an
+    #   IPv6 prefix selected at random from the subnet CIDR block.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AvailabilityZone AWS API Documentation
     #
     class AvailabilityZone < Struct.new(
       :zone_name,
       :subnet_id,
       :outpost_id,
-      :load_balancer_addresses)
+      :load_balancer_addresses,
+      :source_nat_ipv_6_prefixes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -342,6 +423,50 @@ module Aws::ElasticLoadBalancingV2
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AvailabilityZoneNotSupportedException AWS API Documentation
     #
     class AvailabilityZoneNotSupportedException < Aws::EmptyStructure; end
+
+    # The specified ca certificate bundle does not exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CaCertificatesBundleNotFoundException AWS API Documentation
+    #
+    class CaCertificatesBundleNotFoundException < Aws::EmptyStructure; end
+
+    # You've exceeded the daily capacity decrease limit for this
+    # reservation.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CapacityDecreaseRequestsLimitExceededException AWS API Documentation
+    #
+    class CapacityDecreaseRequestsLimitExceededException < Aws::EmptyStructure; end
+
+    # There is a pending capacity reservation.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CapacityReservationPendingException AWS API Documentation
+    #
+    class CapacityReservationPendingException < Aws::EmptyStructure; end
+
+    # The status of a capacity reservation.
+    #
+    # @!attribute [rw] code
+    #   The status code.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason
+    #   The reason code for the status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CapacityReservationStatus AWS API Documentation
+    #
+    class CapacityReservationStatus < Struct.new(
+      :code,
+      :reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # You've exceeded the capacity units limit.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CapacityUnitsLimitExceededException AWS API Documentation
+    #
+    class CapacityUnitsLimitExceededException < Aws::EmptyStructure; end
 
     # Information about an SSL server certificate.
     #
@@ -399,12 +524,12 @@ module Aws::ElasticLoadBalancingV2
     #   Application Load Balancers, the supported protocols are HTTP and
     #   HTTPS. For Network Load Balancers, the supported protocols are TCP,
     #   TLS, UDP, and TCP\_UDP. You can’t specify the UDP or TCP\_UDP
-    #   protocol if dual-stack mode is enabled. You cannot specify a
+    #   protocol if dual-stack mode is enabled. You can't specify a
     #   protocol for a Gateway Load Balancer.
     #   @return [String]
     #
     # @!attribute [rw] port
-    #   The port on which the load balancer is listening. You cannot specify
+    #   The port on which the load balancer is listening. You can't specify
     #   a port for a Gateway Load Balancer.
     #   @return [Integer]
     #
@@ -459,6 +584,10 @@ module Aws::ElasticLoadBalancingV2
     #   The tags to assign to the listener.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] mutual_authentication
+    #   The mutual authentication configuration information.
+    #   @return [Types::MutualAuthenticationAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateListenerInput AWS API Documentation
     #
     class CreateListenerInput < Struct.new(
@@ -469,7 +598,8 @@ module Aws::ElasticLoadBalancingV2
       :certificates,
       :default_actions,
       :alpn_policy,
-      :tags)
+      :tags,
+      :mutual_authentication)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -496,7 +626,7 @@ module Aws::ElasticLoadBalancingV2
     #   @return [String]
     #
     # @!attribute [rw] subnets
-    #   The IDs of the public subnets. You can specify only one subnet per
+    #   The IDs of the subnets. You can specify only one subnet per
     #   Availability Zone. You must specify either subnets or subnet
     #   mappings, but not both. To specify an Elastic IP address, specify
     #   subnet mappings instead of subnets.
@@ -510,20 +640,17 @@ module Aws::ElasticLoadBalancingV2
     #   \[Application Load Balancers on Local Zones\] You can specify
     #   subnets from one or more Local Zones.
     #
-    #   \[Network Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones.
-    #
-    #   \[Gateway Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones.
+    #   \[Network Load Balancers and Gateway Load Balancers\] You can
+    #   specify subnets from one or more Availability Zones.
     #   @return [Array<String>]
     #
     # @!attribute [rw] subnet_mappings
-    #   The IDs of the public subnets. You can specify only one subnet per
+    #   The IDs of the subnets. You can specify only one subnet per
     #   Availability Zone. You must specify either subnets or subnet
     #   mappings, but not both.
     #
     #   \[Application Load Balancers\] You must specify subnets from at
-    #   least two Availability Zones. You cannot specify Elastic IP
+    #   least two Availability Zones. You can't specify Elastic IP
     #   addresses for your subnets.
     #
     #   \[Application Load Balancers on Outposts\] You must specify one
@@ -541,13 +668,13 @@ module Aws::ElasticLoadBalancingV2
     #   subnet.
     #
     #   \[Gateway Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones. You cannot specify Elastic IP addresses for your
+    #   Availability Zones. You can't specify Elastic IP addresses for your
     #   subnets.
     #   @return [Array<Types::SubnetMapping>]
     #
     # @!attribute [rw] security_groups
-    #   \[Application Load Balancers\] The IDs of the security groups for
-    #   the load balancer.
+    #   \[Application Load Balancers and Network Load Balancers\] The IDs of
+    #   the security groups for the load balancer.
     #   @return [Array<String>]
     #
     # @!attribute [rw] scheme
@@ -565,7 +692,7 @@ module Aws::ElasticLoadBalancingV2
     #
     #   The default is an Internet-facing load balancer.
     #
-    #   You cannot specify a scheme for a Gateway Load Balancer.
+    #   You can't specify a scheme for a Gateway Load Balancer.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -577,14 +704,27 @@ module Aws::ElasticLoadBalancingV2
     #   @return [String]
     #
     # @!attribute [rw] ip_address_type
-    #   The type of IP addresses used by the subnets for your load balancer.
-    #   The possible values are `ipv4` (for IPv4 addresses) and `dualstack`
-    #   (for IPv4 and IPv6 addresses).
+    #   The IP address type. Internal load balancers must use `ipv4`.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
     #   @return [String]
     #
     # @!attribute [rw] customer_owned_ipv_4_pool
     #   \[Application Load Balancers on Outposts\] The ID of the
     #   customer-owned address pool (CoIP pool).
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_prefix_for_ipv_6_source_nat
+    #   \[Network Load Balancers with UDP listeners\] Indicates whether to
+    #   use an IPv6 prefix from each subnet for source NAT. The IP address
+    #   type must be `dualstack`. The default value is `off`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateLoadBalancerInput AWS API Documentation
@@ -598,7 +738,8 @@ module Aws::ElasticLoadBalancingV2
       :tags,
       :type,
       :ip_address_type,
-      :customer_owned_ipv_4_pool)
+      :customer_owned_ipv_4_pool,
+      :enable_prefix_for_ipv_6_source_nat)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -719,7 +860,7 @@ module Aws::ElasticLoadBalancingV2
     #   Indicates whether health checks are enabled. If the target type is
     #   `lambda`, health checks are disabled by default but can be enabled.
     #   If the target type is `instance`, `ip`, or `alb`, health checks are
-    #   always enabled and cannot be disabled.
+    #   always enabled and can't be disabled.
     #   @return [Boolean]
     #
     # @!attribute [rw] health_check_path
@@ -801,9 +942,7 @@ module Aws::ElasticLoadBalancingV2
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] ip_address_type
-    #   The type of IP address used for this target group. The possible
-    #   values are `ipv4` and `ipv6`. This is an optional parameter. If not
-    #   specified, the IP address type defaults to `ipv4`.
+    #   The IP address type. The default value is `ipv4`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateTargetGroupInput AWS API Documentation
@@ -841,6 +980,60 @@ module Aws::ElasticLoadBalancingV2
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] name
+    #   The name of the trust store.
+    #
+    #   This name must be unique per region and can't be changed after
+    #   creation.
+    #   @return [String]
+    #
+    # @!attribute [rw] ca_certificates_bundle_s3_bucket
+    #   The Amazon S3 bucket for the ca certificates bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] ca_certificates_bundle_s3_key
+    #   The Amazon S3 path for the ca certificates bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] ca_certificates_bundle_s3_object_version
+    #   The Amazon S3 object version for the ca certificates bundle. If
+    #   undefined the current version is used.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to assign to the trust store.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateTrustStoreInput AWS API Documentation
+    #
+    class CreateTrustStoreInput < Struct.new(
+      :name,
+      :ca_certificates_bundle_s3_bucket,
+      :ca_certificates_bundle_s3_key,
+      :ca_certificates_bundle_s3_object_version,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_stores
+    #   Information about the trust store created.
+    #   @return [Array<Types::TrustStore>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateTrustStoreOutput AWS API Documentation
+    #
+    class CreateTrustStoreOutput < Struct.new(
+      :trust_stores)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified association can't be within the same account.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteAssociationSameAccountException AWS API Documentation
+    #
+    class DeleteAssociationSameAccountException < Aws::EmptyStructure; end
 
     # @!attribute [rw] listener_arn
     #   The Amazon Resource Name (ARN) of the listener.
@@ -890,6 +1083,27 @@ module Aws::ElasticLoadBalancingV2
     #
     class DeleteRuleOutput < Aws::EmptyStructure; end
 
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteSharedTrustStoreAssociationInput AWS API Documentation
+    #
+    class DeleteSharedTrustStoreAssociationInput < Struct.new(
+      :trust_store_arn,
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteSharedTrustStoreAssociationOutput AWS API Documentation
+    #
+    class DeleteSharedTrustStoreAssociationOutput < Aws::EmptyStructure; end
+
     # @!attribute [rw] target_group_arn
     #   The Amazon Resource Name (ARN) of the target group.
     #   @return [String]
@@ -905,6 +1119,22 @@ module Aws::ElasticLoadBalancingV2
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteTargetGroupOutput AWS API Documentation
     #
     class DeleteTargetGroupOutput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteTrustStoreInput AWS API Documentation
+    #
+    class DeleteTrustStoreInput < Struct.new(
+      :trust_store_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteTrustStoreOutput AWS API Documentation
+    #
+    class DeleteTrustStoreOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] target_group_arn
     #   The Amazon Resource Name (ARN) of the target group.
@@ -961,6 +1191,69 @@ module Aws::ElasticLoadBalancingV2
     class DescribeAccountLimitsOutput < Struct.new(
       :limits,
       :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] load_balancer_arn
+    #   The Amazon Resource Name (ARN) of the load balancer.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeCapacityReservationInput AWS API Documentation
+    #
+    class DescribeCapacityReservationInput < Struct.new(
+      :load_balancer_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] last_modified_time
+    #   The last time the capacity reservation was modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] decrease_requests_remaining
+    #   The amount of daily capacity decreases remaining.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] minimum_load_balancer_capacity
+    #   The requested minimum capacity reservation for the load balancer
+    #   @return [Types::MinimumLoadBalancerCapacity]
+    #
+    # @!attribute [rw] capacity_reservation_state
+    #   The state of the capacity reservation.
+    #   @return [Array<Types::ZonalCapacityReservationState>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeCapacityReservationOutput AWS API Documentation
+    #
+    class DescribeCapacityReservationOutput < Struct.new(
+      :last_modified_time,
+      :decrease_requests_remaining,
+      :minimum_load_balancer_capacity,
+      :capacity_reservation_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] listener_arn
+    #   The Amazon Resource Name (ARN) of the listener.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeListenerAttributesInput AWS API Documentation
+    #
+    class DescribeListenerAttributesInput < Struct.new(
+      :listener_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attributes
+    #   Information about the listener attributes.
+    #   @return [Array<Types::ListenerAttribute>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeListenerAttributesOutput AWS API Documentation
+    #
+    class DescribeListenerAttributesOutput < Struct.new(
+      :attributes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1324,11 +1617,16 @@ module Aws::ElasticLoadBalancingV2
     #   The targets.
     #   @return [Array<Types::TargetDescription>]
     #
+    # @!attribute [rw] include
+    #   Used to include anomaly detection information.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTargetHealthInput AWS API Documentation
     #
     class DescribeTargetHealthInput < Struct.new(
       :target_group_arn,
-      :targets)
+      :targets,
+      :include)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1341,6 +1639,168 @@ module Aws::ElasticLoadBalancingV2
     #
     class DescribeTargetHealthOutput < Struct.new(
       :target_health_descriptions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] marker
+    #   The marker for the next set of results. (You received this marker
+    #   from a previous call.)
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   The maximum number of results to return with this call.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreAssociationsInput AWS API Documentation
+    #
+    class DescribeTrustStoreAssociationsInput < Struct.new(
+      :trust_store_arn,
+      :marker,
+      :page_size)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_associations
+    #   Information about the resources the trust store is associated to.
+    #   @return [Array<Types::TrustStoreAssociation>]
+    #
+    # @!attribute [rw] next_marker
+    #   If there are additional results, this is the marker for the next set
+    #   of results. Otherwise, this is null.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreAssociationsOutput AWS API Documentation
+    #
+    class DescribeTrustStoreAssociationsOutput < Struct.new(
+      :trust_store_associations,
+      :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the revocations used by a trust store.
+    #
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_id
+    #   The revocation ID of a revocation file in use.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] revocation_type
+    #   The type of revocation file.
+    #   @return [String]
+    #
+    # @!attribute [rw] number_of_revoked_entries
+    #   The number of revoked certificates.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreRevocation AWS API Documentation
+    #
+    class DescribeTrustStoreRevocation < Struct.new(
+      :trust_store_arn,
+      :revocation_id,
+      :revocation_type,
+      :number_of_revoked_entries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_ids
+    #   The revocation IDs of the revocation files you want to describe.
+    #   @return [Array<Integer>]
+    #
+    # @!attribute [rw] marker
+    #   The marker for the next set of results. (You received this marker
+    #   from a previous call.)
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   The maximum number of results to return with this call.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreRevocationsInput AWS API Documentation
+    #
+    class DescribeTrustStoreRevocationsInput < Struct.new(
+      :trust_store_arn,
+      :revocation_ids,
+      :marker,
+      :page_size)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_revocations
+    #   Information about the revocation file in the trust store.
+    #   @return [Array<Types::DescribeTrustStoreRevocation>]
+    #
+    # @!attribute [rw] next_marker
+    #   If there are additional results, this is the marker for the next set
+    #   of results. Otherwise, this is null.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreRevocationsOutput AWS API Documentation
+    #
+    class DescribeTrustStoreRevocationsOutput < Struct.new(
+      :trust_store_revocations,
+      :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_arns
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] names
+    #   The names of the trust stores.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] marker
+    #   The marker for the next set of results. (You received this marker
+    #   from a previous call.)
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   The maximum number of results to return with this call.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoresInput AWS API Documentation
+    #
+    class DescribeTrustStoresInput < Struct.new(
+      :trust_store_arns,
+      :names,
+      :marker,
+      :page_size)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_stores
+    #   Information about the trust stores.
+    #   @return [Array<Types::TrustStore>]
+    #
+    # @!attribute [rw] next_marker
+    #   If there are additional results, this is the marker for the next set
+    #   of results. Otherwise, this is null.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoresOutput AWS API Documentation
+    #
+    class DescribeTrustStoresOutput < Struct.new(
+      :trust_stores,
+      :next_marker)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1368,6 +1828,12 @@ module Aws::ElasticLoadBalancingV2
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DuplicateTargetGroupNameException AWS API Documentation
     #
     class DuplicateTargetGroupNameException < Aws::EmptyStructure; end
+
+    # A trust store with the specified name already exists.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DuplicateTrustStoreNameException AWS API Documentation
+    #
+    class DuplicateTrustStoreNameException < Aws::EmptyStructure; end
 
     # Information about an action that returns a custom HTTP response.
     #
@@ -1412,6 +1878,83 @@ module Aws::ElasticLoadBalancingV2
     class ForwardActionConfig < Struct.new(
       :target_groups,
       :target_group_stickiness_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetResourcePolicyInput AWS API Documentation
+    #
+    class GetResourcePolicyInput < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] policy
+    #   The content of the resource policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetResourcePolicyOutput AWS API Documentation
+    #
+    class GetResourcePolicyOutput < Struct.new(
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetTrustStoreCaCertificatesBundleInput AWS API Documentation
+    #
+    class GetTrustStoreCaCertificatesBundleInput < Struct.new(
+      :trust_store_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] location
+    #   The ca certificate bundles Amazon S3 URI.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetTrustStoreCaCertificatesBundleOutput AWS API Documentation
+    #
+    class GetTrustStoreCaCertificatesBundleOutput < Struct.new(
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_id
+    #   The revocation ID of the revocation file.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetTrustStoreRevocationContentInput AWS API Documentation
+    #
+    class GetTrustStoreRevocationContentInput < Struct.new(
+      :trust_store_arn,
+      :revocation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] location
+    #   The revocation files Amazon S3 URI.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetTrustStoreRevocationContentOutput AWS API Documentation
+    #
+    class GetTrustStoreRevocationContentOutput < Struct.new(
+      :location)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1517,6 +2060,19 @@ module Aws::ElasticLoadBalancingV2
     #
     class IncompatibleProtocolsException < Aws::EmptyStructure; end
 
+    # There is insufficient capacity to reserve.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/InsufficientCapacityException AWS API Documentation
+    #
+    class InsufficientCapacityException < Aws::EmptyStructure; end
+
+    # The specified ca certificate bundle is in an invalid format, or
+    # corrupt.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/InvalidCaCertificatesBundleException AWS API Documentation
+    #
+    class InvalidCaCertificatesBundleException < Aws::EmptyStructure; end
+
     # The requested configuration is not valid.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/InvalidConfigurationRequestException AWS API Documentation
@@ -1528,6 +2084,13 @@ module Aws::ElasticLoadBalancingV2
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/InvalidLoadBalancerActionException AWS API Documentation
     #
     class InvalidLoadBalancerActionException < Aws::EmptyStructure; end
+
+    # The provided revocation file is an invalid format, or uses an
+    # incorrect algorithm.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/InvalidRevocationContentException AWS API Documentation
+    #
+    class InvalidRevocationContentException < Aws::EmptyStructure; end
 
     # The requested scheme is not valid.
     #
@@ -1556,6 +2119,20 @@ module Aws::ElasticLoadBalancingV2
 
     # Information about an Elastic Load Balancing resource limit for your
     # Amazon Web Services account.
+    #
+    # For more information, see the following:
+    #
+    # * [Quotas for your Application Load Balancers][1]
+    #
+    # * [Quotas for your Network Load Balancers][2]
+    #
+    # * [Quotas for your Gateway Load Balancers][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html
+    # [2]: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html
+    # [3]: https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html
     #
     # @!attribute [rw] name
     #   The name of the limit. The possible values are:
@@ -1646,6 +2223,10 @@ module Aws::ElasticLoadBalancingV2
     #   Negotiation (ALPN) policy.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] mutual_authentication
+    #   The mutual authentication configuration information.
+    #   @return [Types::MutualAuthenticationAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/Listener AWS API Documentation
     #
     class Listener < Struct.new(
@@ -1656,7 +2237,113 @@ module Aws::ElasticLoadBalancingV2
       :certificates,
       :ssl_policy,
       :default_actions,
-      :alpn_policy)
+      :alpn_policy,
+      :mutual_authentication)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a listener attribute.
+    #
+    # @!attribute [rw] key
+    #   The name of the attribute.
+    #
+    #   The following attribute is supported by Network Load Balancers, and
+    #   Gateway Load Balancers.
+    #
+    #   * `tcp.idle_timeout.seconds` - The tcp idle timeout value, in
+    #     seconds. The valid range is 60-6000 seconds. The default is 350
+    #     seconds.
+    #
+    #   ^
+    #
+    #   The following attributes are only supported by Application Load
+    #   Balancers.
+    #
+    #   * `routing.http.request.x_amzn_mtls_clientcert_serial_number.header_name`
+    #     - Enables you to modify the header name of the
+    #     **X-Amzn-Mtls-Clientcert-Serial-Number** HTTP request header.
+    #
+    #   * `routing.http.request.x_amzn_mtls_clientcert_issuer.header_name` -
+    #     Enables you to modify the header name of the
+    #     **X-Amzn-Mtls-Clientcert-Issuer** HTTP request header.
+    #
+    #   * `routing.http.request.x_amzn_mtls_clientcert_subject.header_name`
+    #     - Enables you to modify the header name of the
+    #     **X-Amzn-Mtls-Clientcert-Subject** HTTP request header.
+    #
+    #   * `routing.http.request.x_amzn_mtls_clientcert_validity.header_name`
+    #     - Enables you to modify the header name of the
+    #     **X-Amzn-Mtls-Clientcert-Validity** HTTP request header.
+    #
+    #   * `routing.http.request.x_amzn_mtls_clientcert_leaf.header_name` -
+    #     Enables you to modify the header name of the
+    #     **X-Amzn-Mtls-Clientcert-Leaf** HTTP request header.
+    #
+    #   * `routing.http.request.x_amzn_mtls_clientcert.header_name` -
+    #     Enables you to modify the header name of the
+    #     **X-Amzn-Mtls-Clientcert** HTTP request header.
+    #
+    #   * `routing.http.request.x_amzn_tls_version.header_name` - Enables
+    #     you to modify the header name of the **X-Amzn-Tls-Version** HTTP
+    #     request header.
+    #
+    #   * `routing.http.request.x_amzn_tls_cipher_suite.header_name` -
+    #     Enables you to modify the header name of the
+    #     **X-Amzn-Tls-Cipher-Suite** HTTP request header.
+    #
+    #   * `routing.http.response.server.enabled` - Enables you to allow or
+    #     remove the HTTP response server header.
+    #
+    #   * `routing.http.response.strict_transport_security.header_value` -
+    #     Informs browsers that the site should only be accessed using
+    #     HTTPS, and that any future attempts to access it using HTTP should
+    #     automatically be converted to HTTPS.
+    #
+    #   * `routing.http.response.access_control_allow_origin.header_value` -
+    #     Specifies which origins are allowed to access the server.
+    #
+    #   * `routing.http.response.access_control_allow_methods.header_value`
+    #     - Returns which HTTP methods are allowed when accessing the server
+    #     from a different origin.
+    #
+    #   * `routing.http.response.access_control_allow_headers.header_value`
+    #     - Specifies which headers can be used during the request.
+    #
+    #   * `routing.http.response.access_control_allow_credentials.header_value`
+    #     - Indicates whether the browser should include credentials such as
+    #     cookies or authentication when making requests.
+    #
+    #   * `routing.http.response.access_control_expose_headers.header_value`
+    #     - Returns which headers the browser can expose to the requesting
+    #     client.
+    #
+    #   * `routing.http.response.access_control_max_age.header_value` -
+    #     Specifies how long the results of a preflight request can be
+    #     cached, in seconds.
+    #
+    #   * `routing.http.response.content_security_policy.header_value` -
+    #     Specifies restrictions enforced by the browser to help minimize
+    #     the risk of certain types of security threats.
+    #
+    #   * `routing.http.response.x_content_type_options.header_value` -
+    #     Indicates whether the MIME types advertised in the
+    #     **Content-Type** headers should be followed and not be changed.
+    #
+    #   * `routing.http.response.x_frame_options.header_value` - Indicates
+    #     whether the browser is allowed to render a page in a **frame**,
+    #     **iframe**, **embed** or **object**.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ListenerAttribute AWS API Documentation
+    #
+    class ListenerAttribute < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1725,14 +2412,34 @@ module Aws::ElasticLoadBalancingV2
     #   @return [Array<String>]
     #
     # @!attribute [rw] ip_address_type
-    #   The type of IP addresses used by the subnets for your load balancer.
-    #   The possible values are `ipv4` (for IPv4 addresses) and `dualstack`
-    #   (for IPv4 and IPv6 addresses).
+    #   The type of IP addresses used for public or private connections by
+    #   the subnets attached to your load balancer.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
     #   @return [String]
     #
     # @!attribute [rw] customer_owned_ipv_4_pool
     #   \[Application Load Balancers on Outposts\] The ID of the
     #   customer-owned address pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] enforce_security_group_inbound_rules_on_private_link_traffic
+    #   Indicates whether to evaluate inbound security group rules for
+    #   traffic sent to a Network Load Balancer through Amazon Web Services
+    #   PrivateLink.
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_prefix_for_ipv_6_source_nat
+    #   \[Network Load Balancers with UDP listeners\] Indicates whether to
+    #   use an IPv6 prefix from each subnet for source NAT. The IP address
+    #   type must be `dualstack`. The default value is `off`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/LoadBalancer AWS API Documentation
@@ -1750,7 +2457,9 @@ module Aws::ElasticLoadBalancingV2
       :availability_zones,
       :security_groups,
       :ip_address_type,
-      :customer_owned_ipv_4_pool)
+      :customer_owned_ipv_4_pool,
+      :enforce_security_group_inbound_rules_on_private_link_traffic,
+      :enable_prefix_for_ipv_6_source_nat)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1801,7 +2510,7 @@ module Aws::ElasticLoadBalancingV2
     #     load balancing is enabled. The possible values are `true` and
     #     `false`. The default for Network Load Balancers and Gateway Load
     #     Balancers is `false`. The default for Application Load Balancers
-    #     is `true`, and cannot be changed.
+    #     is `true`, and can't be changed.
     #
     #   The following attributes are supported by both Application Load
     #   Balancers and Network Load Balancers:
@@ -1824,12 +2533,33 @@ module Aws::ElasticLoadBalancingV2
     #     unintended access to your internal load balancer through an
     #     internet gateway.
     #
+    #   * `zonal_shift.config.enabled` - Indicates whether zonal shift is
+    #     enabled. The possible values are `true` and `false`. The default
+    #     is `false`.
+    #
     #   The following attributes are supported by only Application Load
     #   Balancers:
     #
     #   * `idle_timeout.timeout_seconds` - The idle timeout value, in
     #     seconds. The valid range is 1-4000 seconds. The default is 60
     #     seconds.
+    #
+    #   * `client_keep_alive.seconds` - The client keep alive value, in
+    #     seconds. The valid range is 60-604800 seconds. The default is 3600
+    #     seconds.
+    #
+    #   * `connection_logs.s3.enabled` - Indicates whether connection logs
+    #     are enabled. The value is `true` or `false`. The default is
+    #     `false`.
+    #
+    #   * `connection_logs.s3.bucket` - The name of the S3 bucket for the
+    #     connection logs. This attribute is required if connection logs are
+    #     enabled. The bucket must exist in the same region as the load
+    #     balancer and have a bucket policy that grants Elastic Load
+    #     Balancing permissions to write to the bucket.
+    #
+    #   * `connection_logs.s3.prefix` - The prefix for the location in the
+    #     S3 bucket for the connection logs.
     #
     #   * `routing.http.desync_mitigation_mode` - Determines how the load
     #     balancer handles requests that might pose a security risk to your
@@ -1879,7 +2609,6 @@ module Aws::ElasticLoadBalancingV2
     #     * If the value is `remove`, the Application Load Balancer removes
     #       the `X-Forwarded-For` header in the HTTP request before it sends
     #       it to targets.
-    #
     #   * `routing.http2.enabled` - Indicates whether HTTP/2 is enabled. The
     #     possible values are `true` and `false`. The default is `true`.
     #     Elastic Load Balancing requires that message header names contain
@@ -1889,6 +2618,18 @@ module Aws::ElasticLoadBalancingV2
     #     load balancer to route requests to targets if it is unable to
     #     forward the request to Amazon Web Services WAF. The possible
     #     values are `true` and `false`. The default is `false`.
+    #
+    #   The following attributes are supported by only Network Load
+    #   Balancers:
+    #
+    #   * `dns_record.client_routing_policy` - Indicates how traffic is
+    #     distributed among the load balancer Availability Zones. The
+    #     possible values are `availability_zone_affinity` with 100 percent
+    #     zonal affinity, `partial_availability_zone_affinity` with 85
+    #     percent zonal affinity, and `any_availability_zone` with 0 percent
+    #     zonal affinity.
+    #
+    #   ^
     #   @return [String]
     #
     # @!attribute [rw] value
@@ -1970,13 +2711,105 @@ module Aws::ElasticLoadBalancingV2
       include Aws::Structure
     end
 
+    # The minimum capacity for a load balancer.
+    #
+    # @!attribute [rw] capacity_units
+    #   The number of capacity units.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/MinimumLoadBalancerCapacity AWS API Documentation
+    #
+    class MinimumLoadBalancerCapacity < Struct.new(
+      :capacity_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] load_balancer_arn
+    #   The Amazon Resource Name (ARN) of the load balancer.
+    #   @return [String]
+    #
+    # @!attribute [rw] minimum_load_balancer_capacity
+    #   The minimum load balancer capacity reserved.
+    #   @return [Types::MinimumLoadBalancerCapacity]
+    #
+    # @!attribute [rw] reset_capacity_reservation
+    #   Resets the capacity reservation.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyCapacityReservationInput AWS API Documentation
+    #
+    class ModifyCapacityReservationInput < Struct.new(
+      :load_balancer_arn,
+      :minimum_load_balancer_capacity,
+      :reset_capacity_reservation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] last_modified_time
+    #   The last time the capacity reservation was modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] decrease_requests_remaining
+    #   The amount of daily capacity decreases remaining.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] minimum_load_balancer_capacity
+    #   The requested minimum capacity reservation for the load balancer
+    #   @return [Types::MinimumLoadBalancerCapacity]
+    #
+    # @!attribute [rw] capacity_reservation_state
+    #   The state of the capacity reservation.
+    #   @return [Array<Types::ZonalCapacityReservationState>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyCapacityReservationOutput AWS API Documentation
+    #
+    class ModifyCapacityReservationOutput < Struct.new(
+      :last_modified_time,
+      :decrease_requests_remaining,
+      :minimum_load_balancer_capacity,
+      :capacity_reservation_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] listener_arn
+    #   The Amazon Resource Name (ARN) of the listener.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   The listener attributes.
+    #   @return [Array<Types::ListenerAttribute>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyListenerAttributesInput AWS API Documentation
+    #
+    class ModifyListenerAttributesInput < Struct.new(
+      :listener_arn,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attributes
+    #   Information about the listener attributes.
+    #   @return [Array<Types::ListenerAttribute>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyListenerAttributesOutput AWS API Documentation
+    #
+    class ModifyListenerAttributesOutput < Struct.new(
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] listener_arn
     #   The Amazon Resource Name (ARN) of the listener.
     #   @return [String]
     #
     # @!attribute [rw] port
     #   The port for connections from clients to the load balancer. You
-    #   cannot specify a port for a Gateway Load Balancer.
+    #   can't specify a port for a Gateway Load Balancer.
     #   @return [Integer]
     #
     # @!attribute [rw] protocol
@@ -1984,7 +2817,7 @@ module Aws::ElasticLoadBalancingV2
     #   Application Load Balancers support the HTTP and HTTPS protocols.
     #   Network Load Balancers support the TCP, TLS, UDP, and TCP\_UDP
     #   protocols. You can’t change the protocol to UDP or TCP\_UDP if
-    #   dual-stack mode is enabled. You cannot specify a protocol for a
+    #   dual-stack mode is enabled. You can't specify a protocol for a
     #   Gateway Load Balancer.
     #   @return [String]
     #
@@ -2035,6 +2868,10 @@ module Aws::ElasticLoadBalancingV2
     #   [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies
     #   @return [Array<String>]
     #
+    # @!attribute [rw] mutual_authentication
+    #   The mutual authentication configuration information.
+    #   @return [Types::MutualAuthenticationAttributes]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyListenerInput AWS API Documentation
     #
     class ModifyListenerInput < Struct.new(
@@ -2044,7 +2881,8 @@ module Aws::ElasticLoadBalancingV2
       :ssl_policy,
       :certificates,
       :default_actions,
-      :alpn_policy)
+      :alpn_policy,
+      :mutual_authentication)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2129,7 +2967,7 @@ module Aws::ElasticLoadBalancingV2
     #   @return [String]
     #
     # @!attribute [rw] attributes
-    #   The attributes.
+    #   The target group attributes.
     #   @return [Array<Types::TargetGroupAttribute>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyTargetGroupAttributesInput AWS API Documentation
@@ -2142,7 +2980,7 @@ module Aws::ElasticLoadBalancingV2
     end
 
     # @!attribute [rw] attributes
-    #   Information about the attributes.
+    #   Information about the target group attributes.
     #   @return [Array<Types::TargetGroupAttribute>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyTargetGroupAttributesOutput AWS API Documentation
@@ -2246,6 +3084,81 @@ module Aws::ElasticLoadBalancingV2
       include Aws::Structure
     end
 
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] ca_certificates_bundle_s3_bucket
+    #   The Amazon S3 bucket for the ca certificates bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] ca_certificates_bundle_s3_key
+    #   The Amazon S3 path for the ca certificates bundle.
+    #   @return [String]
+    #
+    # @!attribute [rw] ca_certificates_bundle_s3_object_version
+    #   The Amazon S3 object version for the ca certificates bundle. If
+    #   undefined the current version is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyTrustStoreInput AWS API Documentation
+    #
+    class ModifyTrustStoreInput < Struct.new(
+      :trust_store_arn,
+      :ca_certificates_bundle_s3_bucket,
+      :ca_certificates_bundle_s3_key,
+      :ca_certificates_bundle_s3_object_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trust_stores
+    #   Information about the modified trust store.
+    #   @return [Array<Types::TrustStore>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyTrustStoreOutput AWS API Documentation
+    #
+    class ModifyTrustStoreOutput < Struct.new(
+      :trust_stores)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the mutual authentication attributes of a listener.
+    #
+    # @!attribute [rw] mode
+    #   The client certificate handling method. Options are `off`,
+    #   `passthrough` or `verify`. The default value is `off`.
+    #   @return [String]
+    #
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] ignore_client_certificate_expiry
+    #   Indicates whether expired client certificates are ignored.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] trust_store_association_status
+    #   Indicates a shared trust stores association status.
+    #   @return [String]
+    #
+    # @!attribute [rw] advertise_trust_store_ca_names
+    #   Indicates whether trust store CA certificate names are advertised.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/MutualAuthenticationAttributes AWS API Documentation
+    #
+    class MutualAuthenticationAttributes < Struct.new(
+      :mode,
+      :trust_store_arn,
+      :ignore_client_certificate_expiry,
+      :trust_store_association_status,
+      :advertise_trust_store_ca_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This operation is not allowed.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/OperationNotPermittedException AWS API Documentation
@@ -2273,6 +3186,13 @@ module Aws::ElasticLoadBalancingV2
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # This operation is not allowed while a prior request has not been
+    # completed.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/PriorRequestNotCompleteException AWS API Documentation
+    #
+    class PriorRequestNotCompleteException < Aws::EmptyStructure; end
 
     # The specified priority is in use.
     #
@@ -2338,39 +3258,39 @@ module Aws::ElasticLoadBalancingV2
     #
     # You can reuse URI components using the following reserved keywords:
     #
-    # * \#\\\{protocol\\}
+    # * \#\{protocol}
     #
-    # * \#\\\{host\\}
+    # * \#\{host}
     #
-    # * \#\\\{port\\}
+    # * \#\{port}
     #
-    # * \#\\\{path\\} (the leading "/" is removed)
+    # * \#\{path} (the leading "/" is removed)
     #
-    # * \#\\\{query\\}
+    # * \#\{query}
     #
-    # For example, you can change the path to "/new/#\\\{path\\}", the
-    # hostname to "example.#\\\{host\\}", or the query to
-    # "#\\\{query\\}&amp;value=xyz".
+    # For example, you can change the path to "/new/#\{path}", the
+    # hostname to "example.#\{host}", or the query to
+    # "#\{query}&amp;value=xyz".
     #
     # @!attribute [rw] protocol
-    #   The protocol. You can specify HTTP, HTTPS, or #\\\{protocol\\}. You
-    #   can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You
-    #   cannot redirect HTTPS to HTTP.
+    #   The protocol. You can specify HTTP, HTTPS, or #\{protocol}. You can
+    #   redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You can't
+    #   redirect HTTPS to HTTP.
     #   @return [String]
     #
     # @!attribute [rw] port
-    #   The port. You can specify a value from 1 to 65535 or #\\\{port\\}.
+    #   The port. You can specify a value from 1 to 65535 or #\{port}.
     #   @return [String]
     #
     # @!attribute [rw] host
     #   The hostname. This component is not percent-encoded. The hostname
-    #   can contain #\\\{host\\}.
+    #   can contain #\{host}.
     #   @return [String]
     #
     # @!attribute [rw] path
     #   The absolute path, starting with the leading "/". This component
-    #   is not percent-encoded. The path can contain #\\\{host\\},
-    #   #\\\{path\\}, and #\\\{port\\}.
+    #   is not percent-encoded. The path can contain #\{host}, #\{path}, and
+    #   #\{port}.
     #   @return [String]
     #
     # @!attribute [rw] query
@@ -2462,11 +3382,79 @@ module Aws::ElasticLoadBalancingV2
     #
     class RemoveTagsOutput < Aws::EmptyStructure; end
 
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_ids
+    #   The revocation IDs of the revocation files you want to remove.
+    #   @return [Array<Integer>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/RemoveTrustStoreRevocationsInput AWS API Documentation
+    #
+    class RemoveTrustStoreRevocationsInput < Struct.new(
+      :trust_store_arn,
+      :revocation_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/RemoveTrustStoreRevocationsOutput AWS API Documentation
+    #
+    class RemoveTrustStoreRevocationsOutput < Aws::EmptyStructure; end
+
     # A specified resource is in use.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ResourceInUseException AWS API Documentation
     #
     class ResourceInUseException < Aws::EmptyStructure; end
+
+    # The specified resource does not exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ResourceNotFoundException AWS API Documentation
+    #
+    class ResourceNotFoundException < Aws::EmptyStructure; end
+
+    # Information about a revocation file.
+    #
+    # @!attribute [rw] s3_bucket
+    #   The Amazon S3 bucket for the revocation file.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_key
+    #   The Amazon S3 path for the revocation file.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_object_version
+    #   The Amazon S3 object version of the revocation file.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_type
+    #   The type of revocation file.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/RevocationContent AWS API Documentation
+    #
+    class RevocationContent < Struct.new(
+      :s3_bucket,
+      :s3_key,
+      :s3_object_version,
+      :revocation_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified revocation file does not exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/RevocationContentNotFoundException AWS API Documentation
+    #
+    class RevocationContentNotFoundException < Aws::EmptyStructure; end
+
+    # The specified revocation ID does not exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/RevocationIdNotFoundException AWS API Documentation
+    #
+    class RevocationIdNotFoundException < Aws::EmptyStructure; end
 
     # Information about a rule.
     #
@@ -2513,7 +3501,14 @@ module Aws::ElasticLoadBalancingV2
     # conditions: `http-request-method`, `host-header`, `path-pattern`, and
     # `source-ip`. Each rule can also optionally include one or more of each
     # of the following conditions: `http-header` and `query-string`. Note
-    # that the value for a condition cannot be empty.
+    # that the value for a condition can't be empty.
+    #
+    # For more information, see [Quotas for your Application Load
+    # Balancers][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html
     #
     # @!attribute [rw] field
     #   The field in the HTTP request. The following are the possible
@@ -2650,10 +3645,21 @@ module Aws::ElasticLoadBalancingV2
     #   @return [String]
     #
     # @!attribute [rw] ip_address_type
-    #   The IP address type. The possible values are `ipv4` (for IPv4
-    #   addresses) and `dualstack` (for IPv4 and IPv6 addresses). You can’t
-    #   specify `dualstack` for a load balancer with a UDP or TCP\_UDP
-    #   listener.
+    #   The IP address type. Internal load balancers must use `ipv4`.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   Application Load Balancer authentication supports IPv4 addresses
+    #   only when connecting to an Identity Provider (IdP) or Amazon Cognito
+    #   endpoint. Without a public IPv4 address the load balancer can't
+    #   complete the authentication process, resulting in HTTP 500 errors.
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetIpAddressTypeInput AWS API Documentation
@@ -2709,11 +3715,18 @@ module Aws::ElasticLoadBalancingV2
     #   The IDs of the security groups.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] enforce_security_group_inbound_rules_on_private_link_traffic
+    #   Indicates whether to evaluate inbound security group rules for
+    #   traffic sent to a Network Load Balancer through Amazon Web Services
+    #   PrivateLink. The default is `on`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetSecurityGroupsInput AWS API Documentation
     #
     class SetSecurityGroupsInput < Struct.new(
       :load_balancer_arn,
-      :security_groups)
+      :security_groups,
+      :enforce_security_group_inbound_rules_on_private_link_traffic)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2722,10 +3735,17 @@ module Aws::ElasticLoadBalancingV2
     #   The IDs of the security groups associated with the load balancer.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] enforce_security_group_inbound_rules_on_private_link_traffic
+    #   Indicates whether to evaluate inbound security group rules for
+    #   traffic sent to a Network Load Balancer through Amazon Web Services
+    #   PrivateLink.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetSecurityGroupsOutput AWS API Documentation
     #
     class SetSecurityGroupsOutput < Struct.new(
-      :security_group_ids)
+      :security_group_ids,
+      :enforce_security_group_inbound_rules_on_private_link_traffic)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2748,8 +3768,8 @@ module Aws::ElasticLoadBalancingV2
     #   \[Application Load Balancers on Local Zones\] You can specify
     #   subnets from one or more Local Zones.
     #
-    #   \[Network Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones.
+    #   \[Network Load Balancers and Gateway Load Balancers\] You can
+    #   specify subnets from one or more Availability Zones.
     #   @return [Array<String>]
     #
     # @!attribute [rw] subnet_mappings
@@ -2758,7 +3778,7 @@ module Aws::ElasticLoadBalancingV2
     #   mappings.
     #
     #   \[Application Load Balancers\] You must specify subnets from at
-    #   least two Availability Zones. You cannot specify Elastic IP
+    #   least two Availability Zones. You can't specify Elastic IP
     #   addresses for your subnets.
     #
     #   \[Application Load Balancers on Outposts\] You must specify one
@@ -2774,14 +3794,28 @@ module Aws::ElasticLoadBalancingV2
     #   IP address per subnet from the IPv4 range of the subnet. For
     #   internet-facing load balancer, you can specify one IPv6 address per
     #   subnet.
+    #
+    #   \[Gateway Load Balancers\] You can specify subnets from one or more
+    #   Availability Zones.
     #   @return [Array<Types::SubnetMapping>]
     #
     # @!attribute [rw] ip_address_type
-    #   \[Network Load Balancers\] The type of IP addresses used by the
-    #   subnets for your load balancer. The possible values are `ipv4` (for
-    #   IPv4 addresses) and `dualstack` (for IPv4 and IPv6 addresses). You
-    #   can’t specify `dualstack` for a load balancer with a UDP or TCP\_UDP
-    #   listener. .
+    #   The IP address type.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_prefix_for_ipv_6_source_nat
+    #   \[Network Load Balancers with UDP listeners\] Indicates whether to
+    #   use an IPv6 prefix from each subnet for source NAT. The IP address
+    #   type must be `dualstack`. The default value is `off`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetSubnetsInput AWS API Documentation
@@ -2790,7 +3824,8 @@ module Aws::ElasticLoadBalancingV2
       :load_balancer_arn,
       :subnets,
       :subnet_mappings,
-      :ip_address_type)
+      :ip_address_type,
+      :enable_prefix_for_ipv_6_source_nat)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2800,14 +3835,20 @@ module Aws::ElasticLoadBalancingV2
     #   @return [Array<Types::AvailabilityZone>]
     #
     # @!attribute [rw] ip_address_type
-    #   \[Network Load Balancers\] The IP address type.
+    #   The IP address type.
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_prefix_for_ipv_6_source_nat
+    #   \[Network Load Balancers\] Indicates whether to use an IPv6 prefix
+    #   from each subnet for source NAT.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetSubnetsOutput AWS API Documentation
     #
     class SetSubnetsOutput < Struct.new(
       :availability_zones,
-      :ip_address_type)
+      :ip_address_type,
+      :enable_prefix_for_ipv_6_source_nat)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2828,6 +3869,8 @@ module Aws::ElasticLoadBalancingV2
     #   This condition is not satisfied by the addresses in the
     #   X-Forwarded-For header. To search for addresses in the
     #   X-Forwarded-For header, use HttpHeaderConditionConfig.
+    #
+    #   The total number of values must be less than, or equal to five.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SourceIpConditionConfig AWS API Documentation
@@ -2887,13 +3930,21 @@ module Aws::ElasticLoadBalancingV2
     #   \[Network Load Balancers\] The IPv6 address.
     #   @return [String]
     #
+    # @!attribute [rw] source_nat_ipv_6_prefix
+    #   \[Network Load Balancers with UDP listeners\] The IPv6 prefix to use
+    #   for source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet
+    #   CIDR block or `auto_assigned` to use an IPv6 prefix selected at
+    #   random from the subnet CIDR block.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SubnetMapping AWS API Documentation
     #
     class SubnetMapping < Struct.new(
       :subnet_id,
       :allocation_id,
       :private_i_pv_4_address,
-      :i_pv_6_address)
+      :i_pv_6_address,
+      :source_nat_ipv_6_prefix)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2956,8 +4007,8 @@ module Aws::ElasticLoadBalancingV2
     #   The port on which the target is listening. If the target group
     #   protocol is GENEVE, the supported port is 6081. If the target type
     #   is `alb`, the targeted Application Load Balancer must have at least
-    #   one listener whose port matches the target group port. Not used if
-    #   the target is a Lambda function.
+    #   one listener whose port matches the target group port. This
+    #   parameter is not used if the target is a Lambda function.
     #   @return [Integer]
     #
     # @!attribute [rw] availability_zone
@@ -3013,8 +4064,8 @@ module Aws::ElasticLoadBalancingV2
     #   @return [String]
     #
     # @!attribute [rw] port
-    #   The port on which the targets are listening. Not used if the target
-    #   is a Lambda function.
+    #   The port on which the targets are listening. This parameter is not
+    #   used if the target is a Lambda function.
     #   @return [Integer]
     #
     # @!attribute [rw] vpc_id
@@ -3064,8 +4115,9 @@ module Aws::ElasticLoadBalancingV2
     #   @return [Types::Matcher]
     #
     # @!attribute [rw] load_balancer_arns
-    #   The Amazon Resource Names (ARN) of the load balancers that route
-    #   traffic to this target group.
+    #   The Amazon Resource Name (ARN) of the load balancer that routes
+    #   traffic to this target group. You can use each target group with
+    #   only one load balancer.
     #   @return [Array<String>]
     #
     # @!attribute [rw] target_type
@@ -3082,9 +4134,7 @@ module Aws::ElasticLoadBalancingV2
     #   @return [String]
     #
     # @!attribute [rw] ip_address_type
-    #   The type of IP address used for this target group. The possible
-    #   values are `ipv4` and `ipv6`. This is an optional parameter. If not
-    #   specified, the IP address type defaults to `ipv4`.
+    #   The IP address type. The default value is `ipv4`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TargetGroup AWS API Documentation
@@ -3185,8 +4235,14 @@ module Aws::ElasticLoadBalancingV2
     #
     #   * `load_balancing.algorithm.type` - The load balancing algorithm
     #     determines how the load balancer selects targets when routing
-    #     requests. The value is `round_robin` or
-    #     `least_outstanding_requests`. The default is `round_robin`.
+    #     requests. The value is `round_robin`,
+    #     `least_outstanding_requests`, or `weighted_random`. The default is
+    #     `round_robin`.
+    #
+    #   * `load_balancing.algorithm.anomaly_mitigation` - Only available
+    #     when `load_balancing.algorithm.type` is `weighted_random`.
+    #     Indicates whether anomaly mitigation is enabled. The value is `on`
+    #     or `off`. The default is `off`.
     #
     #   * `slow_start.duration_seconds` - The time period, in seconds,
     #     during which a newly registered target receives an increasing
@@ -3231,19 +4287,35 @@ module Aws::ElasticLoadBalancingV2
     #
     #   * `deregistration_delay.connection_termination.enabled` - Indicates
     #     whether the load balancer terminates connections at the end of the
-    #     deregistration timeout. The value is `true` or `false`. The
+    #     deregistration timeout. The value is `true` or `false`. For new
+    #     UDP/TCP\_UDP target groups the default is `true`. Otherwise, the
     #     default is `false`.
     #
     #   * `preserve_client_ip.enabled` - Indicates whether client IP
     #     preservation is enabled. The value is `true` or `false`. The
     #     default is disabled if the target group type is IP address and the
     #     target group protocol is TCP or TLS. Otherwise, the default is
-    #     enabled. Client IP preservation cannot be disabled for UDP and
+    #     enabled. Client IP preservation can't be disabled for UDP and
     #     TCP\_UDP target groups.
     #
     #   * `proxy_protocol_v2.enabled` - Indicates whether Proxy Protocol
     #     version 2 is enabled. The value is `true` or `false`. The default
     #     is `false`.
+    #
+    #   * `target_health_state.unhealthy.connection_termination.enabled` -
+    #     Indicates whether the load balancer terminates connections to
+    #     unhealthy targets. The value is `true` or `false`. The default is
+    #     `true`.
+    #
+    #   * `target_health_state.unhealthy.draining_interval_seconds` - The
+    #     amount of time for Elastic Load Balancing to wait before changing
+    #     the state of an unhealthy target from `unhealthy.draining` to
+    #     `unhealthy`. The range is 0-360000 seconds. The default value is 0
+    #     seconds.
+    #
+    #     Note: This attribute can only be configured when
+    #     `target_health_state.unhealthy.connection_termination.enabled` is
+    #     `false`.
     #
     #   The following attributes are supported only by Gateway Load
     #   Balancers:
@@ -3261,7 +4333,7 @@ module Aws::ElasticLoadBalancingV2
     #     possible values are `rebalance` and `no_rebalance`. The default is
     #     `no_rebalance`. The two attributes
     #     (`target_failover.on_deregistration` and
-    #     `target_failover.on_unhealthy`) cannot be set independently. The
+    #     `target_failover.on_unhealthy`) can't be set independently. The
     #     value you set for both attributes must be the same.
     #   @return [String]
     #
@@ -3427,12 +4499,26 @@ module Aws::ElasticLoadBalancingV2
     #   The health information for the target.
     #   @return [Types::TargetHealth]
     #
+    # @!attribute [rw] anomaly_detection
+    #   The anomaly detection result for the target.
+    #
+    #   If no anomalies were detected, the result is `normal`.
+    #
+    #   If anomalies were detected, the result is `anomalous`.
+    #   @return [Types::AnomalyDetection]
+    #
+    # @!attribute [rw] administrative_override
+    #   The administrative override information for the target.
+    #   @return [Types::AdministrativeOverride]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TargetHealthDescription AWS API Documentation
     #
     class TargetHealthDescription < Struct.new(
       :target,
       :health_check_port,
-      :target_health)
+      :target_health,
+      :anomaly_detection,
+      :administrative_override)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3477,7 +4563,7 @@ module Aws::ElasticLoadBalancingV2
     #
     class TooManyRulesException < Aws::EmptyStructure; end
 
-    # You've reached the limit on the number of tags per load balancer.
+    # You've reached the limit on the number of tags for this resource.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TooManyTagsException AWS API Documentation
     #
@@ -3496,6 +4582,19 @@ module Aws::ElasticLoadBalancingV2
     #
     class TooManyTargetsException < Aws::EmptyStructure; end
 
+    # The specified trust store has too many revocation entries.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TooManyTrustStoreRevocationEntriesException AWS API Documentation
+    #
+    class TooManyTrustStoreRevocationEntriesException < Aws::EmptyStructure; end
+
+    # You've reached the limit on the number of trust stores for your
+    # Amazon Web Services account.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TooManyTrustStoresException AWS API Documentation
+    #
+    class TooManyTrustStoresException < Aws::EmptyStructure; end
+
     # You've reached the limit on the number of unique target groups per
     # load balancer across all listeners. If a target group is used by
     # multiple actions for a load balancer, it is counted as only one use.
@@ -3504,11 +4603,137 @@ module Aws::ElasticLoadBalancingV2
     #
     class TooManyUniqueTargetGroupsPerLoadBalancerException < Aws::EmptyStructure; end
 
+    # Information about a trust store.
+    #
+    # @!attribute [rw] name
+    #   The name of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] number_of_ca_certificates
+    #   The number of ca certificates in the trust store.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_revoked_entries
+    #   The number of revoked certificates in the trust store.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStore AWS API Documentation
+    #
+    class TrustStore < Struct.new(
+      :name,
+      :trust_store_arn,
+      :status,
+      :number_of_ca_certificates,
+      :total_revoked_entries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the resources a trust store is associated with.
+    #
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStoreAssociation AWS API Documentation
+    #
+    class TrustStoreAssociation < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified association does not exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStoreAssociationNotFoundException AWS API Documentation
+    #
+    class TrustStoreAssociationNotFoundException < Aws::EmptyStructure; end
+
+    # The specified trust store is currently in use.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStoreInUseException AWS API Documentation
+    #
+    class TrustStoreInUseException < Aws::EmptyStructure; end
+
+    # The specified trust store does not exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStoreNotFoundException AWS API Documentation
+    #
+    class TrustStoreNotFoundException < Aws::EmptyStructure; end
+
+    # The specified trust store is not active.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStoreNotReadyException AWS API Documentation
+    #
+    class TrustStoreNotReadyException < Aws::EmptyStructure; end
+
+    # Information about a revocation file in use by a trust store.
+    #
+    # @!attribute [rw] trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #   @return [String]
+    #
+    # @!attribute [rw] revocation_id
+    #   The revocation ID of the revocation file.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] revocation_type
+    #   The type of revocation file.
+    #   @return [String]
+    #
+    # @!attribute [rw] number_of_revoked_entries
+    #   The number of revoked certificates.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/TrustStoreRevocation AWS API Documentation
+    #
+    class TrustStoreRevocation < Struct.new(
+      :trust_store_arn,
+      :revocation_id,
+      :revocation_type,
+      :number_of_revoked_entries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The specified protocol is not supported.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/UnsupportedProtocolException AWS API Documentation
     #
     class UnsupportedProtocolException < Aws::EmptyStructure; end
 
+    # The capacity reservation status for each availability zone.
+    #
+    # @!attribute [rw] state
+    #   The state of the capacity reservation.
+    #   @return [Types::CapacityReservationStatus]
+    #
+    # @!attribute [rw] availability_zone
+    #   Information about the availability zone.
+    #   @return [String]
+    #
+    # @!attribute [rw] effective_capacity_units
+    #   The number of effective capacity units.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ZonalCapacityReservationState AWS API Documentation
+    #
+    class ZonalCapacityReservationState < Struct.new(
+      :state,
+      :availability_zone,
+      :effective_capacity_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

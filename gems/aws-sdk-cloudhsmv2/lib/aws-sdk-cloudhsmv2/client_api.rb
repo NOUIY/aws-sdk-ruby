@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CloudHSMV2
   # @api private
   module ClientApi
@@ -14,6 +15,7 @@ module Aws::CloudHSMV2
     include Seahorse::Model
 
     Backup = Shapes::StructureShape.new(name: 'Backup')
+    BackupArn = Shapes::StringShape.new(name: 'BackupArn')
     BackupId = Shapes::StringShape.new(name: 'BackupId')
     BackupPolicy = Shapes::StringShape.new(name: 'BackupPolicy')
     BackupRetentionPolicy = Shapes::StructureShape.new(name: 'BackupRetentionPolicy')
@@ -26,13 +28,16 @@ module Aws::CloudHSMV2
     Cert = Shapes::StringShape.new(name: 'Cert')
     Certificates = Shapes::StructureShape.new(name: 'Certificates')
     CloudHsmAccessDeniedException = Shapes::StructureShape.new(name: 'CloudHsmAccessDeniedException')
+    CloudHsmArn = Shapes::StringShape.new(name: 'CloudHsmArn')
     CloudHsmInternalFailureException = Shapes::StructureShape.new(name: 'CloudHsmInternalFailureException')
     CloudHsmInvalidRequestException = Shapes::StructureShape.new(name: 'CloudHsmInvalidRequestException')
+    CloudHsmResourceLimitExceededException = Shapes::StructureShape.new(name: 'CloudHsmResourceLimitExceededException')
     CloudHsmResourceNotFoundException = Shapes::StructureShape.new(name: 'CloudHsmResourceNotFoundException')
     CloudHsmServiceException = Shapes::StructureShape.new(name: 'CloudHsmServiceException')
     CloudHsmTagException = Shapes::StructureShape.new(name: 'CloudHsmTagException')
     Cluster = Shapes::StructureShape.new(name: 'Cluster')
     ClusterId = Shapes::StringShape.new(name: 'ClusterId')
+    ClusterMode = Shapes::StringShape.new(name: 'ClusterMode')
     ClusterState = Shapes::StringShape.new(name: 'ClusterState')
     Clusters = Shapes::ListShape.new(name: 'Clusters')
     ClustersMaxSize = Shapes::IntegerShape.new(name: 'ClustersMaxSize')
@@ -48,6 +53,8 @@ module Aws::CloudHSMV2
     DeleteClusterResponse = Shapes::StructureShape.new(name: 'DeleteClusterResponse')
     DeleteHsmRequest = Shapes::StructureShape.new(name: 'DeleteHsmRequest')
     DeleteHsmResponse = Shapes::StructureShape.new(name: 'DeleteHsmResponse')
+    DeleteResourcePolicyRequest = Shapes::StructureShape.new(name: 'DeleteResourcePolicyRequest')
+    DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
     DescribeBackupsRequest = Shapes::StructureShape.new(name: 'DescribeBackupsRequest')
     DescribeBackupsResponse = Shapes::StructureShape.new(name: 'DescribeBackupsResponse')
     DescribeClustersRequest = Shapes::StructureShape.new(name: 'DescribeClustersRequest')
@@ -58,6 +65,8 @@ module Aws::CloudHSMV2
     ExternalSubnetMapping = Shapes::MapShape.new(name: 'ExternalSubnetMapping')
     Field = Shapes::StringShape.new(name: 'Field')
     Filters = Shapes::MapShape.new(name: 'Filters')
+    GetResourcePolicyRequest = Shapes::StructureShape.new(name: 'GetResourcePolicyRequest')
+    GetResourcePolicyResponse = Shapes::StructureShape.new(name: 'GetResourcePolicyResponse')
     Hsm = Shapes::StructureShape.new(name: 'Hsm')
     HsmId = Shapes::StringShape.new(name: 'HsmId')
     HsmState = Shapes::StringShape.new(name: 'HsmState')
@@ -66,6 +75,7 @@ module Aws::CloudHSMV2
     InitializeClusterRequest = Shapes::StructureShape.new(name: 'InitializeClusterRequest')
     InitializeClusterResponse = Shapes::StructureShape.new(name: 'InitializeClusterResponse')
     IpAddress = Shapes::StringShape.new(name: 'IpAddress')
+    IpV6Address = Shapes::StringShape.new(name: 'IpV6Address')
     ListTagsRequest = Shapes::StructureShape.new(name: 'ListTagsRequest')
     ListTagsResponse = Shapes::StructureShape.new(name: 'ListTagsResponse')
     MaxSize = Shapes::IntegerShape.new(name: 'MaxSize')
@@ -73,10 +83,14 @@ module Aws::CloudHSMV2
     ModifyBackupAttributesResponse = Shapes::StructureShape.new(name: 'ModifyBackupAttributesResponse')
     ModifyClusterRequest = Shapes::StructureShape.new(name: 'ModifyClusterRequest')
     ModifyClusterResponse = Shapes::StructureShape.new(name: 'ModifyClusterResponse')
+    NetworkType = Shapes::StringShape.new(name: 'NetworkType')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     PreCoPassword = Shapes::StringShape.new(name: 'PreCoPassword')
+    PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
+    PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     Region = Shapes::StringShape.new(name: 'Region')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
+    ResourcePolicy = Shapes::StringShape.new(name: 'ResourcePolicy')
     RestoreBackupRequest = Shapes::StructureShape.new(name: 'RestoreBackupRequest')
     RestoreBackupResponse = Shapes::StructureShape.new(name: 'RestoreBackupResponse')
     SecurityGroup = Shapes::StringShape.new(name: 'SecurityGroup')
@@ -99,6 +113,7 @@ module Aws::CloudHSMV2
     errorMessage = Shapes::StringShape.new(name: 'errorMessage')
 
     Backup.add_member(:backup_id, Shapes::ShapeRef.new(shape: BackupId, required: true, location_name: "BackupId"))
+    Backup.add_member(:backup_arn, Shapes::ShapeRef.new(shape: BackupArn, location_name: "BackupArn"))
     Backup.add_member(:backup_state, Shapes::ShapeRef.new(shape: BackupState, location_name: "BackupState"))
     Backup.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, location_name: "ClusterId"))
     Backup.add_member(:create_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreateTimestamp"))
@@ -109,6 +124,8 @@ module Aws::CloudHSMV2
     Backup.add_member(:source_cluster, Shapes::ShapeRef.new(shape: ClusterId, location_name: "SourceCluster"))
     Backup.add_member(:delete_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "DeleteTimestamp"))
     Backup.add_member(:tag_list, Shapes::ShapeRef.new(shape: TagList, location_name: "TagList"))
+    Backup.add_member(:hsm_type, Shapes::ShapeRef.new(shape: HsmType, location_name: "HsmType"))
+    Backup.add_member(:mode, Shapes::ShapeRef.new(shape: ClusterMode, location_name: "Mode"))
     Backup.struct_class = Types::Backup
 
     BackupRetentionPolicy.add_member(:type, Shapes::ShapeRef.new(shape: BackupRetentionType, location_name: "Type"))
@@ -133,6 +150,9 @@ module Aws::CloudHSMV2
     CloudHsmInvalidRequestException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "Message"))
     CloudHsmInvalidRequestException.struct_class = Types::CloudHsmInvalidRequestException
 
+    CloudHsmResourceLimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "Message"))
+    CloudHsmResourceLimitExceededException.struct_class = Types::CloudHsmResourceLimitExceededException
+
     CloudHsmResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "Message"))
     CloudHsmResourceNotFoundException.struct_class = Types::CloudHsmResourceNotFoundException
 
@@ -148,6 +168,7 @@ module Aws::CloudHSMV2
     Cluster.add_member(:create_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreateTimestamp"))
     Cluster.add_member(:hsms, Shapes::ShapeRef.new(shape: Hsms, location_name: "Hsms"))
     Cluster.add_member(:hsm_type, Shapes::ShapeRef.new(shape: HsmType, location_name: "HsmType"))
+    Cluster.add_member(:hsm_type_rollback_expiration, Shapes::ShapeRef.new(shape: Timestamp, location_name: "HsmTypeRollbackExpiration"))
     Cluster.add_member(:pre_co_password, Shapes::ShapeRef.new(shape: PreCoPassword, location_name: "PreCoPassword"))
     Cluster.add_member(:security_group, Shapes::ShapeRef.new(shape: SecurityGroup, location_name: "SecurityGroup"))
     Cluster.add_member(:source_backup_id, Shapes::ShapeRef.new(shape: BackupId, location_name: "SourceBackupId"))
@@ -155,8 +176,10 @@ module Aws::CloudHSMV2
     Cluster.add_member(:state_message, Shapes::ShapeRef.new(shape: StateMessage, location_name: "StateMessage"))
     Cluster.add_member(:subnet_mapping, Shapes::ShapeRef.new(shape: ExternalSubnetMapping, location_name: "SubnetMapping"))
     Cluster.add_member(:vpc_id, Shapes::ShapeRef.new(shape: VpcId, location_name: "VpcId"))
+    Cluster.add_member(:network_type, Shapes::ShapeRef.new(shape: NetworkType, location_name: "NetworkType"))
     Cluster.add_member(:certificates, Shapes::ShapeRef.new(shape: Certificates, location_name: "Certificates"))
     Cluster.add_member(:tag_list, Shapes::ShapeRef.new(shape: TagList, location_name: "TagList"))
+    Cluster.add_member(:mode, Shapes::ShapeRef.new(shape: ClusterMode, location_name: "Mode"))
     Cluster.struct_class = Types::Cluster
 
     Clusters.member = Shapes::ShapeRef.new(shape: Cluster)
@@ -171,9 +194,11 @@ module Aws::CloudHSMV2
 
     CreateClusterRequest.add_member(:backup_retention_policy, Shapes::ShapeRef.new(shape: BackupRetentionPolicy, location_name: "BackupRetentionPolicy"))
     CreateClusterRequest.add_member(:hsm_type, Shapes::ShapeRef.new(shape: HsmType, required: true, location_name: "HsmType"))
-    CreateClusterRequest.add_member(:source_backup_id, Shapes::ShapeRef.new(shape: BackupId, location_name: "SourceBackupId"))
+    CreateClusterRequest.add_member(:source_backup_id, Shapes::ShapeRef.new(shape: BackupArn, location_name: "SourceBackupId"))
     CreateClusterRequest.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, required: true, location_name: "SubnetIds"))
+    CreateClusterRequest.add_member(:network_type, Shapes::ShapeRef.new(shape: NetworkType, location_name: "NetworkType"))
     CreateClusterRequest.add_member(:tag_list, Shapes::ShapeRef.new(shape: TagList, location_name: "TagList"))
+    CreateClusterRequest.add_member(:mode, Shapes::ShapeRef.new(shape: ClusterMode, location_name: "Mode"))
     CreateClusterRequest.struct_class = Types::CreateClusterRequest
 
     CreateClusterResponse.add_member(:cluster, Shapes::ShapeRef.new(shape: Cluster, location_name: "Cluster"))
@@ -208,9 +233,17 @@ module Aws::CloudHSMV2
     DeleteHsmResponse.add_member(:hsm_id, Shapes::ShapeRef.new(shape: HsmId, location_name: "HsmId"))
     DeleteHsmResponse.struct_class = Types::DeleteHsmResponse
 
+    DeleteResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: CloudHsmArn, location_name: "ResourceArn"))
+    DeleteResourcePolicyRequest.struct_class = Types::DeleteResourcePolicyRequest
+
+    DeleteResourcePolicyResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: CloudHsmArn, location_name: "ResourceArn"))
+    DeleteResourcePolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, location_name: "Policy"))
+    DeleteResourcePolicyResponse.struct_class = Types::DeleteResourcePolicyResponse
+
     DescribeBackupsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     DescribeBackupsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: BackupsMaxSize, location_name: "MaxResults"))
     DescribeBackupsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: Filters, location_name: "Filters"))
+    DescribeBackupsRequest.add_member(:shared, Shapes::ShapeRef.new(shape: Boolean, location_name: "Shared"))
     DescribeBackupsRequest.add_member(:sort_ascending, Shapes::ShapeRef.new(shape: Boolean, location_name: "SortAscending"))
     DescribeBackupsRequest.struct_class = Types::DescribeBackupsRequest
 
@@ -239,12 +272,20 @@ module Aws::CloudHSMV2
     Filters.key = Shapes::ShapeRef.new(shape: Field)
     Filters.value = Shapes::ShapeRef.new(shape: Strings)
 
+    GetResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: CloudHsmArn, location_name: "ResourceArn"))
+    GetResourcePolicyRequest.struct_class = Types::GetResourcePolicyRequest
+
+    GetResourcePolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, location_name: "Policy"))
+    GetResourcePolicyResponse.struct_class = Types::GetResourcePolicyResponse
+
     Hsm.add_member(:availability_zone, Shapes::ShapeRef.new(shape: ExternalAz, location_name: "AvailabilityZone"))
     Hsm.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, location_name: "ClusterId"))
     Hsm.add_member(:subnet_id, Shapes::ShapeRef.new(shape: SubnetId, location_name: "SubnetId"))
     Hsm.add_member(:eni_id, Shapes::ShapeRef.new(shape: EniId, location_name: "EniId"))
     Hsm.add_member(:eni_ip, Shapes::ShapeRef.new(shape: IpAddress, location_name: "EniIp"))
+    Hsm.add_member(:eni_ip_v6, Shapes::ShapeRef.new(shape: IpV6Address, location_name: "EniIpV6"))
     Hsm.add_member(:hsm_id, Shapes::ShapeRef.new(shape: HsmId, required: true, location_name: "HsmId"))
+    Hsm.add_member(:hsm_type, Shapes::ShapeRef.new(shape: HsmType, location_name: "HsmType"))
     Hsm.add_member(:state, Shapes::ShapeRef.new(shape: HsmState, location_name: "State"))
     Hsm.add_member(:state_message, Shapes::ShapeRef.new(shape: String, location_name: "StateMessage"))
     Hsm.struct_class = Types::Hsm
@@ -276,12 +317,21 @@ module Aws::CloudHSMV2
     ModifyBackupAttributesResponse.add_member(:backup, Shapes::ShapeRef.new(shape: Backup, location_name: "Backup"))
     ModifyBackupAttributesResponse.struct_class = Types::ModifyBackupAttributesResponse
 
-    ModifyClusterRequest.add_member(:backup_retention_policy, Shapes::ShapeRef.new(shape: BackupRetentionPolicy, required: true, location_name: "BackupRetentionPolicy"))
+    ModifyClusterRequest.add_member(:hsm_type, Shapes::ShapeRef.new(shape: HsmType, location_name: "HsmType"))
+    ModifyClusterRequest.add_member(:backup_retention_policy, Shapes::ShapeRef.new(shape: BackupRetentionPolicy, location_name: "BackupRetentionPolicy"))
     ModifyClusterRequest.add_member(:cluster_id, Shapes::ShapeRef.new(shape: ClusterId, required: true, location_name: "ClusterId"))
     ModifyClusterRequest.struct_class = Types::ModifyClusterRequest
 
     ModifyClusterResponse.add_member(:cluster, Shapes::ShapeRef.new(shape: Cluster, location_name: "Cluster"))
     ModifyClusterResponse.struct_class = Types::ModifyClusterResponse
+
+    PutResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: CloudHsmArn, location_name: "ResourceArn"))
+    PutResourcePolicyRequest.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, location_name: "Policy"))
+    PutResourcePolicyRequest.struct_class = Types::PutResourcePolicyRequest
+
+    PutResourcePolicyResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: CloudHsmArn, location_name: "ResourceArn"))
+    PutResourcePolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, location_name: "Policy"))
+    PutResourcePolicyResponse.struct_class = Types::PutResourcePolicyResponse
 
     RestoreBackupRequest.add_member(:backup_id, Shapes::ShapeRef.new(shape: BackupId, required: true, location_name: "BackupId"))
     RestoreBackupRequest.struct_class = Types::RestoreBackupRequest
@@ -321,9 +371,11 @@ module Aws::CloudHSMV2
 
       api.metadata = {
         "apiVersion" => "2017-04-28",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "cloudhsmv2",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "CloudHSM V2",
         "serviceFullName" => "AWS CloudHSM V2",
         "serviceId" => "CloudHSM V2",
@@ -414,6 +466,19 @@ module Aws::CloudHSMV2
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmAccessDeniedException)
       end)
 
+      api.add_operation(:delete_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmInternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmInvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmAccessDeniedException)
+      end)
+
       api.add_operation(:describe_backups, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeBackups"
         o.http_method = "POST"
@@ -451,6 +516,19 @@ module Aws::CloudHSMV2
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:get_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmInternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmInvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmAccessDeniedException)
       end)
 
       api.add_operation(:initialize_cluster, Seahorse::Model::Operation.new.tap do |o|
@@ -512,6 +590,19 @@ module Aws::CloudHSMV2
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
       end)
 
+      api.add_operation(:put_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmInternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmInvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmAccessDeniedException)
+      end)
+
       api.add_operation(:restore_backup, Seahorse::Model::Operation.new.tap do |o|
         o.name = "RestoreBackup"
         o.http_method = "POST"
@@ -534,6 +625,7 @@ module Aws::CloudHSMV2
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmAccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmInternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmInvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: CloudHsmResourceLimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmTagException)

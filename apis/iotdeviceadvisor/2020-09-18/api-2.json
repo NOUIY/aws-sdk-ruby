@@ -5,12 +5,14 @@
     "endpointPrefix":"api.iotdeviceadvisor",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"AWSIoTDeviceAdvisor",
     "serviceFullName":"AWS IoT Core Device Advisor",
     "serviceId":"IotDeviceAdvisor",
     "signatureVersion":"v4",
     "signingName":"iotdeviceadvisor",
-    "uid":"iotdeviceadvisor-2020-09-18"
+    "uid":"iotdeviceadvisor-2020-09-18",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CreateSuiteDefinition":{
@@ -211,6 +213,19 @@
       "max":2048,
       "min":20
     },
+    "AuthenticationMethod":{
+      "type":"string",
+      "enum":[
+        "X509ClientCertificate",
+        "SignatureVersion4"
+      ]
+    },
+    "ClientToken":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^[\\u0021-\\u007E]+$"
+    },
     "ConflictException":{
       "type":"structure",
       "members":{
@@ -224,7 +239,11 @@
       "required":["suiteDefinitionConfiguration"],
       "members":{
         "suiteDefinitionConfiguration":{"shape":"SuiteDefinitionConfiguration"},
-        "tags":{"shape":"TagMap"}
+        "tags":{"shape":"TagMap"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "CreateSuiteDefinitionResponse":{
@@ -256,7 +275,8 @@
       "type":"structure",
       "members":{
         "thingArn":{"shape":"AmazonResourceName"},
-        "certificateArn":{"shape":"AmazonResourceName"}
+        "certificateArn":{"shape":"AmazonResourceName"},
+        "deviceRoleArn":{"shape":"AmazonResourceName"}
       }
     },
     "DeviceUnderTestList":{
@@ -284,6 +304,16 @@
           "shape":"AmazonResourceName",
           "location":"querystring",
           "locationName":"certificateArn"
+        },
+        "deviceRoleArn":{
+          "shape":"AmazonResourceName",
+          "location":"querystring",
+          "locationName":"deviceRoleArn"
+        },
+        "authenticationMethod":{
+          "shape":"AuthenticationMethod",
+          "location":"querystring",
+          "locationName":"authenticationMethod"
         }
       }
     },
@@ -493,7 +523,9 @@
       "type":"string",
       "enum":[
         "MqttV3_1_1",
-        "MqttV5"
+        "MqttV5",
+        "MqttV3_1_1_OverWebSocket",
+        "MqttV5_OverWebSocket"
       ]
     },
     "QualificationReportDownloadUrl":{"type":"string"},
@@ -508,7 +540,7 @@
     "RootGroup":{
       "type":"string",
       "max":2048,
-      "min":1
+      "min":0
     },
     "SelectedTestList":{
       "type":"list",

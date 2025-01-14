@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::KinesisVideoArchivedMedia
   # @api private
   module ClientApi
@@ -165,7 +166,7 @@ module Aws::KinesisVideoArchivedMedia
     GetImagesInput.add_member(:image_selector_type, Shapes::ShapeRef.new(shape: ImageSelectorType, required: true, location_name: "ImageSelectorType"))
     GetImagesInput.add_member(:start_timestamp, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "StartTimestamp"))
     GetImagesInput.add_member(:end_timestamp, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "EndTimestamp"))
-    GetImagesInput.add_member(:sampling_interval, Shapes::ShapeRef.new(shape: SamplingInterval, required: true, location_name: "SamplingInterval"))
+    GetImagesInput.add_member(:sampling_interval, Shapes::ShapeRef.new(shape: SamplingInterval, location_name: "SamplingInterval"))
     GetImagesInput.add_member(:format, Shapes::ShapeRef.new(shape: Format, required: true, location_name: "Format"))
     GetImagesInput.add_member(:format_config, Shapes::ShapeRef.new(shape: FormatConfig, location_name: "FormatConfig"))
     GetImagesInput.add_member(:width_pixels, Shapes::ShapeRef.new(shape: WidthPixels, location_name: "WidthPixels"))
@@ -251,8 +252,10 @@ module Aws::KinesisVideoArchivedMedia
 
       api.metadata = {
         "apiVersion" => "2017-09-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "kinesisvideo",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "Kinesis Video Archived Media",
         "serviceFullName" => "Amazon Kinesis Video Streams Archived Media",
         "serviceId" => "Kinesis Video Archived Media",
@@ -319,6 +322,7 @@ module Aws::KinesisVideoArchivedMedia
         o.errors << Shapes::ShapeRef.new(shape: InvalidArgumentException)
         o.errors << Shapes::ShapeRef.new(shape: ClientLimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: NoDataRetentionException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {

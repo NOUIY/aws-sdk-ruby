@@ -5,11 +5,13 @@
     "endpointPrefix":"groundstation",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"AWS Ground Station",
     "serviceId":"GroundStation",
     "signatureVersion":"v4",
     "signingName":"groundstation",
-    "uid":"groundstation-2019-05-23"
+    "uid":"groundstation-2019-05-23",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CancelContact":{
@@ -526,21 +528,27 @@
       "min":1,
       "pattern":"^[\\w-]+$"
     },
+    "AgentCpuCoresList":{
+      "type":"list",
+      "member":{"shape":"Integer"},
+      "max":256,
+      "min":0
+    },
     "AgentDetails":{
       "type":"structure",
       "required":[
         "agentVersion",
         "componentVersions",
         "instanceId",
-        "instanceType",
-        "reservedCpuCores"
+        "instanceType"
       ],
       "members":{
+        "agentCpuCores":{"shape":"AgentCpuCoresList"},
         "agentVersion":{"shape":"VersionString"},
         "componentVersions":{"shape":"ComponentVersionList"},
         "instanceId":{"shape":"InstanceId"},
         "instanceType":{"shape":"InstanceType"},
-        "reservedCpuCores":{"shape":"ReservedCpuCoresList"}
+        "reservedCpuCores":{"shape":"AgentCpuCoresList"}
       }
     },
     "AgentStatus":{
@@ -664,6 +672,31 @@
       "max":20,
       "min":1
     },
+    "CapabilityHealth":{
+      "type":"string",
+      "enum":[
+        "UNHEALTHY",
+        "HEALTHY"
+      ]
+    },
+    "CapabilityHealthReason":{
+      "type":"string",
+      "enum":[
+        "NO_REGISTERED_AGENT",
+        "INVALID_IP_OWNERSHIP",
+        "NOT_AUTHORIZED_TO_CREATE_SLR",
+        "UNVERIFIED_IP_OWNERSHIP",
+        "INITIALIZING_DATAPLANE",
+        "DATAPLANE_FAILURE",
+        "HEALTHY"
+      ]
+    },
+    "CapabilityHealthReasonList":{
+      "type":"list",
+      "member":{"shape":"CapabilityHealthReason"},
+      "max":500,
+      "min":0
+    },
     "ComponentStatusData":{
       "type":"structure",
       "required":[
@@ -676,7 +709,7 @@
         "bytesReceived":{"shape":"Long"},
         "bytesSent":{"shape":"Long"},
         "capabilityArn":{"shape":"CapabilityArn"},
-        "componentType":{"shape":"ComponentType"},
+        "componentType":{"shape":"ComponentTypeString"},
         "dataflowId":{"shape":"Uuid"},
         "packetsDropped":{"shape":"Long"},
         "status":{"shape":"AgentStatus"}
@@ -686,15 +719,11 @@
       "type":"list",
       "member":{"shape":"ComponentStatusData"},
       "max":20,
-      "min":1
+      "min":0
     },
-    "ComponentType":{
+    "ComponentTypeString":{
       "type":"string",
-      "enum":[
-        "LAMINAR_FLOW",
-        "PRISM",
-        "DIGITIZER"
-      ]
+      "pattern":"^[a-zA-Z0-9_]{1,64}$"
     },
     "ComponentVersion":{
       "type":"structure",
@@ -703,7 +732,7 @@
         "versions"
       ],
       "members":{
-        "componentType":{"shape":"ComponentType"},
+        "componentType":{"shape":"ComponentTypeString"},
         "versions":{"shape":"VersionStringList"}
       }
     },
@@ -792,7 +821,9 @@
         "region":{"shape":"String"},
         "satelliteArn":{"shape":"satelliteArn"},
         "startTime":{"shape":"Timestamp"},
-        "tags":{"shape":"TagsMap"}
+        "tags":{"shape":"TagsMap"},
+        "visibilityEndTime":{"shape":"Timestamp"},
+        "visibilityStartTime":{"shape":"Timestamp"}
       }
     },
     "ContactIdResponse":{
@@ -1070,7 +1101,9 @@
         "region":{"shape":"String"},
         "satelliteArn":{"shape":"satelliteArn"},
         "startTime":{"shape":"Timestamp"},
-        "tags":{"shape":"TagsMap"}
+        "tags":{"shape":"TagsMap"},
+        "visibilityEndTime":{"shape":"Timestamp"},
+        "visibilityStartTime":{"shape":"Timestamp"}
       }
     },
     "DescribeEphemerisRequest":{
@@ -1162,6 +1195,8 @@
       "members":{
         "awsGroundStationAgentEndpoint":{"shape":"AwsGroundStationAgentEndpoint"},
         "endpoint":{"shape":"DataflowEndpoint"},
+        "healthReasons":{"shape":"CapabilityHealthReasonList"},
+        "healthStatus":{"shape":"CapabilityHealth"},
         "securityDetails":{"shape":"SecurityDetails"}
       }
     },
@@ -1541,11 +1576,18 @@
       "min":1,
       "pattern":"^arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\\d{1}:\\d{12}:((alias/[a-zA-Z0-9:/_-]{1,256}))$"
     },
+    "KeyAliasName":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"^alias/[a-zA-Z0-9:/_-]+$"
+    },
     "KeyArn":{"type":"string"},
     "KmsKey":{
       "type":"structure",
       "members":{
         "kmsAliasArn":{"shape":"KeyAliasArn"},
+        "kmsAliasName":{"shape":"KeyAliasName"},
         "kmsKeyArn":{"shape":"KeyArn"}
       },
       "union":true
@@ -1860,12 +1902,6 @@
         "startTime":{"shape":"Timestamp"},
         "tags":{"shape":"TagsMap"}
       }
-    },
-    "ReservedCpuCoresList":{
-      "type":"list",
-      "member":{"shape":"Integer"},
-      "max":256,
-      "min":1
     },
     "ResourceLimitExceededException":{
       "type":"structure",

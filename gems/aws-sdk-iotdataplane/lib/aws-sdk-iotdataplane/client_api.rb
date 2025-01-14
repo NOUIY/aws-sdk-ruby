@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::IoTDataPlane
   # @api private
   module ClientApi
@@ -57,6 +58,7 @@ module Aws::IoTDataPlane
     UpdateThingShadowRequest = Shapes::StructureShape.new(name: 'UpdateThingShadowRequest')
     UpdateThingShadowResponse = Shapes::StructureShape.new(name: 'UpdateThingShadowResponse')
     UserProperties = Shapes::StringShape.new(name: 'UserProperties')
+    UserPropertiesBlob = Shapes::BlobShape.new(name: 'UserPropertiesBlob')
     errorMessage = Shapes::StringShape.new(name: 'errorMessage')
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
@@ -78,6 +80,7 @@ module Aws::IoTDataPlane
     GetRetainedMessageResponse.add_member(:payload, Shapes::ShapeRef.new(shape: Payload, location_name: "payload"))
     GetRetainedMessageResponse.add_member(:qos, Shapes::ShapeRef.new(shape: Qos, location_name: "qos"))
     GetRetainedMessageResponse.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastModifiedTime"))
+    GetRetainedMessageResponse.add_member(:user_properties, Shapes::ShapeRef.new(shape: UserPropertiesBlob, location_name: "userProperties"))
     GetRetainedMessageResponse.struct_class = Types::GetRetainedMessageResponse
 
     GetThingShadowRequest.add_member(:thing_name, Shapes::ShapeRef.new(shape: ThingName, required: true, location: "uri", location_name: "thingName"))
@@ -178,7 +181,10 @@ module Aws::IoTDataPlane
 
       api.metadata = {
         "apiVersion" => "2015-05-28",
+        "auth" => ["aws.auth#sigv4"],
+        "endpointPrefix" => "data-ats.iot",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "AWS IoT Data Plane",
         "serviceId" => "IoT Data Plane",
         "signatureVersion" => "v4",

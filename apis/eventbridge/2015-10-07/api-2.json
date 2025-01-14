@@ -5,11 +5,13 @@
     "endpointPrefix":"events",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"Amazon EventBridge",
     "serviceId":"EventBridge",
     "signatureVersion":"v4",
     "targetPrefix":"AWSEvents",
-    "uid":"eventbridge-2015-10-07"
+    "uid":"eventbridge-2015-10-07",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "ActivateEventSource":{
@@ -85,7 +87,10 @@
       "errors":[
         {"shape":"ResourceAlreadyExistsException"},
         {"shape":"LimitExceededException"},
-        {"shape":"InternalException"}
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "CreateEndpoint":{
@@ -777,7 +782,9 @@
         {"shape":"ConcurrentModificationException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"InternalException"},
-        {"shape":"LimitExceededException"}
+        {"shape":"LimitExceededException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "UpdateEndpoint":{
@@ -793,9 +800,30 @@
         {"shape":"ConcurrentModificationException"},
         {"shape":"InternalException"}
       ]
+    },
+    "UpdateEventBus":{
+      "name":"UpdateEventBus",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateEventBusRequest"},
+      "output":{"shape":"UpdateEventBusResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalException"},
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"OperationDisabledException"}
+      ]
     }
   },
   "shapes":{
+    "AccessDeniedException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "AccountId":{
       "type":"string",
       "max":12,
@@ -873,6 +901,12 @@
         "INACTIVE"
       ]
     },
+    "AppSyncParameters":{
+      "type":"structure",
+      "members":{
+        "GraphQLOperation":{"shape":"GraphQLOperation"}
+      }
+    },
     "Archive":{
       "type":"structure",
       "members":{
@@ -940,6 +974,13 @@
       "max":512,
       "min":1,
       "pattern":"^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$"
+    },
+    "AuthHeaderParametersSensitive":{
+      "type":"string",
+      "max":512,
+      "min":1,
+      "pattern":"^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$",
+      "sensitive":true
     },
     "AwsVpcConfiguration":{
       "type":"structure",
@@ -1070,7 +1111,8 @@
         "BasicAuthParameters":{"shape":"ConnectionBasicAuthResponseParameters"},
         "OAuthParameters":{"shape":"ConnectionOAuthResponseParameters"},
         "ApiKeyAuthParameters":{"shape":"ConnectionApiKeyAuthResponseParameters"},
-        "InvocationHttpParameters":{"shape":"ConnectionHttpParameters"}
+        "InvocationHttpParameters":{"shape":"ConnectionHttpParameters"},
+        "ConnectivityParameters":{"shape":"DescribeConnectionConnectivityParameters"}
       }
     },
     "ConnectionAuthorizationType":{
@@ -1091,7 +1133,7 @@
       "type":"structure",
       "members":{
         "Key":{"shape":"String"},
-        "Value":{"shape":"String"},
+        "Value":{"shape":"SensitiveString"},
         "IsValueSecret":{"shape":"Boolean"}
       }
     },
@@ -1110,7 +1152,7 @@
       "type":"structure",
       "members":{
         "Key":{"shape":"HeaderKey"},
-        "Value":{"shape":"HeaderValue"},
+        "Value":{"shape":"HeaderValueSensitive"},
         "IsValueSecret":{"shape":"Boolean"}
       }
     },
@@ -1161,7 +1203,7 @@
       "type":"structure",
       "members":{
         "Key":{"shape":"QueryStringKey"},
-        "Value":{"shape":"QueryStringValue"},
+        "Value":{"shape":"QueryStringValueSensitive"},
         "IsValueSecret":{"shape":"Boolean"}
       }
     },
@@ -1184,13 +1226,29 @@
         "AUTHORIZED",
         "DEAUTHORIZED",
         "AUTHORIZING",
-        "DEAUTHORIZING"
+        "DEAUTHORIZING",
+        "ACTIVE",
+        "FAILED_CONNECTIVITY"
       ]
     },
     "ConnectionStateReason":{
       "type":"string",
       "max":512,
       "pattern":".*"
+    },
+    "ConnectivityResourceConfigurationArn":{
+      "type":"structure",
+      "required":["ResourceConfigurationArn"],
+      "members":{
+        "ResourceConfigurationArn":{"shape":"ResourceConfigurationArn"}
+      }
+    },
+    "ConnectivityResourceParameters":{
+      "type":"structure",
+      "required":["ResourceParameters"],
+      "members":{
+        "ResourceParameters":{"shape":"ConnectivityResourceConfigurationArn"}
+      }
     },
     "CreateApiDestinationRequest":{
       "type":"structure",
@@ -1249,7 +1307,7 @@
       ],
       "members":{
         "ApiKeyName":{"shape":"AuthHeaderParameters"},
-        "ApiKeyValue":{"shape":"AuthHeaderParameters"}
+        "ApiKeyValue":{"shape":"AuthHeaderParametersSensitive"}
       }
     },
     "CreateConnectionAuthRequestParameters":{
@@ -1258,7 +1316,8 @@
         "BasicAuthParameters":{"shape":"CreateConnectionBasicAuthRequestParameters"},
         "OAuthParameters":{"shape":"CreateConnectionOAuthRequestParameters"},
         "ApiKeyAuthParameters":{"shape":"CreateConnectionApiKeyAuthRequestParameters"},
-        "InvocationHttpParameters":{"shape":"ConnectionHttpParameters"}
+        "InvocationHttpParameters":{"shape":"ConnectionHttpParameters"},
+        "ConnectivityParameters":{"shape":"ConnectivityResourceParameters"}
       }
     },
     "CreateConnectionBasicAuthRequestParameters":{
@@ -1269,7 +1328,7 @@
       ],
       "members":{
         "Username":{"shape":"AuthHeaderParameters"},
-        "Password":{"shape":"AuthHeaderParameters"}
+        "Password":{"shape":"AuthHeaderParametersSensitive"}
       }
     },
     "CreateConnectionOAuthClientRequestParameters":{
@@ -1280,7 +1339,7 @@
       ],
       "members":{
         "ClientID":{"shape":"AuthHeaderParameters"},
-        "ClientSecret":{"shape":"AuthHeaderParameters"}
+        "ClientSecret":{"shape":"AuthHeaderParametersSensitive"}
       }
     },
     "CreateConnectionOAuthRequestParameters":{
@@ -1308,7 +1367,8 @@
         "Name":{"shape":"ConnectionName"},
         "Description":{"shape":"ConnectionDescription"},
         "AuthorizationType":{"shape":"ConnectionAuthorizationType"},
-        "AuthParameters":{"shape":"CreateConnectionAuthRequestParameters"}
+        "AuthParameters":{"shape":"CreateConnectionAuthRequestParameters"},
+        "InvocationConnectivityParameters":{"shape":"ConnectivityResourceParameters"}
       }
     },
     "CreateConnectionResponse":{
@@ -1354,13 +1414,19 @@
       "members":{
         "Name":{"shape":"EventBusName"},
         "EventSourceName":{"shape":"EventSourceName"},
+        "Description":{"shape":"EventBusDescription"},
+        "KmsKeyIdentifier":{"shape":"KmsKeyIdentifier"},
+        "DeadLetterConfig":{"shape":"DeadLetterConfig"},
         "Tags":{"shape":"TagList"}
       }
     },
     "CreateEventBusResponse":{
       "type":"structure",
       "members":{
-        "EventBusArn":{"shape":"String"}
+        "EventBusArn":{"shape":"String"},
+        "Description":{"shape":"EventBusDescription"},
+        "KmsKeyIdentifier":{"shape":"KmsKeyIdentifier"},
+        "DeadLetterConfig":{"shape":"DeadLetterConfig"}
       }
     },
     "CreatePartnerEventSourceRequest":{
@@ -1550,11 +1616,29 @@
         "CreationTime":{"shape":"Timestamp"}
       }
     },
+    "DescribeConnectionConnectivityParameters":{
+      "type":"structure",
+      "required":["ResourceParameters"],
+      "members":{
+        "ResourceParameters":{"shape":"DescribeConnectionResourceParameters"}
+      }
+    },
     "DescribeConnectionRequest":{
       "type":"structure",
       "required":["Name"],
       "members":{
         "Name":{"shape":"ConnectionName"}
+      }
+    },
+    "DescribeConnectionResourceParameters":{
+      "type":"structure",
+      "required":[
+        "ResourceConfigurationArn",
+        "ResourceAssociationArn"
+      ],
+      "members":{
+        "ResourceConfigurationArn":{"shape":"ResourceConfigurationArn"},
+        "ResourceAssociationArn":{"shape":"ResourceAssociationArn"}
       }
     },
     "DescribeConnectionResponse":{
@@ -1563,6 +1647,7 @@
         "ConnectionArn":{"shape":"ConnectionArn"},
         "Name":{"shape":"ConnectionName"},
         "Description":{"shape":"ConnectionDescription"},
+        "InvocationConnectivityParameters":{"shape":"DescribeConnectionConnectivityParameters"},
         "ConnectionState":{"shape":"ConnectionState"},
         "StateReason":{"shape":"ConnectionStateReason"},
         "AuthorizationType":{"shape":"ConnectionAuthorizationType"},
@@ -1610,7 +1695,12 @@
       "members":{
         "Name":{"shape":"String"},
         "Arn":{"shape":"String"},
-        "Policy":{"shape":"String"}
+        "Description":{"shape":"EventBusDescription"},
+        "KmsKeyIdentifier":{"shape":"KmsKeyIdentifier"},
+        "DeadLetterConfig":{"shape":"DeadLetterConfig"},
+        "Policy":{"shape":"String"},
+        "CreationTime":{"shape":"Timestamp"},
+        "LastModifiedTime":{"shape":"Timestamp"}
       }
     },
     "DescribeEventSourceRequest":{
@@ -1817,8 +1907,15 @@
       "members":{
         "Name":{"shape":"String"},
         "Arn":{"shape":"String"},
-        "Policy":{"shape":"String"}
+        "Description":{"shape":"EventBusDescription"},
+        "Policy":{"shape":"String"},
+        "CreationTime":{"shape":"Timestamp"},
+        "LastModifiedTime":{"shape":"Timestamp"}
       }
+    },
+    "EventBusDescription":{
+      "type":"string",
+      "max":512
     },
     "EventBusList":{
       "type":"list",
@@ -1899,6 +1996,12 @@
         "Secondary":{"shape":"Secondary"}
       }
     },
+    "GraphQLOperation":{
+      "type":"string",
+      "max":1048576,
+      "min":1,
+      "sensitive":true
+    },
     "HeaderKey":{
       "type":"string",
       "max":512,
@@ -1913,6 +2016,12 @@
       "type":"string",
       "max":512,
       "pattern":"^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*$"
+    },
+    "HeaderValueSensitive":{
+      "type":"string",
+      "max":512,
+      "pattern":"^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*$",
+      "sensitive":true
     },
     "HealthCheck":{
       "type":"string",
@@ -1992,6 +2101,10 @@
       "members":{
         "PartitionKeyPath":{"shape":"TargetPartitionKeyPath"}
       }
+    },
+    "KmsKeyIdentifier":{
+      "type":"string",
+      "max":2048
     },
     "LaunchType":{
       "type":"string",
@@ -2559,19 +2672,23 @@
       "max":512,
       "pattern":"[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+"
     },
+    "QueryStringValueSensitive":{
+      "type":"string",
+      "max":512,
+      "pattern":"[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+",
+      "sensitive":true
+    },
     "RedshiftDataParameters":{
       "type":"structure",
-      "required":[
-        "Database",
-        "Sql"
-      ],
+      "required":["Database"],
       "members":{
         "SecretManagerArn":{"shape":"RedshiftSecretManagerArn"},
         "Database":{"shape":"Database"},
         "DbUser":{"shape":"DbUser"},
         "Sql":{"shape":"Sql"},
         "StatementName":{"shape":"StatementName"},
-        "WithEvent":{"shape":"Boolean"}
+        "WithEvent":{"shape":"Boolean"},
+        "Sqls":{"shape":"Sqls"}
       }
     },
     "RedshiftSecretManagerArn":{
@@ -2711,6 +2828,18 @@
       "max":1600,
       "min":1
     },
+    "ResourceAssociationArn":{
+      "type":"string",
+      "max":2048,
+      "min":17,
+      "pattern":"^arn:[a-z0-9\\\\-]+:vpc-lattice:[a-zA-Z0-9\\\\-]+:\\\\d{12}:servicenetworkresourceassociation/snra-[0-9a-z]{17}$"
+    },
+    "ResourceConfigurationArn":{
+      "type":"string",
+      "max":2048,
+      "min":0,
+      "pattern":"^(?:^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}$|^$)"
+    },
     "ResourceNotFoundException":{
       "type":"structure",
       "members":{
@@ -2787,7 +2916,8 @@
       "type":"string",
       "enum":[
         "ENABLED",
-        "DISABLED"
+        "DISABLED",
+        "ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS"
       ]
     },
     "RunCommandParameters":{
@@ -2881,10 +3011,22 @@
       "min":20,
       "pattern":"^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]|\\d|\\-)*:([0-9]{12})?:secret:[\\/_+=\\.@\\-A-Za-z0-9]+$"
     },
+    "SensitiveString":{
+      "type":"string",
+      "sensitive":true
+    },
     "Sql":{
       "type":"string",
       "max":100000,
-      "min":1
+      "min":1,
+      "sensitive":true
+    },
+    "Sqls":{
+      "type":"list",
+      "member":{"shape":"Sql"},
+      "max":40,
+      "min":0,
+      "sensitive":true
     },
     "SqsParameters":{
       "type":"structure",
@@ -3002,7 +3144,8 @@
         "RedshiftDataParameters":{"shape":"RedshiftDataParameters"},
         "SageMakerPipelineParameters":{"shape":"SageMakerPipelineParameters"},
         "DeadLetterConfig":{"shape":"DeadLetterConfig"},
-        "RetryPolicy":{"shape":"RetryPolicy"}
+        "RetryPolicy":{"shape":"RetryPolicy"},
+        "AppSyncParameters":{"shape":"AppSyncParameters"}
       }
     },
     "TargetArn":{
@@ -3056,6 +3199,12 @@
       "members":{
         "Result":{"shape":"Boolean"}
       }
+    },
+    "ThrottlingException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
     },
     "Timestamp":{"type":"timestamp"},
     "TraceHeader":{
@@ -3134,7 +3283,7 @@
       "type":"structure",
       "members":{
         "ApiKeyName":{"shape":"AuthHeaderParameters"},
-        "ApiKeyValue":{"shape":"AuthHeaderParameters"}
+        "ApiKeyValue":{"shape":"AuthHeaderParametersSensitive"}
       }
     },
     "UpdateConnectionAuthRequestParameters":{
@@ -3143,21 +3292,22 @@
         "BasicAuthParameters":{"shape":"UpdateConnectionBasicAuthRequestParameters"},
         "OAuthParameters":{"shape":"UpdateConnectionOAuthRequestParameters"},
         "ApiKeyAuthParameters":{"shape":"UpdateConnectionApiKeyAuthRequestParameters"},
-        "InvocationHttpParameters":{"shape":"ConnectionHttpParameters"}
+        "InvocationHttpParameters":{"shape":"ConnectionHttpParameters"},
+        "ConnectivityParameters":{"shape":"ConnectivityResourceParameters"}
       }
     },
     "UpdateConnectionBasicAuthRequestParameters":{
       "type":"structure",
       "members":{
         "Username":{"shape":"AuthHeaderParameters"},
-        "Password":{"shape":"AuthHeaderParameters"}
+        "Password":{"shape":"AuthHeaderParametersSensitive"}
       }
     },
     "UpdateConnectionOAuthClientRequestParameters":{
       "type":"structure",
       "members":{
         "ClientID":{"shape":"AuthHeaderParameters"},
-        "ClientSecret":{"shape":"AuthHeaderParameters"}
+        "ClientSecret":{"shape":"AuthHeaderParametersSensitive"}
       }
     },
     "UpdateConnectionOAuthRequestParameters":{
@@ -3176,7 +3326,8 @@
         "Name":{"shape":"ConnectionName"},
         "Description":{"shape":"ConnectionDescription"},
         "AuthorizationType":{"shape":"ConnectionAuthorizationType"},
-        "AuthParameters":{"shape":"UpdateConnectionAuthRequestParameters"}
+        "AuthParameters":{"shape":"UpdateConnectionAuthRequestParameters"},
+        "InvocationConnectivityParameters":{"shape":"ConnectivityResourceParameters"}
       }
     },
     "UpdateConnectionResponse":{
@@ -3213,6 +3364,25 @@
         "EndpointId":{"shape":"EndpointId"},
         "EndpointUrl":{"shape":"EndpointUrl"},
         "State":{"shape":"EndpointState"}
+      }
+    },
+    "UpdateEventBusRequest":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"EventBusName"},
+        "KmsKeyIdentifier":{"shape":"KmsKeyIdentifier"},
+        "Description":{"shape":"EventBusDescription"},
+        "DeadLetterConfig":{"shape":"DeadLetterConfig"}
+      }
+    },
+    "UpdateEventBusResponse":{
+      "type":"structure",
+      "members":{
+        "Arn":{"shape":"String"},
+        "Name":{"shape":"EventBusName"},
+        "KmsKeyIdentifier":{"shape":"KmsKeyIdentifier"},
+        "Description":{"shape":"EventBusDescription"},
+        "DeadLetterConfig":{"shape":"DeadLetterConfig"}
       }
     }
   }

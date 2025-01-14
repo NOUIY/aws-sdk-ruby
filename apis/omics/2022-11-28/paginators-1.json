@@ -6,11 +6,23 @@
       "limit_key": "maxResults",
       "result_key": "annotationImportJobs"
     },
+    "ListAnnotationStoreVersions": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "annotationStoreVersions"
+    },
     "ListAnnotationStores": {
       "input_token": "nextToken",
       "output_token": "nextToken",
       "limit_key": "maxResults",
       "result_key": "annotationStores"
+    },
+    "ListMultipartReadSetUploads": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "uploads"
     },
     "ListReadSetActivationJobs": {
       "input_token": "nextToken",
@@ -29,6 +41,12 @@
       "output_token": "nextToken",
       "limit_key": "maxResults",
       "result_key": "importJobs"
+    },
+    "ListReadSetUploadParts": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "parts"
     },
     "ListReadSets": {
       "input_token": "nextToken",
@@ -54,6 +72,12 @@
       "limit_key": "maxResults",
       "result_key": "references"
     },
+    "ListRunCaches": {
+      "input_token": "startingToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "items"
+    },
     "ListRunGroups": {
       "input_token": "startingToken",
       "output_token": "nextToken",
@@ -77,6 +101,12 @@
       "output_token": "nextToken",
       "limit_key": "maxResults",
       "result_key": "sequenceStores"
+    },
+    "ListShares": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "shares"
     },
     "ListVariantImportJobs": {
       "input_token": "nextToken",

@@ -58,7 +58,6 @@ module Aws::SNS
     #     message attributes.
     #
     #   * `MessageBody` – The filter is applied on the message body.
-    #
     # * `Owner` – The Amazon Web Services account ID of the subscription's
     #   owner.
     #
@@ -81,20 +80,18 @@ module Aws::SNS
     #
     # * `TopicArn` – The topic ARN that the subscription is associated with.
     #
-    # The following attribute applies only to Amazon Kinesis Data Firehose
-    # delivery stream subscriptions:
+    # The following attribute applies only to Amazon Data Firehose delivery
+    # stream subscriptions:
     #
     # * `SubscriptionRoleArn` – The ARN of the IAM role that has the
     #   following:
     #
-    #   * Permission to write to the Kinesis Data Firehose delivery stream
+    #   * Permission to write to the Firehose delivery stream
     #
     #   * Amazon SNS listed as a trusted entity
-    #
-    #   Specifying a valid ARN for this attribute is required for Kinesis
-    #   Data Firehose delivery stream subscriptions. For more information,
-    #   see [Fanout to Kinesis Data Firehose delivery streams][2] in the
-    #   *Amazon SNS Developer Guide*.
+    #   Specifying a valid ARN for this attribute is required for Firehose
+    #   delivery stream subscriptions. For more information, see [Fanout to
+    #   Firehose delivery streams][2] in the *Amazon SNS Developer Guide*.
     #
     #
     #
@@ -119,7 +116,9 @@ module Aws::SNS
     #
     # @return [self]
     def load
-      resp = @client.get_subscription_attributes(subscription_arn: @arn)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_subscription_attributes(subscription_arn: @arn)
+      end
       @data = resp.data
       self
     end
@@ -149,7 +148,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(subscription_arn: @arn)
-      resp = @client.unsubscribe(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.unsubscribe(options)
+      end
       resp.data
     end
 
@@ -180,7 +181,6 @@ module Aws::SNS
     #       message attributes.
     #
     #     * `MessageBody` – The filter is applied on the message body.
-    #
     #   * `RawMessageDelivery` – When set to `true`, enables raw message
     #     delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need
     #     for the endpoints to process JSON formatting, which is otherwise
@@ -193,20 +193,18 @@ module Aws::SNS
     #     service that powers the subscribed endpoint becomes unavailable) are
     #     held in the dead-letter queue for further analysis or reprocessing.
     #
-    #   The following attribute applies only to Amazon Kinesis Data Firehose
-    #   delivery stream subscriptions:
+    #   The following attribute applies only to Amazon Data Firehose delivery
+    #   stream subscriptions:
     #
     #   * `SubscriptionRoleArn` – The ARN of the IAM role that has the
     #     following:
     #
-    #     * Permission to write to the Kinesis Data Firehose delivery stream
+    #     * Permission to write to the Firehose delivery stream
     #
     #     * Amazon SNS listed as a trusted entity
-    #
-    #     Specifying a valid ARN for this attribute is required for Kinesis
-    #     Data Firehose delivery stream subscriptions. For more information,
-    #     see [Fanout to Kinesis Data Firehose delivery streams][1] in the
-    #     *Amazon SNS Developer Guide*.
+    #     Specifying a valid ARN for this attribute is required for Firehose
+    #     delivery stream subscriptions. For more information, see [Fanout to
+    #     Firehose delivery streams][1] in the *Amazon SNS Developer Guide*.
     #
     #
     #
@@ -216,7 +214,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def set_attributes(options = {})
       options = options.merge(subscription_arn: @arn)
-      resp = @client.set_subscription_attributes(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.set_subscription_attributes(options)
+      end
       resp.data
     end
 

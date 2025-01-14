@@ -81,8 +81,7 @@ module Aws::CloudSearchDomain
     #   `double-array`), `min` is the string representation of a
     #   double-precision 64-bit floating point value. If the field is `date`
     #   or `date-array`, `min` is the string representation of a date with
-    #   the format specified in [IETF RFC3339][1]\:
-    #   yyyy-mm-ddTHH:mm:ss.SSSZ.
+    #   the format specified in [IETF RFC3339][1]: yyyy-mm-ddTHH:mm:ss.SSSZ.
     #
     #
     #
@@ -96,8 +95,7 @@ module Aws::CloudSearchDomain
     #   `double-array`), `max` is the string representation of a
     #   double-precision 64-bit floating point value. If the field is `date`
     #   or `date-array`, `max` is the string representation of a date with
-    #   the format specified in [IETF RFC3339][1]\:
-    #   yyyy-mm-ddTHH:mm:ss.SSSZ.
+    #   the format specified in [IETF RFC3339][1]: yyyy-mm-ddTHH:mm:ss.SSSZ.
     #
     #
     #
@@ -131,8 +129,7 @@ module Aws::CloudSearchDomain
     #   `double-array`), `mean` is the string representation of a
     #   double-precision 64-bit floating point value. If the field is `date`
     #   or `date-array`, `mean` is the string representation of a date with
-    #   the format specified in [IETF RFC3339][1]\:
-    #   yyyy-mm-ddTHH:mm:ss.SSSZ.
+    #   the format specified in [IETF RFC3339][1]: yyyy-mm-ddTHH:mm:ss.SSSZ.
     #
     #
     #
@@ -252,10 +249,10 @@ module Aws::CloudSearchDomain
     #   expressions as return fields.
     #
     #   You specify the expressions in JSON using the form
-    #   `\{"EXPRESSIONNAME":"EXPRESSION"\}`. You can define and use multiple
+    #   `{"EXPRESSIONNAME":"EXPRESSION"}`. You can define and use multiple
     #   expressions in a search request. For example:
     #
-    #   ` \{"expression1":"_score*rating", "expression2":"(1/rank)*year"\} `
+    #   ` {"expression1":"_score*rating", "expression2":"(1/rank)*year"} `
     #
     #   For information about the variables, operators, and functions you
     #   can use in expressions, see [Writing Expressions][1] in the *Amazon
@@ -271,7 +268,7 @@ module Aws::CloudSearchDomain
     #   options that control how the facet information is returned. Each
     #   specified field must be facet-enabled in the domain configuration.
     #   The fields and options are specified in JSON using the form
-    #   `\{"FIELD":\{"OPTION":VALUE,"OPTION:"STRING"\},"FIELD":\{"OPTION":VALUE,"OPTION":"STRING"\}\}`.
+    #   `{"FIELD":{"OPTION":VALUE,"OPTION:"STRING"},"FIELD":{"OPTION":VALUE,"OPTION":"STRING"}}`.
     #
     #   You can specify the following faceting options:
     #
@@ -304,7 +301,7 @@ module Aws::CloudSearchDomain
     #   calculate and return facet counts by decade.
     #
     #   `
-    #   \{"year":\{"buckets":["[1970,1979]","[1980,1989]","[1990,1999]","[2000,2009]","[2010,\}"]\}\}
+    #   {"year":{"buckets":["[1970,1979]","[1980,1989]","[1990,1999]","[2000,2009]","[2010,}"]}}
     #   `
     #
     #   To sort facets by facet count, use the `count` option. For example,
@@ -313,13 +310,13 @@ module Aws::CloudSearchDomain
     #   most matching documents listed first. Setting the `size` option to 3
     #   returns only the top three facet values.
     #
-    #   ` \{"year":\{"sort":"count","size":3\}\} `
+    #   ` {"year":{"sort":"count","size":3}} `
     #
     #   To sort the facets by value, use the `bucket` option. For example,
     #   the following request sets the `sort` option to `bucket` to sort the
     #   facet values numerically by year, with earliest year listed first.
     #
-    #   ` \{"year":\{"sort":"bucket"\}\} `
+    #   ` {"year":{"sort":"bucket"}} `
     #
     #   For more information, see [Getting and Using Facet Information][2]
     #   in the *Amazon CloudSearch Developer Guide*.
@@ -353,20 +350,20 @@ module Aws::CloudSearchDomain
     #   `text-array` fields. Each specified field must be highlight enabled
     #   in the domain configuration. The fields and options are specified in
     #   JSON using the form
-    #   `\{"FIELD":\{"OPTION":VALUE,"OPTION:"STRING"\},"FIELD":\{"OPTION":VALUE,"OPTION":"STRING"\}\}`.
+    #   `{"FIELD":{"OPTION":VALUE,"OPTION:"STRING"},"FIELD":{"OPTION":VALUE,"OPTION":"STRING"}}`.
     #
     #   You can specify the following highlight options:
     #
-    #   * `format`\: specifies the format of the data in the text field:
+    #   * `format`: specifies the format of the data in the text field:
     #     `text` or `html`. When data is returned as HTML, all
     #     non-alphanumeric characters are encoded. The default is `html`.
-    #   * `max_phrases`\: specifies the maximum number of occurrences of the
+    #   * `max_phrases`: specifies the maximum number of occurrences of the
     #     search term(s) you want to highlight. By default, the first
     #     occurrence is highlighted.
-    #   * `pre_tag`\: specifies the string to prepend to an occurrence of a
+    #   * `pre_tag`: specifies the string to prepend to an occurrence of a
     #     search term. The default for HTML highlights is `&lt;em&gt;`. The
     #     default for text highlights is `*`.
-    #   * `post_tag`\: specifies the string to append to an occurrence of a
+    #   * `post_tag`: specifies the string to append to an occurrence of a
     #     search term. The default for HTML highlights is `&lt;/em&gt;`. The
     #     default for text highlights is `*`.
     #
@@ -377,8 +374,8 @@ module Aws::CloudSearchDomain
     #   For example, the following request retrieves highlights for the
     #   `actors` and `title` fields.
     #
-    #   `\{ "actors": \{\}, "title": \{"format": "text","max_phrases":
-    #   2,"pre_tag": "","post_tag": ""\} \}`
+    #   `{ "actors": {}, "title": {"format": "text","max_phrases":
+    #   2,"pre_tag": "","post_tag": ""} }`
     #   @return [String]
     #
     # @!attribute [rw] partial
@@ -417,24 +414,24 @@ module Aws::CloudSearchDomain
     #   Configures options for the query parser specified in the
     #   `queryParser` parameter. You specify the options in JSON using the
     #   following form
-    #   `\{"OPTION1":"VALUE1","OPTION2":VALUE2"..."OPTIONN":"VALUEN"\}.`
+    #   `{"OPTION1":"VALUE1","OPTION2":VALUE2"..."OPTIONN":"VALUEN"}.`
     #
     #   The options you can configure vary according to which parser you
     #   use:
     #
-    #   * `defaultOperator`\: The default operator used to combine
-    #     individual terms in the search string. For example:
-    #     `defaultOperator: 'or'`. For the `dismax` parser, you specify a
-    #     percentage that represents the percentage of terms in the search
-    #     string (rounded down) that must match, rather than a default
-    #     operator. A value of `0%` is the equivalent to OR, and a value of
-    #     `100%` is equivalent to AND. The percentage must be specified as a
-    #     value in the range 0-100 followed by the percent (%) symbol. For
-    #     example, `defaultOperator: 50%`. Valid values: `and`, `or`, a
-    #     percentage in the range 0%-100% (`dismax`). Default: `and`
-    #     (`simple`, `structured`, `lucene`) or `100` (`dismax`). Valid for:
-    #     `simple`, `structured`, `lucene`, and `dismax`.
-    #   * `fields`\: An array of the fields to search when no fields are
+    #   * `defaultOperator`: The default operator used to combine individual
+    #     terms in the search string. For example: `defaultOperator: 'or'`.
+    #     For the `dismax` parser, you specify a percentage that represents
+    #     the percentage of terms in the search string (rounded down) that
+    #     must match, rather than a default operator. A value of `0%` is the
+    #     equivalent to OR, and a value of `100%` is equivalent to AND. The
+    #     percentage must be specified as a value in the range 0-100
+    #     followed by the percent (%) symbol. For example, `defaultOperator:
+    #     50%`. Valid values: `and`, `or`, a percentage in the range 0%-100%
+    #     (`dismax`). Default: `and` (`simple`, `structured`, `lucene`) or
+    #     `100` (`dismax`). Valid for: `simple`, `structured`, `lucene`, and
+    #     `dismax`.
+    #   * `fields`: An array of the fields to search when no fields are
     #     specified in a search. If no fields are specified in a search and
     #     this option is not specified, all text and text-array fields are
     #     searched. You can specify a weight for each field to control the
@@ -447,7 +444,7 @@ module Aws::CloudSearchDomain
     #     any configured field and an optional numeric value greater than
     #     zero. Default: All `text` and `text-array` fields. Valid for:
     #     `simple`, `structured`, `lucene`, and `dismax`.
-    #   * `operators`\: An array of the operators or special characters you
+    #   * `operators`: An array of the operators or special characters you
     #     want to disable for the simple query parser. If you disable the
     #     `and`, `or`, or `not` operators, the corresponding operators (`+`,
     #     `|`, `-`) have no special meaning and are dropped from the search
@@ -469,7 +466,7 @@ module Aws::CloudSearchDomain
     #     values: `and`, `escape`, `fuzzy`, `near`, `not`, `or`, `phrase`,
     #     `precedence`, `prefix`, `whitespace`. Default: All operators and
     #     special characters are enabled. Valid for: `simple`.
-    #   * `phraseFields`\: An array of the `text` or `text-array` fields you
+    #   * `phraseFields`: An array of the `text` or `text-array` fields you
     #     want to use for phrase searches. When the terms in the search
     #     string appear in close proximity within a field, the field scores
     #     higher. You can specify a weight for each field to boost that
@@ -483,20 +480,20 @@ module Aws::CloudSearchDomain
     #     than zero. Default: No fields. If you don't specify any fields
     #     with `phraseFields`, proximity scoring is disabled even if
     #     `phraseSlop` is specified. Valid for: `dismax`.
-    #   * `phraseSlop`\: An integer value that specifies how much matches
-    #     can deviate from the search phrase and still be boosted according
-    #     to the weights specified in the `phraseFields` option; for
-    #     example, `phraseSlop: 2`. You must also specify `phraseFields` to
-    #     enable proximity scoring. Valid values: positive integers.
-    #     Default: 0. Valid for: `dismax`.
-    #   * `explicitPhraseSlop`\: An integer value that specifies how much a
+    #   * `phraseSlop`: An integer value that specifies how much matches can
+    #     deviate from the search phrase and still be boosted according to
+    #     the weights specified in the `phraseFields` option; for example,
+    #     `phraseSlop: 2`. You must also specify `phraseFields` to enable
+    #     proximity scoring. Valid values: positive integers. Default: 0.
+    #     Valid for: `dismax`.
+    #   * `explicitPhraseSlop`: An integer value that specifies how much a
     #     match can deviate from the search phrase when the phrase is
     #     enclosed in double quotes in the search string. (Phrases that
     #     exceed this proximity distance are not considered a match.) For
     #     example, to specify a slop of three for dismax phrase queries, you
     #     would specify `"explicitPhraseSlop":3`. Valid values: positive
     #     integers. Default: 0. Valid for: `dismax`.
-    #   * `tieBreaker`\: When a term in the search string is found in a
+    #   * `tieBreaker`: When a term in the search string is found in a
     #     document's field, a score is calculated for that field based on
     #     how common the word is in that field compared to other documents.
     #     If the term occurs in multiple fields within a document, by
@@ -521,7 +518,7 @@ module Aws::CloudSearchDomain
     #
     #   Amazon CloudSearch supports four query parsers:
     #
-    #   * `simple`\: perform simple searches of `text` and `text-array`
+    #   * `simple`: perform simple searches of `text` and `text-array`
     #     fields. By default, the `simple` query parser searches all `text`
     #     and `text-array` fields. You can specify which fields to search by
     #     with the `queryOptions` parameter. If you prefix a search term
@@ -534,15 +531,15 @@ module Aws::CloudSearchDomain
     #     individual terms, enclose the phrase in double quotes. For more
     #     information, see [Searching for Text][1] in the *Amazon
     #     CloudSearch Developer Guide*.
-    #   * `structured`\: perform advanced searches by combining multiple
+    #   * `structured`: perform advanced searches by combining multiple
     #     expressions to define the search criteria. You can also search
     #     within particular fields, search for values and ranges of values,
     #     and use advanced options such as term boosting, `matchall`, and
     #     `near`. For more information, see [Constructing Compound
     #     Queries][2] in the *Amazon CloudSearch Developer Guide*.
-    #   * `lucene`\: search using the Apache Lucene query parser syntax. For
+    #   * `lucene`: search using the Apache Lucene query parser syntax. For
     #     more information, see [Apache Lucene Query Parser Syntax][3].
-    #   * `dismax`\: search using the simplified subset of the Apache Lucene
+    #   * `dismax`: search using the simplified subset of the Apache Lucene
     #     query parser syntax defined by the DisMax query parser. For more
     #     information, see [DisMax Query Parser Syntax][4].
     #
@@ -607,7 +604,7 @@ module Aws::CloudSearchDomain
     #   domain configuration. The fields are specified in JSON using the
     #   form:
     #
-    #    `\{"FIELD-A":\{\},"FIELD-B":\{\}\}` There are currently no options supported for statistics.
+    #    `{"FIELD-A":{},"FIELD-B":{}}` There are currently no options supported for statistics.
     #   @return [String]
     #
     class SearchRequest < Struct.new(
@@ -833,3 +830,4 @@ module Aws::CloudSearchDomain
 
   end
 end
+

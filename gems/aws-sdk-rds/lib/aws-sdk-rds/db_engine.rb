@@ -156,7 +156,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Associations
@@ -182,7 +184,9 @@ module Aws::RDS
     def option_group_options(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(engine_name: @name)
-        resp = @client.describe_option_group_options(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_option_group_options(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.option_group_options.each do |o|
@@ -224,7 +228,9 @@ module Aws::RDS
     def option_groups(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(engine_name: @name)
-        resp = @client.describe_option_groups(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_option_groups(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.option_groups_list.each do |o|
@@ -268,7 +274,7 @@ module Aws::RDS
     #   })
     # @param [Hash] options ({})
     # @option options [String] :engine_version
-    #   The database engine version to return.
+    #   A specific database engine version to return details for.
     #
     #   Example: `5.1.49`
     # @option options [String] :db_parameter_group_family
@@ -277,7 +283,7 @@ module Aws::RDS
     #
     #   Constraints:
     #
-    #   * If supplied, must match an existing DBParameterGroupFamily.
+    #   * If supplied, must match an existing DB parameter group family.
     #
     #   ^
     # @option options [Array<Types::Filter>] :filters
@@ -305,7 +311,6 @@ module Aws::RDS
     #     * `provisioned`
     #
     #     * `serverless`
-    #
     #   * `engine-version` - Accepts engine versions. The results list only
     #     includes information about the DB engine versions for these engine
     #     versions.
@@ -318,39 +323,38 @@ module Aws::RDS
     #
     #     * `deprecated`
     # @option options [Boolean] :default_only
-    #   A value that indicates whether only the default version of the
-    #   specified engine or engine and major version combination is returned.
+    #   Specifies whether to return only the default version of the specified
+    #   engine or the engine and major version combination.
     # @option options [Boolean] :list_supported_character_sets
-    #   A value that indicates whether to list the supported character sets
-    #   for each engine version.
+    #   Specifies whether to list the supported character sets for each engine
+    #   version.
     #
     #   If this parameter is enabled and the requested engine supports the
     #   `CharacterSetName` parameter for `CreateDBInstance`, the response
     #   includes a list of supported character sets for each engine version.
     #
     #   For RDS Custom, the default is not to list supported character sets.
-    #   If you set `ListSupportedCharacterSets` to `true`, RDS Custom returns
-    #   no results.
+    #   If you enable this parameter, RDS Custom returns no results.
     # @option options [Boolean] :list_supported_timezones
-    #   A value that indicates whether to list the supported time zones for
-    #   each engine version.
+    #   Specifies whether to list the supported time zones for each engine
+    #   version.
     #
     #   If this parameter is enabled and the requested engine supports the
     #   `TimeZone` parameter for `CreateDBInstance`, the response includes a
     #   list of supported time zones for each engine version.
     #
     #   For RDS Custom, the default is not to list supported time zones. If
-    #   you set `ListSupportedTimezones` to `true`, RDS Custom returns no
-    #   results.
+    #   you enable this parameter, RDS Custom returns no results.
     # @option options [Boolean] :include_all
-    #   A value that indicates whether to include engine versions that aren't
-    #   available in the list. The default is to list only available engine
-    #   versions.
+    #   Specifies whether to also list the engine versions that aren't
+    #   available. The default is to list only available engine versions.
     # @return [DBEngineVersion::Collection]
     def versions(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(engine: @name)
-        resp = @client.describe_db_engine_versions(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_db_engine_versions(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.db_engine_versions.each do |d|

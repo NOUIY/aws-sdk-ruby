@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::DAX
   # @api private
   module ClientApi
@@ -511,9 +512,11 @@ module Aws::DAX
 
       api.metadata = {
         "apiVersion" => "2017-04-19",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "dax",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Amazon DAX",
         "serviceFullName" => "Amazon DynamoDB Accelerator (DAX)",
         "serviceId" => "DAX",

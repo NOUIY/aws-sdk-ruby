@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Kendra
   # @api private
   module ClientApi
@@ -35,6 +36,10 @@ module Aws::Kendra
     AssociatePersonasToEntitiesResponse = Shapes::StructureShape.new(name: 'AssociatePersonasToEntitiesResponse')
     AttributeFilter = Shapes::StructureShape.new(name: 'AttributeFilter')
     AttributeFilterList = Shapes::ListShape.new(name: 'AttributeFilterList')
+    AttributeSuggestionsDescribeConfig = Shapes::StructureShape.new(name: 'AttributeSuggestionsDescribeConfig')
+    AttributeSuggestionsGetConfig = Shapes::StructureShape.new(name: 'AttributeSuggestionsGetConfig')
+    AttributeSuggestionsMode = Shapes::StringShape.new(name: 'AttributeSuggestionsMode')
+    AttributeSuggestionsUpdateConfig = Shapes::StructureShape.new(name: 'AttributeSuggestionsUpdateConfig')
     AuthenticationConfiguration = Shapes::StructureShape.new(name: 'AuthenticationConfiguration')
     BasicAuthenticationConfiguration = Shapes::StructureShape.new(name: 'BasicAuthenticationConfiguration')
     BasicAuthenticationConfigurationList = Shapes::ListShape.new(name: 'BasicAuthenticationConfigurationList')
@@ -42,6 +47,10 @@ module Aws::Kendra
     BatchDeleteDocumentResponse = Shapes::StructureShape.new(name: 'BatchDeleteDocumentResponse')
     BatchDeleteDocumentResponseFailedDocument = Shapes::StructureShape.new(name: 'BatchDeleteDocumentResponseFailedDocument')
     BatchDeleteDocumentResponseFailedDocuments = Shapes::ListShape.new(name: 'BatchDeleteDocumentResponseFailedDocuments')
+    BatchDeleteFeaturedResultsSetError = Shapes::StructureShape.new(name: 'BatchDeleteFeaturedResultsSetError')
+    BatchDeleteFeaturedResultsSetErrors = Shapes::ListShape.new(name: 'BatchDeleteFeaturedResultsSetErrors')
+    BatchDeleteFeaturedResultsSetRequest = Shapes::StructureShape.new(name: 'BatchDeleteFeaturedResultsSetRequest')
+    BatchDeleteFeaturedResultsSetResponse = Shapes::StructureShape.new(name: 'BatchDeleteFeaturedResultsSetResponse')
     BatchGetDocumentStatusRequest = Shapes::StructureShape.new(name: 'BatchGetDocumentStatusRequest')
     BatchGetDocumentStatusResponse = Shapes::StructureShape.new(name: 'BatchGetDocumentStatusResponse')
     BatchGetDocumentStatusResponseError = Shapes::StructureShape.new(name: 'BatchGetDocumentStatusResponseError')
@@ -60,10 +69,14 @@ module Aws::Kendra
     ClickFeedback = Shapes::StructureShape.new(name: 'ClickFeedback')
     ClickFeedbackList = Shapes::ListShape.new(name: 'ClickFeedbackList')
     ClientTokenName = Shapes::StringShape.new(name: 'ClientTokenName')
+    CollapseConfiguration = Shapes::StructureShape.new(name: 'CollapseConfiguration')
+    CollapsedResultDetail = Shapes::StructureShape.new(name: 'CollapsedResultDetail')
     ColumnConfiguration = Shapes::StructureShape.new(name: 'ColumnConfiguration')
     ColumnName = Shapes::StringShape.new(name: 'ColumnName')
     ConditionOperator = Shapes::StringShape.new(name: 'ConditionOperator')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
+    ConflictingItem = Shapes::StructureShape.new(name: 'ConflictingItem')
+    ConflictingItems = Shapes::ListShape.new(name: 'ConflictingItems')
     ConfluenceAttachmentConfiguration = Shapes::StructureShape.new(name: 'ConfluenceAttachmentConfiguration')
     ConfluenceAttachmentFieldMappingsList = Shapes::ListShape.new(name: 'ConfluenceAttachmentFieldMappingsList')
     ConfluenceAttachmentFieldName = Shapes::StringShape.new(name: 'ConfluenceAttachmentFieldName')
@@ -86,6 +99,7 @@ module Aws::Kendra
     ConfluenceSpaceToIndexFieldMapping = Shapes::StructureShape.new(name: 'ConfluenceSpaceToIndexFieldMapping')
     ConfluenceVersion = Shapes::StringShape.new(name: 'ConfluenceVersion')
     ConnectionConfiguration = Shapes::StructureShape.new(name: 'ConnectionConfiguration')
+    Content = Shapes::StringShape.new(name: 'Content')
     ContentSourceConfiguration = Shapes::StructureShape.new(name: 'ContentSourceConfiguration')
     ContentType = Shapes::StringShape.new(name: 'ContentType')
     Correction = Shapes::StructureShape.new(name: 'Correction')
@@ -99,6 +113,8 @@ module Aws::Kendra
     CreateExperienceResponse = Shapes::StructureShape.new(name: 'CreateExperienceResponse')
     CreateFaqRequest = Shapes::StructureShape.new(name: 'CreateFaqRequest')
     CreateFaqResponse = Shapes::StructureShape.new(name: 'CreateFaqResponse')
+    CreateFeaturedResultsSetRequest = Shapes::StructureShape.new(name: 'CreateFeaturedResultsSetRequest')
+    CreateFeaturedResultsSetResponse = Shapes::StructureShape.new(name: 'CreateFeaturedResultsSetResponse')
     CreateIndexRequest = Shapes::StructureShape.new(name: 'CreateIndexRequest')
     CreateIndexResponse = Shapes::StructureShape.new(name: 'CreateIndexResponse')
     CreateQuerySuggestionsBlockListRequest = Shapes::StructureShape.new(name: 'CreateQuerySuggestionsBlockListRequest')
@@ -152,6 +168,8 @@ module Aws::Kendra
     DescribeExperienceResponse = Shapes::StructureShape.new(name: 'DescribeExperienceResponse')
     DescribeFaqRequest = Shapes::StructureShape.new(name: 'DescribeFaqRequest')
     DescribeFaqResponse = Shapes::StructureShape.new(name: 'DescribeFaqResponse')
+    DescribeFeaturedResultsSetRequest = Shapes::StructureShape.new(name: 'DescribeFeaturedResultsSetRequest')
+    DescribeFeaturedResultsSetResponse = Shapes::StructureShape.new(name: 'DescribeFeaturedResultsSetResponse')
     DescribeIndexRequest = Shapes::StructureShape.new(name: 'DescribeIndexRequest')
     DescribeIndexResponse = Shapes::StructureShape.new(name: 'DescribeIndexResponse')
     DescribePrincipalMappingRequest = Shapes::StructureShape.new(name: 'DescribePrincipalMappingRequest')
@@ -194,6 +212,7 @@ module Aws::Kendra
     DocumentRelevanceOverrideConfigurationList = Shapes::ListShape.new(name: 'DocumentRelevanceOverrideConfigurationList')
     DocumentStatus = Shapes::StringShape.new(name: 'DocumentStatus')
     DocumentStatusList = Shapes::ListShape.new(name: 'DocumentStatusList')
+    DocumentTitle = Shapes::StringShape.new(name: 'DocumentTitle')
     DocumentsMetadataConfiguration = Shapes::StructureShape.new(name: 'DocumentsMetadataConfiguration')
     Domain = Shapes::StringShape.new(name: 'Domain')
     Duration = Shapes::StringShape.new(name: 'Duration')
@@ -213,6 +232,9 @@ module Aws::Kendra
     ExcludeMimeTypesList = Shapes::ListShape.new(name: 'ExcludeMimeTypesList')
     ExcludeSharedDrivesList = Shapes::ListShape.new(name: 'ExcludeSharedDrivesList')
     ExcludeUserAccountsList = Shapes::ListShape.new(name: 'ExcludeUserAccountsList')
+    ExpandConfiguration = Shapes::StructureShape.new(name: 'ExpandConfiguration')
+    ExpandedResultItem = Shapes::StructureShape.new(name: 'ExpandedResultItem')
+    ExpandedResultList = Shapes::ListShape.new(name: 'ExpandedResultList')
     ExperienceConfiguration = Shapes::StructureShape.new(name: 'ExperienceConfiguration')
     ExperienceEndpoint = Shapes::StructureShape.new(name: 'ExperienceEndpoint')
     ExperienceEndpoints = Shapes::ListShape.new(name: 'ExperienceEndpoints')
@@ -238,6 +260,23 @@ module Aws::Kendra
     FaqStatus = Shapes::StringShape.new(name: 'FaqStatus')
     FaqSummary = Shapes::StructureShape.new(name: 'FaqSummary')
     FaqSummaryItems = Shapes::ListShape.new(name: 'FaqSummaryItems')
+    FeaturedDocument = Shapes::StructureShape.new(name: 'FeaturedDocument')
+    FeaturedDocumentList = Shapes::ListShape.new(name: 'FeaturedDocumentList')
+    FeaturedDocumentMissing = Shapes::StructureShape.new(name: 'FeaturedDocumentMissing')
+    FeaturedDocumentMissingList = Shapes::ListShape.new(name: 'FeaturedDocumentMissingList')
+    FeaturedDocumentWithMetadata = Shapes::StructureShape.new(name: 'FeaturedDocumentWithMetadata')
+    FeaturedDocumentWithMetadataList = Shapes::ListShape.new(name: 'FeaturedDocumentWithMetadataList')
+    FeaturedResultsConflictException = Shapes::StructureShape.new(name: 'FeaturedResultsConflictException')
+    FeaturedResultsItem = Shapes::StructureShape.new(name: 'FeaturedResultsItem')
+    FeaturedResultsItemList = Shapes::ListShape.new(name: 'FeaturedResultsItemList')
+    FeaturedResultsSet = Shapes::StructureShape.new(name: 'FeaturedResultsSet')
+    FeaturedResultsSetDescription = Shapes::StringShape.new(name: 'FeaturedResultsSetDescription')
+    FeaturedResultsSetId = Shapes::StringShape.new(name: 'FeaturedResultsSetId')
+    FeaturedResultsSetIdList = Shapes::ListShape.new(name: 'FeaturedResultsSetIdList')
+    FeaturedResultsSetName = Shapes::StringShape.new(name: 'FeaturedResultsSetName')
+    FeaturedResultsSetStatus = Shapes::StringShape.new(name: 'FeaturedResultsSetStatus')
+    FeaturedResultsSetSummary = Shapes::StructureShape.new(name: 'FeaturedResultsSetSummary')
+    FeaturedResultsSetSummaryItems = Shapes::ListShape.new(name: 'FeaturedResultsSetSummaryItems')
     FeedbackToken = Shapes::StringShape.new(name: 'FeedbackToken')
     FileSystemId = Shapes::StringShape.new(name: 'FileSystemId')
     FolderId = Shapes::StringShape.new(name: 'FolderId')
@@ -311,6 +350,8 @@ module Aws::Kendra
     ListExperiencesResponse = Shapes::StructureShape.new(name: 'ListExperiencesResponse')
     ListFaqsRequest = Shapes::StructureShape.new(name: 'ListFaqsRequest')
     ListFaqsResponse = Shapes::StructureShape.new(name: 'ListFaqsResponse')
+    ListFeaturedResultsSetsRequest = Shapes::StructureShape.new(name: 'ListFeaturedResultsSetsRequest')
+    ListFeaturedResultsSetsResponse = Shapes::StructureShape.new(name: 'ListFeaturedResultsSetsResponse')
     ListGroupsOlderThanOrderingIdRequest = Shapes::StructureShape.new(name: 'ListGroupsOlderThanOrderingIdRequest')
     ListGroupsOlderThanOrderingIdResponse = Shapes::StructureShape.new(name: 'ListGroupsOlderThanOrderingIdResponse')
     ListIndicesRequest = Shapes::StructureShape.new(name: 'ListIndicesRequest')
@@ -332,6 +373,7 @@ module Aws::Kendra
     MaxResultsIntegerForListEntityPersonasRequest = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListEntityPersonasRequest')
     MaxResultsIntegerForListExperiencesRequest = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListExperiencesRequest')
     MaxResultsIntegerForListFaqsRequest = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListFaqsRequest')
+    MaxResultsIntegerForListFeaturedResultsSetsRequest = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListFeaturedResultsSetsRequest')
     MaxResultsIntegerForListIndicesRequest = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListIndicesRequest')
     MaxResultsIntegerForListPrincipalsRequest = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListPrincipalsRequest')
     MaxResultsIntegerForListQuerySuggestionsBlockLists = Shapes::IntegerShape.new(name: 'MaxResultsIntegerForListQuerySuggestionsBlockLists')
@@ -346,6 +388,7 @@ module Aws::Kendra
     MimeType = Shapes::StringShape.new(name: 'MimeType')
     MinimumNumberOfQueryingUsers = Shapes::IntegerShape.new(name: 'MinimumNumberOfQueryingUsers')
     MinimumQueryCount = Shapes::IntegerShape.new(name: 'MinimumQueryCount')
+    MissingAttributeKeyStrategy = Shapes::StringShape.new(name: 'MissingAttributeKeyStrategy')
     Mode = Shapes::StringShape.new(name: 'Mode')
     NameType = Shapes::StringShape.new(name: 'NameType')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
@@ -390,6 +433,7 @@ module Aws::Kendra
     QuerySuggestionsId = Shapes::StringShape.new(name: 'QuerySuggestionsId')
     QuerySuggestionsStatus = Shapes::StringShape.new(name: 'QuerySuggestionsStatus')
     QueryText = Shapes::StringShape.new(name: 'QueryText')
+    QueryTextList = Shapes::ListShape.new(name: 'QueryTextList')
     QuipConfiguration = Shapes::StructureShape.new(name: 'QuipConfiguration')
     ReadAccessType = Shapes::StringShape.new(name: 'ReadAccessType')
     Relevance = Shapes::StructureShape.new(name: 'Relevance')
@@ -403,6 +447,10 @@ module Aws::Kendra
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceUnavailableException = Shapes::StructureShape.new(name: 'ResourceUnavailableException')
     ResultId = Shapes::StringShape.new(name: 'ResultId')
+    RetrieveRequest = Shapes::StructureShape.new(name: 'RetrieveRequest')
+    RetrieveResult = Shapes::StructureShape.new(name: 'RetrieveResult')
+    RetrieveResultItem = Shapes::StructureShape.new(name: 'RetrieveResultItem')
+    RetrieveResultItemList = Shapes::ListShape.new(name: 'RetrieveResultItemList')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
     S3BucketName = Shapes::StringShape.new(name: 'S3BucketName')
     S3DataSourceConfiguration = Shapes::StructureShape.new(name: 'S3DataSourceConfiguration')
@@ -461,6 +509,9 @@ module Aws::Kendra
     SnapshotsDataRecords = Shapes::ListShape.new(name: 'SnapshotsDataRecords')
     SortOrder = Shapes::StringShape.new(name: 'SortOrder')
     SortingConfiguration = Shapes::StructureShape.new(name: 'SortingConfiguration')
+    SortingConfigurationList = Shapes::ListShape.new(name: 'SortingConfigurationList')
+    SourceDocument = Shapes::StructureShape.new(name: 'SourceDocument')
+    SourceDocuments = Shapes::ListShape.new(name: 'SourceDocuments')
     SpellCorrectedQuery = Shapes::StructureShape.new(name: 'SpellCorrectedQuery')
     SpellCorrectedQueryList = Shapes::ListShape.new(name: 'SpellCorrectedQueryList')
     SpellCorrectionConfiguration = Shapes::StructureShape.new(name: 'SpellCorrectionConfiguration')
@@ -475,6 +526,8 @@ module Aws::Kendra
     SubmitFeedbackRequest = Shapes::StructureShape.new(name: 'SubmitFeedbackRequest')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
     SubnetIdList = Shapes::ListShape.new(name: 'SubnetIdList')
+    SuggestableConfig = Shapes::StructureShape.new(name: 'SuggestableConfig')
+    SuggestableConfigList = Shapes::ListShape.new(name: 'SuggestableConfigList')
     SuggestedQueryText = Shapes::StringShape.new(name: 'SuggestedQueryText')
     Suggestion = Shapes::StructureShape.new(name: 'Suggestion')
     SuggestionHighlight = Shapes::StructureShape.new(name: 'SuggestionHighlight')
@@ -482,6 +535,8 @@ module Aws::Kendra
     SuggestionList = Shapes::ListShape.new(name: 'SuggestionList')
     SuggestionQueryText = Shapes::StringShape.new(name: 'SuggestionQueryText')
     SuggestionTextWithHighlights = Shapes::StructureShape.new(name: 'SuggestionTextWithHighlights')
+    SuggestionType = Shapes::StringShape.new(name: 'SuggestionType')
+    SuggestionTypes = Shapes::ListShape.new(name: 'SuggestionTypes')
     SuggestionValue = Shapes::StructureShape.new(name: 'SuggestionValue')
     TableCell = Shapes::StructureShape.new(name: 'TableCell')
     TableCellList = Shapes::ListShape.new(name: 'TableCellList')
@@ -520,6 +575,8 @@ module Aws::Kendra
     UpdateAccessControlConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateAccessControlConfigurationResponse')
     UpdateDataSourceRequest = Shapes::StructureShape.new(name: 'UpdateDataSourceRequest')
     UpdateExperienceRequest = Shapes::StructureShape.new(name: 'UpdateExperienceRequest')
+    UpdateFeaturedResultsSetRequest = Shapes::StructureShape.new(name: 'UpdateFeaturedResultsSetRequest')
+    UpdateFeaturedResultsSetResponse = Shapes::StructureShape.new(name: 'UpdateFeaturedResultsSetResponse')
     UpdateIndexRequest = Shapes::StructureShape.new(name: 'UpdateIndexRequest')
     UpdateQuerySuggestionsBlockListRequest = Shapes::StructureShape.new(name: 'UpdateQuerySuggestionsBlockListRequest')
     UpdateQuerySuggestionsConfigRequest = Shapes::StructureShape.new(name: 'UpdateQuerySuggestionsConfigRequest')
@@ -622,6 +679,20 @@ module Aws::Kendra
 
     AttributeFilterList.member = Shapes::ShapeRef.new(shape: AttributeFilter)
 
+    AttributeSuggestionsDescribeConfig.add_member(:suggestable_config_list, Shapes::ShapeRef.new(shape: SuggestableConfigList, location_name: "SuggestableConfigList"))
+    AttributeSuggestionsDescribeConfig.add_member(:attribute_suggestions_mode, Shapes::ShapeRef.new(shape: AttributeSuggestionsMode, location_name: "AttributeSuggestionsMode"))
+    AttributeSuggestionsDescribeConfig.struct_class = Types::AttributeSuggestionsDescribeConfig
+
+    AttributeSuggestionsGetConfig.add_member(:suggestion_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeKeyList, location_name: "SuggestionAttributes"))
+    AttributeSuggestionsGetConfig.add_member(:additional_response_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeKeyList, location_name: "AdditionalResponseAttributes"))
+    AttributeSuggestionsGetConfig.add_member(:attribute_filter, Shapes::ShapeRef.new(shape: AttributeFilter, location_name: "AttributeFilter"))
+    AttributeSuggestionsGetConfig.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "UserContext"))
+    AttributeSuggestionsGetConfig.struct_class = Types::AttributeSuggestionsGetConfig
+
+    AttributeSuggestionsUpdateConfig.add_member(:suggestable_config_list, Shapes::ShapeRef.new(shape: SuggestableConfigList, location_name: "SuggestableConfigList"))
+    AttributeSuggestionsUpdateConfig.add_member(:attribute_suggestions_mode, Shapes::ShapeRef.new(shape: AttributeSuggestionsMode, location_name: "AttributeSuggestionsMode"))
+    AttributeSuggestionsUpdateConfig.struct_class = Types::AttributeSuggestionsUpdateConfig
+
     AuthenticationConfiguration.add_member(:basic_authentication, Shapes::ShapeRef.new(shape: BasicAuthenticationConfigurationList, location_name: "BasicAuthentication"))
     AuthenticationConfiguration.struct_class = Types::AuthenticationConfiguration
 
@@ -641,11 +712,26 @@ module Aws::Kendra
     BatchDeleteDocumentResponse.struct_class = Types::BatchDeleteDocumentResponse
 
     BatchDeleteDocumentResponseFailedDocument.add_member(:id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "Id"))
+    BatchDeleteDocumentResponseFailedDocument.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, location_name: "DataSourceId"))
     BatchDeleteDocumentResponseFailedDocument.add_member(:error_code, Shapes::ShapeRef.new(shape: ErrorCode, location_name: "ErrorCode"))
     BatchDeleteDocumentResponseFailedDocument.add_member(:error_message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "ErrorMessage"))
     BatchDeleteDocumentResponseFailedDocument.struct_class = Types::BatchDeleteDocumentResponseFailedDocument
 
     BatchDeleteDocumentResponseFailedDocuments.member = Shapes::ShapeRef.new(shape: BatchDeleteDocumentResponseFailedDocument)
+
+    BatchDeleteFeaturedResultsSetError.add_member(:id, Shapes::ShapeRef.new(shape: FeaturedResultsSetId, required: true, location_name: "Id"))
+    BatchDeleteFeaturedResultsSetError.add_member(:error_code, Shapes::ShapeRef.new(shape: ErrorCode, required: true, location_name: "ErrorCode"))
+    BatchDeleteFeaturedResultsSetError.add_member(:error_message, Shapes::ShapeRef.new(shape: ErrorMessage, required: true, location_name: "ErrorMessage"))
+    BatchDeleteFeaturedResultsSetError.struct_class = Types::BatchDeleteFeaturedResultsSetError
+
+    BatchDeleteFeaturedResultsSetErrors.member = Shapes::ShapeRef.new(shape: BatchDeleteFeaturedResultsSetError)
+
+    BatchDeleteFeaturedResultsSetRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
+    BatchDeleteFeaturedResultsSetRequest.add_member(:featured_results_set_ids, Shapes::ShapeRef.new(shape: FeaturedResultsSetIdList, required: true, location_name: "FeaturedResultsSetIds"))
+    BatchDeleteFeaturedResultsSetRequest.struct_class = Types::BatchDeleteFeaturedResultsSetRequest
+
+    BatchDeleteFeaturedResultsSetResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchDeleteFeaturedResultsSetErrors, required: true, location_name: "Errors"))
+    BatchDeleteFeaturedResultsSetResponse.struct_class = Types::BatchDeleteFeaturedResultsSetResponse
 
     BatchGetDocumentStatusRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
     BatchGetDocumentStatusRequest.add_member(:document_info_list, Shapes::ShapeRef.new(shape: DocumentInfoList, required: true, location_name: "DocumentInfoList"))
@@ -656,6 +742,7 @@ module Aws::Kendra
     BatchGetDocumentStatusResponse.struct_class = Types::BatchGetDocumentStatusResponse
 
     BatchGetDocumentStatusResponseError.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "DocumentId"))
+    BatchGetDocumentStatusResponseError.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, location_name: "DataSourceId"))
     BatchGetDocumentStatusResponseError.add_member(:error_code, Shapes::ShapeRef.new(shape: ErrorCode, location_name: "ErrorCode"))
     BatchGetDocumentStatusResponseError.add_member(:error_message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "ErrorMessage"))
     BatchGetDocumentStatusResponseError.struct_class = Types::BatchGetDocumentStatusResponseError
@@ -672,6 +759,7 @@ module Aws::Kendra
     BatchPutDocumentResponse.struct_class = Types::BatchPutDocumentResponse
 
     BatchPutDocumentResponseFailedDocument.add_member(:id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "Id"))
+    BatchPutDocumentResponseFailedDocument.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, location_name: "DataSourceId"))
     BatchPutDocumentResponseFailedDocument.add_member(:error_code, Shapes::ShapeRef.new(shape: ErrorCode, location_name: "ErrorCode"))
     BatchPutDocumentResponseFailedDocument.add_member(:error_message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "ErrorMessage"))
     BatchPutDocumentResponseFailedDocument.struct_class = Types::BatchPutDocumentResponseFailedDocument
@@ -708,6 +796,17 @@ module Aws::Kendra
 
     ClickFeedbackList.member = Shapes::ShapeRef.new(shape: ClickFeedback)
 
+    CollapseConfiguration.add_member(:document_attribute_key, Shapes::ShapeRef.new(shape: DocumentAttributeKey, required: true, location_name: "DocumentAttributeKey"))
+    CollapseConfiguration.add_member(:sorting_configurations, Shapes::ShapeRef.new(shape: SortingConfigurationList, location_name: "SortingConfigurations"))
+    CollapseConfiguration.add_member(:missing_attribute_key_strategy, Shapes::ShapeRef.new(shape: MissingAttributeKeyStrategy, location_name: "MissingAttributeKeyStrategy"))
+    CollapseConfiguration.add_member(:expand, Shapes::ShapeRef.new(shape: Boolean, location_name: "Expand"))
+    CollapseConfiguration.add_member(:expand_configuration, Shapes::ShapeRef.new(shape: ExpandConfiguration, location_name: "ExpandConfiguration"))
+    CollapseConfiguration.struct_class = Types::CollapseConfiguration
+
+    CollapsedResultDetail.add_member(:document_attribute, Shapes::ShapeRef.new(shape: DocumentAttribute, required: true, location_name: "DocumentAttribute"))
+    CollapsedResultDetail.add_member(:expanded_results, Shapes::ShapeRef.new(shape: ExpandedResultList, location_name: "ExpandedResults"))
+    CollapsedResultDetail.struct_class = Types::CollapsedResultDetail
+
     ColumnConfiguration.add_member(:document_id_column_name, Shapes::ShapeRef.new(shape: ColumnName, required: true, location_name: "DocumentIdColumnName"))
     ColumnConfiguration.add_member(:document_data_column_name, Shapes::ShapeRef.new(shape: ColumnName, required: true, location_name: "DocumentDataColumnName"))
     ColumnConfiguration.add_member(:document_title_column_name, Shapes::ShapeRef.new(shape: ColumnName, location_name: "DocumentTitleColumnName"))
@@ -717,6 +816,13 @@ module Aws::Kendra
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     ConflictException.struct_class = Types::ConflictException
+
+    ConflictingItem.add_member(:query_text, Shapes::ShapeRef.new(shape: QueryText, location_name: "QueryText"))
+    ConflictingItem.add_member(:set_name, Shapes::ShapeRef.new(shape: String, location_name: "SetName"))
+    ConflictingItem.add_member(:set_id, Shapes::ShapeRef.new(shape: String, location_name: "SetId"))
+    ConflictingItem.struct_class = Types::ConflictingItem
+
+    ConflictingItems.member = Shapes::ShapeRef.new(shape: ConflictingItem)
 
     ConfluenceAttachmentConfiguration.add_member(:crawl_attachments, Shapes::ShapeRef.new(shape: Boolean, location_name: "CrawlAttachments"))
     ConfluenceAttachmentConfiguration.add_member(:attachment_field_mappings, Shapes::ShapeRef.new(shape: ConfluenceAttachmentFieldMappingsList, location_name: "AttachmentFieldMappings"))
@@ -852,6 +958,19 @@ module Aws::Kendra
     CreateFaqResponse.add_member(:id, Shapes::ShapeRef.new(shape: FaqId, location_name: "Id"))
     CreateFaqResponse.struct_class = Types::CreateFaqResponse
 
+    CreateFeaturedResultsSetRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
+    CreateFeaturedResultsSetRequest.add_member(:featured_results_set_name, Shapes::ShapeRef.new(shape: FeaturedResultsSetName, required: true, location_name: "FeaturedResultsSetName"))
+    CreateFeaturedResultsSetRequest.add_member(:description, Shapes::ShapeRef.new(shape: FeaturedResultsSetDescription, location_name: "Description"))
+    CreateFeaturedResultsSetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientTokenName, location_name: "ClientToken"))
+    CreateFeaturedResultsSetRequest.add_member(:status, Shapes::ShapeRef.new(shape: FeaturedResultsSetStatus, location_name: "Status"))
+    CreateFeaturedResultsSetRequest.add_member(:query_texts, Shapes::ShapeRef.new(shape: QueryTextList, location_name: "QueryTexts"))
+    CreateFeaturedResultsSetRequest.add_member(:featured_documents, Shapes::ShapeRef.new(shape: FeaturedDocumentList, location_name: "FeaturedDocuments"))
+    CreateFeaturedResultsSetRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateFeaturedResultsSetRequest.struct_class = Types::CreateFeaturedResultsSetRequest
+
+    CreateFeaturedResultsSetResponse.add_member(:featured_results_set, Shapes::ShapeRef.new(shape: FeaturedResultsSet, location_name: "FeaturedResultsSet"))
+    CreateFeaturedResultsSetResponse.struct_class = Types::CreateFeaturedResultsSetResponse
+
     CreateIndexRequest.add_member(:name, Shapes::ShapeRef.new(shape: IndexName, required: true, location_name: "Name"))
     CreateIndexRequest.add_member(:edition, Shapes::ShapeRef.new(shape: IndexEdition, location_name: "Edition"))
     CreateIndexRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
@@ -913,7 +1032,7 @@ module Aws::Kendra
     DataSourceConfiguration.add_member(:quip_configuration, Shapes::ShapeRef.new(shape: QuipConfiguration, location_name: "QuipConfiguration"))
     DataSourceConfiguration.add_member(:jira_configuration, Shapes::ShapeRef.new(shape: JiraConfiguration, location_name: "JiraConfiguration"))
     DataSourceConfiguration.add_member(:git_hub_configuration, Shapes::ShapeRef.new(shape: GitHubConfiguration, location_name: "GitHubConfiguration"))
-    DataSourceConfiguration.add_member(:alfresco_configuration, Shapes::ShapeRef.new(shape: AlfrescoConfiguration, location_name: "AlfrescoConfiguration"))
+    DataSourceConfiguration.add_member(:alfresco_configuration, Shapes::ShapeRef.new(shape: AlfrescoConfiguration, deprecated: true, location_name: "AlfrescoConfiguration", metadata: {"deprecatedMessage"=>"Deprecated AlfrescoConfiguration in favor of TemplateConfiguration"}))
     DataSourceConfiguration.add_member(:template_configuration, Shapes::ShapeRef.new(shape: TemplateConfiguration, location_name: "TemplateConfiguration"))
     DataSourceConfiguration.struct_class = Types::DataSourceConfiguration
 
@@ -1084,6 +1203,21 @@ module Aws::Kendra
     DescribeFaqResponse.add_member(:language_code, Shapes::ShapeRef.new(shape: LanguageCode, location_name: "LanguageCode"))
     DescribeFaqResponse.struct_class = Types::DescribeFaqResponse
 
+    DescribeFeaturedResultsSetRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
+    DescribeFeaturedResultsSetRequest.add_member(:featured_results_set_id, Shapes::ShapeRef.new(shape: FeaturedResultsSetId, required: true, location_name: "FeaturedResultsSetId"))
+    DescribeFeaturedResultsSetRequest.struct_class = Types::DescribeFeaturedResultsSetRequest
+
+    DescribeFeaturedResultsSetResponse.add_member(:featured_results_set_id, Shapes::ShapeRef.new(shape: FeaturedResultsSetId, location_name: "FeaturedResultsSetId"))
+    DescribeFeaturedResultsSetResponse.add_member(:featured_results_set_name, Shapes::ShapeRef.new(shape: FeaturedResultsSetName, location_name: "FeaturedResultsSetName"))
+    DescribeFeaturedResultsSetResponse.add_member(:description, Shapes::ShapeRef.new(shape: FeaturedResultsSetDescription, location_name: "Description"))
+    DescribeFeaturedResultsSetResponse.add_member(:status, Shapes::ShapeRef.new(shape: FeaturedResultsSetStatus, location_name: "Status"))
+    DescribeFeaturedResultsSetResponse.add_member(:query_texts, Shapes::ShapeRef.new(shape: QueryTextList, location_name: "QueryTexts"))
+    DescribeFeaturedResultsSetResponse.add_member(:featured_documents_with_metadata, Shapes::ShapeRef.new(shape: FeaturedDocumentWithMetadataList, location_name: "FeaturedDocumentsWithMetadata"))
+    DescribeFeaturedResultsSetResponse.add_member(:featured_documents_missing, Shapes::ShapeRef.new(shape: FeaturedDocumentMissingList, location_name: "FeaturedDocumentsMissing"))
+    DescribeFeaturedResultsSetResponse.add_member(:last_updated_timestamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdatedTimestamp"))
+    DescribeFeaturedResultsSetResponse.add_member(:creation_timestamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreationTimestamp"))
+    DescribeFeaturedResultsSetResponse.struct_class = Types::DescribeFeaturedResultsSetResponse
+
     DescribeIndexRequest.add_member(:id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "Id"))
     DescribeIndexRequest.struct_class = Types::DescribeIndexRequest
 
@@ -1146,6 +1280,7 @@ module Aws::Kendra
     DescribeQuerySuggestionsConfigResponse.add_member(:last_suggestions_build_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastSuggestionsBuildTime"))
     DescribeQuerySuggestionsConfigResponse.add_member(:last_clear_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastClearTime"))
     DescribeQuerySuggestionsConfigResponse.add_member(:total_suggestions_count, Shapes::ShapeRef.new(shape: Integer, location_name: "TotalSuggestionsCount"))
+    DescribeQuerySuggestionsConfigResponse.add_member(:attribute_suggestions_config, Shapes::ShapeRef.new(shape: AttributeSuggestionsDescribeConfig, location_name: "AttributeSuggestionsConfig"))
     DescribeQuerySuggestionsConfigResponse.struct_class = Types::DescribeQuerySuggestionsConfigResponse
 
     DescribeThesaurusRequest.add_member(:id, Shapes::ShapeRef.new(shape: ThesaurusId, required: true, location_name: "Id"))
@@ -1285,6 +1420,20 @@ module Aws::Kendra
 
     ExcludeUserAccountsList.member = Shapes::ShapeRef.new(shape: UserAccount)
 
+    ExpandConfiguration.add_member(:max_result_items_to_expand, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxResultItemsToExpand"))
+    ExpandConfiguration.add_member(:max_expanded_results_per_item, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxExpandedResultsPerItem"))
+    ExpandConfiguration.struct_class = Types::ExpandConfiguration
+
+    ExpandedResultItem.add_member(:id, Shapes::ShapeRef.new(shape: ResultId, location_name: "Id"))
+    ExpandedResultItem.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "DocumentId"))
+    ExpandedResultItem.add_member(:document_title, Shapes::ShapeRef.new(shape: TextWithHighlights, location_name: "DocumentTitle"))
+    ExpandedResultItem.add_member(:document_excerpt, Shapes::ShapeRef.new(shape: TextWithHighlights, location_name: "DocumentExcerpt"))
+    ExpandedResultItem.add_member(:document_uri, Shapes::ShapeRef.new(shape: Url, location_name: "DocumentURI"))
+    ExpandedResultItem.add_member(:document_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeList, location_name: "DocumentAttributes"))
+    ExpandedResultItem.struct_class = Types::ExpandedResultItem
+
+    ExpandedResultList.member = Shapes::ShapeRef.new(shape: ExpandedResultItem)
+
     ExperienceConfiguration.add_member(:content_source_configuration, Shapes::ShapeRef.new(shape: ContentSourceConfiguration, location_name: "ContentSourceConfiguration"))
     ExperienceConfiguration.add_member(:user_identity_configuration, Shapes::ShapeRef.new(shape: UserIdentityConfiguration, location_name: "UserIdentityConfiguration"))
     ExperienceConfiguration.struct_class = Types::ExperienceConfiguration
@@ -1347,6 +1496,61 @@ module Aws::Kendra
 
     FaqSummaryItems.member = Shapes::ShapeRef.new(shape: FaqSummary)
 
+    FeaturedDocument.add_member(:id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "Id"))
+    FeaturedDocument.struct_class = Types::FeaturedDocument
+
+    FeaturedDocumentList.member = Shapes::ShapeRef.new(shape: FeaturedDocument)
+
+    FeaturedDocumentMissing.add_member(:id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "Id"))
+    FeaturedDocumentMissing.struct_class = Types::FeaturedDocumentMissing
+
+    FeaturedDocumentMissingList.member = Shapes::ShapeRef.new(shape: FeaturedDocumentMissing)
+
+    FeaturedDocumentWithMetadata.add_member(:id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "Id"))
+    FeaturedDocumentWithMetadata.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "Title"))
+    FeaturedDocumentWithMetadata.add_member(:uri, Shapes::ShapeRef.new(shape: Url, location_name: "URI"))
+    FeaturedDocumentWithMetadata.struct_class = Types::FeaturedDocumentWithMetadata
+
+    FeaturedDocumentWithMetadataList.member = Shapes::ShapeRef.new(shape: FeaturedDocumentWithMetadata)
+
+    FeaturedResultsConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
+    FeaturedResultsConflictException.add_member(:conflicting_items, Shapes::ShapeRef.new(shape: ConflictingItems, location_name: "ConflictingItems"))
+    FeaturedResultsConflictException.struct_class = Types::FeaturedResultsConflictException
+
+    FeaturedResultsItem.add_member(:id, Shapes::ShapeRef.new(shape: ResultId, location_name: "Id"))
+    FeaturedResultsItem.add_member(:type, Shapes::ShapeRef.new(shape: QueryResultType, location_name: "Type"))
+    FeaturedResultsItem.add_member(:additional_attributes, Shapes::ShapeRef.new(shape: AdditionalResultAttributeList, location_name: "AdditionalAttributes"))
+    FeaturedResultsItem.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "DocumentId"))
+    FeaturedResultsItem.add_member(:document_title, Shapes::ShapeRef.new(shape: TextWithHighlights, location_name: "DocumentTitle"))
+    FeaturedResultsItem.add_member(:document_excerpt, Shapes::ShapeRef.new(shape: TextWithHighlights, location_name: "DocumentExcerpt"))
+    FeaturedResultsItem.add_member(:document_uri, Shapes::ShapeRef.new(shape: Url, location_name: "DocumentURI"))
+    FeaturedResultsItem.add_member(:document_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeList, location_name: "DocumentAttributes"))
+    FeaturedResultsItem.add_member(:feedback_token, Shapes::ShapeRef.new(shape: FeedbackToken, location_name: "FeedbackToken"))
+    FeaturedResultsItem.struct_class = Types::FeaturedResultsItem
+
+    FeaturedResultsItemList.member = Shapes::ShapeRef.new(shape: FeaturedResultsItem)
+
+    FeaturedResultsSet.add_member(:featured_results_set_id, Shapes::ShapeRef.new(shape: FeaturedResultsSetId, location_name: "FeaturedResultsSetId"))
+    FeaturedResultsSet.add_member(:featured_results_set_name, Shapes::ShapeRef.new(shape: FeaturedResultsSetName, location_name: "FeaturedResultsSetName"))
+    FeaturedResultsSet.add_member(:description, Shapes::ShapeRef.new(shape: FeaturedResultsSetDescription, location_name: "Description"))
+    FeaturedResultsSet.add_member(:status, Shapes::ShapeRef.new(shape: FeaturedResultsSetStatus, location_name: "Status"))
+    FeaturedResultsSet.add_member(:query_texts, Shapes::ShapeRef.new(shape: QueryTextList, location_name: "QueryTexts"))
+    FeaturedResultsSet.add_member(:featured_documents, Shapes::ShapeRef.new(shape: FeaturedDocumentList, location_name: "FeaturedDocuments"))
+    FeaturedResultsSet.add_member(:last_updated_timestamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdatedTimestamp"))
+    FeaturedResultsSet.add_member(:creation_timestamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreationTimestamp"))
+    FeaturedResultsSet.struct_class = Types::FeaturedResultsSet
+
+    FeaturedResultsSetIdList.member = Shapes::ShapeRef.new(shape: FeaturedResultsSetId)
+
+    FeaturedResultsSetSummary.add_member(:featured_results_set_id, Shapes::ShapeRef.new(shape: FeaturedResultsSetId, location_name: "FeaturedResultsSetId"))
+    FeaturedResultsSetSummary.add_member(:featured_results_set_name, Shapes::ShapeRef.new(shape: FeaturedResultsSetName, location_name: "FeaturedResultsSetName"))
+    FeaturedResultsSetSummary.add_member(:status, Shapes::ShapeRef.new(shape: FeaturedResultsSetStatus, location_name: "Status"))
+    FeaturedResultsSetSummary.add_member(:last_updated_timestamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdatedTimestamp"))
+    FeaturedResultsSetSummary.add_member(:creation_timestamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreationTimestamp"))
+    FeaturedResultsSetSummary.struct_class = Types::FeaturedResultsSetSummary
+
+    FeaturedResultsSetSummaryItems.member = Shapes::ShapeRef.new(shape: FeaturedResultsSetSummary)
+
     FolderIdList.member = Shapes::ShapeRef.new(shape: FolderId)
 
     FsxConfiguration.add_member(:file_system_id, Shapes::ShapeRef.new(shape: FileSystemId, required: true, location_name: "FileSystemId"))
@@ -1361,6 +1565,8 @@ module Aws::Kendra
     GetQuerySuggestionsRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
     GetQuerySuggestionsRequest.add_member(:query_text, Shapes::ShapeRef.new(shape: SuggestionQueryText, required: true, location_name: "QueryText"))
     GetQuerySuggestionsRequest.add_member(:max_suggestions_count, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxSuggestionsCount"))
+    GetQuerySuggestionsRequest.add_member(:suggestion_types, Shapes::ShapeRef.new(shape: SuggestionTypes, location_name: "SuggestionTypes"))
+    GetQuerySuggestionsRequest.add_member(:attribute_suggestions_config, Shapes::ShapeRef.new(shape: AttributeSuggestionsGetConfig, location_name: "AttributeSuggestionsConfig"))
     GetQuerySuggestionsRequest.struct_class = Types::GetQuerySuggestionsRequest
 
     GetQuerySuggestionsResponse.add_member(:query_suggestions_id, Shapes::ShapeRef.new(shape: QuerySuggestionsId, location_name: "QuerySuggestionsId"))
@@ -1590,6 +1796,15 @@ module Aws::Kendra
     ListFaqsResponse.add_member(:faq_summary_items, Shapes::ShapeRef.new(shape: FaqSummaryItems, location_name: "FaqSummaryItems"))
     ListFaqsResponse.struct_class = Types::ListFaqsResponse
 
+    ListFeaturedResultsSetsRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
+    ListFeaturedResultsSetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListFeaturedResultsSetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsIntegerForListFeaturedResultsSetsRequest, location_name: "MaxResults"))
+    ListFeaturedResultsSetsRequest.struct_class = Types::ListFeaturedResultsSetsRequest
+
+    ListFeaturedResultsSetsResponse.add_member(:featured_results_set_summary_items, Shapes::ShapeRef.new(shape: FeaturedResultsSetSummaryItems, location_name: "FeaturedResultsSetSummaryItems"))
+    ListFeaturedResultsSetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListFeaturedResultsSetsResponse.struct_class = Types::ListFeaturedResultsSetsResponse
+
     ListGroupsOlderThanOrderingIdRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
     ListGroupsOlderThanOrderingIdRequest.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, location_name: "DataSourceId"))
     ListGroupsOlderThanOrderingIdRequest.add_member(:ordering_id, Shapes::ShapeRef.new(shape: PrincipalOrderingId, required: true, location_name: "OrderingId"))
@@ -1711,9 +1926,11 @@ module Aws::Kendra
     QueryRequest.add_member(:page_number, Shapes::ShapeRef.new(shape: Integer, location_name: "PageNumber"))
     QueryRequest.add_member(:page_size, Shapes::ShapeRef.new(shape: Integer, location_name: "PageSize"))
     QueryRequest.add_member(:sorting_configuration, Shapes::ShapeRef.new(shape: SortingConfiguration, location_name: "SortingConfiguration"))
+    QueryRequest.add_member(:sorting_configurations, Shapes::ShapeRef.new(shape: SortingConfigurationList, location_name: "SortingConfigurations"))
     QueryRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "UserContext"))
     QueryRequest.add_member(:visitor_id, Shapes::ShapeRef.new(shape: VisitorId, location_name: "VisitorId"))
     QueryRequest.add_member(:spell_correction_configuration, Shapes::ShapeRef.new(shape: SpellCorrectionConfiguration, location_name: "SpellCorrectionConfiguration"))
+    QueryRequest.add_member(:collapse_configuration, Shapes::ShapeRef.new(shape: CollapseConfiguration, location_name: "CollapseConfiguration"))
     QueryRequest.struct_class = Types::QueryRequest
 
     QueryResult.add_member(:query_id, Shapes::ShapeRef.new(shape: QueryId, location_name: "QueryId"))
@@ -1722,6 +1939,7 @@ module Aws::Kendra
     QueryResult.add_member(:total_number_of_results, Shapes::ShapeRef.new(shape: Integer, location_name: "TotalNumberOfResults"))
     QueryResult.add_member(:warnings, Shapes::ShapeRef.new(shape: WarningList, location_name: "Warnings"))
     QueryResult.add_member(:spell_corrected_queries, Shapes::ShapeRef.new(shape: SpellCorrectedQueryList, location_name: "SpellCorrectedQueries"))
+    QueryResult.add_member(:featured_results_items, Shapes::ShapeRef.new(shape: FeaturedResultsItemList, location_name: "FeaturedResultsItems"))
     QueryResult.struct_class = Types::QueryResult
 
     QueryResultItem.add_member(:id, Shapes::ShapeRef.new(shape: ResultId, location_name: "Id"))
@@ -1736,6 +1954,7 @@ module Aws::Kendra
     QueryResultItem.add_member(:score_attributes, Shapes::ShapeRef.new(shape: ScoreAttributes, location_name: "ScoreAttributes"))
     QueryResultItem.add_member(:feedback_token, Shapes::ShapeRef.new(shape: FeedbackToken, location_name: "FeedbackToken"))
     QueryResultItem.add_member(:table_excerpt, Shapes::ShapeRef.new(shape: TableExcerpt, location_name: "TableExcerpt"))
+    QueryResultItem.add_member(:collapsed_result_detail, Shapes::ShapeRef.new(shape: CollapsedResultDetail, location_name: "CollapsedResultDetail"))
     QueryResultItem.struct_class = Types::QueryResultItem
 
     QueryResultItemList.member = Shapes::ShapeRef.new(shape: QueryResultItem)
@@ -1749,6 +1968,8 @@ module Aws::Kendra
     QuerySuggestionsBlockListSummary.struct_class = Types::QuerySuggestionsBlockListSummary
 
     QuerySuggestionsBlockListSummaryItems.member = Shapes::ShapeRef.new(shape: QuerySuggestionsBlockListSummary)
+
+    QueryTextList.member = Shapes::ShapeRef.new(shape: QueryText)
 
     QuipConfiguration.add_member(:domain, Shapes::ShapeRef.new(shape: Domain, required: true, location_name: "Domain"))
     QuipConfiguration.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "SecretArn"))
@@ -1790,6 +2011,31 @@ module Aws::Kendra
 
     ResourceUnavailableException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     ResourceUnavailableException.struct_class = Types::ResourceUnavailableException
+
+    RetrieveRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
+    RetrieveRequest.add_member(:query_text, Shapes::ShapeRef.new(shape: QueryText, required: true, location_name: "QueryText"))
+    RetrieveRequest.add_member(:attribute_filter, Shapes::ShapeRef.new(shape: AttributeFilter, location_name: "AttributeFilter"))
+    RetrieveRequest.add_member(:requested_document_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeKeyList, location_name: "RequestedDocumentAttributes"))
+    RetrieveRequest.add_member(:document_relevance_override_configurations, Shapes::ShapeRef.new(shape: DocumentRelevanceOverrideConfigurationList, location_name: "DocumentRelevanceOverrideConfigurations"))
+    RetrieveRequest.add_member(:page_number, Shapes::ShapeRef.new(shape: Integer, location_name: "PageNumber"))
+    RetrieveRequest.add_member(:page_size, Shapes::ShapeRef.new(shape: Integer, location_name: "PageSize"))
+    RetrieveRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "UserContext"))
+    RetrieveRequest.struct_class = Types::RetrieveRequest
+
+    RetrieveResult.add_member(:query_id, Shapes::ShapeRef.new(shape: QueryId, location_name: "QueryId"))
+    RetrieveResult.add_member(:result_items, Shapes::ShapeRef.new(shape: RetrieveResultItemList, location_name: "ResultItems"))
+    RetrieveResult.struct_class = Types::RetrieveResult
+
+    RetrieveResultItem.add_member(:id, Shapes::ShapeRef.new(shape: ResultId, location_name: "Id"))
+    RetrieveResultItem.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "DocumentId"))
+    RetrieveResultItem.add_member(:document_title, Shapes::ShapeRef.new(shape: DocumentTitle, location_name: "DocumentTitle"))
+    RetrieveResultItem.add_member(:content, Shapes::ShapeRef.new(shape: Content, location_name: "Content"))
+    RetrieveResultItem.add_member(:document_uri, Shapes::ShapeRef.new(shape: Url, location_name: "DocumentURI"))
+    RetrieveResultItem.add_member(:document_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeList, location_name: "DocumentAttributes"))
+    RetrieveResultItem.add_member(:score_attributes, Shapes::ShapeRef.new(shape: ScoreAttributes, location_name: "ScoreAttributes"))
+    RetrieveResultItem.struct_class = Types::RetrieveResultItem
+
+    RetrieveResultItemList.member = Shapes::ShapeRef.new(shape: RetrieveResultItem)
 
     S3DataSourceConfiguration.add_member(:bucket_name, Shapes::ShapeRef.new(shape: S3BucketName, required: true, location_name: "BucketName"))
     S3DataSourceConfiguration.add_member(:inclusion_prefixes, Shapes::ShapeRef.new(shape: DataSourceInclusionsExclusionsStrings, location_name: "InclusionPrefixes"))
@@ -1957,6 +2203,15 @@ module Aws::Kendra
     SortingConfiguration.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, required: true, location_name: "SortOrder"))
     SortingConfiguration.struct_class = Types::SortingConfiguration
 
+    SortingConfigurationList.member = Shapes::ShapeRef.new(shape: SortingConfiguration)
+
+    SourceDocument.add_member(:document_id, Shapes::ShapeRef.new(shape: String, location_name: "DocumentId"))
+    SourceDocument.add_member(:suggestion_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeKeyList, location_name: "SuggestionAttributes"))
+    SourceDocument.add_member(:additional_attributes, Shapes::ShapeRef.new(shape: DocumentAttributeList, location_name: "AdditionalAttributes"))
+    SourceDocument.struct_class = Types::SourceDocument
+
+    SourceDocuments.member = Shapes::ShapeRef.new(shape: SourceDocument)
+
     SpellCorrectedQuery.add_member(:suggested_query_text, Shapes::ShapeRef.new(shape: SuggestedQueryText, location_name: "SuggestedQueryText"))
     SpellCorrectedQuery.add_member(:corrections, Shapes::ShapeRef.new(shape: CorrectionList, location_name: "Corrections"))
     SpellCorrectedQuery.struct_class = Types::SpellCorrectedQuery
@@ -1996,8 +2251,15 @@ module Aws::Kendra
 
     SubnetIdList.member = Shapes::ShapeRef.new(shape: SubnetId)
 
+    SuggestableConfig.add_member(:attribute_name, Shapes::ShapeRef.new(shape: DocumentAttributeKey, location_name: "AttributeName"))
+    SuggestableConfig.add_member(:suggestable, Shapes::ShapeRef.new(shape: ObjectBoolean, location_name: "Suggestable"))
+    SuggestableConfig.struct_class = Types::SuggestableConfig
+
+    SuggestableConfigList.member = Shapes::ShapeRef.new(shape: SuggestableConfig)
+
     Suggestion.add_member(:id, Shapes::ShapeRef.new(shape: ResultId, location_name: "Id"))
     Suggestion.add_member(:value, Shapes::ShapeRef.new(shape: SuggestionValue, location_name: "Value"))
+    Suggestion.add_member(:source_documents, Shapes::ShapeRef.new(shape: SourceDocuments, location_name: "SourceDocuments"))
     Suggestion.struct_class = Types::Suggestion
 
     SuggestionHighlight.add_member(:begin_offset, Shapes::ShapeRef.new(shape: Integer, location_name: "BeginOffset"))
@@ -2011,6 +2273,8 @@ module Aws::Kendra
     SuggestionTextWithHighlights.add_member(:text, Shapes::ShapeRef.new(shape: String, location_name: "Text"))
     SuggestionTextWithHighlights.add_member(:highlights, Shapes::ShapeRef.new(shape: SuggestionHighlightList, location_name: "Highlights"))
     SuggestionTextWithHighlights.struct_class = Types::SuggestionTextWithHighlights
+
+    SuggestionTypes.member = Shapes::ShapeRef.new(shape: SuggestionType)
 
     SuggestionValue.add_member(:text, Shapes::ShapeRef.new(shape: SuggestionTextWithHighlights, location_name: "Text"))
     SuggestionValue.struct_class = Types::SuggestionValue
@@ -2109,6 +2373,18 @@ module Aws::Kendra
     UpdateExperienceRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
     UpdateExperienceRequest.struct_class = Types::UpdateExperienceRequest
 
+    UpdateFeaturedResultsSetRequest.add_member(:index_id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "IndexId"))
+    UpdateFeaturedResultsSetRequest.add_member(:featured_results_set_id, Shapes::ShapeRef.new(shape: FeaturedResultsSetId, required: true, location_name: "FeaturedResultsSetId"))
+    UpdateFeaturedResultsSetRequest.add_member(:featured_results_set_name, Shapes::ShapeRef.new(shape: FeaturedResultsSetName, location_name: "FeaturedResultsSetName"))
+    UpdateFeaturedResultsSetRequest.add_member(:description, Shapes::ShapeRef.new(shape: FeaturedResultsSetDescription, location_name: "Description"))
+    UpdateFeaturedResultsSetRequest.add_member(:status, Shapes::ShapeRef.new(shape: FeaturedResultsSetStatus, location_name: "Status"))
+    UpdateFeaturedResultsSetRequest.add_member(:query_texts, Shapes::ShapeRef.new(shape: QueryTextList, location_name: "QueryTexts"))
+    UpdateFeaturedResultsSetRequest.add_member(:featured_documents, Shapes::ShapeRef.new(shape: FeaturedDocumentList, location_name: "FeaturedDocuments"))
+    UpdateFeaturedResultsSetRequest.struct_class = Types::UpdateFeaturedResultsSetRequest
+
+    UpdateFeaturedResultsSetResponse.add_member(:featured_results_set, Shapes::ShapeRef.new(shape: FeaturedResultsSet, location_name: "FeaturedResultsSet"))
+    UpdateFeaturedResultsSetResponse.struct_class = Types::UpdateFeaturedResultsSetResponse
+
     UpdateIndexRequest.add_member(:id, Shapes::ShapeRef.new(shape: IndexId, required: true, location_name: "Id"))
     UpdateIndexRequest.add_member(:name, Shapes::ShapeRef.new(shape: IndexName, location_name: "Name"))
     UpdateIndexRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "RoleArn"))
@@ -2134,6 +2410,7 @@ module Aws::Kendra
     UpdateQuerySuggestionsConfigRequest.add_member(:include_queries_without_user_information, Shapes::ShapeRef.new(shape: ObjectBoolean, location_name: "IncludeQueriesWithoutUserInformation"))
     UpdateQuerySuggestionsConfigRequest.add_member(:minimum_number_of_querying_users, Shapes::ShapeRef.new(shape: MinimumNumberOfQueryingUsers, location_name: "MinimumNumberOfQueryingUsers"))
     UpdateQuerySuggestionsConfigRequest.add_member(:minimum_query_count, Shapes::ShapeRef.new(shape: MinimumQueryCount, location_name: "MinimumQueryCount"))
+    UpdateQuerySuggestionsConfigRequest.add_member(:attribute_suggestions_config, Shapes::ShapeRef.new(shape: AttributeSuggestionsUpdateConfig, location_name: "AttributeSuggestionsConfig"))
     UpdateQuerySuggestionsConfigRequest.struct_class = Types::UpdateQuerySuggestionsConfigRequest
 
     UpdateThesaurusRequest.add_member(:id, Shapes::ShapeRef.new(shape: ThesaurusId, required: true, location_name: "Id"))
@@ -2205,9 +2482,11 @@ module Aws::Kendra
 
       api.metadata = {
         "apiVersion" => "2019-02-03",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "kendra",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "kendra",
         "serviceFullName" => "AWSKendraFrontendService",
         "serviceId" => "kendra",
@@ -2256,6 +2535,19 @@ module Aws::Kendra
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:batch_delete_featured_results_set, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchDeleteFeaturedResultsSet"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: BatchDeleteFeaturedResultsSetRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchDeleteFeaturedResultsSetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2360,6 +2652,21 @@ module Aws::Kendra
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:create_featured_results_set, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateFeaturedResultsSet"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateFeaturedResultsSetRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateFeaturedResultsSetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: FeaturedResultsConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2569,6 +2876,19 @@ module Aws::Kendra
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:describe_featured_results_set, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeFeaturedResultsSet"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeFeaturedResultsSetRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeFeaturedResultsSetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2829,6 +3149,19 @@ module Aws::Kendra
         )
       end)
 
+      api.add_operation(:list_featured_results_sets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListFeaturedResultsSets"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListFeaturedResultsSetsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListFeaturedResultsSetsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:list_groups_older_than_ordering_id, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListGroupsOlderThanOrderingId"
         o.http_method = "POST"
@@ -2948,6 +3281,21 @@ module Aws::Kendra
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:retrieve, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "Retrieve"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: RetrieveRequest)
+        o.output = Shapes::ShapeRef.new(shape: RetrieveResult)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:start_data_source_sync_job, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StartDataSourceSyncJob"
         o.http_method = "POST"
@@ -3056,6 +3404,20 @@ module Aws::Kendra
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_featured_results_set, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateFeaturedResultsSet"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateFeaturedResultsSetRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateFeaturedResultsSetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: FeaturedResultsConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 

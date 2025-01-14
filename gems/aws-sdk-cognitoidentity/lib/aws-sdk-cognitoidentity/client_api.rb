@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CognitoIdentity
   # @api private
   module ClientApi
@@ -423,9 +424,11 @@ module Aws::CognitoIdentity
 
       api.metadata = {
         "apiVersion" => "2014-06-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "cognito-identity",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Amazon Cognito Identity",
         "serviceId" => "Cognito Identity",
         "signatureVersion" => "v4",
@@ -502,6 +505,7 @@ module Aws::CognitoIdentity
         o.http_method = "POST"
         o.http_request_uri = "/"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: GetCredentialsForIdentityInput)
         o.output = Shapes::ShapeRef.new(shape: GetCredentialsForIdentityResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -519,6 +523,7 @@ module Aws::CognitoIdentity
         o.http_method = "POST"
         o.http_request_uri = "/"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: GetIdInput)
         o.output = Shapes::ShapeRef.new(shape: GetIdResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -550,6 +555,7 @@ module Aws::CognitoIdentity
         o.http_method = "POST"
         o.http_request_uri = "/"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: GetOpenIdTokenInput)
         o.output = Shapes::ShapeRef.new(shape: GetOpenIdTokenResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
@@ -722,6 +728,7 @@ module Aws::CognitoIdentity
         o.http_method = "POST"
         o.http_request_uri = "/"
         o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: UnlinkIdentityInput)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)

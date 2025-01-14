@@ -10,6 +10,52 @@
 module Aws::FMS
   module Types
 
+    # Configures the accounts within the administrator's Organizations
+    # organization that the specified Firewall Manager administrator can
+    # apply policies to.
+    #
+    # @!attribute [rw] accounts
+    #   The list of accounts within the organization that the specified
+    #   Firewall Manager administrator either can or cannot apply policies
+    #   to, based on the value of `ExcludeSpecifiedAccounts`. If
+    #   `ExcludeSpecifiedAccounts` is set to `true`, then the Firewall
+    #   Manager administrator can apply policies to all members of the
+    #   organization except for the accounts in this list. If
+    #   `ExcludeSpecifiedAccounts` is set to `false`, then the Firewall
+    #   Manager administrator can only apply policies to the accounts in
+    #   this list.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] all_accounts_enabled
+    #   A boolean value that indicates if the administrator can apply
+    #   policies to all accounts within an organization. If true, the
+    #   administrator can apply policies to all accounts within the
+    #   organization. You can either enable management of all accounts
+    #   through this operation, or you can specify a list of accounts to
+    #   manage in `AccountScope$Accounts`. You cannot specify both.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] exclude_specified_accounts
+    #   A boolean value that excludes the accounts in
+    #   `AccountScope$Accounts` from the administrator's scope. If true,
+    #   the Firewall Manager administrator can apply policies to all members
+    #   of the organization except for the accounts listed in
+    #   `AccountScope$Accounts`. You can either specify a list of accounts
+    #   to exclude by `AccountScope$Accounts`, or you can enable management
+    #   of all accounts by `AccountScope$AllAccountsEnabled`. You cannot
+    #   specify both.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/AccountScope AWS API Documentation
+    #
+    class AccountScope < Struct.new(
+      :accounts,
+      :all_accounts_enabled,
+      :exclude_specified_accounts)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes a remediation action target.
     #
     # @!attribute [rw] resource_id
@@ -25,6 +71,103 @@ module Aws::FMS
     class ActionTarget < Struct.new(
       :resource_id,
       :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains high level information about the Firewall Manager
+    # administrator account.
+    #
+    # @!attribute [rw] admin_account
+    #   The Amazon Web Services account ID of the Firewall Manager
+    #   administrator's account.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_admin
+    #   A boolean value that indicates if the administrator is the default
+    #   administrator. If true, then this is the default administrator
+    #   account. The default administrator can manage third-party firewalls
+    #   and has full administrative scope. There is only one default
+    #   administrator account per organization. For information about
+    #   Firewall Manager default administrator accounts, see [Managing
+    #   Firewall Manager administrators][1] in the *Firewall Manager
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] status
+    #   The current status of the request to onboard a member account as an
+    #   Firewall Manager administrator.
+    #
+    #   * `ONBOARDING` - The account is onboarding to Firewall Manager as an
+    #     administrator.
+    #
+    #   * `ONBOARDING_COMPLETE` - Firewall Manager The account is onboarded
+    #     to Firewall Manager as an administrator, and can perform actions
+    #     on the resources defined in their AdminScope.
+    #
+    #   * `OFFBOARDING` - The account is being removed as an Firewall
+    #     Manager administrator.
+    #
+    #   * `OFFBOARDING_COMPLETE` - The account has been removed as an
+    #     Firewall Manager administrator.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/AdminAccountSummary AWS API Documentation
+    #
+    class AdminAccountSummary < Struct.new(
+      :admin_account,
+      :default_admin,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the resources that the Firewall Manager administrator can
+    # manage. For more information about administrative scope, see [Managing
+    # Firewall Manager administrators][1] in the *Firewall Manager Developer
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html
+    #
+    # @!attribute [rw] account_scope
+    #   Defines the accounts that the specified Firewall Manager
+    #   administrator can apply policies to.
+    #   @return [Types::AccountScope]
+    #
+    # @!attribute [rw] organizational_unit_scope
+    #   Defines the Organizations organizational units that the specified
+    #   Firewall Manager administrator can apply policies to. For more
+    #   information about OUs in Organizations, see [Managing organizational
+    #   units (OUs) ][1] in the *Organizations User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html
+    #   @return [Types::OrganizationalUnitScope]
+    #
+    # @!attribute [rw] region_scope
+    #   Defines the Amazon Web Services Regions that the specified Firewall
+    #   Manager administrator can perform actions in.
+    #   @return [Types::RegionScope]
+    #
+    # @!attribute [rw] policy_type_scope
+    #   Defines the Firewall Manager policy types that the specified
+    #   Firewall Manager administrator can create and manage.
+    #   @return [Types::PolicyTypeScope]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/AdminScope AWS API Documentation
+    #
+    class AdminScope < Struct.new(
+      :account_scope,
+      :organizational_unit_scope,
+      :region_scope,
+      :policy_type_scope)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -139,10 +282,11 @@ module Aws::FMS
 
     # @!attribute [rw] admin_account
     #   The Amazon Web Services account ID to associate with Firewall
-    #   Manager as the Firewall Manager administrator account. This must be
-    #   an Organizations member account. For more information about
-    #   Organizations, see [Managing the Amazon Web Services Accounts in
-    #   Your Organization][1].
+    #   Manager as the Firewall Manager default administrator account. This
+    #   account must be a member account of the organization in
+    #   Organizations whose resources you want to protect. For more
+    #   information about Organizations, see [Managing the Amazon Web
+    #   Services Accounts in Your Organization][1].
     #
     #
     #
@@ -271,8 +415,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] resource_set_identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @!attribute [rw] items
@@ -291,8 +435,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] resource_set_identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @!attribute [rw] failed_items
@@ -309,8 +453,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] resource_set_identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @!attribute [rw] items
@@ -329,8 +473,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] resource_set_identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @!attribute [rw] failed_items
@@ -384,6 +528,67 @@ module Aws::FMS
       include Aws::Structure
     end
 
+    # Information about the `CreateNetworkAcl` action in Amazon EC2. This is
+    # a remediation option in `RemediationAction`.
+    #
+    # @!attribute [rw] description
+    #   Brief description of this remediation action.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc
+    #   The VPC that's associated with the remediation action.
+    #   @return [Types::ActionTarget]
+    #
+    # @!attribute [rw] fms_can_remediate
+    #   Indicates whether it is possible for Firewall Manager to perform
+    #   this remediation action. A false value indicates that auto
+    #   remediation is disabled or Firewall Manager is unable to perform the
+    #   action due to a conflict of some kind.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/CreateNetworkAclAction AWS API Documentation
+    #
+    class CreateNetworkAclAction < Struct.new(
+      :description,
+      :vpc,
+      :fms_can_remediate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the `CreateNetworkAclEntries` action in Amazon EC2.
+    # This is a remediation option in `RemediationAction`.
+    #
+    # @!attribute [rw] description
+    #   Brief description of this remediation action.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_acl_id
+    #   The network ACL that's associated with the remediation action.
+    #   @return [Types::ActionTarget]
+    #
+    # @!attribute [rw] network_acl_entries_to_be_created
+    #   Lists the entries that the remediation action would create.
+    #   @return [Array<Types::EntryDescription>]
+    #
+    # @!attribute [rw] fms_can_remediate
+    #   Indicates whether it is possible for Firewall Manager to perform
+    #   this remediation action. A false value indicates that auto
+    #   remediation is disabled or Firewall Manager is unable to perform the
+    #   action due to a conflict of some kind.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/CreateNetworkAclEntriesAction AWS API Documentation
+    #
+    class CreateNetworkAclEntriesAction < Struct.new(
+      :description,
+      :network_acl_id,
+      :network_acl_entries_to_be_created,
+      :fms_can_remediate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] list_id
     #   The ID of the applications list that you want to delete. You can
     #   retrieve this ID from `PutAppsList`, `ListAppsLists`, and
@@ -394,6 +599,39 @@ module Aws::FMS
     #
     class DeleteAppsListRequest < Struct.new(
       :list_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the `DeleteNetworkAclEntries` action in Amazon EC2.
+    # This is a remediation option in `RemediationAction`.
+    #
+    # @!attribute [rw] description
+    #   Brief description of this remediation action.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_acl_id
+    #   The network ACL that's associated with the remediation action.
+    #   @return [Types::ActionTarget]
+    #
+    # @!attribute [rw] network_acl_entries_to_be_deleted
+    #   Lists the entries that the remediation action would delete.
+    #   @return [Array<Types::EntryDescription>]
+    #
+    # @!attribute [rw] fms_can_remediate
+    #   Indicates whether it is possible for Firewall Manager to perform
+    #   this remediation action. A false value indicates that auto
+    #   remediation is disabled or Firewall Manager is unable to perform the
+    #   action due to a conflict of some kind.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/DeleteNetworkAclEntriesAction AWS API Documentation
+    #
+    class DeleteNetworkAclEntriesAction < Struct.new(
+      :description,
+      :network_acl_id,
+      :network_acl_entries_to_be_deleted,
+      :fms_can_remediate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -431,6 +669,12 @@ module Aws::FMS
     #     Manager and if it's no longer associated with any resources
     #     through another policy
     #
+    #   <note markdown="1"> For security group common policies, even if set to `False`, Firewall
+    #   Manager deletes all security groups created by Firewall Manager that
+    #   aren't associated with any other resources through another policy.
+    #
+    #    </note>
+    #
     #   After the cleanup, in-scope resources are no longer protected by web
     #   ACLs in this policy. Protection of out-of-scope resources remains
     #   unchanged. Scope is determined by tags that you create and accounts
@@ -465,8 +709,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/DeleteResourceSetRequest AWS API Documentation
@@ -864,6 +1108,96 @@ module Aws::FMS
       include Aws::Structure
     end
 
+    # Describes a single rule in a network ACL.
+    #
+    # @!attribute [rw] entry_detail
+    #   Describes a rule in a network ACL.
+    #
+    #   Each network ACL has a set of numbered ingress rules and a separate
+    #   set of numbered egress rules. When determining whether a packet
+    #   should be allowed in or out of a subnet associated with the network
+    #   ACL, Amazon Web Services processes the entries in the network ACL
+    #   according to the rule numbers, in ascending order.
+    #
+    #   When you manage an individual network ACL, you explicitly specify
+    #   the rule numbers. When you specify the network ACL rules in a
+    #   Firewall Manager policy, you provide the rules to run first, in the
+    #   order that you want them to run, and the rules to run last, in the
+    #   order that you want them to run. Firewall Manager assigns the rule
+    #   numbers for you when you save the network ACL policy specification.
+    #   @return [Types::NetworkAclEntry]
+    #
+    # @!attribute [rw] entry_rule_number
+    #   The rule number for the entry. ACL entries are processed in
+    #   ascending order by rule number. In a Firewall Manager network ACL
+    #   policy, Firewall Manager assigns rule numbers.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] entry_type
+    #   Specifies whether the entry is managed by Firewall Manager or by a
+    #   user, and, for Firewall Manager-managed entries, specifies whether
+    #   the entry is among those that run first in the network ACL or those
+    #   that run last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/EntryDescription AWS API Documentation
+    #
+    class EntryDescription < Struct.new(
+      :entry_detail,
+      :entry_rule_number,
+      :entry_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Detailed information about an entry violation in a network ACL. The
+    # violation is against the network ACL specification inside the Firewall
+    # Manager network ACL policy. This data object is part of
+    # `InvalidNetworkAclEntriesViolation`.
+    #
+    # @!attribute [rw] expected_entry
+    #   The Firewall Manager-managed network ACL entry that is involved in
+    #   the entry violation.
+    #   @return [Types::EntryDescription]
+    #
+    # @!attribute [rw] expected_evaluation_order
+    #   The evaluation location within the ordered list of entries where the
+    #   `ExpectedEntry` should be, according to the network ACL policy
+    #   specifications.
+    #   @return [String]
+    #
+    # @!attribute [rw] actual_evaluation_order
+    #   The evaluation location within the ordered list of entries where the
+    #   `ExpectedEntry` is currently located.
+    #   @return [String]
+    #
+    # @!attribute [rw] entry_at_expected_evaluation_order
+    #   The entry that's currently in the `ExpectedEvaluationOrder`
+    #   location, in place of the expected entry.
+    #   @return [Types::EntryDescription]
+    #
+    # @!attribute [rw] entries_with_conflicts
+    #   The list of entries that are in conflict with `ExpectedEntry`.
+    #   @return [Array<Types::EntryDescription>]
+    #
+    # @!attribute [rw] entry_violation_reasons
+    #   Descriptions of the violations that Firewall Manager found for these
+    #   entries.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/EntryViolation AWS API Documentation
+    #
+    class EntryViolation < Struct.new(
+      :expected_entry,
+      :expected_evaluation_order,
+      :actual_evaluation_order,
+      :entry_at_expected_evaluation_order,
+      :entries_with_conflicts,
+      :entry_violation_reasons)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes the compliance status for the account. An account is
     # considered noncompliant if it includes resources that are not
     # protected by the specified policy or that don't comply with the
@@ -1061,13 +1395,13 @@ module Aws::FMS
     class GetAdminAccountRequest < Aws::EmptyStructure; end
 
     # @!attribute [rw] admin_account
-    #   The Amazon Web Services account that is set as the Firewall Manager
+    #   The account that is set as the Firewall Manager default
     #   administrator.
     #   @return [String]
     #
     # @!attribute [rw] role_status
-    #   The status of the Amazon Web Services account that you set as the
-    #   Firewall Manager administrator.
+    #   The status of the account that you set as the Firewall Manager
+    #   default administrator.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetAdminAccountResponse AWS API Documentation
@@ -1075,6 +1409,50 @@ module Aws::FMS
     class GetAdminAccountResponse < Struct.new(
       :admin_account,
       :role_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] admin_account
+    #   The administrator account that you want to get the details for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetAdminScopeRequest AWS API Documentation
+    #
+    class GetAdminScopeRequest < Struct.new(
+      :admin_account)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] admin_scope
+    #   Contains details about the administrative scope of the requested
+    #   account.
+    #   @return [Types::AdminScope]
+    #
+    # @!attribute [rw] status
+    #   The current status of the request to onboard a member account as an
+    #   Firewall Manager administrator.
+    #
+    #   * `ONBOARDING` - The account is onboarding to Firewall Manager as an
+    #     administrator.
+    #
+    #   * `ONBOARDING_COMPLETE` - Firewall Manager The account is onboarded
+    #     to Firewall Manager as an administrator, and can perform actions
+    #     on the resources defined in their AdminScope.
+    #
+    #   * `OFFBOARDING` - The account is being removed as an Firewall
+    #     Manager administrator.
+    #
+    #   * `OFFBOARDING_COMPLETE` - The account has been removed as an
+    #     Firewall Manager administrator.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetAdminScopeResponse AWS API Documentation
+    #
+    class GetAdminScopeResponse < Struct.new(
+      :admin_scope,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1342,8 +1720,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetResourceSetRequest AWS API Documentation
@@ -1433,7 +1811,21 @@ module Aws::FMS
 
     # @!attribute [rw] policy_id
     #   The ID of the Firewall Manager policy that you want the details for.
-    #   This currently only supports security group content audit policies.
+    #   You can get violation details for the following policy types:
+    #
+    #   * WAF
+    #
+    #   * DNS Firewall
+    #
+    #   * Imported Network Firewall
+    #
+    #   * Network Firewall
+    #
+    #   * Security group content audit
+    #
+    #   * Network ACL
+    #
+    #   * Third-party firewall
     #   @return [String]
     #
     # @!attribute [rw] member_account
@@ -1447,9 +1839,9 @@ module Aws::FMS
     # @!attribute [rw] resource_type
     #   The resource type. This is in the format shown in the [Amazon Web
     #   Services Resource Types Reference][1]. Supported resource types are:
-    #   `AWS::EC2::Instance`, `AWS::EC2::NetworkInterface`,
-    #   `AWS::EC2::SecurityGroup`, `AWS::NetworkFirewall::FirewallPolicy`,
-    #   and `AWS::EC2::Subnet`.
+    #   `AWS::WAFv2::WebACL`, `AWS::EC2::Instance`,
+    #   `AWS::EC2::NetworkInterface`, `AWS::EC2::SecurityGroup`,
+    #   `AWS::NetworkFirewall::FirewallPolicy`, and `AWS::EC2::Subnet`.
     #
     #
     #
@@ -1506,6 +1898,40 @@ module Aws::FMS
       include Aws::Structure
     end
 
+    # Violation detail for the entries in a network ACL resource.
+    #
+    # @!attribute [rw] vpc
+    #   The VPC where the violation was found.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet
+    #   The subnet that's associated with the network ACL.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_availability_zone
+    #   The Availability Zone where the network ACL is in use.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_associated_network_acl
+    #   The network ACL containing the entry violations.
+    #   @return [String]
+    #
+    # @!attribute [rw] entry_violations
+    #   Detailed information about the entry violations in the network ACL.
+    #   @return [Array<Types::EntryViolation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/InvalidNetworkAclEntriesViolation AWS API Documentation
+    #
+    class InvalidNetworkAclEntriesViolation < Struct.new(
+      :vpc,
+      :subnet,
+      :subnet_availability_zone,
+      :current_associated_network_acl,
+      :entry_violations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The operation failed because there was nothing to do or the operation
     # wasn't possible. For example, you might have submitted an
     # `AssociateAdminAccount` request for an account ID that was already set
@@ -1554,6 +1980,99 @@ module Aws::FMS
     #
     class LimitExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Firewall Manager returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects that you want Firewall Manager to
+    #   return for this request. If more objects are available, in the
+    #   response, Firewall Manager provides a `NextToken` value that you can
+    #   use in a subsequent call to get the next batch of objects.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListAdminAccountsForOrganizationRequest AWS API Documentation
+    #
+    class ListAdminAccountsForOrganizationRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] admin_accounts
+    #   A list of Firewall Manager administrator accounts within the
+    #   organization that were onboarded as administrators by
+    #   AssociateAdminAccount or PutAdminAccount.
+    #   @return [Array<Types::AdminAccountSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Firewall Manager returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListAdminAccountsForOrganizationResponse AWS API Documentation
+    #
+    class ListAdminAccountsForOrganizationResponse < Struct.new(
+      :admin_accounts,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Firewall Manager returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects that you want Firewall Manager to
+    #   return for this request. If more objects are available, in the
+    #   response, Firewall Manager provides a `NextToken` value that you can
+    #   use in a subsequent call to get the next batch of objects.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListAdminsManagingAccountRequest AWS API Documentation
+    #
+    class ListAdminsManagingAccountRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] admin_accounts
+    #   The list of accounts who manage member accounts within their
+    #   AdminScope.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Firewall Manager returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListAdminsManagingAccountResponse AWS API Documentation
+    #
+    class ListAdminsManagingAccountResponse < Struct.new(
+      :admin_accounts,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1873,8 +2392,8 @@ module Aws::FMS
     end
 
     # @!attribute [rw] identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -2050,6 +2569,203 @@ module Aws::FMS
     class ListThirdPartyFirewallFirewallPoliciesResponse < Struct.new(
       :third_party_firewall_firewall_policies,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines a Firewall Manager network ACL policy. This is used in the
+    # `PolicyOption` of a `SecurityServicePolicyData` for a `Policy`, when
+    # the `SecurityServicePolicyData` type is set to `NETWORK_ACL_COMMON`.
+    #
+    # For information about network ACLs, see [Control traffic to subnets
+    # using network ACLs][1] in the *Amazon Virtual Private Cloud User
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
+    #
+    # @!attribute [rw] network_acl_entry_set
+    #   The definition of the first and last rules for the network ACL
+    #   policy.
+    #   @return [Types::NetworkAclEntrySet]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/NetworkAclCommonPolicy AWS API Documentation
+    #
+    class NetworkAclCommonPolicy < Struct.new(
+      :network_acl_entry_set)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes a rule in a network ACL.
+    #
+    # Each network ACL has a set of numbered ingress rules and a separate
+    # set of numbered egress rules. When determining whether a packet should
+    # be allowed in or out of a subnet associated with the network ACL,
+    # Amazon Web Services processes the entries in the network ACL according
+    # to the rule numbers, in ascending order.
+    #
+    # When you manage an individual network ACL, you explicitly specify the
+    # rule numbers. When you specify the network ACL rules in a Firewall
+    # Manager policy, you provide the rules to run first, in the order that
+    # you want them to run, and the rules to run last, in the order that you
+    # want them to run. Firewall Manager assigns the rule numbers for you
+    # when you save the network ACL policy specification.
+    #
+    # @!attribute [rw] icmp_type_code
+    #   ICMP protocol: The ICMP type and code.
+    #   @return [Types::NetworkAclIcmpTypeCode]
+    #
+    # @!attribute [rw] protocol
+    #   The protocol number. A value of "-1" means all protocols.
+    #   @return [String]
+    #
+    # @!attribute [rw] port_range
+    #   TCP or UDP protocols: The range of ports the rule applies to.
+    #   @return [Types::NetworkAclPortRange]
+    #
+    # @!attribute [rw] cidr_block
+    #   The IPv4 network range to allow or deny, in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipv_6_cidr_block
+    #   The IPv6 network range to allow or deny, in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_action
+    #   Indicates whether to allow or deny the traffic that matches the
+    #   rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] egress
+    #   Indicates whether the rule is an egress, or outbound, rule (applied
+    #   to traffic leaving the subnet). If it's not an egress rule, then
+    #   it's an ingress, or inbound, rule.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/NetworkAclEntry AWS API Documentation
+    #
+    class NetworkAclEntry < Struct.new(
+      :icmp_type_code,
+      :protocol,
+      :port_range,
+      :cidr_block,
+      :ipv_6_cidr_block,
+      :rule_action,
+      :egress)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of the first and last rules for the network ACL
+    # policy, and the remediation settings for each.
+    #
+    # @!attribute [rw] first_entries
+    #   The rules that you want to run first in the Firewall Manager managed
+    #   network ACLs.
+    #
+    #   <note markdown="1"> Provide these in the order in which you want them to run. Firewall
+    #   Manager will assign the specific rule numbers for you, in the
+    #   network ACLs that it creates.
+    #
+    #    </note>
+    #
+    #   You must specify at least one first entry or one last entry in any
+    #   network ACL policy.
+    #   @return [Array<Types::NetworkAclEntry>]
+    #
+    # @!attribute [rw] force_remediate_for_first_entries
+    #   Applies only when remediation is enabled for the policy as a whole.
+    #   Firewall Manager uses this setting when it finds policy violations
+    #   that involve conflicts between the custom entries and the policy
+    #   entries.
+    #
+    #   If forced remediation is disabled, Firewall Manager marks the
+    #   network ACL as noncompliant and does not try to remediate. For more
+    #   information about the remediation behavior, see [Remediation for
+    #   managed network ACLs][1] in the *Firewall Manager Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html#network-acls-remediation
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] last_entries
+    #   The rules that you want to run last in the Firewall Manager managed
+    #   network ACLs.
+    #
+    #   <note markdown="1"> Provide these in the order in which you want them to run. Firewall
+    #   Manager will assign the specific rule numbers for you, in the
+    #   network ACLs that it creates.
+    #
+    #    </note>
+    #
+    #   You must specify at least one first entry or one last entry in any
+    #   network ACL policy.
+    #   @return [Array<Types::NetworkAclEntry>]
+    #
+    # @!attribute [rw] force_remediate_for_last_entries
+    #   Applies only when remediation is enabled for the policy as a whole.
+    #   Firewall Manager uses this setting when it finds policy violations
+    #   that involve conflicts between the custom entries and the policy
+    #   entries.
+    #
+    #   If forced remediation is disabled, Firewall Manager marks the
+    #   network ACL as noncompliant and does not try to remediate. For more
+    #   information about the remediation behavior, see [Remediation for
+    #   managed network ACLs][1] in the *Firewall Manager Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html#network-acls-remediation
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/NetworkAclEntrySet AWS API Documentation
+    #
+    class NetworkAclEntrySet < Struct.new(
+      :first_entries,
+      :force_remediate_for_first_entries,
+      :last_entries,
+      :force_remediate_for_last_entries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # ICMP protocol: The ICMP type and code.
+    #
+    # @!attribute [rw] code
+    #   ICMP code.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] type
+    #   ICMP type.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/NetworkAclIcmpTypeCode AWS API Documentation
+    #
+    class NetworkAclIcmpTypeCode < Struct.new(
+      :code,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # TCP or UDP protocols: The range of ports the rule applies to.
+    #
+    # @!attribute [rw] from
+    #   The beginning port number of the range.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] to
+    #   The ending port number of the range.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/NetworkAclPortRange AWS API Documentation
+    #
+    class NetworkAclPortRange < Struct.new(
+      :from,
+      :to)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2582,6 +3298,62 @@ module Aws::FMS
       include Aws::Structure
     end
 
+    # Defines the Organizations organizational units (OUs) that the
+    # specified Firewall Manager administrator can apply policies to. For
+    # more information about OUs in Organizations, see [Managing
+    # organizational units (OUs) ][1] in the *Organizations User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html
+    #
+    # @!attribute [rw] organizational_units
+    #   The list of OUs within the organization that the specified Firewall
+    #   Manager administrator either can or cannot apply policies to, based
+    #   on the value of
+    #   `OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits`. If
+    #   `OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits` is set
+    #   to `true`, then the Firewall Manager administrator can apply
+    #   policies to all OUs in the organization except for the OUs in this
+    #   list. If
+    #   `OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits` is set
+    #   to `false`, then the Firewall Manager administrator can only apply
+    #   policies to the OUs in this list.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] all_organizational_units_enabled
+    #   A boolean value that indicates if the administrator can apply
+    #   policies to all OUs within an organization. If true, the
+    #   administrator can manage all OUs within the organization. You can
+    #   either enable management of all OUs through this operation, or you
+    #   can specify OUs to manage in
+    #   `OrganizationalUnitScope$OrganizationalUnits`. You cannot specify
+    #   both.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] exclude_specified_organizational_units
+    #   A boolean value that excludes the OUs in
+    #   `OrganizationalUnitScope$OrganizationalUnits` from the
+    #   administrator's scope. If true, the Firewall Manager administrator
+    #   can apply policies to all OUs in the organization except for the OUs
+    #   listed in `OrganizationalUnitScope$OrganizationalUnits`. You can
+    #   either specify a list of OUs to exclude by
+    #   `OrganizationalUnitScope$OrganizationalUnits`, or you can enable
+    #   management of all OUs by
+    #   `OrganizationalUnitScope$AllOrganizationalUnitsEnabled`. You cannot
+    #   specify both.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/OrganizationalUnitScope AWS API Documentation
+    #
+    class OrganizationalUnitScope < Struct.new(
+      :organizational_units,
+      :all_organizational_units_enabled,
+      :exclude_specified_organizational_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The reference rule that partially matches the `ViolationTarget` rule
     # and violation reason.
     #
@@ -2633,17 +3405,30 @@ module Aws::FMS
     #   specify a resource type of `ResourceTypeList` and then specify the
     #   resource types in a `ResourceTypeList`.
     #
-    #   For WAF and Shield Advanced, resource types include
-    #   `AWS::ElasticLoadBalancingV2::LoadBalancer`,
-    #   `AWS::ElasticLoadBalancing::LoadBalancer`, `AWS::EC2::EIP`, and
-    #   `AWS::CloudFront::Distribution`. For a security group common policy,
-    #   valid values are `AWS::EC2::NetworkInterface` and
-    #   `AWS::EC2::Instance`. For a security group content audit policy,
-    #   valid values are `AWS::EC2::SecurityGroup`,
-    #   `AWS::EC2::NetworkInterface`, and `AWS::EC2::Instance`. For a
-    #   security group usage audit policy, the value is
-    #   `AWS::EC2::SecurityGroup`. For an Network Firewall policy or DNS
-    #   Firewall policy, the value is `AWS::EC2::VPC`.
+    #   The following are valid resource types for each Firewall Manager
+    #   policy type:
+    #
+    #   * Amazon Web Services WAF Classic - `AWS::ApiGateway::Stage`,
+    #     `AWS::CloudFront::Distribution`, and
+    #     `AWS::ElasticLoadBalancingV2::LoadBalancer`.
+    #
+    #   * WAF - `AWS::ApiGateway::Stage`,
+    #     `AWS::ElasticLoadBalancingV2::LoadBalancer`, and
+    #     `AWS::CloudFront::Distribution`.
+    #
+    #   * Shield Advanced - `AWS::ElasticLoadBalancingV2::LoadBalancer`,
+    #     `AWS::ElasticLoadBalancing::LoadBalancer`, `AWS::EC2::EIP`, and
+    #     `AWS::CloudFront::Distribution`.
+    #
+    #   * Network ACL - `AWS::EC2::Subnet`.
+    #
+    #   * Security group usage audit - `AWS::EC2::SecurityGroup`.
+    #
+    #   * Security group content audit - `AWS::EC2::SecurityGroup`,
+    #     `AWS::EC2::NetworkInterface`, and `AWS::EC2::Instance`.
+    #
+    #   * DNS Firewall, Network Firewall, and third-party firewall -
+    #     `AWS::EC2::VPC`.
     #
     #
     #
@@ -2704,17 +3489,16 @@ module Aws::FMS
     #   You can specify account IDs, OUs, or a combination:
     #
     #   * Specify account IDs by setting the key to `ACCOUNT`. For example,
-    #     the following is a valid map: `\{“ACCOUNT” : [“accountID1”,
-    #     “accountID2”]\}`.
+    #     the following is a valid map: `{“ACCOUNT” : [“accountID1”,
+    #     “accountID2”]}`.
     #
     #   * Specify OUs by setting the key to `ORG_UNIT`. For example, the
-    #     following is a valid map: `\{“ORG_UNIT” : [“ouid111”,
-    #     “ouid112”]\}`.
+    #     following is a valid map: `{“ORG_UNIT” : [“ouid111”, “ouid112”]}`.
     #
     #   * Specify accounts and OUs together in a single map, separated with
-    #     a comma. For example, the following is a valid map: `\{“ACCOUNT” :
+    #     a comma. For example, the following is a valid map: `{“ACCOUNT” :
     #     [“accountID1”, “accountID2”], “ORG_UNIT” : [“ouid111”,
-    #     “ouid112”]\}`.
+    #     “ouid112”]}`.
     #   @return [Hash<String,Array<String>>]
     #
     # @!attribute [rw] exclude_map
@@ -2734,17 +3518,16 @@ module Aws::FMS
     #   You can specify account IDs, OUs, or a combination:
     #
     #   * Specify account IDs by setting the key to `ACCOUNT`. For example,
-    #     the following is a valid map: `\{“ACCOUNT” : [“accountID1”,
-    #     “accountID2”]\}`.
+    #     the following is a valid map: `{“ACCOUNT” : [“accountID1”,
+    #     “accountID2”]}`.
     #
     #   * Specify OUs by setting the key to `ORG_UNIT`. For example, the
-    #     following is a valid map: `\{“ORG_UNIT” : [“ouid111”,
-    #     “ouid112”]\}`.
+    #     following is a valid map: `{“ORG_UNIT” : [“ouid111”, “ouid112”]}`.
     #
     #   * Specify accounts and OUs together in a single map, separated with
-    #     a comma. For example, the following is a valid map: `\{“ACCOUNT” :
+    #     a comma. For example, the following is a valid map: `{“ACCOUNT” :
     #     [“accountID1”, “accountID2”], “ORG_UNIT” : [“ouid111”,
-    #     “ouid112”]\}`.
+    #     “ouid112”]}`.
     #   @return [Hash<String,Array<String>>]
     #
     # @!attribute [rw] resource_set_ids
@@ -2752,7 +3535,27 @@ module Aws::FMS
     #   @return [Array<String>]
     #
     # @!attribute [rw] policy_description
-    #   The definition of the Network Firewall firewall policy.
+    #   Your description of the Firewall Manager policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_status
+    #   Indicates whether the policy is in or out of an admin's policy or
+    #   Region scope.
+    #
+    #   * `ACTIVE` - The administrator can manage and delete the policy.
+    #
+    #   * `OUT_OF_ADMIN_SCOPE` - The administrator can view the policy, but
+    #     they can't edit or delete the policy. Existing policy protections
+    #     stay in place. Any new resources that come into scope of the
+    #     policy won't be protected.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_tag_logical_operator
+    #   Specifies whether to combine multiple resource tags with AND, so
+    #   that a resource must have all tags to be included or excluded, or
+    #   OR, so that a resource must have at least one tag.
+    #
+    #   Default: `AND`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/Policy AWS API Documentation
@@ -2771,7 +3574,9 @@ module Aws::FMS
       :include_map,
       :exclude_map,
       :resource_set_ids,
-      :policy_description)
+      :policy_description,
+      :policy_status,
+      :resource_tag_logical_operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2880,8 +3685,9 @@ module Aws::FMS
       include Aws::Structure
     end
 
-    # Contains the Network Firewall firewall policy options to configure the
-    # policy's deployment model and third-party firewall policy settings.
+    # Contains the settings to configure a network ACL policy, a Network
+    # Firewall firewall policy deployment model, or a third-party firewall
+    # policy.
     #
     # @!attribute [rw] network_firewall_policy
     #   Defines the deployment model to use for the firewall policy.
@@ -2891,11 +3697,16 @@ module Aws::FMS
     #   Defines the policy options for a third-party firewall policy.
     #   @return [Types::ThirdPartyFirewallPolicy]
     #
+    # @!attribute [rw] network_acl_common_policy
+    #   Defines a Firewall Manager network ACL policy.
+    #   @return [Types::NetworkAclCommonPolicy]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PolicyOption AWS API Documentation
     #
     class PolicyOption < Struct.new(
       :network_firewall_policy,
-      :third_party_firewall_policy)
+      :third_party_firewall_policy,
+      :network_acl_common_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2917,16 +3728,7 @@ module Aws::FMS
     # @!attribute [rw] resource_type
     #   The type of resource protected by or in scope of the policy. This is
     #   in the format shown in the [Amazon Web Services Resource Types
-    #   Reference][1]. For WAF and Shield Advanced, examples include
-    #   `AWS::ElasticLoadBalancingV2::LoadBalancer` and
-    #   `AWS::CloudFront::Distribution`. For a security group common policy,
-    #   valid values are `AWS::EC2::NetworkInterface` and
-    #   `AWS::EC2::Instance`. For a security group content audit policy,
-    #   valid values are `AWS::EC2::SecurityGroup`,
-    #   `AWS::EC2::NetworkInterface`, and `AWS::EC2::Instance`. For a
-    #   security group usage audit policy, the value is
-    #   `AWS::EC2::SecurityGroup`. For an Network Firewall policy or DNS
-    #   Firewall policy, the value is `AWS::EC2::VPC`.
+    #   Reference][1].
     #
     #
     #
@@ -2959,6 +3761,18 @@ module Aws::FMS
     #   policies.
     #   @return [Boolean]
     #
+    # @!attribute [rw] policy_status
+    #   Indicates whether the policy is in or out of an admin's policy or
+    #   Region scope.
+    #
+    #   * `ACTIVE` - The administrator can manage and delete the policy.
+    #
+    #   * `OUT_OF_ADMIN_SCOPE` - The administrator can view the policy, but
+    #     they can't edit or delete the policy. Existing policy protections
+    #     stay in place. Any new resources that come into scope of the
+    #     policy won't be protected.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PolicySummary AWS API Documentation
     #
     class PolicySummary < Struct.new(
@@ -2968,7 +3782,32 @@ module Aws::FMS
       :resource_type,
       :security_service_type,
       :remediation_enabled,
-      :delete_unused_fm_managed_resources)
+      :delete_unused_fm_managed_resources,
+      :policy_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the policy types that the specified Firewall Manager
+    # administrator can manage.
+    #
+    # @!attribute [rw] policy_types
+    #   The list of policy types that the specified Firewall Manager
+    #   administrator can manage.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] all_policy_types_enabled
+    #   Allows the specified Firewall Manager administrator to manage all
+    #   Firewall Manager policy types, except for third-party policy types.
+    #   Third-party policy types can only be managed by the Firewall Manager
+    #   default administrator.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PolicyTypeScope AWS API Documentation
+    #
+    class PolicyTypeScope < Struct.new(
+      :policy_types,
+      :all_policy_types_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3090,6 +3929,35 @@ module Aws::FMS
       :list_id,
       :list_name,
       :protocols_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] admin_account
+    #   The Amazon Web Services account ID to add as an Firewall Manager
+    #   administrator account. The account must be a member of the
+    #   organization that was onboarded to Firewall Manager by
+    #   AssociateAdminAccount. For more information about Organizations, see
+    #   [Managing the Amazon Web Services Accounts in Your Organization][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html
+    #   @return [String]
+    #
+    # @!attribute [rw] admin_scope
+    #   Configures the resources that the specified Firewall Manager
+    #   administrator can manage. As a best practice, set the administrative
+    #   scope according to the principles of least privilege. Only grant the
+    #   administrator the specific resources or permissions that they need
+    #   to perform the duties of their role.
+    #   @return [Types::AdminScope]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PutAdminAccountRequest AWS API Documentation
+    #
+    class PutAdminAccountRequest < Struct.new(
+      :admin_account,
+      :admin_scope)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3254,6 +4122,28 @@ module Aws::FMS
       include Aws::Structure
     end
 
+    # Defines the Amazon Web Services Regions that the specified Firewall
+    # Manager administrator can manage.
+    #
+    # @!attribute [rw] regions
+    #   The Amazon Web Services Regions that the specified Firewall Manager
+    #   administrator can perform actions in.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] all_regions_enabled
+    #   Allows the specified Firewall Manager administrator to manage all
+    #   Amazon Web Services Regions.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/RegionScope AWS API Documentation
+    #
+    class RegionScope < Struct.new(
+      :regions,
+      :all_regions_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about an individual action you can take to remediate a
     # violation.
     #
@@ -3295,6 +4185,25 @@ module Aws::FMS
     #   The remedial action to take when updating a firewall configuration.
     #   @return [Types::FMSPolicyUpdateFirewallCreationConfigAction]
     #
+    # @!attribute [rw] create_network_acl_action
+    #   Information about the `CreateNetworkAcl` action in Amazon EC2.
+    #   @return [Types::CreateNetworkAclAction]
+    #
+    # @!attribute [rw] replace_network_acl_association_action
+    #   Information about the `ReplaceNetworkAclAssociation` action in
+    #   Amazon EC2.
+    #   @return [Types::ReplaceNetworkAclAssociationAction]
+    #
+    # @!attribute [rw] create_network_acl_entries_action
+    #   Information about the `CreateNetworkAclEntries` action in Amazon
+    #   EC2.
+    #   @return [Types::CreateNetworkAclEntriesAction]
+    #
+    # @!attribute [rw] delete_network_acl_entries_action
+    #   Information about the `DeleteNetworkAclEntries` action in Amazon
+    #   EC2.
+    #   @return [Types::DeleteNetworkAclEntriesAction]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/RemediationAction AWS API Documentation
     #
     class RemediationAction < Struct.new(
@@ -3306,7 +4215,11 @@ module Aws::FMS
       :ec2_replace_route_table_association_action,
       :ec2_associate_route_table_action,
       :ec2_create_route_table_action,
-      :fms_policy_update_firewall_creation_config_action)
+      :fms_policy_update_firewall_creation_config_action,
+      :create_network_acl_action,
+      :replace_network_acl_association_action,
+      :create_network_acl_entries_action,
+      :delete_network_acl_entries_action)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3326,6 +4239,39 @@ module Aws::FMS
     class RemediationActionWithOrder < Struct.new(
       :remediation_action,
       :order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the `ReplaceNetworkAclAssociation` action in Amazon
+    # EC2. This is a remediation option in `RemediationAction`.
+    #
+    # @!attribute [rw] description
+    #   Brief description of this remediation action.
+    #   @return [String]
+    #
+    # @!attribute [rw] association_id
+    #   Describes a remediation action target.
+    #   @return [Types::ActionTarget]
+    #
+    # @!attribute [rw] network_acl_id
+    #   The network ACL that's associated with the remediation action.
+    #   @return [Types::ActionTarget]
+    #
+    # @!attribute [rw] fms_can_remediate
+    #   Indicates whether it is possible for Firewall Manager to perform
+    #   this remediation action. A false value indicates that auto
+    #   remediation is disabled or Firewall Manager is unable to perform the
+    #   action due to a conflict of some kind.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ReplaceNetworkAclAssociationAction AWS API Documentation
+    #
+    class ReplaceNetworkAclAssociationAction < Struct.new(
+      :description,
+      :association_id,
+      :network_acl_id,
+      :fms_can_remediate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3413,6 +4359,19 @@ module Aws::FMS
     #   The last time that the resource set was changed.
     #   @return [Time]
     #
+    # @!attribute [rw] resource_set_status
+    #   Indicates whether the resource set is in or out of an admin's
+    #   Region scope.
+    #
+    #   * `ACTIVE` - The administrator can manage and delete the resource
+    #     set.
+    #
+    #   * `OUT_OF_ADMIN_SCOPE` - The administrator can view the resource
+    #     set, but they can't edit or delete the resource set. Existing
+    #     protections stay in place. Any new resource that come into scope
+    #     of the resource set won't be protected.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ResourceSet AWS API Documentation
     #
     class ResourceSet < Struct.new(
@@ -3421,7 +4380,8 @@ module Aws::FMS
       :description,
       :update_token,
       :resource_type_list,
-      :last_update_time)
+      :last_update_time,
+      :resource_set_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3447,13 +4407,27 @@ module Aws::FMS
     #   The last time that the resource set was changed.
     #   @return [Time]
     #
+    # @!attribute [rw] resource_set_status
+    #   Indicates whether the resource set is in or out of an admin's
+    #   Region scope.
+    #
+    #   * `ACTIVE` - The administrator can manage and delete the resource
+    #     set.
+    #
+    #   * `OUT_OF_ADMIN_SCOPE` - The administrator can view the resource
+    #     set, but they can't edit or delete the resource set. Existing
+    #     protections stay in place. Any new resource that come into scope
+    #     of the resource set won't be protected.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ResourceSetSummary AWS API Documentation
     #
     class ResourceSetSummary < Struct.new(
       :id,
       :name,
       :description,
-      :last_update_time)
+      :last_update_time,
+      :resource_set_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3462,11 +4436,17 @@ module Aws::FMS
     # particular resource should be included or excluded from the Firewall
     # Manager policy. Tags enable you to categorize your Amazon Web Services
     # resources in different ways, for example, by purpose, owner, or
-    # environment. Each tag consists of a key and an optional value.
-    # Firewall Manager combines the tags with "AND" so that, if you add
-    # more than one tag to a policy scope, a resource must have all the
-    # specified tags to be included or excluded. For more information, see
-    # [Working with Tag Editor][1].
+    # environment. Each tag consists of a key and an optional value. If you
+    # add more than one tag to a policy, you can specify whether to combine
+    # them using the logical AND operator or the logical OR operator. For
+    # more information, see [Working with Tag Editor][1].
+    #
+    # Every resource tag must have a string value, either a non-empty string
+    # or an empty string. If you don't provide a value for a resource tag,
+    # Firewall Manager saves the value as an empty string: "". When
+    # Firewall Manager compares tags, it only matches two tags if they have
+    # the same key and the same value. A tag with an empty string value only
+    # matches with tags that also have an empty string value.
     #
     #
     #
@@ -3477,7 +4457,8 @@ module Aws::FMS
     #   @return [String]
     #
     # @!attribute [rw] value
-    #   The resource tag value.
+    #   The resource tag value. To specify an empty string value, either
+    #   don't provide this or specify it as "".
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ResourceTag AWS API Documentation
@@ -3574,12 +4555,6 @@ module Aws::FMS
     #   and failed.
     #   @return [Types::DnsRuleGroupLimitExceededViolation]
     #
-    # @!attribute [rw] possible_remediation_actions
-    #   A list of possible remediation action lists. Each individual
-    #   possible remediation action is a list of individual remediation
-    #   actions.
-    #   @return [Types::PossibleRemediationActions]
-    #
     # @!attribute [rw] firewall_subnet_is_out_of_scope_violation
     #   Contains details about the firewall subnet that violates the policy
     #   scope.
@@ -3611,6 +4586,26 @@ module Aws::FMS
     #   subnet that was deleted.
     #   @return [Types::FirewallSubnetMissingVPCEndpointViolation]
     #
+    # @!attribute [rw] invalid_network_acl_entries_violation
+    #   Violation detail for the entries in a network ACL resource.
+    #   @return [Types::InvalidNetworkAclEntriesViolation]
+    #
+    # @!attribute [rw] possible_remediation_actions
+    #   A list of possible remediation action lists. Each individual
+    #   possible remediation action is a list of individual remediation
+    #   actions.
+    #   @return [Types::PossibleRemediationActions]
+    #
+    # @!attribute [rw] web_acl_has_incompatible_configuration_violation
+    #   The violation details for a web ACL whose configuration is
+    #   incompatible with the Firewall Manager policy.
+    #   @return [Types::WebACLHasIncompatibleConfigurationViolation]
+    #
+    # @!attribute [rw] web_acl_has_out_of_scope_resources_violation
+    #   The violation details for a web ACL that's associated with at least
+    #   one resource that's out of scope of the Firewall Manager policy.
+    #   @return [Types::WebACLHasOutOfScopeResourcesViolation]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ResourceViolation AWS API Documentation
     #
     class ResourceViolation < Struct.new(
@@ -3630,13 +4625,16 @@ module Aws::FMS
       :dns_rule_group_priority_conflict_violation,
       :dns_duplicate_rule_group_violation,
       :dns_rule_group_limit_exceeded_violation,
-      :possible_remediation_actions,
       :firewall_subnet_is_out_of_scope_violation,
       :route_has_out_of_scope_endpoint_violation,
       :third_party_firewall_missing_firewall_violation,
       :third_party_firewall_missing_subnet_violation,
       :third_party_firewall_missing_expected_route_table_violation,
-      :firewall_subnet_missing_vpc_endpoint_violation)
+      :firewall_subnet_missing_vpc_endpoint_violation,
+      :invalid_network_acl_entries_violation,
+      :possible_remediation_actions,
+      :web_acl_has_incompatible_configuration_violation,
+      :web_acl_has_out_of_scope_resources_violation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3832,7 +4830,19 @@ module Aws::FMS
     #
     #   * Example: `DNS_FIREWALL`
     #
-    #     `"\{"type":"DNS_FIREWALL","preProcessRuleGroups":[\{"ruleGroupId":"rslvr-frg-1","priority":10\}],"postProcessRuleGroups":[\{"ruleGroupId":"rslvr-frg-2","priority":9911\}]\}"`
+    #     `"{"type":"DNS_FIREWALL","preProcessRuleGroups":[{"ruleGroupId":"rslvr-frg-1","priority":10}],"postProcessRuleGroups":[{"ruleGroupId":"rslvr-frg-2","priority":9911}]}"`
+    #
+    #     <note markdown="1"> Valid values for `preProcessRuleGroups` are between 1 and 99.
+    #     Valid values for `postProcessRuleGroups` are between 9901 and
+    #     10000.
+    #
+    #      </note>
+    #
+    #   * Example: `IMPORT_NETWORK_FIREWALL`
+    #
+    #     `"{"type":"IMPORT_NETWORK_FIREWALL","awsNetworkFirewallConfig":{"networkFirewallStatelessRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-west-2:000000000000:stateless-rulegroup\/rg1","priority":1}],"networkFirewallStatelessDefaultActions":["aws:drop"],"networkFirewallStatelessFragmentDefaultActions":["aws:pass"],"networkFirewallStatelessCustomActions":[],"networkFirewallStatefulRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-west-2:aws-managed:stateful-rulegroup\/ThreatSignaturesEmergingEventsStrictOrder","priority":8}],"networkFirewallStatefulEngineOptions":{"ruleOrder":"STRICT_ORDER"},"networkFirewallStatefulDefaultActions":["aws:drop_strict"]}}"`
+    #
+    #     `"{"type":"DNS_FIREWALL","preProcessRuleGroups":[{"ruleGroupId":"rslvr-frg-1","priority":10}],"postProcessRuleGroups":[{"ruleGroupId":"rslvr-frg-2","priority":9911}]}"`
     #
     #     <note markdown="1"> Valid values for `preProcessRuleGroups` are between 1 and 99.
     #     Valid values for `postProcessRuleGroups` are between 9901 and
@@ -3842,7 +4852,7 @@ module Aws::FMS
     #
     #   * Example: `NETWORK_FIREWALL` - Centralized deployment model
     #
-    #     `"\{"type":"NETWORK_FIREWALL","awsNetworkFirewallConfig":\{"networkFirewallStatelessRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1\}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessCustomActions":[\{"actionName":"customActionName","actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"metricdimensionvalue"\}]\}\}\}],"networkFirewallStatefulRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"\}],"networkFirewallLoggingConfiguration":\{"logDestinationConfigs":[\{"logDestinationType":"S3","logType":"ALERT","logDestination":\{"bucketName":"s3-bucket-name"\}\},\{"logDestinationType":"S3","logType":"FLOW","logDestination":\{"bucketName":"s3-bucket-name"\}\}],"overrideExistingConfig":true\}\},"firewallDeploymentModel":\{"centralizedFirewallDeploymentModel":\{"centralizedFirewallOrchestrationConfig":\{"inspectionVpcIds":[\{"resourceId":"vpc-1234","accountId":"123456789011"\}],"firewallCreationConfig":\{"endpointLocation":\{"availabilityZoneConfigList":[\{"availabilityZoneId":null,"availabilityZoneName":"us-east-1a","allowedIPV4CidrList":["10.0.0.0/28"]\}]\}\},"allowedIPV4CidrList":[]\}\}\}\}"`
+    #     `"{"type":"NETWORK_FIREWALL","awsNetworkFirewallConfig":{"networkFirewallStatelessRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessCustomActions":[{"actionName":"customActionName","actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"metricdimensionvalue"}]}}}],"networkFirewallStatefulRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"}],"networkFirewallLoggingConfiguration":{"logDestinationConfigs":[{"logDestinationType":"S3","logType":"ALERT","logDestination":{"bucketName":"s3-bucket-name"}},{"logDestinationType":"S3","logType":"FLOW","logDestination":{"bucketName":"s3-bucket-name"}}],"overrideExistingConfig":true}},"firewallDeploymentModel":{"centralizedFirewallDeploymentModel":{"centralizedFirewallOrchestrationConfig":{"inspectionVpcIds":[{"resourceId":"vpc-1234","accountId":"123456789011"}],"firewallCreationConfig":{"endpointLocation":{"availabilityZoneConfigList":[{"availabilityZoneId":null,"availabilityZoneName":"us-east-1a","allowedIPV4CidrList":["10.0.0.0/28"]}]}},"allowedIPV4CidrList":[]}}}}"`
     #
     #     To use the centralized deployment model, you must set
     #     [PolicyOption][1] to `CENTRALIZED`.
@@ -3851,7 +4861,7 @@ module Aws::FMS
     #     automatic Availability Zone configuration
     #
     #     `
-    #     "\{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1\}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessCustomActions":[\{"actionName":"customActionName","actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"metricdimensionvalue"\}]\}\}\}],"networkFirewallStatefulRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"\}],"networkFirewallOrchestrationConfig":\{"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":["10.0.0.0/28","192.168.0.0/28"],"routeManagementAction":"OFF"\},"networkFirewallLoggingConfiguration":\{"logDestinationConfigs":[\{"logDestinationType":"S3","logType":"ALERT","logDestination":\{"bucketName":"s3-bucket-name"\}\},\{"logDestinationType":"S3","logType":"FLOW","logDestination":\{"bucketName":"s3-bucket-name"\}\}],"overrideExistingConfig":true\}\}"
+    #     "{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessCustomActions":[{"actionName":"customActionName","actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"metricdimensionvalue"}]}}}],"networkFirewallStatefulRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"}],"networkFirewallOrchestrationConfig":{"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":["10.0.0.0/28","192.168.0.0/28"],"routeManagementAction":"OFF"},"networkFirewallLoggingConfiguration":{"logDestinationConfigs":[{"logDestinationType":"S3","logType":"ALERT","logDestination":{"bucketName":"s3-bucket-name"}},{"logDestinationType":"S3","logType":"FLOW","logDestination":{"bucketName":"s3-bucket-name"}}],"overrideExistingConfig":true}}"
     #     `
     #
     #     With automatic Availbility Zone configuration, Firewall Manager
@@ -3863,8 +4873,8 @@ module Aws::FMS
     #     automatic Availability Zone configuration and route management
     #
     #     `
-    #     "\{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1\}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessCustomActions":[\{"actionName":"customActionName","actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"metricdimensionvalue"\}]\}\}\}],"networkFirewallStatefulRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"\}],"networkFirewallOrchestrationConfig":\{"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":["10.0.0.0/28","192.168.0.0/28"],"routeManagementAction":"MONITOR","routeManagementTargetTypes":["InternetGateway"]\},"networkFirewallLoggingConfiguration":\{"logDestinationConfigs":[\{"logDestinationType":"S3","logType":"ALERT","logDestination":\{"bucketName":"s3-bucket-name"\}\},\{"logDestinationType":"S3","logType":
-    #     "FLOW","logDestination":\{"bucketName":"s3-bucket-name"\}\}],"overrideExistingConfig":true\}\}"
+    #     "{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessCustomActions":[{"actionName":"customActionName","actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"metricdimensionvalue"}]}}}],"networkFirewallStatefulRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"}],"networkFirewallOrchestrationConfig":{"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":["10.0.0.0/28","192.168.0.0/28"],"routeManagementAction":"MONITOR","routeManagementTargetTypes":["InternetGateway"]},"networkFirewallLoggingConfiguration":{"logDestinationConfigs":[{"logDestinationType":"S3","logType":"ALERT","logDestination":{"bucketName":"s3-bucket-name"}},{"logDestinationType":"S3","logType":
+    #     "FLOW","logDestination":{"bucketName":"s3-bucket-name"}}],"overrideExistingConfig":true}}"
     #     `
     #
     #     To use the distributed deployment model, you must set
@@ -3873,11 +4883,11 @@ module Aws::FMS
     #   * Example: `NETWORK_FIREWALL` - Distributed deployment model with
     #     custom Availability Zone configuration
     #
-    #     `"\{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1\}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","fragmentcustomactionname"],"networkFirewallStatelessCustomActions":[\{"actionName":"customActionName",
-    #     "actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"metricdimensionvalue"\}]\}\}\},\{"actionName":"fragmentcustomactionname","actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"fragmentmetricdimensionvalue"\}]\}\}\}],"networkFirewallStatefulRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"\}],"networkFirewallOrchestrationConfig":\{"firewallCreationConfig":\{
-    #     "endpointLocation":\{"availabilityZoneConfigList":[\{"availabilityZoneName":"us-east-1a","allowedIPV4CidrList":["10.0.0.0/28"]\},\{"availabilityZoneName":"us-east-1b","allowedIPV4CidrList":[
-    #     "10.0.0.0/28"]\}]\}
-    #     \},"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":null,"routeManagementAction":"OFF","networkFirewallLoggingConfiguration":\{"logDestinationConfigs":[\{"logDestinationType":"S3","logType":"ALERT","logDestination":\{"bucketName":"s3-bucket-name"\}\},\{"logDestinationType":"S3","logType":"FLOW","logDestination":\{"bucketName":"s3-bucket-name"\}\}],"overrideExistingConfig":boolean\}\}"
+    #     `"{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","fragmentcustomactionname"],"networkFirewallStatelessCustomActions":[{"actionName":"customActionName",
+    #     "actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"metricdimensionvalue"}]}}},{"actionName":"fragmentcustomactionname","actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"fragmentmetricdimensionvalue"}]}}}],"networkFirewallStatefulRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"}],"networkFirewallOrchestrationConfig":{"firewallCreationConfig":{
+    #     "endpointLocation":{"availabilityZoneConfigList":[{"availabilityZoneName":"us-east-1a","allowedIPV4CidrList":["10.0.0.0/28"]},{"availabilityZoneName":"us-east-1b","allowedIPV4CidrList":[
+    #     "10.0.0.0/28"]}]}
+    #     },"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":null,"routeManagementAction":"OFF","networkFirewallLoggingConfiguration":{"logDestinationConfigs":[{"logDestinationType":"S3","logType":"ALERT","logDestination":{"bucketName":"s3-bucket-name"}},{"logDestinationType":"S3","logType":"FLOW","logDestination":{"bucketName":"s3-bucket-name"}}],"overrideExistingConfig":boolean}}"
     #     `
     #
     #     With custom Availability Zone configuration, you define which
@@ -3893,36 +4903,20 @@ module Aws::FMS
     #   * Example: `NETWORK_FIREWALL` - Distributed deployment model with
     #     custom Availability Zone configuration and route management
     #
-    #     `"\{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1\}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","fragmentcustomactionname"],"networkFirewallStatelessCustomActions":[\{"actionName":"customActionName","actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"metricdimensionvalue"\}]\}\}\},\{"actionName":"fragmentcustomactionname","actionDefinition":\{"publishMetricAction":\{"dimensions":[\{"value":"fragmentmetricdimensionvalue"\}]\}\}\}],"networkFirewallStatefulRuleGroupReferences":[\{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"\}],"networkFirewallOrchestrationConfig":\{"firewallCreationConfig":\{"endpointLocation":\{"availabilityZoneConfigList":[\{"availabilityZoneName":"us-east-1a","allowedIPV4CidrList":["10.0.0.0/28"]\},\{"availabilityZoneName":"us-east-1b","allowedIPV4CidrList":["10.0.0.0/28"]\}]\}\},"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":null,"routeManagementAction":"MONITOR","routeManagementTargetTypes":["InternetGateway"],"routeManagementConfig":\{"allowCrossAZTrafficIfNoEndpoint":true\}\},"networkFirewallLoggingConfiguration":\{"logDestinationConfigs":[\{"logDestinationType":"S3","logType":"ALERT","logDestination":\{"bucketName":"s3-bucket-name"\}\},\{"logDestinationType":"S3","logType":"FLOW","logDestination":\{"bucketName":"s3-bucket-name"\}\}],"overrideExistingConfig":boolean\}\}"
+    #     `"{"type":"NETWORK_FIREWALL","networkFirewallStatelessRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test","priority":1}],"networkFirewallStatelessDefaultActions":["aws:forward_to_sfe","customActionName"],"networkFirewallStatelessFragmentDefaultActions":["aws:forward_to_sfe","fragmentcustomactionname"],"networkFirewallStatelessCustomActions":[{"actionName":"customActionName","actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"metricdimensionvalue"}]}}},{"actionName":"fragmentcustomactionname","actionDefinition":{"publishMetricAction":{"dimensions":[{"value":"fragmentmetricdimensionvalue"}]}}}],"networkFirewallStatefulRuleGroupReferences":[{"resourceARN":"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test"}],"networkFirewallOrchestrationConfig":{"firewallCreationConfig":{"endpointLocation":{"availabilityZoneConfigList":[{"availabilityZoneName":"us-east-1a","allowedIPV4CidrList":["10.0.0.0/28"]},{"availabilityZoneName":"us-east-1b","allowedIPV4CidrList":["10.0.0.0/28"]}]}},"singleFirewallEndpointPerVPC":false,"allowedIPV4CidrList":null,"routeManagementAction":"MONITOR","routeManagementTargetTypes":["InternetGateway"],"routeManagementConfig":{"allowCrossAZTrafficIfNoEndpoint":true}},"networkFirewallLoggingConfiguration":{"logDestinationConfigs":[{"logDestinationType":"S3","logType":"ALERT","logDestination":{"bucketName":"s3-bucket-name"}},{"logDestinationType":"S3","logType":"FLOW","logDestination":{"bucketName":"s3-bucket-name"}}],"overrideExistingConfig":boolean}}"
     #     `
     #
     #     To use the distributed deployment model, you must set
     #     [PolicyOption][1] to `NULL`.
     #
-    #   * Example: `THIRD_PARTY_FIREWALL`
-    #
-    #     `"\{ "type":"THIRD_PARTY_FIREWALL",
-    #     "thirdPartyFirewall":"PALO_ALTO_NETWORKS_CLOUD_NGFW",
-    #     "thirdPartyFirewallConfig":\{
-    #     "thirdPartyFirewallPolicyList":["global-1"] \},
-    #     "firewallDeploymentModel":\{
-    #     "distributedFirewallDeploymentModel":\{
-    #     "distributedFirewallOrchestrationConfig":\{
-    #     "firewallCreationConfig":\{ "endpointLocation":\{
-    #     "availabilityZoneConfigList":[ \{
-    #     "availabilityZoneName":"$\{AvailabilityZone\}" \} ] \} \},
-    #     "allowedIPV4CidrList":[ ] \} \} \} \}"`
-    #
     #   * Example: `SECURITY_GROUPS_COMMON`
     #
-    #     `"\{"type":"SECURITY_GROUPS_COMMON","revertManualSecurityGroupChanges":false,"exclusiveResourceSecurityGroupManagement":false,
-    #     "applyToAllEC2InstanceENIs":false,"securityGroups":[\{"id":"
-    #     sg-000e55995d61a06bd"\}]\}"`
+    #     `"{"type":"SECURITY_GROUPS_COMMON","securityGroups":[{"id":"sg-03b1f67d69ed00197"}],"revertManualSecurityGroupChanges":true,"exclusiveResourceSecurityGroupManagement":true,"applyToAllEC2InstanceENIs":false,"includeSharedVPC":true,"enableSecurityGroupReferencesDistribution":true}"`
     #
     #   * Example: `SECURITY_GROUPS_COMMON` - Security group tag
     #     distribution
     #
-    #     `""\{"type":"SECURITY_GROUPS_COMMON","securityGroups":[\{"id":"sg-000e55995d61a06bd"\}],"revertManualSecurityGroupChanges":true,"exclusiveResourceSecurityGroupManagement":false,"applyToAllEC2InstanceENIs":false,"includeSharedVPC":false,"enableTagDistribution":true\}""`
+    #     `""{"type":"SECURITY_GROUPS_COMMON","securityGroups":[{"id":"sg-000e55995d61a06bd"}],"revertManualSecurityGroupChanges":true,"exclusiveResourceSecurityGroupManagement":false,"applyToAllEC2InstanceENIs":false,"includeSharedVPC":false,"enableTagDistribution":true}""`
     #
     #     Firewall Manager automatically distributes tags from the primary
     #     group to the security groups created by this policy. To use
@@ -3933,20 +4927,20 @@ module Aws::FMS
     #     and reports when the security groups created by this policy become
     #     non-compliant.
     #
-    #     Firewall Manager won't distrubute system tags added by Amazon Web
+    #     Firewall Manager won't distribute system tags added by Amazon Web
     #     Services services into the replica security groups. System tags
     #     begin with the `aws:` prefix.
     #
     #   * Example: Shared VPCs. Apply the preceding policy to resources in
     #     shared VPCs as well as to those in VPCs that the account owns
     #
-    #     `"\{"type":"SECURITY_GROUPS_COMMON","revertManualSecurityGroupChanges":false,"exclusiveResourceSecurityGroupManagement":false,
-    #     "applyToAllEC2InstanceENIs":false,"includeSharedVPC":true,"securityGroups":[\{"id":"
-    #     sg-000e55995d61a06bd"\}]\}"`
+    #     `"{"type":"SECURITY_GROUPS_COMMON","revertManualSecurityGroupChanges":false,"exclusiveResourceSecurityGroupManagement":false,
+    #     "applyToAllEC2InstanceENIs":false,"includeSharedVPC":true,"securityGroups":[{"id":"
+    #     sg-000e55995d61a06bd"}]}"`
     #
     #   * Example: `SECURITY_GROUPS_CONTENT_AUDIT`
     #
-    #     `"\{"type":"SECURITY_GROUPS_CONTENT_AUDIT","securityGroups":[\{"id":"sg-000e55995d61a06bd"\}],"securityGroupAction":\{"type":"ALLOW"\}\}"`
+    #     `"{"type":"SECURITY_GROUPS_CONTENT_AUDIT","preManagedOptions":[{"denyProtocolAllValue":true},{"auditSgDirection":{"type":"ALL"}}],"securityGroups":[{"id":"sg-049b2393a25468971"}],"securityGroupAction":{"type":"ALLOW"}}"`
     #
     #     The security group action for content audit can be `ALLOW` or
     #     `DENY`. For `ALLOW`, all in-scope security group rules must be
@@ -3957,20 +4951,47 @@ module Aws::FMS
     #
     #   * Example: `SECURITY_GROUPS_USAGE_AUDIT`
     #
-    #     `"\{"type":"SECURITY_GROUPS_USAGE_AUDIT","deleteUnusedSecurityGroups":true,"coalesceRedundantSecurityGroups":true\}"`
+    #     `"{"type":"SECURITY_GROUPS_USAGE_AUDIT","deleteUnusedSecurityGroups":true,"coalesceRedundantSecurityGroups":true,"optionalDelayForUnusedInMinutes":60}"`
+    #
+    #   * Example: `SHIELD_ADVANCED` with web ACL management
+    #
+    #     `"{"type":"SHIELD_ADVANCED","optimizeUnassociatedWebACL":true}"`
+    #
+    #     If you set `optimizeUnassociatedWebACL` to `true`, Firewall
+    #     Manager creates web ACLs in accounts within the policy scope if
+    #     the web ACLs will be used by at least one resource. Firewall
+    #     Manager creates web ACLs in the accounts within policy scope only
+    #     if the web ACLs will be used by at least one resource. If at any
+    #     time an account comes into policy scope, Firewall Manager
+    #     automatically creates a web ACL in the account if at least one
+    #     resource will use the web ACL.
+    #
+    #     Upon enablement, Firewall Manager performs a one-time cleanup of
+    #     unused web ACLs in your account. The cleanup process can take
+    #     several hours. If a resource leaves policy scope after Firewall
+    #     Manager creates a web ACL, Firewall Manager doesn't disassociate
+    #     the resource from the web ACL. If you want Firewall Manager to
+    #     clean up the web ACL, you must first manually disassociate the
+    #     resources from the web ACL, and then enable the manage unused web
+    #     ACLs option in your policy.
+    #
+    #     If you set `optimizeUnassociatedWebACL` to `false`, and Firewall
+    #     Manager automatically creates an empty web ACL in each account
+    #     that's within policy scope.
     #
     #   * Specification for `SHIELD_ADVANCED` for Amazon CloudFront
     #     distributions
     #
-    #     `"\{"type":"SHIELD_ADVANCED","automaticResponseConfiguration":
-    #     \{"automaticResponseStatus":"ENABLED|IGNORED|DISABLED",
-    #     "automaticResponseAction":"BLOCK|COUNT"\},
-    #     "overrideCustomerWebaclClassic":true|false\}"`
+    #     `"{"type":"SHIELD_ADVANCED","automaticResponseConfiguration":
+    #     {"automaticResponseStatus":"ENABLED|IGNORED|DISABLED",
+    #     "automaticResponseAction":"BLOCK|COUNT"},
+    #     "overrideCustomerWebaclClassic":true|false,
+    #     "optimizeUnassociatedWebACL":true|false}"`
     #
     #     For example:
-    #     `"\{"type":"SHIELD_ADVANCED","automaticResponseConfiguration":
-    #     \{"automaticResponseStatus":"ENABLED",
-    #     "automaticResponseAction":"COUNT"\}\}"`
+    #     `"{"type":"SHIELD_ADVANCED","automaticResponseConfiguration":
+    #     {"automaticResponseStatus":"ENABLED",
+    #     "automaticResponseAction":"COUNT"}}"`
     #
     #     The default value for `automaticResponseStatus` is `IGNORED`. The
     #     value for `automaticResponseAction` is only required when
@@ -3981,19 +5002,92 @@ module Aws::FMS
     #     Advanced policy, this `ManagedServiceData` configuration is an
     #     empty string.
     #
-    #   * Example: `WAFV2`
+    #   * Example: `THIRD_PARTY_FIREWALL`
     #
-    #     `"\{"type":"WAFV2","preProcessRuleGroups":[\{"ruleGroupArn":null,"overrideAction":\{"type":"NONE"\},"managedRuleGroupIdentifier":\{"version":null,"vendorName":"AWS","managedRuleGroupName":"AWSManagedRulesAmazonIpReputationList"\},"ruleGroupType":"ManagedRuleGroup","excludeRules":[\{"name":"NoUserAgent_HEADER"\}]\}],"postProcessRuleGroups":[],"defaultAction":\{"type":"ALLOW"\},"overrideCustomerWebACLAssociation":false,"loggingConfiguration":\{"logDestinationConfigs":["arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination"],"redactedFields":[\{"redactedFieldType":"SingleHeader","redactedFieldValue":"Cookies"\},\{"redactedFieldType":"Method"\}]\}\}"`
+    #     Replace `THIRD_PARTY_FIREWALL_NAME` with the name of the
+    #     third-party firewall.
     #
-    #     In the `loggingConfiguration`, you can specify one
-    #     `logDestinationConfigs`, you can optionally provide up to 20
-    #     `redactedFields`, and the `RedactedFieldType` must be one of
-    #     `URI`, `QUERY_STRING`, `HEADER`, or `METHOD`.
+    #     `"{ "type":"THIRD_PARTY_FIREWALL",
+    #     "thirdPartyFirewall":"THIRD_PARTY_FIREWALL_NAME",
+    #     "thirdPartyFirewallConfig":{
+    #     "thirdPartyFirewallPolicyList":["global-1"] },
+    #     "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
+    #     "distributedFirewallOrchestrationConfig":{
+    #     "firewallCreationConfig":{ "endpointLocation":{
+    #     "availabilityZoneConfigList":[ {
+    #     "availabilityZoneName":"${AvailabilityZone}" } ] } },
+    #     "allowedIPV4CidrList":[ ] } } } }"`
     #
+    #   * Example: `WAFV2` - Account takeover prevention, Bot Control
+    #     managed rule groups, optimize unassociated web ACL, and rule
+    #     action override
+    #
+    #     `"{"type":"WAFV2","preProcessRuleGroups":[{"ruleGroupArn":null,"overrideAction":{"type":"NONE"},"managedRuleGroupIdentifier":{"versionEnabled":null,"version":null,"vendorName":"AWS","managedRuleGroupName":"AWSManagedRulesATPRuleSet","managedRuleGroupConfigs":[{"awsmanagedRulesATPRuleSet":{"loginPath":"/loginpath","requestInspection":{"payloadType":"FORM_ENCODED|JSON","usernameField":{"identifier":"/form/username"},"passwordField":{"identifier":"/form/password"}}}}]},"ruleGroupType":"ManagedRuleGroup","excludeRules":[],"sampledRequestsEnabled":true},{"ruleGroupArn":null,"overrideAction":{"type":"NONE"},"managedRuleGroupIdentifier":{"versionEnabled":null,"version":null,"vendorName":"AWS","managedRuleGroupName":"AWSManagedRulesBotControlRuleSet","managedRuleGroupConfigs":[{"awsmanagedRulesBotControlRuleSet":{"inspectionLevel":"TARGETED|COMMON"}}]},"ruleGroupType":"ManagedRuleGroup","excludeRules":[],"sampledRequestsEnabled":true,"ruleActionOverrides":[{"name":"Rule1","actionToUse":{"allow|block|count|captcha|challenge":{}}},{"name":"Rule2","actionToUse":{"allow|block|count|captcha|challenge":{}}}]}],"postProcessRuleGroups":[],"defaultAction":{"type":"ALLOW"},"customRequestHandling":null,"customResponse":null,"overrideCustomerWebACLAssociation":false,"loggingConfiguration":null,"sampledRequestsEnabledForDefaultActions":true,"optimizeUnassociatedWebACL":true}"`
+    #
+    #     * Bot Control - For information about
+    #       `AWSManagedRulesBotControlRuleSet` managed rule groups, see
+    #       [AWSManagedRulesBotControlRuleSet][2] in the *WAF API
+    #       Reference*.
+    #
+    #     * Fraud Control account takeover prevention (ATP) - For
+    #       information about the properties available for
+    #       `AWSManagedRulesATPRuleSet` managed rule groups, see
+    #       [AWSManagedRulesATPRuleSet][3] in the *WAF API Reference*.
+    #
+    #     * Optimize unassociated web ACL - If you set
+    #       `optimizeUnassociatedWebACL` to `true`, Firewall Manager creates
+    #       web ACLs in accounts within the policy scope if the web ACLs
+    #       will be used by at least one resource. Firewall Manager creates
+    #       web ACLs in the accounts within policy scope only if the web
+    #       ACLs will be used by at least one resource. If at any time an
+    #       account comes into policy scope, Firewall Manager automatically
+    #       creates a web ACL in the account if at least one resource will
+    #       use the web ACL.
+    #
+    #       Upon enablement, Firewall Manager performs a one-time cleanup of
+    #       unused web ACLs in your account. The cleanup process can take
+    #       several hours. If a resource leaves policy scope after Firewall
+    #       Manager creates a web ACL, Firewall Manager disassociates the
+    #       resource from the web ACL, but won't clean up the unused web
+    #       ACL. Firewall Manager only cleans up unused web ACLs when you
+    #       first enable management of unused web ACLs in a policy.
+    #
+    #       If you set `optimizeUnassociatedWebACL` to `false` Firewall
+    #       Manager doesn't manage unused web ACLs, and Firewall Manager
+    #       automatically creates an empty web ACL in each account that's
+    #       within policy scope.
+    #
+    #     * Rule action overrides - Firewall Manager supports rule action
+    #       overrides only for managed rule groups. To configure a
+    #       `RuleActionOverrides` add the `Name` of the rule to override,
+    #       and `ActionToUse`, which is the new action to use for the rule.
+    #       For information about using rule action override, see
+    #       [RuleActionOverride][4] in the *WAF API Reference*.
+    #   * Example: `WAFV2` - `CAPTCHA` and `Challenge` configs
+    #
+    #     `"{"type":"WAFV2","preProcessRuleGroups":[{"ruleGroupArn":null,"overrideAction":{"type":"NONE"},"managedRuleGroupIdentifier":{"versionEnabled":null,"version":null,"vendorName":"AWS","managedRuleGroupName":"AWSManagedRulesAdminProtectionRuleSet"},"ruleGroupType":"ManagedRuleGroup","excludeRules":[],"sampledRequestsEnabled":true}],"postProcessRuleGroups":[],"defaultAction":{"type":"ALLOW"},"customRequestHandling":null,"customResponse":null,"overrideCustomerWebACLAssociation":false,"loggingConfiguration":null,"sampledRequestsEnabledForDefaultActions":true,"captchaConfig":{"immunityTimeProperty":{"immunityTime":500}},"challengeConfig":{"immunityTimeProperty":{"immunityTime":800}},"tokenDomains":["google.com","amazon.com"],"associationConfig":{"requestBody":{"CLOUDFRONT":{"defaultSizeInspectionLimit":"KB_16"}}}}"`
+    #
+    #     * `CAPTCHA` and `Challenge` configs - If you update the policy's
+    #       values for `associationConfig`, `captchaConfig`,
+    #       `challengeConfig`, or `tokenDomains`, Firewall Manager will
+    #       overwrite your local web ACLs to contain the new value(s).
+    #       However, if you don't update the policy's `associationConfig`,
+    #       `captchaConfig`, `challengeConfig`, or `tokenDomains` values,
+    #       the values in your local web ACLs will remain unchanged. For
+    #       information about association configs, see
+    #       [AssociationConfig][5]. For information about CAPTCHA and
+    #       Challenge configs, see [CaptchaConfig][6] and
+    #       [ChallengeConfig][7] in the *WAF API Reference*.
+    #
+    #     * `defaultSizeInspectionLimit` - Specifies the maximum size of the
+    #       web request body component that an associated Amazon CloudFront
+    #       distribution should send to WAF for inspection. For more
+    #       information, see [DefaultSizeInspectionLimit][8] in the *WAF API
+    #       Reference*.
     #   * Example: `WAFV2` - Firewall Manager support for WAF managed rule
     #     group versioning
     #
-    #     `"\{"type":"WAFV2","preProcessRuleGroups":[\{"ruleGroupArn":null,"overrideAction":\{"type":"NONE"\},"managedRuleGroupIdentifier":\{"versionEnabled":true,"version":"Version_2.0","vendorName":"AWS","managedRuleGroupName":"AWSManagedRulesCommonRuleSet"\},"ruleGroupType":"ManagedRuleGroup","excludeRules":[\{"name":"NoUserAgent_HEADER"\}]\}],"postProcessRuleGroups":[],"defaultAction":\{"type":"ALLOW"\},"overrideCustomerWebACLAssociation":false,"loggingConfiguration":\{"logDestinationConfigs":["arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination"],"redactedFields":[\{"redactedFieldType":"SingleHeader","redactedFieldValue":"Cookies"\},\{"redactedFieldType":"Method"\}]\}\}"`
+    #     `"{"preProcessRuleGroups":[{"ruleGroupType":"ManagedRuleGroup","overrideAction":{"type":"NONE"},"sampledRequestsEnabled":true,"managedRuleGroupIdentifier":{"managedRuleGroupName":"AWSManagedRulesAdminProtectionRuleSet","vendorName":"AWS","managedRuleGroupConfigs":null}}],"postProcessRuleGroups":[],"defaultAction":{"type":"ALLOW"},"customRequestHandling":null,"tokenDomains":null,"customResponse":null,"type":"WAFV2","overrideCustomerWebACLAssociation":false,"sampledRequestsEnabledForDefaultActions":true,"optimizeUnassociatedWebACL":true,"webACLSource":"RETROFIT_EXISTING"}"`
     #
     #     To use a specific version of a WAF managed rule group in your
     #     Firewall Manager policy, you must set `versionEnabled` to `true`,
@@ -4002,21 +5096,55 @@ module Aws::FMS
     #     then Firewall Manager uses the default version of the WAF managed
     #     rule group.
     #
+    #   * Example: `WAFV2` - Logging configurations
+    #
+    #     `"{"type":"WAFV2","preProcessRuleGroups":[{"ruleGroupArn":null,
+    #     "overrideAction":{"type":"NONE"},"managedRuleGroupIdentifier":
+    #     {"versionEnabled":null,"version":null,"vendorName":"AWS",
+    #     "managedRuleGroupName":"AWSManagedRulesAdminProtectionRuleSet"}
+    #     ,"ruleGroupType":"ManagedRuleGroup","excludeRules":[],
+    #     "sampledRequestsEnabled":true}],"postProcessRuleGroups":[],
+    #     "defaultAction":{"type":"ALLOW"},"customRequestHandling"
+    #     \:null,"customResponse":null,"overrideCustomerWebACLAssociation"
+    #     \:false,"loggingConfiguration":{"logDestinationConfigs":
+    #     ["arn:aws:s3:::aws-waf-logs-example-bucket"]
+    #     ,"redactedFields":[],"loggingFilterConfigs":{"defaultBehavior":"KEEP",
+    #     "filters":[{"behavior":"KEEP","requirement":"MEETS_ALL",
+    #     "conditions":[{"actionCondition":"CAPTCHA"},{"actionCondition":
+    #     "CHALLENGE"},
+    #     {"actionCondition":"EXCLUDED_AS_COUNT"}]}]}},"sampledRequestsEnabledForDefaultActions":true}"`
+    #
+    #     Firewall Manager supports Amazon Kinesis Data Firehose and Amazon
+    #     S3 as the `logDestinationConfigs` in your `loggingConfiguration`.
+    #     For information about WAF logging configurations, see
+    #     [LoggingConfiguration][9] in the *WAF API Reference*
+    #
+    #     In the `loggingConfiguration`, you can specify one
+    #     `logDestinationConfigs`. Optionally provide as many as 20
+    #     `redactedFields`. The `RedactedFieldType` must be one of `URI`,
+    #     `QUERY_STRING`, `HEADER`, or `METHOD`.
+    #
     #   * Example: `WAF Classic`
     #
-    #     `"\{"type": "WAF", "ruleGroups":
-    #     [\{"id":"12345678-1bcd-9012-efga-0987654321ab",
-    #     "overrideAction" : \{"type": "COUNT"\}\}],
-    #     "defaultAction": \{"type": "BLOCK"\}\}"`
+    #     `"{"ruleGroups":[{"id":"78cb36c0-1b5e-4d7d-82b2-cf48d3ad9659","overrideAction":{"type":"NONE"}}],"overrideCustomerWebACLAssociation":true,"defaultAction":{"type":"ALLOW"},"type":"WAF"}"`
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html
+    #   [2]: https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesBotControlRuleSet.html
+    #   [3]: https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesATPRuleSet.html
+    #   [4]: https://docs.aws.amazon.com/waf/latest/APIReference/API_RuleActionOverride.html
+    #   [5]: https://docs.aws.amazon.com/waf/latest/APIReference/API_AssociationConfig.html
+    #   [6]: https://docs.aws.amazon.com/waf/latest/APIReference/API_CaptchaConfig.html
+    #   [7]: https://docs.aws.amazon.com/waf/latest/APIReference/API_ChallengeConfig.html
+    #   [8]: https://docs.aws.amazon.com/waf/latest/APIReference/API_RequestBodyAssociatedResourceTypeConfig.html#WAF-Type-RequestBodyAssociatedResourceTypeConfig-DefaultSizeInspectionLimit
+    #   [9]: https://docs.aws.amazon.com/waf/latest/APIReference/API_LoggingConfiguration.html
     #   @return [String]
     #
     # @!attribute [rw] policy_option
-    #   Contains the Network Firewall firewall policy options to configure a
-    #   centralized deployment model.
+    #   Contains the settings to configure a network ACL policy, a Network
+    #   Firewall firewall policy deployment model, or a third-party firewall
+    #   policy.
     #   @return [Types::PolicyOption]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/SecurityServicePolicyData AWS API Documentation
@@ -4034,21 +5162,63 @@ module Aws::FMS
     #
     # @!attribute [rw] rule_order
     #   Indicates how to manage the order of stateful rule evaluation for
-    #   the policy. `DEFAULT_ACTION_ORDER` is the default behavior. Stateful
-    #   rules are provided to the rule engine as Suricata compatible
-    #   strings, and Suricata evaluates them based on certain settings. For
-    #   more information, see [Evaluation order for stateful rules][1] in
-    #   the *Network Firewall Developer Guide*.
+    #   the policy. Stateful rules are provided to the rule engine as
+    #   Suricata compatible strings, and Suricata evaluates them based on
+    #   certain settings. For more information, see [Evaluation order for
+    #   stateful rules][1] in the *Network Firewall Developer Guide*.
+    #
+    #   Default: `DEFAULT_ACTION_ORDER`
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html
     #   @return [String]
     #
+    # @!attribute [rw] stream_exception_policy
+    #   Indicates how Network Firewall should handle traffic when a network
+    #   connection breaks midstream.
+    #
+    #   * `DROP` - Fail closed and drop all subsequent traffic going to the
+    #     firewall.
+    #
+    #   * `CONTINUE` - Continue to apply rules to subsequent traffic without
+    #     context from traffic before the break. This impacts the behavior
+    #     of rules that depend on context. For example, with a stateful rule
+    #     that drops HTTP traffic, Network Firewall won't match subsequent
+    #     traffic because the it won't have the context from session
+    #     initialization, which defines the application layer protocol as
+    #     HTTP. However, a TCP-layer rule using a `flow:stateless` rule
+    #     would still match, and so would the `aws:drop_strict` default
+    #     action.
+    #
+    #   * `REJECT` - Fail closed and drop all subsequent traffic going to
+    #     the firewall. With this option, Network Firewall also sends a TCP
+    #     reject packet back to the client so the client can immediately
+    #     establish a new session. With the new session, Network Firewall
+    #     will have context and will apply rules appropriately.
+    #
+    #     For applications that are reliant on long-lived TCP connections
+    #     that trigger Gateway Load Balancer idle timeouts, this is the
+    #     recommended setting.
+    #
+    #   * `FMS_IGNORE` - Firewall Manager doesn't monitor or modify the
+    #     Network Firewall stream exception policy settings.
+    #
+    #   For more information, see [Stream exception policy in your firewall
+    #   policy][1] in the *Network Firewall Developer Guide*.
+    #
+    #   Default: `FMS_IGNORE`
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/stream-exception-policy.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/StatefulEngineOptions AWS API Documentation
     #
     class StatefulEngineOptions < Struct.new(
-      :rule_order)
+      :rule_order,
+      :stream_exception_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4384,5 +5554,48 @@ module Aws::FMS
       include Aws::Structure
     end
 
+    # The violation details for a web ACL whose configuration is
+    # incompatible with the Firewall Manager policy.
+    #
+    # @!attribute [rw] web_acl_arn
+    #   The Amazon Resource Name (ARN) of the web ACL.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Information about the problems that Firewall Manager encountered
+    #   with the web ACL configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/WebACLHasIncompatibleConfigurationViolation AWS API Documentation
+    #
+    class WebACLHasIncompatibleConfigurationViolation < Struct.new(
+      :web_acl_arn,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The violation details for a web ACL that's associated with at least
+    # one resource that's out of scope of the Firewall Manager policy.
+    #
+    # @!attribute [rw] web_acl_arn
+    #   The Amazon Resource Name (ARN) of the web ACL.
+    #   @return [String]
+    #
+    # @!attribute [rw] out_of_scope_resource_list
+    #   An array of Amazon Resource Name (ARN) for the resources that are
+    #   out of scope of the policy and are associated with the web ACL.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/WebACLHasOutOfScopeResourcesViolation AWS API Documentation
+    #
+    class WebACLHasOutOfScopeResourcesViolation < Struct.new(
+      :web_acl_arn,
+      :out_of_scope_resource_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

@@ -3,7 +3,7 @@
   "metadata":{
     "endpointPrefix":"svc",
     "protocol": "rest-json",
-    "signatureVersion":"v4"
+    "auth":["aws.auth#sigv4"]
   },
   "operations": {
     "Streaming": {
@@ -22,23 +22,23 @@
       },
       "input": {"shape": "NonStreamingRequest"}
     },
-    "UnsignRequireLenStreaming": {
-      "name": "UnsignRequireLenStreaming",
+    "UnsignedRequireLenStreaming": {
+      "name": "UnsignedRequireLenStreaming",
       "http": {
         "method": "POST",
         "requestUri": "/"
       },
-      "input": {"shape": "UnsignRequireLenStreamingRequest"},
-      "authtype":"v4-unsigned-body"
+      "input": {"shape": "UnsignedRequireLenStreamingRequest"},
+      "unsignedPayload":true
     },
-    "UnsignStreaming": {
-      "name": "UnsignStreaming",
+    "UnsignedStreaming": {
+      "name": "UnsignedStreaming",
       "http": {
         "method": "POST",
         "requestUri": "/"
       },
-      "input": {"shape": "UnsignStreamingRequest"},
-      "authtype":"v4-unsigned-body"
+      "input": {"shape": "UnsignedStreamingRequest"},
+      "unsignedPayload":true
     }
   },
   "shapes": {
@@ -53,7 +53,7 @@
       },
       "payload": "Body"
     },
-    "UnsignStreamingRequest": {
+    "UnsignedStreamingRequest": {
       "type": "structure",
       "members": {
         "Body": {
@@ -62,7 +62,7 @@
       },
       "payload": "Body"
     },
-    "UnsignRequireLenStreamingRequest": {
+    "UnsignedRequireLenStreamingRequest": {
       "type": "structure",
       "members": {
         "Body": {

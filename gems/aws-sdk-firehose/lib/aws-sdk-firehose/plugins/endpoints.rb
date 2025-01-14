@@ -14,34 +14,48 @@ module Aws::Firehose
       option(
         :endpoint_provider,
         doc_type: 'Aws::Firehose::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::Firehose::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::Firehose::EndpointParameters`.
+        DOCS
         Aws::Firehose::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::Firehose::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,35 +65,6 @@ module Aws::Firehose
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :create_delivery_stream
-            Aws::Firehose::Endpoints::CreateDeliveryStream.build(context)
-          when :delete_delivery_stream
-            Aws::Firehose::Endpoints::DeleteDeliveryStream.build(context)
-          when :describe_delivery_stream
-            Aws::Firehose::Endpoints::DescribeDeliveryStream.build(context)
-          when :list_delivery_streams
-            Aws::Firehose::Endpoints::ListDeliveryStreams.build(context)
-          when :list_tags_for_delivery_stream
-            Aws::Firehose::Endpoints::ListTagsForDeliveryStream.build(context)
-          when :put_record
-            Aws::Firehose::Endpoints::PutRecord.build(context)
-          when :put_record_batch
-            Aws::Firehose::Endpoints::PutRecordBatch.build(context)
-          when :start_delivery_stream_encryption
-            Aws::Firehose::Endpoints::StartDeliveryStreamEncryption.build(context)
-          when :stop_delivery_stream_encryption
-            Aws::Firehose::Endpoints::StopDeliveryStreamEncryption.build(context)
-          when :tag_delivery_stream
-            Aws::Firehose::Endpoints::TagDeliveryStream.build(context)
-          when :untag_delivery_stream
-            Aws::Firehose::Endpoints::UntagDeliveryStream.build(context)
-          when :update_destination
-            Aws::Firehose::Endpoints::UpdateDestination.build(context)
           end
         end
       end

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::MarketplaceMetering
   # @api private
   module ClientApi
@@ -186,9 +187,11 @@ module Aws::MarketplaceMetering
 
       api.metadata = {
         "apiVersion" => "2016-01-14",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "metering.marketplace",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWSMarketplace Metering",
         "serviceId" => "Marketplace Metering",
         "signatureVersion" => "v4",

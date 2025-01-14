@@ -109,12 +109,7 @@ module Aws::AutoScaling
       data[:target_group_arns]
     end
 
-    # Determines whether any additional health checks are performed on the
-    # instances in this group. Amazon EC2 health checks are always on.
-    #
-    # The valid values are `EC2` (default), `ELB`, and `VPC_LATTICE`. The
-    # `VPC_LATTICE` health check type is reserved for use with VPC Lattice,
-    # which is in preview release and is subject to change.
+    # A comma-separated value string of one or more health check types.
     # @return [String]
     def health_check_type
       data[:health_check_type]
@@ -157,8 +152,12 @@ module Aws::AutoScaling
       data[:enabled_metrics]
     end
 
-    # The current state of the group when the DeleteAutoScalingGroup
+    # The current state of the group when the [DeleteAutoScalingGroup][1]
     # operation is in progress.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html
     # @return [String]
     def status
       data[:status]
@@ -232,14 +231,34 @@ module Aws::AutoScaling
       data[:default_instance_warmup]
     end
 
-    # **Reserved for use with Amazon VPC Lattice, which is in preview
-    # release and is subject to change. Do not use this parameter for
-    # production workloads. It is also subject to change.**
-    #
-    # The unique identifiers of the traffic sources.
+    # The traffic sources associated with this Auto Scaling group.
     # @return [Array<Types::TrafficSourceIdentifier>]
     def traffic_sources
       data[:traffic_sources]
+    end
+
+    # An instance maintenance policy.
+    # @return [Types::InstanceMaintenancePolicy]
+    def instance_maintenance_policy
+      data[:instance_maintenance_policy]
+    end
+
+    # The instance capacity distribution across Availability Zones.
+    # @return [Types::AvailabilityZoneDistribution]
+    def availability_zone_distribution
+      data[:availability_zone_distribution]
+    end
+
+    # The Availability Zone impairment policy.
+    # @return [Types::AvailabilityZoneImpairmentPolicy]
+    def availability_zone_impairment_policy
+      data[:availability_zone_impairment_policy]
+    end
+
+    # The capacity reservation specification.
+    # @return [Types::CapacityReservationSpecification]
+    def capacity_reservation_specification
+      data[:capacity_reservation_specification]
     end
 
     # @!endgroup
@@ -256,7 +275,9 @@ module Aws::AutoScaling
     #
     # @return [self]
     def load
-      resp = @client.describe_auto_scaling_groups(auto_scaling_group_names: [@name])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_auto_scaling_groups(auto_scaling_group_names: [@name])
+      end
       @data = resp.auto_scaling_groups[0]
       self
     end
@@ -301,7 +322,9 @@ module Aws::AutoScaling
       options, params = separate_params_and_options(options)
       waiter = Waiters::GroupExists.new(options)
       yield_waiter_and_warn(waiter, &block) if block_given?
-      waiter.wait(params.merge(auto_scaling_group_names: [@name]))
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        waiter.wait(params.merge(auto_scaling_group_names: [@name]))
+      end
       AutoScalingGroup.new({
         name: @name,
         client: @client
@@ -318,7 +341,9 @@ module Aws::AutoScaling
       options, params = separate_params_and_options(options)
       waiter = Waiters::GroupInService.new(options)
       yield_waiter_and_warn(waiter, &block) if block_given?
-      waiter.wait(params.merge(auto_scaling_group_names: [@name]))
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        waiter.wait(params.merge(auto_scaling_group_names: [@name]))
+      end
       AutoScalingGroup.new({
         name: @name,
         client: @client
@@ -335,7 +360,9 @@ module Aws::AutoScaling
       options, params = separate_params_and_options(options)
       waiter = Waiters::GroupNotExists.new(options)
       yield_waiter_and_warn(waiter, &block) if block_given?
-      waiter.wait(params.merge(auto_scaling_group_names: [@name]))
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        waiter.wait(params.merge(auto_scaling_group_names: [@name]))
+      end
       AutoScalingGroup.new({
         name: @name,
         client: @client
@@ -436,7 +463,9 @@ module Aws::AutoScaling
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -452,7 +481,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def attach_instances(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.attach_instances(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.attach_instances(options)
+      end
       resp.data
     end
 
@@ -470,7 +501,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.delete_auto_scaling_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_auto_scaling_group(options)
+      end
       resp.data
     end
 
@@ -490,7 +523,9 @@ module Aws::AutoScaling
     def detach_instances(options = {})
       batch = []
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.detach_instances(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.detach_instances(options)
+      end
       resp.data.activities.each do |a|
         batch << Activity.new(
           id: a.activity_id,
@@ -554,16 +589,18 @@ module Aws::AutoScaling
     #
     #   If you omit this property, all metrics are disabled.
     #
-    #   For more information, see [Auto Scaling group metrics][1] in the
-    #   *Amazon EC2 Auto Scaling User Guide*.
+    #   For more information, see [Amazon CloudWatch metrics for Amazon EC2
+    #   Auto Scaling][1] in the *Amazon EC2 Auto Scaling User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html
     # @return [EmptyStructure]
     def disable_metrics_collection(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.disable_metrics_collection(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.disable_metrics_collection(options)
+      end
       resp.data
     end
 
@@ -622,19 +659,21 @@ module Aws::AutoScaling
     #   If you specify `Granularity` and don't specify any metrics, all
     #   metrics are enabled.
     #
-    #   For more information, see [Auto Scaling group metrics][1] in the
-    #   *Amazon EC2 Auto Scaling User Guide*.
+    #   For more information, see [Amazon CloudWatch metrics for Amazon EC2
+    #   Auto Scaling][1] in the *Amazon EC2 Auto Scaling User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html
     # @option options [required, String] :granularity
     #   The frequency at which Amazon EC2 Auto Scaling sends aggregated data
     #   to CloudWatch. The only valid value is `1Minute`.
     # @return [EmptyStructure]
     def enable_metrics_collection(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.enable_metrics_collection(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.enable_metrics_collection(options)
+      end
       resp.data
     end
 
@@ -673,9 +712,10 @@ module Aws::AutoScaling
     #         ],
     #         statistic: "Average", # accepts Average, Minimum, Maximum, SampleCount, Sum
     #         unit: "MetricUnit",
+    #         period: 1,
     #         metrics: [
     #           {
-    #             id: "XmlStringMaxLen255", # required
+    #             id: "XmlStringMaxLen64", # required
     #             expression: "XmlStringMaxLen2047",
     #             metric_stat: {
     #               metric: { # required
@@ -690,8 +730,10 @@ module Aws::AutoScaling
     #               },
     #               stat: "XmlStringMetricStat", # required
     #               unit: "MetricUnit",
+    #               period: 1,
     #             },
     #             label: "XmlStringMetricLabel",
+    #             period: 1,
     #             return_data: false,
     #           },
     #         ],
@@ -850,7 +892,7 @@ module Aws::AutoScaling
     #   The amount by which to scale, based on the specified adjustment type.
     #   A positive value adds to the current capacity while a negative number
     #   removes from the current capacity. For exact capacity, you must
-    #   specify a positive value.
+    #   specify a non-negative value.
     #
     #   Required if the policy type is `SimpleScaling`. (Not used with any
     #   other policy type.)
@@ -867,7 +909,7 @@ module Aws::AutoScaling
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html
     # @option options [String] :metric_aggregation_type
     #   The aggregation type for the CloudWatch metrics. The valid values are
     #   `Minimum`, `Maximum`, and `Average`. If the aggregation type is null,
@@ -925,7 +967,7 @@ module Aws::AutoScaling
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_TargetTrackingConfiguration.html
     # @option options [Boolean] :enabled
     #   Indicates whether the scaling policy is enabled or disabled. The
-    #   default is enabled. For more information, see [Disabling a scaling
+    #   default is enabled. For more information, see [Disable a scaling
     #   policy for an Auto Scaling group][1] in the *Amazon EC2 Auto Scaling
     #   User Guide*.
     #
@@ -950,7 +992,9 @@ module Aws::AutoScaling
     # @return [ScalingPolicy]
     def put_scaling_policy(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      @client.put_scaling_policy(options)
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.put_scaling_policy(options)
+      end
       ScalingPolicy.new(
         name: options[:policy_name],
         client: @client
@@ -1030,7 +1074,9 @@ module Aws::AutoScaling
     # @return [ScheduledAction]
     def put_scheduled_update_group_action(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      @client.put_scheduled_update_group_action(options)
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.put_scheduled_update_group_action(options)
+      end
       ScheduledAction.new(
         name: options[:scheduled_action_name],
         client: @client
@@ -1068,7 +1114,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def resume_processes(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.resume_processes(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.resume_processes(options)
+      end
       resp.data
     end
 
@@ -1092,7 +1140,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def set_desired_capacity(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.set_desired_capacity(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.set_desired_capacity(options)
+      end
       resp.data
     end
 
@@ -1127,7 +1177,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def suspend_processes(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      resp = @client.suspend_processes(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.suspend_processes(options)
+      end
       resp.data
     end
 
@@ -1173,6 +1225,7 @@ module Aws::AutoScaling
     #               excluded_instance_types: ["ExcludedInstance"],
     #               instance_generations: ["current"], # accepts current, previous
     #               spot_max_price_percentage_over_lowest_price: 1,
+    #               max_spot_price_as_percentage_of_optimal_on_demand_price: 1,
     #               on_demand_max_price_percentage_over_lowest_price: 1,
     #               bare_metal: "included", # accepts included, excluded, required
     #               burstable_performance: "included", # accepts included, excluded, required
@@ -1207,6 +1260,15 @@ module Aws::AutoScaling
     #                 max: 1.0,
     #               },
     #               allowed_instance_types: ["AllowedInstanceType"],
+    #               baseline_performance_factors: {
+    #                 cpu: {
+    #                   references: [
+    #                     {
+    #                       instance_family: "String",
+    #                     },
+    #                   ],
+    #                 },
+    #               },
     #             },
     #           },
     #         ],
@@ -1227,8 +1289,8 @@ module Aws::AutoScaling
     #     availability_zones: ["XmlStringMaxLen255"],
     #     health_check_type: "XmlStringMaxLen32",
     #     health_check_grace_period: 1,
-    #     placement_group: "XmlStringMaxLen255",
-    #     vpc_zone_identifier: "XmlStringMaxLen2047",
+    #     placement_group: "UpdatePlacementGroupParam",
+    #     vpc_zone_identifier: "XmlStringMaxLen5000",
     #     termination_policies: ["XmlStringMaxLen1600"],
     #     new_instances_protected_from_scale_in: false,
     #     service_linked_role_arn: "ResourceName",
@@ -1237,6 +1299,25 @@ module Aws::AutoScaling
     #     context: "Context",
     #     desired_capacity_type: "XmlStringMaxLen255",
     #     default_instance_warmup: 1,
+    #     instance_maintenance_policy: {
+    #       min_healthy_percentage: 1,
+    #       max_healthy_percentage: 1,
+    #     },
+    #     availability_zone_distribution: {
+    #       capacity_distribution_strategy: "balanced-only", # accepts balanced-only, balanced-best-effort
+    #     },
+    #     availability_zone_impairment_policy: {
+    #       zonal_shift_enabled: false,
+    #       impaired_zone_health_check_behavior: "ReplaceUnhealthy", # accepts ReplaceUnhealthy, IgnoreUnhealthy
+    #     },
+    #     skip_zonal_shift_validation: false,
+    #     capacity_reservation_specification: {
+    #       capacity_reservation_preference: "capacity-reservations-only", # accepts capacity-reservations-only, capacity-reservations-first, none, default
+    #       capacity_reservation_target: {
+    #         capacity_reservation_ids: ["AsciiStringMaxLen255"],
+    #         capacity_reservation_resource_group_arns: ["ResourceName"],
+    #       },
+    #     },
     #   })
     # @param [Hash] options ({})
     # @option options [String] :launch_configuration_name
@@ -1284,16 +1365,22 @@ module Aws::AutoScaling
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html
     # @option options [Array<String>] :availability_zones
     #   One or more Availability Zones for the group.
     # @option options [String] :health_check_type
-    #   Determines whether any additional health checks are performed on the
-    #   instances in this group. Amazon EC2 health checks are always on.
+    #   A comma-separated value string of one or more health check types.
     #
-    #   The valid values are `EC2` (default), `ELB`, and `VPC_LATTICE`. The
-    #   `VPC_LATTICE` health check type is reserved for use with VPC Lattice,
-    #   which is in preview release and is subject to change.
+    #   The valid values are `EC2`, `EBS`, `ELB`, and `VPC_LATTICE`. `EC2` is
+    #   the default health check and cannot be disabled. For more information,
+    #   see [Health checks for instances in an Auto Scaling group][1] in the
+    #   *Amazon EC2 Auto Scaling User Guide*.
+    #
+    #   Only specify `EC2` if you must clear a value that was previously set.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html
     # @option options [Integer] :health_check_grace_period
     #   The amount of time, in seconds, that Amazon EC2 Auto Scaling waits
     #   before checking the health status of an EC2 instance that has come
@@ -1308,8 +1395,10 @@ module Aws::AutoScaling
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html
     # @option options [String] :placement_group
     #   The name of an existing placement group into which to launch your
-    #   instances. For more information, see [Placement groups][1] in the
-    #   *Amazon EC2 User Guide for Linux Instances*.
+    #   instances. To remove the placement group setting, pass an empty string
+    #   for `placement-group`. For more information about placement groups,
+    #   see [Placement groups][1] in the *Amazon EC2 User Guide for Linux
+    #   Instances*.
     #
     #   <note markdown="1"> A *cluster* placement group is a logical grouping of instances within
     #   a single Availability Zone. You cannot specify multiple Availability
@@ -1327,8 +1416,9 @@ module Aws::AutoScaling
     # @option options [Array<String>] :termination_policies
     #   A policy or a list of policies that are used to select the instances
     #   to terminate. The policies are executed in the order that you list
-    #   them. For more information, see [Work with Amazon EC2 Auto Scaling
-    #   termination policies][1] in the *Amazon EC2 Auto Scaling User Guide*.
+    #   them. For more information, see [Configure termination policies for
+    #   Amazon EC2 Auto Scaling][1] in the *Amazon EC2 Auto Scaling User
+    #   Guide*.
     #
     #   Valid values: `Default` \| `AllocationStrategy` \|
     #   `ClosestToNextInstanceHour` \| `NewestInstance` \| `OldestInstance` \|
@@ -1342,7 +1432,7 @@ module Aws::AutoScaling
     #   Indicates whether newly launched instances are protected from
     #   termination by Amazon EC2 Auto Scaling when scaling in. For more
     #   information about preventing instances from terminating on scale in,
-    #   see [Using instance scale-in protection][1] in the *Amazon EC2 Auto
+    #   see [Use instance scale-in protection][1] in the *Amazon EC2 Auto
     #   Scaling User Guide*.
     #
     #
@@ -1382,7 +1472,7 @@ module Aws::AutoScaling
     #   The unit of measurement for the value specified for desired capacity.
     #   Amazon EC2 Auto Scaling supports `DesiredCapacityType` for
     #   attribute-based instance type selection only. For more information,
-    #   see [Creating an Auto Scaling group using attribute-based instance
+    #   see [Create a mixed instances group using attribute-based instance
     #   type selection][1] in the *Amazon EC2 Auto Scaling User Guide*.
     #
     #   By default, Amazon EC2 Auto Scaling specifies `units`, which
@@ -1392,7 +1482,7 @@ module Aws::AutoScaling
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html
     # @option options [Integer] :default_instance_warmup
     #   The amount of time, in seconds, until a new instance is considered to
     #   have finished initializing and resource consumption to become stable
@@ -1417,10 +1507,36 @@ module Aws::AutoScaling
     #
     #
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html
+    # @option options [Types::InstanceMaintenancePolicy] :instance_maintenance_policy
+    #   An instance maintenance policy. For more information, see [Set
+    #   instance maintenance policy][1] in the *Amazon EC2 Auto Scaling User
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html
+    # @option options [Types::AvailabilityZoneDistribution] :availability_zone_distribution
+    #   The instance capacity distribution across Availability Zones.
+    # @option options [Types::AvailabilityZoneImpairmentPolicy] :availability_zone_impairment_policy
+    #   The policy for Availability Zone impairment.
+    # @option options [Boolean] :skip_zonal_shift_validation
+    #   If you enable zonal shift with cross-zone disabled load balancers,
+    #   capacity could become imbalanced across Availability Zones. To skip
+    #   the validation, specify `true`. For more information, see [Auto
+    #   Scaling group zonal shift][1] in the *Amazon EC2 Auto Scaling User
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html
+    # @option options [Types::CapacityReservationSpecification] :capacity_reservation_specification
+    #   The capacity reservation specification for the Auto Scaling group.
     # @return [AutoScalingGroup]
     def update(options = {})
       options = options.merge(auto_scaling_group_name: @name)
-      @client.update_auto_scaling_group(options)
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.update_auto_scaling_group(options)
+      end
       AutoScalingGroup.new(
         name: options[:auto_scaling_group_name],
         client: @client
@@ -1451,7 +1567,9 @@ module Aws::AutoScaling
     def activities(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(auto_scaling_group_name: @name)
-        resp = @client.describe_scaling_activities(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_scaling_activities(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.activities.each do |a|
@@ -1517,7 +1635,9 @@ module Aws::AutoScaling
       batches = Enumerator.new do |y|
         batch = []
         options = options.merge(auto_scaling_group_name: @name)
-        resp = @client.describe_lifecycle_hooks(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_lifecycle_hooks(options)
+        end
         resp.data.lifecycle_hooks.each do |l|
           batch << LifecycleHook.new(
             group_name: l.auto_scaling_group_name,
@@ -1543,32 +1663,27 @@ module Aws::AutoScaling
 
     # @example Request syntax with placeholder values
     #
-    #   load_balancers = auto_scaling_group.load_balancers({
-    #     next_token: "XmlString",
-    #     max_records: 1,
-    #   })
+    #   auto_scaling_group.load_balancers()
     # @param [Hash] options ({})
-    # @option options [String] :next_token
-    #   The token for the next set of items to return. (You received this
-    #   token from a previous call.)
-    # @option options [Integer] :max_records
-    #   The maximum number of items to return with this call. The default
-    #   value is `100` and the maximum value is `100`.
     # @return [LoadBalancer::Collection]
     def load_balancers(options = {})
       batches = Enumerator.new do |y|
-        batch = []
         options = options.merge(auto_scaling_group_name: @name)
-        resp = @client.describe_load_balancers(options)
-        resp.data.load_balancers.each do |l|
-          batch << LoadBalancer.new(
-            group_name: @name,
-            name: l.load_balancer_name,
-            data: l,
-            client: @client
-          )
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_load_balancers(options)
         end
-        y.yield(batch)
+        resp.each_page do |page|
+          batch = []
+          page.data.load_balancers.each do |l|
+            batch << LoadBalancer.new(
+              group_name: @name,
+              name: l.load_balancer_name,
+              data: l,
+              client: @client
+            )
+          end
+          y.yield(batch)
+        end
       end
       LoadBalancer::Collection.new(batches)
     end
@@ -1581,7 +1696,9 @@ module Aws::AutoScaling
     def notification_configurations(options = {})
       batches = Enumerator.new do |y|
         options = Aws::Util.deep_merge(options, auto_scaling_group_names: [@name])
-        resp = @client.describe_notification_configurations(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_notification_configurations(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.notification_configurations.each do |n|
@@ -1620,7 +1737,9 @@ module Aws::AutoScaling
     def policies(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(auto_scaling_group_name: @name)
-        resp = @client.describe_policies(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_policies(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.scaling_policies.each do |s|
@@ -1660,7 +1779,9 @@ module Aws::AutoScaling
     def scheduled_actions(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(auto_scaling_group_name: @name)
-        resp = @client.describe_scheduled_actions(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_scheduled_actions(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.scheduled_update_group_actions.each do |s|

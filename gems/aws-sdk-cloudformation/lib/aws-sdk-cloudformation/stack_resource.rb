@@ -56,8 +56,9 @@ module Aws::CloudFormation
       data[:physical_resource_id]
     end
 
-    # Type of resource. For more information, go to [Amazon Web Services
-    # Resource Types Reference][1] in the CloudFormation User Guide.
+    # Type of resource. For more information, see [Amazon Web Services
+    # resource and property types reference][1] in the *CloudFormation User
+    # Guide*.
     #
     #
     #
@@ -92,8 +93,8 @@ module Aws::CloudFormation
     end
 
     # The content of the `Metadata` attribute declared for the resource. For
-    # more information, see [Metadata Attribute][1] in the CloudFormation
-    # User Guide.
+    # more information, see [Metadata attribute][1] in the *CloudFormation
+    # User Guide*.
     #
     #
     #
@@ -106,12 +107,12 @@ module Aws::CloudFormation
     # Information about whether the resource's actual configuration
     # differs, or has *drifted*, from its expected configuration, as defined
     # in the stack template and any values specified as template parameters.
-    # For more information, see [Detecting Unregulated Configuration Changes
-    # to Stacks and Resources][1].
+    # For more information, see [Detect unmanaged configuration changes to
+    # stacks and resources with drift detection][1].
     #
     #
     #
-    # [1]: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html
+    # [1]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html
     # @return [Types::StackResourceDriftInformation]
     def drift_information
       data[:drift_information]
@@ -139,10 +140,12 @@ module Aws::CloudFormation
     #
     # @return [self]
     def load
-      resp = @client.describe_stack_resource(
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_stack_resource(
         logical_resource_id: @logical_id,
         stack_name: @stack_name
       )
+      end
       @data = resp.stack_resource_detail
       self
     end
@@ -257,7 +260,9 @@ module Aws::CloudFormation
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Associations

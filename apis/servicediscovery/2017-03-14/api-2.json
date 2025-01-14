@@ -5,12 +5,14 @@
     "endpointPrefix":"servicediscovery",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceAbbreviation":"ServiceDiscovery",
     "serviceFullName":"AWS Cloud Map",
     "serviceId":"ServiceDiscovery",
     "signatureVersion":"v4",
     "targetPrefix":"Route53AutoNaming_v20170314",
-    "uid":"servicediscovery-2017-03-14"
+    "uid":"servicediscovery-2017-03-14",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CreateHttpNamespace":{
@@ -106,6 +108,19 @@
         {"shape":"ResourceInUse"}
       ]
     },
+    "DeleteServiceAttributes":{
+      "name":"DeleteServiceAttributes",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteServiceAttributesRequest"},
+      "output":{"shape":"DeleteServiceAttributesResponse"},
+      "errors":[
+        {"shape":"InvalidInput"},
+        {"shape":"ServiceNotFound"}
+      ]
+    },
     "DeregisterInstance":{
       "name":"DeregisterInstance",
       "http":{
@@ -130,6 +145,22 @@
       },
       "input":{"shape":"DiscoverInstancesRequest"},
       "output":{"shape":"DiscoverInstancesResponse"},
+      "errors":[
+        {"shape":"ServiceNotFound"},
+        {"shape":"NamespaceNotFound"},
+        {"shape":"InvalidInput"},
+        {"shape":"RequestLimitExceeded"}
+      ],
+      "endpoint":{"hostPrefix":"data-"}
+    },
+    "DiscoverInstancesRevision":{
+      "name":"DiscoverInstancesRevision",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DiscoverInstancesRevisionRequest"},
+      "output":{"shape":"DiscoverInstancesRevisionResponse"},
       "errors":[
         {"shape":"ServiceNotFound"},
         {"shape":"NamespaceNotFound"},
@@ -200,6 +231,19 @@
       },
       "input":{"shape":"GetServiceRequest"},
       "output":{"shape":"GetServiceResponse"},
+      "errors":[
+        {"shape":"InvalidInput"},
+        {"shape":"ServiceNotFound"}
+      ]
+    },
+    "GetServiceAttributes":{
+      "name":"GetServiceAttributes",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetServiceAttributesRequest"},
+      "output":{"shape":"GetServiceAttributesResponse"},
       "errors":[
         {"shape":"InvalidInput"},
         {"shape":"ServiceNotFound"}
@@ -382,6 +426,20 @@
         {"shape":"InvalidInput"},
         {"shape":"ServiceNotFound"}
       ]
+    },
+    "UpdateServiceAttributes":{
+      "name":"UpdateServiceAttributes",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateServiceAttributesRequest"},
+      "output":{"shape":"UpdateServiceAttributesResponse"},
+      "errors":[
+        {"shape":"InvalidInput"},
+        {"shape":"ServiceNotFound"},
+        {"shape":"ServiceAttributesLimitExceededException"}
+      ]
     }
   },
   "shapes":{
@@ -524,6 +582,22 @@
         "OperationId":{"shape":"OperationId"}
       }
     },
+    "DeleteServiceAttributesRequest":{
+      "type":"structure",
+      "required":[
+        "ServiceId",
+        "Attributes"
+      ],
+      "members":{
+        "ServiceId":{"shape":"ResourceId"},
+        "Attributes":{"shape":"ServiceAttributeKeyList"}
+      }
+    },
+    "DeleteServiceAttributesResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DeleteServiceRequest":{
       "type":"structure",
       "required":["Id"],
@@ -571,7 +645,25 @@
     "DiscoverInstancesResponse":{
       "type":"structure",
       "members":{
-        "Instances":{"shape":"HttpInstanceSummaryList"}
+        "Instances":{"shape":"HttpInstanceSummaryList"},
+        "InstancesRevision":{"shape":"Revision"}
+      }
+    },
+    "DiscoverInstancesRevisionRequest":{
+      "type":"structure",
+      "required":[
+        "NamespaceName",
+        "ServiceName"
+      ],
+      "members":{
+        "NamespaceName":{"shape":"NamespaceName"},
+        "ServiceName":{"shape":"ServiceName"}
+      }
+    },
+    "DiscoverInstancesRevisionResponse":{
+      "type":"structure",
+      "members":{
+        "InstancesRevision":{"shape":"Revision"}
       }
     },
     "DiscoverMaxResults":{
@@ -711,6 +803,19 @@
       "type":"structure",
       "members":{
         "Operation":{"shape":"Operation"}
+      }
+    },
+    "GetServiceAttributesRequest":{
+      "type":"structure",
+      "required":["ServiceId"],
+      "members":{
+        "ServiceId":{"shape":"ResourceId"}
+      }
+    },
+    "GetServiceAttributesResponse":{
+      "type":"structure",
+      "members":{
+        "ServiceAttributes":{"shape":"ServiceAttributes"}
       }
     },
     "GetServiceRequest":{
@@ -975,7 +1080,8 @@
     },
     "NamespaceName":{
       "type":"string",
-      "max":1024
+      "max":1024,
+      "pattern":"^[!-~]{1,1024}$"
     },
     "NamespaceNameHttp":{
       "type":"string",
@@ -1277,6 +1383,7 @@
       "type":"string",
       "max":255
     },
+    "Revision":{"type":"long"},
     "RoutingPolicy":{
       "type":"string",
       "enum":[
@@ -1323,6 +1430,41 @@
         "ServiceId":{"shape":"ResourceId"}
       },
       "exception":true
+    },
+    "ServiceAttributeKey":{
+      "type":"string",
+      "max":255
+    },
+    "ServiceAttributeKeyList":{
+      "type":"list",
+      "member":{"shape":"ServiceAttributeKey"},
+      "max":30,
+      "min":1
+    },
+    "ServiceAttributeValue":{
+      "type":"string",
+      "max":1024
+    },
+    "ServiceAttributes":{
+      "type":"structure",
+      "members":{
+        "ServiceArn":{"shape":"Arn"},
+        "Attributes":{"shape":"ServiceAttributesMap"}
+      }
+    },
+    "ServiceAttributesLimitExceededException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"}
+      },
+      "exception":true
+    },
+    "ServiceAttributesMap":{
+      "type":"map",
+      "key":{"shape":"ServiceAttributeKey"},
+      "value":{"shape":"ServiceAttributeValue"},
+      "max":30,
+      "min":1
     },
     "ServiceChange":{
       "type":"structure",
@@ -1542,6 +1684,22 @@
       "type":"structure",
       "members":{
         "OperationId":{"shape":"OperationId"}
+      }
+    },
+    "UpdateServiceAttributesRequest":{
+      "type":"structure",
+      "required":[
+        "ServiceId",
+        "Attributes"
+      ],
+      "members":{
+        "ServiceId":{"shape":"ResourceId"},
+        "Attributes":{"shape":"ServiceAttributesMap"}
+      }
+    },
+    "UpdateServiceAttributesResponse":{
+      "type":"structure",
+      "members":{
       }
     },
     "UpdateServiceRequest":{

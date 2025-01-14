@@ -5,13 +5,32 @@
     "endpointPrefix":"resiliencehub",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"AWS Resilience Hub",
     "serviceId":"resiliencehub",
     "signatureVersion":"v4",
     "signingName":"resiliencehub",
-    "uid":"resiliencehub-2020-04-30"
+    "uid":"resiliencehub-2020-04-30",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
+    "AcceptResourceGroupingRecommendations":{
+      "name":"AcceptResourceGroupingRecommendations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/accept-resource-grouping-recommendations",
+        "responseCode":200
+      },
+      "input":{"shape":"AcceptResourceGroupingRecommendationsRequest"},
+      "output":{"shape":"AcceptResourceGroupingRecommendationsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "AddDraftAppVersionResourceMappings":{
       "name":"AddDraftAppVersionResourceMappings",
       "http":{
@@ -25,6 +44,24 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "BatchUpdateRecommendationStatus":{
+      "name":"BatchUpdateRecommendationStatus",
+      "http":{
+        "method":"POST",
+        "requestUri":"/batch-update-recommendation-status",
+        "responseCode":200
+      },
+      "input":{"shape":"BatchUpdateRecommendationStatusRequest"},
+      "output":{"shape":"BatchUpdateRecommendationStatusResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"}
@@ -49,6 +86,44 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "CreateAppVersionAppComponent":{
+      "name":"CreateAppVersionAppComponent",
+      "http":{
+        "method":"POST",
+        "requestUri":"/create-app-version-app-component",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateAppVersionAppComponentRequest"},
+      "output":{"shape":"CreateAppVersionAppComponentResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "CreateAppVersionResource":{
+      "name":"CreateAppVersionResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/create-app-version-resource",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateAppVersionResourceRequest"},
+      "output":{"shape":"CreateAppVersionResourceResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "CreateRecommendationTemplate":{
       "name":"CreateRecommendationTemplate",
       "http":{
@@ -62,6 +137,7 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"}
@@ -111,6 +187,60 @@
       },
       "input":{"shape":"DeleteAppAssessmentRequest"},
       "output":{"shape":"DeleteAppAssessmentResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DeleteAppInputSource":{
+      "name":"DeleteAppInputSource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/delete-app-input-source",
+        "responseCode":200
+      },
+      "input":{"shape":"DeleteAppInputSourceRequest"},
+      "output":{"shape":"DeleteAppInputSourceResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DeleteAppVersionAppComponent":{
+      "name":"DeleteAppVersionAppComponent",
+      "http":{
+        "method":"POST",
+        "requestUri":"/delete-app-version-app-component",
+        "responseCode":200
+      },
+      "input":{"shape":"DeleteAppVersionAppComponentRequest"},
+      "output":{"shape":"DeleteAppVersionAppComponentResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DeleteAppVersionResource":{
+      "name":"DeleteAppVersionResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/delete-app-version-resource",
+        "responseCode":200
+      },
+      "input":{"shape":"DeleteAppVersionResourceRequest"},
+      "output":{"shape":"DeleteAppVersionResourceResponse"},
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
@@ -189,6 +319,59 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "DescribeAppVersion":{
+      "name":"DescribeAppVersion",
+      "http":{
+        "method":"POST",
+        "requestUri":"/describe-app-version",
+        "responseCode":200
+      },
+      "input":{"shape":"DescribeAppVersionRequest"},
+      "output":{"shape":"DescribeAppVersionResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DescribeAppVersionAppComponent":{
+      "name":"DescribeAppVersionAppComponent",
+      "http":{
+        "method":"POST",
+        "requestUri":"/describe-app-version-app-component",
+        "responseCode":200
+      },
+      "input":{"shape":"DescribeAppVersionAppComponentRequest"},
+      "output":{"shape":"DescribeAppVersionAppComponentResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DescribeAppVersionResource":{
+      "name":"DescribeAppVersionResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/describe-app-version-resource",
+        "responseCode":200
+      },
+      "input":{"shape":"DescribeAppVersionResourceRequest"},
+      "output":{"shape":"DescribeAppVersionResourceResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "DescribeAppVersionResourcesResolutionStatus":{
       "name":"DescribeAppVersionResourcesResolutionStatus",
       "http":{
@@ -240,6 +423,23 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "DescribeMetricsExport":{
+      "name":"DescribeMetricsExport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/describe-metrics-export",
+        "responseCode":200
+      },
+      "input":{"shape":"DescribeMetricsExportRequest"},
+      "output":{"shape":"DescribeMetricsExportResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "DescribeResiliencyPolicy":{
       "name":"DescribeResiliencyPolicy",
       "http":{
@@ -249,6 +449,23 @@
       },
       "input":{"shape":"DescribeResiliencyPolicyRequest"},
       "output":{"shape":"DescribeResiliencyPolicyResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DescribeResourceGroupingRecommendationTask":{
+      "name":"DescribeResourceGroupingRecommendationTask",
+      "http":{
+        "method":"POST",
+        "requestUri":"/describe-resource-grouping-recommendation-task",
+        "responseCode":200
+      },
+      "input":{"shape":"DescribeResourceGroupingRecommendationTaskRequest"},
+      "output":{"shape":"DescribeResourceGroupingRecommendationTaskResponse"},
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
@@ -270,6 +487,7 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"}
@@ -287,6 +505,38 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListAppAssessmentComplianceDrifts":{
+      "name":"ListAppAssessmentComplianceDrifts",
+      "http":{
+        "method":"POST",
+        "requestUri":"/list-app-assessment-compliance-drifts",
+        "responseCode":200
+      },
+      "input":{"shape":"ListAppAssessmentComplianceDriftsRequest"},
+      "output":{"shape":"ListAppAssessmentComplianceDriftsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListAppAssessmentResourceDrifts":{
+      "name":"ListAppAssessmentResourceDrifts",
+      "http":{
+        "method":"POST",
+        "requestUri":"/list-app-assessment-resource-drifts",
+        "responseCode":200
+      },
+      "input":{"shape":"ListAppAssessmentResourceDriftsRequest"},
+      "output":{"shape":"ListAppAssessmentResourceDriftsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"}
@@ -338,6 +588,41 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListAppInputSources":{
+      "name":"ListAppInputSources",
+      "http":{
+        "method":"POST",
+        "requestUri":"/list-app-input-sources",
+        "responseCode":200
+      },
+      "input":{"shape":"ListAppInputSourcesRequest"},
+      "output":{"shape":"ListAppInputSourcesResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListAppVersionAppComponents":{
+      "name":"ListAppVersionAppComponents",
+      "http":{
+        "method":"POST",
+        "requestUri":"/list-app-version-app-components",
+        "responseCode":200
+      },
+      "input":{"shape":"ListAppVersionAppComponentsRequest"},
+      "output":{"shape":"ListAppVersionAppComponentsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"}
@@ -410,6 +695,22 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "ListMetrics":{
+      "name":"ListMetrics",
+      "http":{
+        "method":"POST",
+        "requestUri":"/list-metrics",
+        "responseCode":200
+      },
+      "input":{"shape":"ListMetricsRequest"},
+      "output":{"shape":"ListMetricsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "ListRecommendationTemplates":{
       "name":"ListRecommendationTemplates",
       "http":{
@@ -435,6 +736,23 @@
       },
       "input":{"shape":"ListResiliencyPoliciesRequest"},
       "output":{"shape":"ListResiliencyPoliciesResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListResourceGroupingRecommendations":{
+      "name":"ListResourceGroupingRecommendations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/list-resource-grouping-recommendations",
+        "responseCode":200
+      },
+      "input":{"shape":"ListResourceGroupingRecommendationsRequest"},
+      "output":{"shape":"ListResourceGroupingRecommendationsResponse"},
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
@@ -567,6 +885,23 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "RejectResourceGroupingRecommendations":{
+      "name":"RejectResourceGroupingRecommendations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/reject-resource-grouping-recommendations",
+        "responseCode":200
+      },
+      "input":{"shape":"RejectResourceGroupingRecommendationsRequest"},
+      "output":{"shape":"RejectResourceGroupingRecommendationsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "RemoveDraftAppVersionResourceMappings":{
       "name":"RemoveDraftAppVersionResourceMappings",
       "http":{
@@ -617,6 +952,42 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
         {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "StartMetricsExport":{
+      "name":"StartMetricsExport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/start-metrics-export",
+        "responseCode":200
+      },
+      "input":{"shape":"StartMetricsExportRequest"},
+      "output":{"shape":"StartMetricsExportResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "StartResourceGroupingRecommendationTask":{
+      "name":"StartResourceGroupingRecommendationTask",
+      "http":{
+        "method":"POST",
+        "requestUri":"/start-resource-grouping-recommendation-task",
+        "responseCode":200
+      },
+      "input":{"shape":"StartResourceGroupingRecommendationTaskRequest"},
+      "output":{"shape":"StartResourceGroupingRecommendationTaskResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"}
@@ -674,6 +1045,61 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "UpdateAppVersion":{
+      "name":"UpdateAppVersion",
+      "http":{
+        "method":"POST",
+        "requestUri":"/update-app-version",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateAppVersionRequest"},
+      "output":{"shape":"UpdateAppVersionResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "UpdateAppVersionAppComponent":{
+      "name":"UpdateAppVersionAppComponent",
+      "http":{
+        "method":"POST",
+        "requestUri":"/update-app-version-app-component",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateAppVersionAppComponentRequest"},
+      "output":{"shape":"UpdateAppVersionAppComponentResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "UpdateAppVersionResource":{
+      "name":"UpdateAppVersionResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/update-app-version-resource",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateAppVersionResourceRequest"},
+      "output":{"shape":"UpdateAppVersionResourceResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "UpdateResiliencyPolicy":{
       "name":"UpdateResiliencyPolicy",
       "http":{
@@ -694,6 +1120,41 @@
     }
   },
   "shapes":{
+    "AcceptGroupingRecommendationEntries":{
+      "type":"list",
+      "member":{"shape":"AcceptGroupingRecommendationEntry"},
+      "max":30,
+      "min":1
+    },
+    "AcceptGroupingRecommendationEntry":{
+      "type":"structure",
+      "required":["groupingRecommendationId"],
+      "members":{
+        "groupingRecommendationId":{"shape":"String255"}
+      }
+    },
+    "AcceptResourceGroupingRecommendationsRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "entries"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "entries":{"shape":"AcceptGroupingRecommendationEntries"}
+      }
+    },
+    "AcceptResourceGroupingRecommendationsResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "failedEntries"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "failedEntries":{"shape":"FailedGroupingRecommendationEntries"}
+      }
+    },
     "AccessDeniedException":{
       "type":"structure",
       "members":{
@@ -729,6 +1190,24 @@
         "resourceMappings":{"shape":"ResourceMappingList"}
       }
     },
+    "AdditionalInfoMap":{
+      "type":"map",
+      "key":{"shape":"String128WithoutWhitespace"},
+      "value":{"shape":"AdditionalInfoValueList"}
+    },
+    "AdditionalInfoValueList":{
+      "type":"list",
+      "member":{"shape":"String1024"},
+      "max":10,
+      "min":1
+    },
+    "Alarm":{
+      "type":"structure",
+      "members":{
+        "alarmArn":{"shape":"Arn"},
+        "source":{"shape":"String255"}
+      }
+    },
     "AlarmRecommendation":{
       "type":"structure",
       "required":[
@@ -738,12 +1217,18 @@
         "type"
       ],
       "members":{
-        "appComponentName":{"shape":"EntityId"},
+        "appComponentName":{
+          "shape":"EntityId",
+          "deprecated":true,
+          "deprecatedMessage":"An alarm recommendation can be attached to multiple Application Components, hence this property will be replaced by the new property 'appComponentNames'."
+        },
+        "appComponentNames":{"shape":"AppComponentNameList"},
         "description":{"shape":"EntityDescription"},
         "items":{"shape":"RecommendationItemList"},
         "name":{"shape":"String500"},
         "prerequisite":{"shape":"String500"},
         "recommendationId":{"shape":"Uuid"},
+        "recommendationStatus":{"shape":"RecommendationStatus"},
         "referenceId":{"shape":"SpecReferenceId"},
         "type":{"shape":"AlarmType"}
       }
@@ -778,14 +1263,21 @@
       "members":{
         "appArn":{"shape":"Arn"},
         "assessmentSchedule":{"shape":"AppAssessmentScheduleType"},
+        "awsApplicationArn":{"shape":"Arn"},
         "complianceStatus":{"shape":"AppComplianceStatusType"},
         "creationTime":{"shape":"TimeStamp"},
         "description":{"shape":"EntityDescription"},
+        "driftStatus":{"shape":"AppDriftStatusType"},
+        "eventSubscriptions":{"shape":"EventSubscriptionList"},
         "lastAppComplianceEvaluationTime":{"shape":"TimeStamp"},
+        "lastDriftEvaluationTime":{"shape":"TimeStamp"},
         "lastResiliencyScoreEvaluationTime":{"shape":"TimeStamp"},
         "name":{"shape":"EntityName"},
+        "permissionModel":{"shape":"PermissionModel"},
         "policyArn":{"shape":"Arn"},
         "resiliencyScore":{"shape":"Double"},
+        "rpoInSecs":{"shape":"IntegerOptional"},
+        "rtoInSecs":{"shape":"IntegerOptional"},
         "status":{"shape":"AppStatusType"},
         "tags":{"shape":"TagMap"}
       }
@@ -806,6 +1298,7 @@
         "compliance":{"shape":"AssessmentCompliance"},
         "complianceStatus":{"shape":"ComplianceStatus"},
         "cost":{"shape":"Cost"},
+        "driftStatus":{"shape":"DriftStatus"},
         "endTime":{"shape":"TimeStamp"},
         "invoker":{"shape":"AssessmentInvoker"},
         "message":{"shape":"String500"},
@@ -813,7 +1306,9 @@
         "resiliencyScore":{"shape":"ResiliencyScore"},
         "resourceErrorsDetails":{"shape":"ResourceErrorsDetails"},
         "startTime":{"shape":"TimeStamp"},
-        "tags":{"shape":"TagMap"}
+        "summary":{"shape":"AssessmentSummary"},
+        "tags":{"shape":"TagMap"},
+        "versionName":{"shape":"EntityVersion"}
       }
     },
     "AppAssessmentScheduleType":{
@@ -837,11 +1332,13 @@
         "assessmentStatus":{"shape":"AssessmentStatus"},
         "complianceStatus":{"shape":"ComplianceStatus"},
         "cost":{"shape":"Cost"},
+        "driftStatus":{"shape":"DriftStatus"},
         "endTime":{"shape":"TimeStamp"},
         "invoker":{"shape":"AssessmentInvoker"},
         "message":{"shape":"String500"},
         "resiliencyScore":{"shape":"Double"},
-        "startTime":{"shape":"TimeStamp"}
+        "startTime":{"shape":"TimeStamp"},
+        "versionName":{"shape":"EntityVersion"}
       }
     },
     "AppAssessmentSummaryList":{
@@ -854,7 +1351,9 @@
         "PolicyBreached",
         "PolicyMet",
         "NotAssessed",
-        "ChangesDetected"
+        "ChangesDetected",
+        "NotApplicable",
+        "MissingPolicy"
       ]
     },
     "AppComponent":{
@@ -864,7 +1363,9 @@
         "type"
       ],
       "members":{
-        "name":{"shape":"String255"},
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "id":{"shape":"EntityName255"},
+        "name":{"shape":"EntityName255"},
         "type":{"shape":"String255"}
       }
     },
@@ -883,6 +1384,34 @@
       "type":"list",
       "member":{"shape":"AppComponent"}
     },
+    "AppComponentNameList":{
+      "type":"list",
+      "member":{"shape":"String255"}
+    },
+    "AppDriftStatusType":{
+      "type":"string",
+      "enum":[
+        "NotChecked",
+        "NotDetected",
+        "Detected"
+      ]
+    },
+    "AppInputSource":{
+      "type":"structure",
+      "required":["importType"],
+      "members":{
+        "eksSourceClusterNamespace":{"shape":"EksSourceClusterNamespace"},
+        "importType":{"shape":"ResourceMappingType"},
+        "resourceCount":{"shape":"Integer"},
+        "sourceArn":{"shape":"Arn"},
+        "sourceName":{"shape":"String255"},
+        "terraformSource":{"shape":"TerraformSource"}
+      }
+    },
+    "AppInputSourceList":{
+      "type":"list",
+      "member":{"shape":"AppInputSource"}
+    },
     "AppStatusType":{
       "type":"string",
       "enum":[
@@ -900,11 +1429,16 @@
       "members":{
         "appArn":{"shape":"Arn"},
         "assessmentSchedule":{"shape":"AppAssessmentScheduleType"},
+        "awsApplicationArn":{"shape":"Arn"},
         "complianceStatus":{"shape":"AppComplianceStatusType"},
         "creationTime":{"shape":"TimeStamp"},
         "description":{"shape":"EntityDescription"},
+        "driftStatus":{"shape":"AppDriftStatusType"},
+        "lastAppComplianceEvaluationTime":{"shape":"TimeStamp"},
         "name":{"shape":"EntityName"},
         "resiliencyScore":{"shape":"Double"},
+        "rpoInSecs":{"shape":"IntegerOptional"},
+        "rtoInSecs":{"shape":"IntegerOptional"},
         "status":{"shape":"AppStatusType"}
       }
     },
@@ -914,9 +1448,9 @@
     },
     "AppTemplateBody":{
       "type":"string",
-      "max":204800,
+      "max":409600,
       "min":0,
-      "pattern":"^[\\w\\s:,-\\.'{}\\[\\]:\"]+$"
+      "pattern":"^[\\w\\s:,-\\.'\\/{}\\[\\]:\"\\\\]+$"
     },
     "AppVersionList":{
       "type":"list",
@@ -926,12 +1460,15 @@
       "type":"structure",
       "required":["appVersion"],
       "members":{
-        "appVersion":{"shape":"EntityVersion"}
+        "appVersion":{"shape":"EntityVersion"},
+        "creationTime":{"shape":"TimeStamp"},
+        "identifier":{"shape":"LongOptional"},
+        "versionName":{"shape":"EntityVersion"}
       }
     },
     "Arn":{
       "type":"string",
-      "pattern":"^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$"
+      "pattern":"^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$"
     },
     "ArnList":{
       "type":"list",
@@ -949,6 +1486,18 @@
         "System"
       ]
     },
+    "AssessmentRiskRecommendation":{
+      "type":"structure",
+      "members":{
+        "appComponents":{"shape":"AppComponentNameList"},
+        "recommendation":{"shape":"String255"},
+        "risk":{"shape":"String255"}
+      }
+    },
+    "AssessmentRiskRecommendationList":{
+      "type":"list",
+      "member":{"shape":"AssessmentRiskRecommendation"}
+    },
     "AssessmentStatus":{
       "type":"string",
       "enum":[
@@ -964,9 +1513,75 @@
       "max":10,
       "min":1
     },
+    "AssessmentSummary":{
+      "type":"structure",
+      "members":{
+        "riskRecommendations":{"shape":"AssessmentRiskRecommendationList"},
+        "summary":{"shape":"String500"}
+      }
+    },
     "AwsRegion":{
       "type":"string",
       "pattern":"^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$"
+    },
+    "BatchUpdateRecommendationStatusFailedEntries":{
+      "type":"list",
+      "member":{"shape":"BatchUpdateRecommendationStatusFailedEntry"}
+    },
+    "BatchUpdateRecommendationStatusFailedEntry":{
+      "type":"structure",
+      "required":[
+        "entryId",
+        "errorMessage"
+      ],
+      "members":{
+        "entryId":{"shape":"String255"},
+        "errorMessage":{"shape":"ErrorMessage"}
+      }
+    },
+    "BatchUpdateRecommendationStatusRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "requestEntries"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "requestEntries":{"shape":"UpdateRecommendationStatusRequestEntries"}
+      }
+    },
+    "BatchUpdateRecommendationStatusResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "failedEntries",
+        "successfulEntries"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "failedEntries":{"shape":"BatchUpdateRecommendationStatusFailedEntries"},
+        "successfulEntries":{"shape":"BatchUpdateRecommendationStatusSuccessfulEntries"}
+      }
+    },
+    "BatchUpdateRecommendationStatusSuccessfulEntries":{
+      "type":"list",
+      "member":{"shape":"BatchUpdateRecommendationStatusSuccessfulEntry"}
+    },
+    "BatchUpdateRecommendationStatusSuccessfulEntry":{
+      "type":"structure",
+      "required":[
+        "entryId",
+        "excluded",
+        "referenceId"
+      ],
+      "members":{
+        "appComponentId":{"shape":"EntityName255"},
+        "entryId":{"shape":"String255"},
+        "excludeReason":{"shape":"ExcludeRecommendationReason"},
+        "excluded":{"shape":"BooleanOptional"},
+        "item":{"shape":"UpdateRecommendationStatusItem"},
+        "referenceId":{"shape":"SpecReferenceId"}
+      }
     },
     "BooleanOptional":{
       "type":"boolean",
@@ -976,13 +1591,34 @@
       "type":"string",
       "max":63,
       "min":1,
-      "pattern":"^[A-za-z0-9_.-]{0,63}$"
+      "pattern":"^[A-Za-z0-9_.-]{0,63}$"
+    },
+    "ComplianceDrift":{
+      "type":"structure",
+      "members":{
+        "actualReferenceId":{"shape":"String255"},
+        "actualValue":{"shape":"AssessmentCompliance"},
+        "appId":{"shape":"String255"},
+        "appVersion":{"shape":"String255"},
+        "diffType":{"shape":"DifferenceType"},
+        "driftType":{"shape":"DriftType"},
+        "entityId":{"shape":"String255"},
+        "entityType":{"shape":"String255"},
+        "expectedReferenceId":{"shape":"String255"},
+        "expectedValue":{"shape":"AssessmentCompliance"}
+      }
+    },
+    "ComplianceDriftList":{
+      "type":"list",
+      "member":{"shape":"ComplianceDrift"}
     },
     "ComplianceStatus":{
       "type":"string",
       "enum":[
         "PolicyBreached",
-        "PolicyMet"
+        "PolicyMet",
+        "NotApplicable",
+        "MissingPolicy"
       ]
     },
     "ComponentCompliancesList":{
@@ -1005,6 +1641,35 @@
     "ComponentRecommendationList":{
       "type":"list",
       "member":{"shape":"ComponentRecommendation"}
+    },
+    "Condition":{
+      "type":"structure",
+      "required":[
+        "field",
+        "operator"
+      ],
+      "members":{
+        "field":{"shape":"String255"},
+        "operator":{"shape":"ConditionOperatorType"},
+        "value":{"shape":"String255"}
+      }
+    },
+    "ConditionList":{
+      "type":"list",
+      "member":{"shape":"Condition"},
+      "max":50,
+      "min":0
+    },
+    "ConditionOperatorType":{
+      "type":"string",
+      "enum":[
+        "Equals",
+        "NotEquals",
+        "GreaterThen",
+        "GreaterOrEquals",
+        "LessThen",
+        "LessOrEquals"
+      ]
     },
     "ConfigRecommendation":{
       "type":"structure",
@@ -1081,12 +1746,15 @@
       "required":["name"],
       "members":{
         "assessmentSchedule":{"shape":"AppAssessmentScheduleType"},
+        "awsApplicationArn":{"shape":"Arn"},
         "clientToken":{
           "shape":"ClientToken",
           "idempotencyToken":true
         },
         "description":{"shape":"EntityDescription"},
+        "eventSubscriptions":{"shape":"EventSubscriptionList"},
         "name":{"shape":"EntityName"},
+        "permissionModel":{"shape":"PermissionModel"},
         "policyArn":{"shape":"Arn"},
         "tags":{"shape":"TagMap"}
       }
@@ -1096,6 +1764,74 @@
       "required":["app"],
       "members":{
         "app":{"shape":"App"}
+      }
+    },
+    "CreateAppVersionAppComponentRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "name",
+        "type"
+      ],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "id":{"shape":"String255"},
+        "name":{"shape":"String255"},
+        "type":{"shape":"String255"}
+      }
+    },
+    "CreateAppVersionAppComponentResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appComponent":{"shape":"AppComponent"},
+        "appVersion":{"shape":"EntityVersion"}
+      }
+    },
+    "CreateAppVersionResourceRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appComponents",
+        "logicalResourceId",
+        "physicalResourceId",
+        "resourceType"
+      ],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"},
+        "appComponents":{"shape":"AppComponentNameList"},
+        "awsAccountId":{"shape":"CustomerId"},
+        "awsRegion":{"shape":"AwsRegion"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "logicalResourceId":{"shape":"LogicalResourceId"},
+        "physicalResourceId":{"shape":"String2048"},
+        "resourceName":{"shape":"EntityName"},
+        "resourceType":{"shape":"String255"}
+      }
+    },
+    "CreateAppVersionResourceResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "physicalResource":{"shape":"PhysicalResource"}
       }
     },
     "CreateRecommendationTemplateRequest":{
@@ -1190,6 +1926,27 @@
         "assessmentStatus":{"shape":"AssessmentStatus"}
       }
     },
+    "DeleteAppInputSourceRequest":{
+      "type":"structure",
+      "required":["appArn"],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "eksSourceClusterNamespace":{"shape":"EksSourceClusterNamespace"},
+        "sourceArn":{"shape":"Arn"},
+        "terraformSource":{"shape":"TerraformSource"}
+      }
+    },
+    "DeleteAppInputSourceResponse":{
+      "type":"structure",
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appInputSource":{"shape":"AppInputSource"}
+      }
+    },
     "DeleteAppRequest":{
       "type":"structure",
       "required":["appArn"],
@@ -1207,6 +1964,61 @@
       "required":["appArn"],
       "members":{
         "appArn":{"shape":"Arn"}
+      }
+    },
+    "DeleteAppVersionAppComponentRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "id"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "id":{"shape":"String255"}
+      }
+    },
+    "DeleteAppVersionAppComponentResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appComponent":{"shape":"AppComponent"},
+        "appVersion":{"shape":"EntityVersion"}
+      }
+    },
+    "DeleteAppVersionResourceRequest":{
+      "type":"structure",
+      "required":["appArn"],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "awsAccountId":{"shape":"CustomerId"},
+        "awsRegion":{"shape":"AwsRegion"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "logicalResourceId":{"shape":"LogicalResourceId"},
+        "physicalResourceId":{"shape":"String2048"},
+        "resourceName":{"shape":"EntityName"}
+      }
+    },
+    "DeleteAppVersionResourceResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "physicalResource":{"shape":"PhysicalResource"}
       }
     },
     "DeleteRecommendationTemplateRequest":{
@@ -1277,6 +2089,70 @@
         "app":{"shape":"App"}
       }
     },
+    "DescribeAppVersionAppComponentRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion",
+        "id"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "id":{"shape":"String255"}
+      }
+    },
+    "DescribeAppVersionAppComponentResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appComponent":{"shape":"AppComponent"},
+        "appVersion":{"shape":"EntityVersion"}
+      }
+    },
+    "DescribeAppVersionRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"}
+      }
+    },
+    "DescribeAppVersionResourceRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "awsAccountId":{"shape":"CustomerId"},
+        "awsRegion":{"shape":"AwsRegion"},
+        "logicalResourceId":{"shape":"LogicalResourceId"},
+        "physicalResourceId":{"shape":"String2048"},
+        "resourceName":{"shape":"EntityName"}
+      }
+    },
+    "DescribeAppVersionResourceResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "physicalResource":{"shape":"PhysicalResource"}
+      }
+    },
     "DescribeAppVersionResourcesResolutionStatusRequest":{
       "type":"structure",
       "required":[
@@ -1303,6 +2179,18 @@
         "errorMessage":{"shape":"String500"},
         "resolutionId":{"shape":"String255"},
         "status":{"shape":"ResourceResolutionStatusType"}
+      }
+    },
+    "DescribeAppVersionResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"}
       }
     },
     "DescribeAppVersionTemplateRequest":{
@@ -1347,9 +2235,30 @@
       "members":{
         "appArn":{"shape":"Arn"},
         "appVersion":{"shape":"EntityVersion"},
+        "errorDetails":{"shape":"ErrorDetailList"},
         "errorMessage":{"shape":"String500"},
         "status":{"shape":"ResourceImportStatusType"},
         "statusChangeTime":{"shape":"TimeStamp"}
+      }
+    },
+    "DescribeMetricsExportRequest":{
+      "type":"structure",
+      "required":["metricsExportId"],
+      "members":{
+        "metricsExportId":{"shape":"String255"}
+      }
+    },
+    "DescribeMetricsExportResponse":{
+      "type":"structure",
+      "required":[
+        "metricsExportId",
+        "status"
+      ],
+      "members":{
+        "errorMessage":{"shape":"String500"},
+        "exportLocation":{"shape":"S3Location"},
+        "metricsExportId":{"shape":"String255"},
+        "status":{"shape":"MetricsExportStatusType"}
       }
     },
     "DescribeResiliencyPolicyRequest":{
@@ -1365,6 +2274,34 @@
       "members":{
         "policy":{"shape":"ResiliencyPolicy"}
       }
+    },
+    "DescribeResourceGroupingRecommendationTaskRequest":{
+      "type":"structure",
+      "required":["appArn"],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "groupingId":{"shape":"String255"}
+      }
+    },
+    "DescribeResourceGroupingRecommendationTaskResponse":{
+      "type":"structure",
+      "required":[
+        "groupingId",
+        "status"
+      ],
+      "members":{
+        "errorMessage":{"shape":"String500"},
+        "groupingId":{"shape":"String255"},
+        "status":{"shape":"ResourcesGroupingRecGenStatusType"}
+      }
+    },
+    "DifferenceType":{
+      "type":"string",
+      "enum":[
+        "NotEqual",
+        "Added",
+        "Removed"
+      ]
     },
     "DisruptionCompliance":{
       "type":"structure",
@@ -1407,6 +2344,57 @@
       "min":1
     },
     "Double":{"type":"double"},
+    "DriftStatus":{
+      "type":"string",
+      "enum":[
+        "NotChecked",
+        "NotDetected",
+        "Detected"
+      ]
+    },
+    "DriftType":{
+      "type":"string",
+      "enum":[
+        "ApplicationCompliance",
+        "AppComponentResiliencyComplianceStatus"
+      ]
+    },
+    "EksNamespace":{
+      "type":"string",
+      "max":63,
+      "min":1,
+      "pattern":"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    },
+    "EksNamespaceList":{
+      "type":"list",
+      "member":{"shape":"EksNamespace"}
+    },
+    "EksSource":{
+      "type":"structure",
+      "required":[
+        "eksClusterArn",
+        "namespaces"
+      ],
+      "members":{
+        "eksClusterArn":{"shape":"Arn"},
+        "namespaces":{"shape":"EksNamespaceList"}
+      }
+    },
+    "EksSourceClusterNamespace":{
+      "type":"structure",
+      "required":[
+        "eksClusterArn",
+        "namespace"
+      ],
+      "members":{
+        "eksClusterArn":{"shape":"Arn"},
+        "namespace":{"shape":"EksNamespace"}
+      }
+    },
+    "EksSourceList":{
+      "type":"list",
+      "member":{"shape":"EksSource"}
+    },
     "EntityDescription":{
       "type":"string",
       "max":500,
@@ -1414,11 +2402,15 @@
     },
     "EntityId":{
       "type":"string",
-      "pattern":"^\\S{1,100}$"
+      "pattern":"^\\S{1,255}$"
     },
     "EntityName":{
       "type":"string",
       "pattern":"^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$"
+    },
+    "EntityName255":{
+      "type":"string",
+      "pattern":"^[A-Za-z0-9][A-Za-z0-9_\\-]{0,254}$"
     },
     "EntityNameList":{
       "type":"list",
@@ -1427,6 +2419,16 @@
     "EntityVersion":{
       "type":"string",
       "pattern":"^\\S{1,50}$"
+    },
+    "ErrorDetail":{
+      "type":"structure",
+      "members":{
+        "errorMessage":{"shape":"ErrorMessage"}
+      }
+    },
+    "ErrorDetailList":{
+      "type":"list",
+      "member":{"shape":"ErrorDetail"}
     },
     "ErrorMessage":{
       "type":"string",
@@ -1442,6 +2444,61 @@
         "L4"
       ]
     },
+    "EventSubscription":{
+      "type":"structure",
+      "required":[
+        "eventType",
+        "name"
+      ],
+      "members":{
+        "eventType":{"shape":"EventType"},
+        "name":{"shape":"String255"},
+        "snsTopicArn":{"shape":"Arn"}
+      }
+    },
+    "EventSubscriptionList":{
+      "type":"list",
+      "member":{"shape":"EventSubscription"},
+      "max":10,
+      "min":0
+    },
+    "EventType":{
+      "type":"string",
+      "enum":[
+        "ScheduledAssessmentFailure",
+        "DriftDetected"
+      ]
+    },
+    "ExcludeRecommendationReason":{
+      "type":"string",
+      "enum":[
+        "AlreadyImplemented",
+        "NotRelevant",
+        "ComplexityOfImplementation"
+      ]
+    },
+    "Experiment":{
+      "type":"structure",
+      "members":{
+        "experimentArn":{"shape":"String255"},
+        "experimentTemplateId":{"shape":"String255"}
+      }
+    },
+    "FailedGroupingRecommendationEntries":{
+      "type":"list",
+      "member":{"shape":"FailedGroupingRecommendationEntry"}
+    },
+    "FailedGroupingRecommendationEntry":{
+      "type":"structure",
+      "required":[
+        "errorMessage",
+        "groupingRecommendationId"
+      ],
+      "members":{
+        "errorMessage":{"shape":"ErrorMessage"},
+        "groupingRecommendationId":{"shape":"String255"}
+      }
+    },
     "FailurePolicy":{
       "type":"structure",
       "required":[
@@ -1453,6 +2510,116 @@
         "rtoInSecs":{"shape":"Seconds"}
       }
     },
+    "Field":{
+      "type":"structure",
+      "required":["name"],
+      "members":{
+        "aggregation":{"shape":"FieldAggregationType"},
+        "name":{"shape":"String255"}
+      }
+    },
+    "FieldAggregationType":{
+      "type":"string",
+      "enum":[
+        "Min",
+        "Max",
+        "Sum",
+        "Avg",
+        "Count"
+      ]
+    },
+    "FieldList":{
+      "type":"list",
+      "member":{"shape":"Field"},
+      "max":50,
+      "min":0
+    },
+    "GroupingAppComponent":{
+      "type":"structure",
+      "required":[
+        "appComponentId",
+        "appComponentName",
+        "appComponentType"
+      ],
+      "members":{
+        "appComponentId":{"shape":"EntityName255"},
+        "appComponentName":{"shape":"EntityName255"},
+        "appComponentType":{"shape":"String255"}
+      }
+    },
+    "GroupingRecommendation":{
+      "type":"structure",
+      "required":[
+        "confidenceLevel",
+        "creationTime",
+        "groupingAppComponent",
+        "groupingRecommendationId",
+        "recommendationReasons",
+        "resources",
+        "score",
+        "status"
+      ],
+      "members":{
+        "confidenceLevel":{"shape":"GroupingRecommendationConfidenceLevel"},
+        "creationTime":{"shape":"TimeStamp"},
+        "groupingAppComponent":{"shape":"GroupingAppComponent"},
+        "groupingRecommendationId":{"shape":"String255"},
+        "recommendationReasons":{"shape":"String255List"},
+        "rejectionReason":{"shape":"GroupingRecommendationRejectionReason"},
+        "resources":{"shape":"GroupingResourceList"},
+        "score":{"shape":"Double"},
+        "status":{"shape":"GroupingRecommendationStatusType"}
+      }
+    },
+    "GroupingRecommendationConfidenceLevel":{
+      "type":"string",
+      "enum":[
+        "High",
+        "Medium"
+      ]
+    },
+    "GroupingRecommendationList":{
+      "type":"list",
+      "member":{"shape":"GroupingRecommendation"}
+    },
+    "GroupingRecommendationRejectionReason":{
+      "type":"string",
+      "enum":[
+        "DistinctBusinessPurpose",
+        "SeparateDataConcern",
+        "DistinctUserGroupHandling",
+        "Other"
+      ]
+    },
+    "GroupingRecommendationStatusType":{
+      "type":"string",
+      "enum":[
+        "Accepted",
+        "Rejected",
+        "PendingDecision"
+      ]
+    },
+    "GroupingResource":{
+      "type":"structure",
+      "required":[
+        "logicalResourceId",
+        "physicalResourceId",
+        "resourceName",
+        "resourceType",
+        "sourceAppComponentIds"
+      ],
+      "members":{
+        "logicalResourceId":{"shape":"LogicalResourceId"},
+        "physicalResourceId":{"shape":"PhysicalResourceId"},
+        "resourceName":{"shape":"String255"},
+        "resourceType":{"shape":"String255"},
+        "sourceAppComponentIds":{"shape":"String255List"}
+      }
+    },
+    "GroupingResourceList":{
+      "type":"list",
+      "member":{"shape":"GroupingResource"}
+    },
     "HaArchitecture":{
       "type":"string",
       "enum":[
@@ -1463,11 +2630,27 @@
         "NoRecoveryPlan"
       ]
     },
+    "IamRoleArn":{
+      "type":"string",
+      "pattern":"^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$"
+    },
+    "IamRoleArnList":{
+      "type":"list",
+      "member":{"shape":"IamRoleArn"},
+      "max":10,
+      "min":0
+    },
+    "IamRoleName":{
+      "type":"string",
+      "pattern":"^([^/]([!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64}$"
+    },
     "ImportResourcesToDraftAppVersionRequest":{
       "type":"structure",
       "required":["appArn"],
       "members":{
         "appArn":{"shape":"Arn"},
+        "eksSources":{"shape":"EksSourceList"},
+        "importStrategy":{"shape":"ResourceImportStrategyType"},
         "sourceArns":{"shape":"ArnList"},
         "terraformSources":{"shape":"TerraformSourceList"}
       }
@@ -1482,10 +2665,16 @@
       "members":{
         "appArn":{"shape":"Arn"},
         "appVersion":{"shape":"EntityVersion"},
+        "eksSources":{"shape":"EksSourceList"},
         "sourceArns":{"shape":"ArnList"},
         "status":{"shape":"ResourceImportStatusType"},
         "terraformSources":{"shape":"TerraformSourceList"}
       }
+    },
+    "Integer":{"type":"integer"},
+    "IntegerOptional":{
+      "type":"integer",
+      "box":true
     },
     "InternalServerException":{
       "type":"structure",
@@ -1511,6 +2700,40 @@
       "members":{
         "alarmRecommendations":{"shape":"AlarmRecommendationList"},
         "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppAssessmentComplianceDriftsRequest":{
+      "type":"structure",
+      "required":["assessmentArn"],
+      "members":{
+        "assessmentArn":{"shape":"Arn"},
+        "maxResults":{"shape":"MaxResults"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppAssessmentComplianceDriftsResponse":{
+      "type":"structure",
+      "required":["complianceDrifts"],
+      "members":{
+        "complianceDrifts":{"shape":"ComplianceDriftList"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppAssessmentResourceDriftsRequest":{
+      "type":"structure",
+      "required":["assessmentArn"],
+      "members":{
+        "assessmentArn":{"shape":"Arn"},
+        "maxResults":{"shape":"MaxResults"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppAssessmentResourceDriftsResponse":{
+      "type":"structure",
+      "required":["resourceDrifts"],
+      "members":{
+        "nextToken":{"shape":"NextToken"},
+        "resourceDrifts":{"shape":"ResourceDriftList"}
       }
     },
     "ListAppAssessmentsRequest":{
@@ -1600,6 +2823,53 @@
         "nextToken":{"shape":"NextToken"}
       }
     },
+    "ListAppInputSourcesRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "maxResults":{"shape":"MaxResults"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppInputSourcesResponse":{
+      "type":"structure",
+      "required":["appInputSources"],
+      "members":{
+        "appInputSources":{"shape":"AppInputSourceList"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppVersionAppComponentsRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "maxResults":{"shape":"MaxResults"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListAppVersionAppComponentsResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appComponents":{"shape":"AppComponentList"},
+        "appVersion":{"shape":"EntityVersion"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
     "ListAppVersionResourceMappingsRequest":{
       "type":"structure",
       "required":[
@@ -1652,8 +2922,10 @@
       "required":["appArn"],
       "members":{
         "appArn":{"shape":"Arn"},
+        "endTime":{"shape":"TimeStamp"},
         "maxResults":{"shape":"MaxResults"},
-        "nextToken":{"shape":"NextToken"}
+        "nextToken":{"shape":"NextToken"},
+        "startTime":{"shape":"TimeStamp"}
       }
     },
     "ListAppVersionsResponse":{
@@ -1672,6 +2944,16 @@
           "location":"querystring",
           "locationName":"appArn"
         },
+        "awsApplicationArn":{
+          "shape":"Arn",
+          "location":"querystring",
+          "locationName":"awsApplicationArn"
+        },
+        "fromLastAssessmentTime":{
+          "shape":"TimeStamp",
+          "location":"querystring",
+          "locationName":"fromLastAssessmentTime"
+        },
         "maxResults":{
           "shape":"MaxResults",
           "location":"querystring",
@@ -1686,6 +2968,16 @@
           "shape":"NextToken",
           "location":"querystring",
           "locationName":"nextToken"
+        },
+        "reverseOrder":{
+          "shape":"BooleanOptional",
+          "location":"querystring",
+          "locationName":"reverseOrder"
+        },
+        "toLastAssessmentTime":{
+          "shape":"TimeStamp",
+          "location":"querystring",
+          "locationName":"toLastAssessmentTime"
         }
       }
     },
@@ -1697,9 +2989,27 @@
         "nextToken":{"shape":"NextToken"}
       }
     },
+    "ListMetricsRequest":{
+      "type":"structure",
+      "members":{
+        "conditions":{"shape":"ConditionList"},
+        "dataSource":{"shape":"String255"},
+        "fields":{"shape":"FieldList"},
+        "maxResults":{"shape":"MaxResults"},
+        "nextToken":{"shape":"NextToken"},
+        "sorts":{"shape":"SortList"}
+      }
+    },
+    "ListMetricsResponse":{
+      "type":"structure",
+      "required":["rows"],
+      "members":{
+        "nextToken":{"shape":"NextToken"},
+        "rows":{"shape":"RowList"}
+      }
+    },
     "ListRecommendationTemplatesRequest":{
       "type":"structure",
-      "required":["assessmentArn"],
       "members":{
         "assessmentArn":{
           "shape":"Arn",
@@ -1771,6 +3081,34 @@
       "members":{
         "nextToken":{"shape":"NextToken"},
         "resiliencyPolicies":{"shape":"ResiliencyPolicies"}
+      }
+    },
+    "ListResourceGroupingRecommendationsRequest":{
+      "type":"structure",
+      "members":{
+        "appArn":{
+          "shape":"Arn",
+          "location":"querystring",
+          "locationName":"appArn"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "nextToken":{
+          "shape":"NextToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "ListResourceGroupingRecommendationsResponse":{
+      "type":"structure",
+      "required":["groupingRecommendations"],
+      "members":{
+        "groupingRecommendations":{"shape":"GroupingRecommendationList"},
+        "nextToken":{"shape":"NextToken"}
       }
     },
     "ListSopRecommendationsRequest":{
@@ -1877,11 +3215,17 @@
       "type":"structure",
       "required":["identifier"],
       "members":{
+        "eksSourceName":{"shape":"String255"},
         "identifier":{"shape":"String255"},
         "logicalStackName":{"shape":"String255"},
         "resourceGroupName":{"shape":"EntityName"},
         "terraformSourceName":{"shape":"String255"}
       }
+    },
+    "Long":{"type":"long"},
+    "LongOptional":{
+      "type":"long",
+      "box":true
     },
     "MaxResults":{
       "type":"integer",
@@ -1889,9 +3233,34 @@
       "max":100,
       "min":1
     },
+    "MetricsExportStatusType":{
+      "type":"string",
+      "enum":[
+        "Pending",
+        "InProgress",
+        "Failed",
+        "Success"
+      ]
+    },
     "NextToken":{
       "type":"string",
       "pattern":"^\\S{1,2000}$"
+    },
+    "PermissionModel":{
+      "type":"structure",
+      "required":["type"],
+      "members":{
+        "crossAccountRoleArns":{"shape":"IamRoleArnList"},
+        "invokerRoleName":{"shape":"IamRoleName"},
+        "type":{"shape":"PermissionModelType"}
+      }
+    },
+    "PermissionModelType":{
+      "type":"string",
+      "enum":[
+        "LegacyIAMUser",
+        "RoleBased"
+      ]
     },
     "PhysicalIdentifierType":{
       "type":"string",
@@ -1908,11 +3277,15 @@
         "resourceType"
       ],
       "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
         "appComponents":{"shape":"AppComponentList"},
+        "excluded":{"shape":"BooleanOptional"},
         "logicalResourceId":{"shape":"LogicalResourceId"},
+        "parentResourceName":{"shape":"EntityName"},
         "physicalResourceId":{"shape":"PhysicalResourceId"},
         "resourceName":{"shape":"EntityName"},
-        "resourceType":{"shape":"String255"}
+        "resourceType":{"shape":"String255"},
+        "sourceType":{"shape":"ResourceSourceType"}
       }
     },
     "PhysicalResourceId":{
@@ -1936,7 +3309,8 @@
       "type":"structure",
       "required":["appArn"],
       "members":{
-        "appArn":{"shape":"Arn"}
+        "appArn":{"shape":"Arn"},
+        "versionName":{"shape":"EntityVersion"}
       }
     },
     "PublishAppVersionResponse":{
@@ -1944,7 +3318,9 @@
       "required":["appArn"],
       "members":{
         "appArn":{"shape":"Arn"},
-        "appVersion":{"shape":"EntityVersion"}
+        "appVersion":{"shape":"EntityVersion"},
+        "identifier":{"shape":"LongOptional"},
+        "versionName":{"shape":"EntityVersion"}
       }
     },
     "PutDraftAppVersionTemplateRequest":{
@@ -1975,7 +3351,8 @@
       "enum":[
         "BreachedUnattainable",
         "BreachedCanMeet",
-        "MetCanImprove"
+        "MetCanImprove",
+        "MissingPolicy"
       ]
     },
     "RecommendationDisruptionCompliance":{
@@ -1999,6 +3376,10 @@
       "type":"structure",
       "members":{
         "alreadyImplemented":{"shape":"BooleanOptional"},
+        "discoveredAlarm":{"shape":"Alarm"},
+        "excludeReason":{"shape":"ExcludeRecommendationReason"},
+        "excluded":{"shape":"BooleanOptional"},
+        "latestDiscoveredExperiment":{"shape":"Experiment"},
         "resourceId":{"shape":"String500"},
         "targetAccountId":{"shape":"CustomerId"},
         "targetRegion":{"shape":"AwsRegion"}
@@ -2007,6 +3388,15 @@
     "RecommendationItemList":{
       "type":"list",
       "member":{"shape":"RecommendationItem"}
+    },
+    "RecommendationStatus":{
+      "type":"string",
+      "enum":[
+        "Implemented",
+        "Inactive",
+        "NotImplemented",
+        "Excluded"
+      ]
     },
     "RecommendationTemplate":{
       "type":"structure",
@@ -2054,12 +3444,49 @@
       "max":4,
       "min":1
     },
+    "RejectGroupingRecommendationEntries":{
+      "type":"list",
+      "member":{"shape":"RejectGroupingRecommendationEntry"},
+      "max":30,
+      "min":1
+    },
+    "RejectGroupingRecommendationEntry":{
+      "type":"structure",
+      "required":["groupingRecommendationId"],
+      "members":{
+        "groupingRecommendationId":{"shape":"String255"},
+        "rejectionReason":{"shape":"GroupingRecommendationRejectionReason"}
+      }
+    },
+    "RejectResourceGroupingRecommendationsRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "entries"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "entries":{"shape":"RejectGroupingRecommendationEntries"}
+      }
+    },
+    "RejectResourceGroupingRecommendationsResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "failedEntries"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "failedEntries":{"shape":"FailedGroupingRecommendationEntries"}
+      }
+    },
     "RemoveDraftAppVersionResourceMappingsRequest":{
       "type":"structure",
       "required":["appArn"],
       "members":{
         "appArn":{"shape":"Arn"},
         "appRegistryAppNames":{"shape":"EntityNameList"},
+        "eksSourceNames":{"shape":"String255List"},
         "logicalStackNames":{"shape":"String255List"},
         "resourceGroupNames":{"shape":"EntityNameList"},
         "resourceNames":{"shape":"EntityNameList"},
@@ -2112,7 +3539,8 @@
         "Critical",
         "Important",
         "CoreServices",
-        "NonCritical"
+        "NonCritical",
+        "NotApplicable"
       ]
     },
     "ResiliencyScore":{
@@ -2122,9 +3550,19 @@
         "score"
       ],
       "members":{
+        "componentScore":{"shape":"ScoringComponentResiliencyScores"},
         "disruptionScore":{"shape":"DisruptionResiliencyScore"},
         "score":{"shape":"Double"}
       }
+    },
+    "ResiliencyScoreType":{
+      "type":"string",
+      "enum":[
+        "Compliance",
+        "Test",
+        "Alarm",
+        "Sop"
+      ]
     },
     "ResolveAppVersionResourcesRequest":{
       "type":"structure",
@@ -2152,6 +3590,20 @@
         "status":{"shape":"ResourceResolutionStatusType"}
       }
     },
+    "ResourceDrift":{
+      "type":"structure",
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "diffType":{"shape":"DifferenceType"},
+        "referenceId":{"shape":"EntityId"},
+        "resourceIdentifier":{"shape":"ResourceIdentifier"}
+      }
+    },
+    "ResourceDriftList":{
+      "type":"list",
+      "member":{"shape":"ResourceDrift"}
+    },
     "ResourceError":{
       "type":"structure",
       "members":{
@@ -2175,6 +3627,13 @@
       "type":"string",
       "pattern":".*"
     },
+    "ResourceIdentifier":{
+      "type":"structure",
+      "members":{
+        "logicalResourceId":{"shape":"LogicalResourceId"},
+        "resourceType":{"shape":"String255"}
+      }
+    },
     "ResourceImportStatusType":{
       "type":"string",
       "enum":[
@@ -2182,6 +3641,13 @@
         "InProgress",
         "Failed",
         "Success"
+      ]
+    },
+    "ResourceImportStrategyType":{
+      "type":"string",
+      "enum":[
+        "AddOnly",
+        "ReplaceAll"
       ]
     },
     "ResourceMapping":{
@@ -2192,6 +3658,7 @@
       ],
       "members":{
         "appRegistryAppName":{"shape":"EntityName"},
+        "eksSourceName":{"shape":"String255"},
         "logicalStackName":{"shape":"String255"},
         "mappingType":{"shape":"ResourceMappingType"},
         "physicalResourceId":{"shape":"PhysicalResourceId"},
@@ -2211,7 +3678,8 @@
         "Resource",
         "AppRegistryApp",
         "ResourceGroup",
-        "Terraform"
+        "Terraform",
+        "EKS"
       ]
     },
     "ResourceNotFoundException":{
@@ -2236,13 +3704,37 @@
         "Success"
       ]
     },
+    "ResourceSourceType":{
+      "type":"string",
+      "enum":[
+        "AppTemplate",
+        "Discovered"
+      ]
+    },
     "ResourceType":{
       "type":"string",
       "pattern":".*"
     },
+    "ResourcesGroupingRecGenStatusType":{
+      "type":"string",
+      "enum":[
+        "Pending",
+        "InProgress",
+        "Failed",
+        "Success"
+      ]
+    },
     "RetryAfterSeconds":{
       "type":"integer",
       "box":true
+    },
+    "Row":{
+      "type":"list",
+      "member":{"shape":"String255"}
+    },
+    "RowList":{
+      "type":"list",
+      "member":{"shape":"Row"}
     },
     "S3Location":{
       "type":"structure",
@@ -2256,6 +3748,20 @@
       "max":2000,
       "min":0,
       "pattern":"^((https://([^/]+)\\.s3((-|\\.)[^/]+)?\\.amazonaws\\.com(.cn)?)|(s3://([^/]+)))/\\S{1,2000}$"
+    },
+    "ScoringComponentResiliencyScore":{
+      "type":"structure",
+      "members":{
+        "excludedCount":{"shape":"Long"},
+        "outstandingCount":{"shape":"Long"},
+        "possibleScore":{"shape":"Double"},
+        "score":{"shape":"Double"}
+      }
+    },
+    "ScoringComponentResiliencyScores":{
+      "type":"map",
+      "key":{"shape":"ResiliencyScoreType"},
+      "value":{"shape":"ScoringComponentResiliencyScore"}
     },
     "Seconds":{
       "type":"integer",
@@ -2286,6 +3792,7 @@
         "name":{"shape":"DocumentName"},
         "prerequisite":{"shape":"String500"},
         "recommendationId":{"shape":"Uuid"},
+        "recommendationStatus":{"shape":"RecommendationStatus"},
         "referenceId":{"shape":"SpecReferenceId"},
         "serviceType":{"shape":"SopServiceType"}
       }
@@ -2297,6 +3804,20 @@
     "SopServiceType":{
       "type":"string",
       "enum":["SSM"]
+    },
+    "Sort":{
+      "type":"structure",
+      "required":["field"],
+      "members":{
+        "ascending":{"shape":"BooleanOptional"},
+        "field":{"shape":"String255"}
+      }
+    },
+    "SortList":{
+      "type":"list",
+      "member":{"shape":"Sort"},
+      "max":50,
+      "min":0
     },
     "SpecReferenceId":{
       "type":"string",
@@ -2328,6 +3849,62 @@
         "assessment":{"shape":"AppAssessment"}
       }
     },
+    "StartMetricsExportRequest":{
+      "type":"structure",
+      "members":{
+        "bucketName":{"shape":"EntityName"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
+      }
+    },
+    "StartMetricsExportResponse":{
+      "type":"structure",
+      "required":[
+        "metricsExportId",
+        "status"
+      ],
+      "members":{
+        "metricsExportId":{"shape":"String255"},
+        "status":{"shape":"MetricsExportStatusType"}
+      }
+    },
+    "StartResourceGroupingRecommendationTaskRequest":{
+      "type":"structure",
+      "required":["appArn"],
+      "members":{
+        "appArn":{"shape":"Arn"}
+      }
+    },
+    "StartResourceGroupingRecommendationTaskResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "groupingId",
+        "status"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "errorMessage":{"shape":"String500"},
+        "groupingId":{"shape":"String255"},
+        "status":{"shape":"ResourcesGroupingRecGenStatusType"}
+      }
+    },
+    "String1024":{
+      "type":"string",
+      "max":1024,
+      "min":1
+    },
+    "String128WithoutWhitespace":{
+      "type":"string",
+      "pattern":"^\\S{1,128}$"
+    },
+    "String2048":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
     "String255":{
       "type":"string",
       "max":255,
@@ -2350,7 +3927,7 @@
       "type":"string",
       "max":128,
       "min":1,
-      "pattern":"^(?!aws:)[^\\x00-\\x1f\\x22]+$"
+      "pattern":"^[^\\x00-\\x1f\\x22]+$"
     },
     "TagKeyList":{
       "type":"list",
@@ -2415,6 +3992,7 @@
       "type":"structure",
       "required":["referenceId"],
       "members":{
+        "appComponentId":{"shape":"EntityName255"},
         "appComponentName":{"shape":"EntityId"},
         "dependsOnAlarms":{"shape":"AlarmReferenceIdList"},
         "description":{"shape":"String500"},
@@ -2423,6 +4001,7 @@
         "name":{"shape":"DocumentName"},
         "prerequisite":{"shape":"String500"},
         "recommendationId":{"shape":"Uuid"},
+        "recommendationStatus":{"shape":"RecommendationStatus"},
         "referenceId":{"shape":"SpecReferenceId"},
         "risk":{"shape":"TestRisk"},
         "type":{"shape":"TestType"}
@@ -2472,7 +4051,8 @@
       "members":{
         "logicalResourceId":{"shape":"LogicalResourceId"},
         "physicalResourceId":{"shape":"PhysicalResourceId"},
-        "resourceType":{"shape":"String255"}
+        "resourceType":{"shape":"String255"},
+        "unsupportedResourceStatus":{"shape":"String255"}
       }
     },
     "UnsupportedResourceList":{
@@ -2511,6 +4091,8 @@
         "assessmentSchedule":{"shape":"AppAssessmentScheduleType"},
         "clearResiliencyPolicyArn":{"shape":"BooleanOptional"},
         "description":{"shape":"EntityDescription"},
+        "eventSubscriptions":{"shape":"EventSubscriptionList"},
+        "permissionModel":{"shape":"PermissionModel"},
         "policyArn":{"shape":"Arn"}
       }
     },
@@ -2519,6 +4101,110 @@
       "required":["app"],
       "members":{
         "app":{"shape":"App"}
+      }
+    },
+    "UpdateAppVersionAppComponentRequest":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "id"
+      ],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"},
+        "id":{"shape":"String255"},
+        "name":{"shape":"String255"},
+        "type":{"shape":"String255"}
+      }
+    },
+    "UpdateAppVersionAppComponentResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appComponent":{"shape":"AppComponent"},
+        "appVersion":{"shape":"EntityVersion"}
+      }
+    },
+    "UpdateAppVersionRequest":{
+      "type":"structure",
+      "required":["appArn"],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"}
+      }
+    },
+    "UpdateAppVersionResourceRequest":{
+      "type":"structure",
+      "required":["appArn"],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"},
+        "appComponents":{"shape":"AppComponentNameList"},
+        "awsAccountId":{"shape":"CustomerId"},
+        "awsRegion":{"shape":"AwsRegion"},
+        "excluded":{"shape":"BooleanOptional"},
+        "logicalResourceId":{"shape":"LogicalResourceId"},
+        "physicalResourceId":{"shape":"String2048"},
+        "resourceName":{"shape":"EntityName"},
+        "resourceType":{"shape":"String255"}
+      }
+    },
+    "UpdateAppVersionResourceResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"},
+        "physicalResource":{"shape":"PhysicalResource"}
+      }
+    },
+    "UpdateAppVersionResponse":{
+      "type":"structure",
+      "required":[
+        "appArn",
+        "appVersion"
+      ],
+      "members":{
+        "additionalInfo":{"shape":"AdditionalInfoMap"},
+        "appArn":{"shape":"Arn"},
+        "appVersion":{"shape":"EntityVersion"}
+      }
+    },
+    "UpdateRecommendationStatusItem":{
+      "type":"structure",
+      "members":{
+        "resourceId":{"shape":"String500"},
+        "targetAccountId":{"shape":"CustomerId"},
+        "targetRegion":{"shape":"AwsRegion"}
+      }
+    },
+    "UpdateRecommendationStatusRequestEntries":{
+      "type":"list",
+      "member":{"shape":"UpdateRecommendationStatusRequestEntry"},
+      "max":50,
+      "min":1
+    },
+    "UpdateRecommendationStatusRequestEntry":{
+      "type":"structure",
+      "required":[
+        "entryId",
+        "excluded",
+        "referenceId"
+      ],
+      "members":{
+        "appComponentId":{"shape":"EntityName255"},
+        "entryId":{"shape":"String255"},
+        "excludeReason":{"shape":"ExcludeRecommendationReason"},
+        "excluded":{"shape":"BooleanOptional"},
+        "item":{"shape":"UpdateRecommendationStatusItem"},
+        "referenceId":{"shape":"SpecReferenceId"}
       }
     },
     "UpdateResiliencyPolicyRequest":{

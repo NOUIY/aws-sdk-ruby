@@ -5,11 +5,13 @@
     "endpointPrefix":"athena",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"Amazon Athena",
     "serviceId":"Athena",
     "signatureVersion":"v4",
     "targetPrefix":"AmazonAthena",
-    "uid":"athena-2017-05-18"
+    "uid":"athena-2017-05-18",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "BatchGetNamedQuery":{
@@ -50,6 +52,34 @@
         {"shape":"InternalServerException"},
         {"shape":"InvalidRequestException"}
       ]
+    },
+    "CancelCapacityReservation":{
+      "name":"CancelCapacityReservation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CancelCapacityReservationInput"},
+      "output":{"shape":"CancelCapacityReservationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerException"}
+      ],
+      "idempotent":true
+    },
+    "CreateCapacityReservation":{
+      "name":"CreateCapacityReservation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateCapacityReservationInput"},
+      "output":{"shape":"CreateCapacityReservationOutput"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"InvalidRequestException"}
+      ],
+      "idempotent":true
     },
     "CreateDataCatalog":{
       "name":"CreateDataCatalog",
@@ -131,6 +161,20 @@
         {"shape":"InternalServerException"},
         {"shape":"InvalidRequestException"}
       ]
+    },
+    "DeleteCapacityReservation":{
+      "name":"DeleteCapacityReservation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteCapacityReservationInput"},
+      "output":{"shape":"DeleteCapacityReservationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerException"}
+      ],
+      "idempotent":true
     },
     "DeleteDataCatalog":{
       "name":"DeleteDataCatalog",
@@ -255,6 +299,32 @@
         {"shape":"InternalServerException"},
         {"shape":"InvalidRequestException"},
         {"shape":"ResourceNotFoundException"}
+      ]
+    },
+    "GetCapacityAssignmentConfiguration":{
+      "name":"GetCapacityAssignmentConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetCapacityAssignmentConfigurationInput"},
+      "output":{"shape":"GetCapacityAssignmentConfigurationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
+    "GetCapacityReservation":{
+      "name":"GetCapacityReservation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetCapacityReservationInput"},
+      "output":{"shape":"GetCapacityReservationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerException"}
       ]
     },
     "GetDataCatalog":{
@@ -462,6 +532,19 @@
         {"shape":"ResourceNotFoundException"}
       ]
     },
+    "ListCapacityReservations":{
+      "name":"ListCapacityReservations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListCapacityReservationsInput"},
+      "output":{"shape":"ListCapacityReservationsOutput"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"InvalidRequestException"}
+      ]
+    },
     "ListDataCatalogs":{
       "name":"ListDataCatalogs",
       "http":{
@@ -638,6 +721,20 @@
         {"shape":"InvalidRequestException"}
       ]
     },
+    "PutCapacityAssignmentConfiguration":{
+      "name":"PutCapacityAssignmentConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"PutCapacityAssignmentConfigurationInput"},
+      "output":{"shape":"PutCapacityAssignmentConfigurationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerException"}
+      ],
+      "idempotent":true
+    },
     "StartCalculationExecution":{
       "name":"StartCalculationExecution",
       "http":{
@@ -753,6 +850,19 @@
         {"shape":"ResourceNotFoundException"}
       ]
     },
+    "UpdateCapacityReservation":{
+      "name":"UpdateCapacityReservation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateCapacityReservationInput"},
+      "output":{"shape":"UpdateCapacityReservationOutput"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "UpdateDataCatalog":{
       "name":"UpdateDataCatalog",
       "http":{
@@ -849,6 +959,11 @@
       "max":10080,
       "min":0
     },
+    "AllocatedDpusInteger":{
+      "type":"integer",
+      "box":true,
+      "min":0
+    },
     "AmazonResourceName":{
       "type":"string",
       "max":1011,
@@ -877,6 +992,10 @@
     "AuthToken":{
       "type":"string",
       "max":2048
+    },
+    "AuthenticationType":{
+      "type":"string",
+      "enum":["DIRECTORY_IDENTITY"]
     },
     "AwsAccountId":{
       "type":"string",
@@ -1005,6 +1124,96 @@
       "max":100,
       "min":0
     },
+    "CancelCapacityReservationInput":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"CapacityReservationName"}
+      }
+    },
+    "CancelCapacityReservationOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "CapacityAllocation":{
+      "type":"structure",
+      "required":[
+        "Status",
+        "RequestTime"
+      ],
+      "members":{
+        "Status":{"shape":"CapacityAllocationStatus"},
+        "StatusMessage":{"shape":"String"},
+        "RequestTime":{"shape":"Timestamp"},
+        "RequestCompletionTime":{"shape":"Timestamp"}
+      }
+    },
+    "CapacityAllocationStatus":{
+      "type":"string",
+      "enum":[
+        "PENDING",
+        "SUCCEEDED",
+        "FAILED"
+      ]
+    },
+    "CapacityAssignment":{
+      "type":"structure",
+      "members":{
+        "WorkGroupNames":{"shape":"WorkGroupNamesList"}
+      }
+    },
+    "CapacityAssignmentConfiguration":{
+      "type":"structure",
+      "members":{
+        "CapacityReservationName":{"shape":"CapacityReservationName"},
+        "CapacityAssignments":{"shape":"CapacityAssignmentsList"}
+      }
+    },
+    "CapacityAssignmentsList":{
+      "type":"list",
+      "member":{"shape":"CapacityAssignment"}
+    },
+    "CapacityReservation":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "Status",
+        "TargetDpus",
+        "AllocatedDpus",
+        "CreationTime"
+      ],
+      "members":{
+        "Name":{"shape":"CapacityReservationName"},
+        "Status":{"shape":"CapacityReservationStatus"},
+        "TargetDpus":{"shape":"TargetDpusInteger"},
+        "AllocatedDpus":{"shape":"AllocatedDpusInteger"},
+        "LastAllocation":{"shape":"CapacityAllocation"},
+        "LastSuccessfulAllocationTime":{"shape":"Timestamp"},
+        "CreationTime":{"shape":"Timestamp"}
+      }
+    },
+    "CapacityReservationName":{
+      "type":"string",
+      "max":128,
+      "min":1,
+      "pattern":"[a-zA-Z0-9._-]+"
+    },
+    "CapacityReservationStatus":{
+      "type":"string",
+      "enum":[
+        "PENDING",
+        "ACTIVE",
+        "CANCELLING",
+        "CANCELLED",
+        "FAILED",
+        "UPDATE_PENDING"
+      ]
+    },
+    "CapacityReservationsList":{
+      "type":"list",
+      "member":{"shape":"CapacityReservation"}
+    },
     "CatalogNameString":{
       "type":"string",
       "max":256,
@@ -1071,10 +1280,53 @@
       "min":0,
       "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*"
     },
+    "ConnectionType":{
+      "type":"string",
+      "enum":[
+        "DYNAMODB",
+        "MYSQL",
+        "POSTGRESQL",
+        "REDSHIFT",
+        "ORACLE",
+        "SYNAPSE",
+        "SQLSERVER",
+        "DB2",
+        "OPENSEARCH",
+        "BIGQUERY",
+        "GOOGLECLOUDSTORAGE",
+        "HBASE",
+        "DOCUMENTDB",
+        "CMDB",
+        "TPCDS",
+        "TIMESTREAM",
+        "SAPHANA",
+        "SNOWFLAKE",
+        "DATALAKEGEN2",
+        "DB2AS400"
+      ]
+    },
     "CoordinatorDpuSize":{
       "type":"integer",
-      "max":5000,
+      "box":true,
+      "max":1,
       "min":1
+    },
+    "CreateCapacityReservationInput":{
+      "type":"structure",
+      "required":[
+        "TargetDpus",
+        "Name"
+      ],
+      "members":{
+        "TargetDpus":{"shape":"TargetDpusInteger"},
+        "Name":{"shape":"CapacityReservationName"},
+        "Tags":{"shape":"TagList"}
+      }
+    },
+    "CreateCapacityReservationOutput":{
+      "type":"structure",
+      "members":{
+      }
     },
     "CreateDataCatalogInput":{
       "type":"structure",
@@ -1093,6 +1345,7 @@
     "CreateDataCatalogOutput":{
       "type":"structure",
       "members":{
+        "DataCatalog":{"shape":"DataCatalog"}
       }
     },
     "CreateNamedQueryInput":{
@@ -1209,14 +1462,34 @@
         "Name":{"shape":"CatalogNameString"},
         "Description":{"shape":"DescriptionString"},
         "Type":{"shape":"DataCatalogType"},
-        "Parameters":{"shape":"ParametersMap"}
+        "Parameters":{"shape":"ParametersMap"},
+        "Status":{"shape":"DataCatalogStatus"},
+        "ConnectionType":{"shape":"ConnectionType"},
+        "Error":{"shape":"ErrorMessage"}
       }
+    },
+    "DataCatalogStatus":{
+      "type":"string",
+      "enum":[
+        "CREATE_IN_PROGRESS",
+        "CREATE_COMPLETE",
+        "CREATE_FAILED",
+        "CREATE_FAILED_CLEANUP_IN_PROGRESS",
+        "CREATE_FAILED_CLEANUP_COMPLETE",
+        "CREATE_FAILED_CLEANUP_FAILED",
+        "DELETE_IN_PROGRESS",
+        "DELETE_COMPLETE",
+        "DELETE_FAILED"
+      ]
     },
     "DataCatalogSummary":{
       "type":"structure",
       "members":{
         "CatalogName":{"shape":"CatalogNameString"},
-        "Type":{"shape":"DataCatalogType"}
+        "Type":{"shape":"DataCatalogType"},
+        "Status":{"shape":"DataCatalogStatus"},
+        "ConnectionType":{"shape":"ConnectionType"},
+        "Error":{"shape":"ErrorMessage"}
       }
     },
     "DataCatalogSummaryList":{
@@ -1228,7 +1501,8 @@
       "enum":[
         "LAMBDA",
         "GLUE",
-        "HIVE"
+        "HIVE",
+        "FEDERATED"
       ]
     },
     "Database":{
@@ -1258,19 +1532,34 @@
     },
     "DefaultExecutorDpuSize":{
       "type":"integer",
-      "max":5000,
+      "box":true,
+      "max":1,
       "min":1
+    },
+    "DeleteCapacityReservationInput":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"CapacityReservationName"}
+      }
+    },
+    "DeleteCapacityReservationOutput":{
+      "type":"structure",
+      "members":{
+      }
     },
     "DeleteDataCatalogInput":{
       "type":"structure",
       "required":["Name"],
       "members":{
-        "Name":{"shape":"CatalogNameString"}
+        "Name":{"shape":"CatalogNameString"},
+        "DeleteCatalogOnly":{"shape":"Boolean"}
       }
     },
     "DeleteDataCatalogOutput":{
       "type":"structure",
       "members":{
+        "DataCatalog":{"shape":"DataCatalog"}
       }
     },
     "DeleteNamedQueryInput":{
@@ -1357,7 +1646,8 @@
         "CoordinatorDpuSize":{"shape":"CoordinatorDpuSize"},
         "MaxConcurrentDpus":{"shape":"MaxConcurrentDpus"},
         "DefaultExecutorDpuSize":{"shape":"DefaultExecutorDpuSize"},
-        "AdditionalConfigs":{"shape":"ParametersMap"}
+        "AdditionalConfigs":{"shape":"ParametersMap"},
+        "SparkProperties":{"shape":"ParametersMap"}
       }
     },
     "EngineVersion":{
@@ -1512,11 +1802,40 @@
         "Statistics":{"shape":"CalculationStatistics"}
       }
     },
+    "GetCapacityAssignmentConfigurationInput":{
+      "type":"structure",
+      "required":["CapacityReservationName"],
+      "members":{
+        "CapacityReservationName":{"shape":"CapacityReservationName"}
+      }
+    },
+    "GetCapacityAssignmentConfigurationOutput":{
+      "type":"structure",
+      "required":["CapacityAssignmentConfiguration"],
+      "members":{
+        "CapacityAssignmentConfiguration":{"shape":"CapacityAssignmentConfiguration"}
+      }
+    },
+    "GetCapacityReservationInput":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"CapacityReservationName"}
+      }
+    },
+    "GetCapacityReservationOutput":{
+      "type":"structure",
+      "required":["CapacityReservation"],
+      "members":{
+        "CapacityReservation":{"shape":"CapacityReservation"}
+      }
+    },
     "GetDataCatalogInput":{
       "type":"structure",
       "required":["Name"],
       "members":{
-        "Name":{"shape":"CatalogNameString"}
+        "Name":{"shape":"CatalogNameString"},
+        "WorkGroup":{"shape":"WorkGroupName"}
       }
     },
     "GetDataCatalogOutput":{
@@ -1533,7 +1852,8 @@
       ],
       "members":{
         "CatalogName":{"shape":"CatalogNameString"},
-        "DatabaseName":{"shape":"NameString"}
+        "DatabaseName":{"shape":"NameString"},
+        "WorkGroup":{"shape":"WorkGroupName"}
       }
     },
     "GetDatabaseOutput":{
@@ -1673,7 +1993,8 @@
       "members":{
         "CatalogName":{"shape":"CatalogNameString"},
         "DatabaseName":{"shape":"NameString"},
-        "TableName":{"shape":"NameString"}
+        "TableName":{"shape":"NameString"},
+        "WorkGroup":{"shape":"WorkGroupName"}
       }
     },
     "GetTableMetadataOutput":{
@@ -1700,12 +2021,30 @@
       "max":128,
       "min":32
     },
+    "IdentityCenterApplicationArn":{
+      "type":"string",
+      "max":255,
+      "min":0,
+      "pattern":"^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$"
+    },
+    "IdentityCenterConfiguration":{
+      "type":"structure",
+      "members":{
+        "EnableIdentityCenter":{"shape":"BoxedBoolean"},
+        "IdentityCenterInstanceArn":{"shape":"IdentityCenterInstanceArn"}
+      }
+    },
+    "IdentityCenterInstanceArn":{
+      "type":"string",
+      "max":255,
+      "min":0,
+      "pattern":"^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$"
+    },
     "ImportNotebookInput":{
       "type":"structure",
       "required":[
         "WorkGroup",
         "Name",
-        "Payload",
         "Type"
       ],
       "members":{
@@ -1713,6 +2052,7 @@
         "Name":{"shape":"NotebookName"},
         "Payload":{"shape":"Payload"},
         "Type":{"shape":"NotebookType"},
+        "NotebookS3LocationUri":{"shape":"S3Uri"},
         "ClientRequestToken":{"shape":"ClientRequestToken"}
       }
     },
@@ -1782,11 +2122,27 @@
         "Calculations":{"shape":"CalculationsList"}
       }
     },
+    "ListCapacityReservationsInput":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"Token"},
+        "MaxResults":{"shape":"MaxCapacityReservationsCount"}
+      }
+    },
+    "ListCapacityReservationsOutput":{
+      "type":"structure",
+      "required":["CapacityReservations"],
+      "members":{
+        "NextToken":{"shape":"Token"},
+        "CapacityReservations":{"shape":"CapacityReservationsList"}
+      }
+    },
     "ListDataCatalogsInput":{
       "type":"structure",
       "members":{
         "NextToken":{"shape":"Token"},
-        "MaxResults":{"shape":"MaxDataCatalogsCount"}
+        "MaxResults":{"shape":"MaxDataCatalogsCount"},
+        "WorkGroup":{"shape":"WorkGroupName"}
       }
     },
     "ListDataCatalogsOutput":{
@@ -1802,7 +2158,8 @@
       "members":{
         "CatalogName":{"shape":"CatalogNameString"},
         "NextToken":{"shape":"Token"},
-        "MaxResults":{"shape":"MaxDatabasesCount"}
+        "MaxResults":{"shape":"MaxDatabasesCount"},
+        "WorkGroup":{"shape":"WorkGroupName"}
       }
     },
     "ListDatabasesOutput":{
@@ -1953,7 +2310,8 @@
         "DatabaseName":{"shape":"NameString"},
         "Expression":{"shape":"ExpressionString"},
         "NextToken":{"shape":"Token"},
-        "MaxResults":{"shape":"MaxTableMetadataCount"}
+        "MaxResults":{"shape":"MaxTableMetadataCount"},
+        "WorkGroup":{"shape":"WorkGroupName"}
       }
     },
     "ListTableMetadataOutput":{
@@ -2003,6 +2361,12 @@
       "type":"integer",
       "box":true,
       "max":100,
+      "min":1
+    },
+    "MaxCapacityReservationsCount":{
+      "type":"integer",
+      "box":true,
+      "max":50,
       "min":1
     },
     "MaxConcurrentDpus":{
@@ -2161,7 +2525,7 @@
       "type":"string",
       "max":255,
       "min":1,
-      "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+"
+      "pattern":"(?!.*[/:\\\\])[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+"
     },
     "NotebookSessionSummary":{
       "type":"structure",
@@ -2225,6 +2589,22 @@
       "max":50,
       "min":0
     },
+    "PutCapacityAssignmentConfigurationInput":{
+      "type":"structure",
+      "required":[
+        "CapacityReservationName",
+        "CapacityAssignments"
+      ],
+      "members":{
+        "CapacityReservationName":{"shape":"CapacityReservationName"},
+        "CapacityAssignments":{"shape":"CapacityAssignmentsList"}
+      }
+    },
+    "PutCapacityAssignmentConfigurationOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "QueryExecution":{
       "type":"structure",
       "members":{
@@ -2238,7 +2618,9 @@
         "Statistics":{"shape":"QueryExecutionStatistics"},
         "WorkGroup":{"shape":"WorkGroupName"},
         "EngineVersion":{"shape":"EngineVersion"},
-        "ExecutionParameters":{"shape":"ExecutionParameters"}
+        "ExecutionParameters":{"shape":"ExecutionParameters"},
+        "SubstatementType":{"shape":"String"},
+        "QueryResultsS3AccessGrantsConfiguration":{"shape":"QueryResultsS3AccessGrantsConfiguration"}
       }
     },
     "QueryExecutionContext":{
@@ -2282,6 +2664,7 @@
         "DataManifestLocation":{"shape":"String"},
         "TotalExecutionTimeInMillis":{"shape":"Long"},
         "QueryQueueTimeInMillis":{"shape":"Long"},
+        "ServicePreProcessingTimeInMillis":{"shape":"Long"},
         "QueryPlanningTimeInMillis":{"shape":"Long"},
         "ServiceProcessingTimeInMillis":{"shape":"Long"},
         "ResultReuseInformation":{"shape":"ResultReuseInformation"}
@@ -2295,6 +2678,18 @@
         "SubmissionDateTime":{"shape":"Date"},
         "CompletionDateTime":{"shape":"Date"},
         "AthenaError":{"shape":"AthenaError"}
+      }
+    },
+    "QueryResultsS3AccessGrantsConfiguration":{
+      "type":"structure",
+      "required":[
+        "EnableS3AccessGrants",
+        "AuthenticationType"
+      ],
+      "members":{
+        "EnableS3AccessGrants":{"shape":"BoxedBoolean"},
+        "CreateUserLevelPrefix":{"shape":"BoxedBoolean"},
+        "AuthenticationType":{"shape":"AuthenticationType"}
       }
     },
     "QueryRuntimeStatistics":{
@@ -2318,6 +2713,7 @@
       "type":"structure",
       "members":{
         "QueryQueueTimeInMillis":{"shape":"Long"},
+        "ServicePreProcessingTimeInMillis":{"shape":"Long"},
         "QueryPlanningTimeInMillis":{"shape":"Long"},
         "EngineExecutionTimeInMillis":{"shape":"Long"},
         "ServiceProcessingTimeInMillis":{"shape":"Long"},
@@ -2706,6 +3102,11 @@
       "max":256,
       "min":0
     },
+    "TargetDpusInteger":{
+      "type":"integer",
+      "box":true,
+      "min":24
+    },
     "TerminateSessionRequest":{
       "type":"structure",
       "required":["SessionId"],
@@ -2791,6 +3192,22 @@
       }
     },
     "UntagResourceOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "UpdateCapacityReservationInput":{
+      "type":"structure",
+      "required":[
+        "TargetDpus",
+        "Name"
+      ],
+      "members":{
+        "TargetDpus":{"shape":"TargetDpusInteger"},
+        "Name":{"shape":"CapacityReservationName"}
+      }
+    },
+    "UpdateCapacityReservationOutput":{
       "type":"structure",
       "members":{
       }
@@ -2911,7 +3328,8 @@
         "State":{"shape":"WorkGroupState"},
         "Configuration":{"shape":"WorkGroupConfiguration"},
         "Description":{"shape":"WorkGroupDescriptionString"},
-        "CreationTime":{"shape":"Date"}
+        "CreationTime":{"shape":"Date"},
+        "IdentityCenterApplicationArn":{"shape":"IdentityCenterApplicationArn"}
       }
     },
     "WorkGroupConfiguration":{
@@ -2925,7 +3343,10 @@
         "EngineVersion":{"shape":"EngineVersion"},
         "AdditionalConfiguration":{"shape":"NameString"},
         "ExecutionRole":{"shape":"RoleArn"},
-        "CustomerContentEncryptionConfiguration":{"shape":"CustomerContentEncryptionConfiguration"}
+        "CustomerContentEncryptionConfiguration":{"shape":"CustomerContentEncryptionConfiguration"},
+        "EnableMinimumEncryptionConfiguration":{"shape":"BoxedBoolean"},
+        "IdentityCenterConfiguration":{"shape":"IdentityCenterConfiguration"},
+        "QueryResultsS3AccessGrantsConfiguration":{"shape":"QueryResultsS3AccessGrantsConfiguration"}
       }
     },
     "WorkGroupConfigurationUpdates":{
@@ -2941,7 +3362,9 @@
         "RemoveCustomerContentEncryptionConfiguration":{"shape":"BoxedBoolean"},
         "AdditionalConfiguration":{"shape":"NameString"},
         "ExecutionRole":{"shape":"RoleArn"},
-        "CustomerContentEncryptionConfiguration":{"shape":"CustomerContentEncryptionConfiguration"}
+        "CustomerContentEncryptionConfiguration":{"shape":"CustomerContentEncryptionConfiguration"},
+        "EnableMinimumEncryptionConfiguration":{"shape":"BoxedBoolean"},
+        "QueryResultsS3AccessGrantsConfiguration":{"shape":"QueryResultsS3AccessGrantsConfiguration"}
       }
     },
     "WorkGroupDescriptionString":{
@@ -2952,6 +3375,10 @@
     "WorkGroupName":{
       "type":"string",
       "pattern":"[a-zA-Z0-9._-]{1,128}"
+    },
+    "WorkGroupNamesList":{
+      "type":"list",
+      "member":{"shape":"WorkGroupName"}
     },
     "WorkGroupState":{
       "type":"string",
@@ -2967,7 +3394,8 @@
         "State":{"shape":"WorkGroupState"},
         "Description":{"shape":"WorkGroupDescriptionString"},
         "CreationTime":{"shape":"Date"},
-        "EngineVersion":{"shape":"EngineVersion"}
+        "EngineVersion":{"shape":"EngineVersion"},
+        "IdentityCenterApplicationArn":{"shape":"IdentityCenterApplicationArn"}
       }
     },
     "WorkGroupsList":{

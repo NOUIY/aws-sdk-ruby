@@ -54,8 +54,15 @@ module Aws::ECR
   # * {RepositoryNotFoundException}
   # * {RepositoryPolicyNotFoundException}
   # * {ScanNotFoundException}
+  # * {SecretNotFoundException}
   # * {ServerException}
+  # * {TemplateAlreadyExistsException}
+  # * {TemplateNotFoundException}
   # * {TooManyTagsException}
+  # * {UnableToAccessSecretException}
+  # * {UnableToDecryptSecretValueException}
+  # * {UnableToGetUpstreamImageException}
+  # * {UnableToGetUpstreamLayerException}
   # * {UnsupportedImageTypeException}
   # * {UnsupportedUpstreamRegistryException}
   # * {UploadNotFoundException}
@@ -497,6 +504,21 @@ module Aws::ECR
       end
     end
 
+    class SecretNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::SecretNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class ServerException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -512,11 +534,101 @@ module Aws::ECR
       end
     end
 
+    class TemplateAlreadyExistsException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::TemplateAlreadyExistsException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class TemplateNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::TemplateNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class TooManyTagsException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::ECR::Types::TooManyTagsException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class UnableToAccessSecretException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::UnableToAccessSecretException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class UnableToDecryptSecretValueException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::UnableToDecryptSecretValueException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class UnableToGetUpstreamImageException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::UnableToGetUpstreamImageException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class UnableToGetUpstreamLayerException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::ECR::Types::UnableToGetUpstreamLayerException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

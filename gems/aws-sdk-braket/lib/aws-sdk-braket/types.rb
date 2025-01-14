@@ -45,6 +45,25 @@ module Aws::Braket
       include Aws::Structure
     end
 
+    # The Amazon Braket resource and the association type.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Braket resource arn.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The association type for the specified Amazon Braket resource arn.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/Association AWS API Documentation
+    #
+    class Association < Struct.new(
+      :arn,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] job_arn
     #   The ARN of the Amazon Braket job to cancel.
     #   @return [String]
@@ -144,6 +163,10 @@ module Aws::Braket
     #   scripts used for entry and training.
     #   @return [Types::AlgorithmSpecification]
     #
+    # @!attribute [rw] associations
+    #   The list of Amazon Braket resources associated with the hybrid job.
+    #   @return [Array<Types::Association>]
+    #
     # @!attribute [rw] checkpoint_config
     #   Information about the output locations for job checkpoint data.
     #   @return [Types::JobCheckpointConfig]
@@ -207,6 +230,7 @@ module Aws::Braket
     #
     class CreateJobRequest < Struct.new(
       :algorithm_specification,
+      :associations,
       :checkpoint_config,
       :client_token,
       :device_config,
@@ -237,6 +261,11 @@ module Aws::Braket
     # @!attribute [rw] action
     #   The action associated with the task.
     #   @return [String]
+    #
+    # @!attribute [rw] associations
+    #   The list of Amazon Braket resources associated with the quantum
+    #   task.
+    #   @return [Array<Types::Association>]
     #
     # @!attribute [rw] client_token
     #   The client token associated with the request.
@@ -279,6 +308,7 @@ module Aws::Braket
     #
     class CreateQuantumTaskRequest < Struct.new(
       :action,
+      :associations,
       :client_token,
       :device_arn,
       :device_parameters,
@@ -344,6 +374,31 @@ module Aws::Braket
     #
     class DeviceOfflineException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about tasks and jobs queued on a device.
+    #
+    # @!attribute [rw] queue
+    #   The name of the queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_priority
+    #   Optional. Specifies the priority of the queue. Tasks in a priority
+    #   queue are processed before the tasks in a normal queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_size
+    #   The number of jobs or tasks in the queue for a given device.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/DeviceQueueInfo AWS API Documentation
+    #
+    class DeviceQueueInfo < Struct.new(
+      :queue,
+      :queue_priority,
+      :queue_size)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -419,6 +474,10 @@ module Aws::Braket
     #   The name of the device.
     #   @return [String]
     #
+    # @!attribute [rw] device_queue_info
+    #   List of information about tasks and jobs queued on a device.
+    #   @return [Array<Types::DeviceQueueInfo>]
+    #
     # @!attribute [rw] device_status
     #   The status of the device.
     #   @return [String]
@@ -437,6 +496,7 @@ module Aws::Braket
       :device_arn,
       :device_capabilities,
       :device_name,
+      :device_queue_info,
       :device_status,
       :device_type,
       :provider_name)
@@ -444,6 +504,10 @@ module Aws::Braket
       include Aws::Structure
     end
 
+    # @!attribute [rw] additional_attribute_names
+    #   A list of attributes to return information for.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] job_arn
     #   The ARN of the job to retrieve.
     #   @return [String]
@@ -451,6 +515,7 @@ module Aws::Braket
     # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/GetJobRequest AWS API Documentation
     #
     class GetJobRequest < Struct.new(
+      :additional_attribute_names,
       :job_arn)
       SENSITIVE = []
       include Aws::Structure
@@ -462,6 +527,10 @@ module Aws::Braket
     #   entry and training, and the user-defined metrics used to evaluation
     #   the job.
     #   @return [Types::AlgorithmSpecification]
+    #
+    # @!attribute [rw] associations
+    #   The list of Amazon Braket resources associated with the hybrid job.
+    #   @return [Array<Types::Association>]
     #
     # @!attribute [rw] billable_duration
     #   The billable time the Amazon Braket job used to complete.
@@ -524,6 +593,12 @@ module Aws::Braket
     #   encryption key used to store them there.
     #   @return [Types::JobOutputDataConfig]
     #
+    # @!attribute [rw] queue_info
+    #   Queue information for the requested job. Only returned if
+    #   `QueueInfo` is specified in the `additionalAttributeNames"` field in
+    #   the `GetJob` API request.
+    #   @return [Types::HybridJobQueueInfo]
+    #
     # @!attribute [rw] role_arn
     #   The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can
     #   assume to perform tasks on behalf of a user. It can access user
@@ -552,6 +627,7 @@ module Aws::Braket
     #
     class GetJobResponse < Struct.new(
       :algorithm_specification,
+      :associations,
       :billable_duration,
       :checkpoint_config,
       :created_at,
@@ -565,6 +641,7 @@ module Aws::Braket
       :job_arn,
       :job_name,
       :output_data_config,
+      :queue_info,
       :role_arn,
       :started_at,
       :status,
@@ -574,18 +651,28 @@ module Aws::Braket
       include Aws::Structure
     end
 
+    # @!attribute [rw] additional_attribute_names
+    #   A list of attributes to return information for.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] quantum_task_arn
-    #   the ARN of the task to retrieve.
+    #   The ARN of the task to retrieve.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/GetQuantumTaskRequest AWS API Documentation
     #
     class GetQuantumTaskRequest < Struct.new(
+      :additional_attribute_names,
       :quantum_task_arn)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] associations
+    #   The list of Amazon Braket resources associated with the quantum
+    #   task.
+    #   @return [Array<Types::Association>]
+    #
     # @!attribute [rw] created_at
     #   The time at which the task was created.
     #   @return [Time]
@@ -622,6 +709,12 @@ module Aws::Braket
     #   The ARN of the task.
     #   @return [String]
     #
+    # @!attribute [rw] queue_info
+    #   Queue information for the requested quantum task. Only returned if
+    #   `QueueInfo` is specified in the `additionalAttributeNames"` field in
+    #   the `GetQuantumTask` API request.
+    #   @return [Types::QuantumTaskQueueInfo]
+    #
     # @!attribute [rw] shots
     #   The number of shots used in the task.
     #   @return [Integer]
@@ -637,6 +730,7 @@ module Aws::Braket
     # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/GetQuantumTaskResponse AWS API Documentation
     #
     class GetQuantumTaskResponse < Struct.new(
+      :associations,
       :created_at,
       :device_arn,
       :device_parameters,
@@ -646,9 +740,36 @@ module Aws::Braket
       :output_s3_bucket,
       :output_s3_directory,
       :quantum_task_arn,
+      :queue_info,
       :shots,
       :status,
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the queue for a specified job.
+    #
+    # @!attribute [rw] message
+    #   Optional. Provides more information about the queue position. For
+    #   example, if the job is complete and no longer in the queue, the
+    #   message field contains that information.
+    #   @return [String]
+    #
+    # @!attribute [rw] position
+    #   Current position of the job in the jobs queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue
+    #   The name of the queue.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/HybridJobQueueInfo AWS API Documentation
+    #
+    class HybridJobQueueInfo < Struct.new(
+      :message,
+      :position,
+      :queue)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -754,7 +875,7 @@ module Aws::Braket
     #   @return [String]
     #
     # @!attribute [rw] time_of_event
-    #   TThe type of event that occurred related to the Amazon Braket job.
+    #   The type of event that occurred related to the Amazon Braket job.
     #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/JobEventDetails AWS API Documentation
@@ -876,6 +997,38 @@ module Aws::Braket
     #
     class ListTagsForResourceResponse < Struct.new(
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the queue for the specified quantum task.
+    #
+    # @!attribute [rw] message
+    #   Optional. Provides more information about the queue position. For
+    #   example, if the task is complete and no longer in the queue, the
+    #   message field contains that information.
+    #   @return [String]
+    #
+    # @!attribute [rw] position
+    #   Current position of the task in the quantum tasks queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue
+    #   The name of the queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue_priority
+    #   Optional. Specifies the priority of the queue. Quantum tasks in a
+    #   priority queue are processed before the tasks in a normal queue.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/braket-2019-09-01/QuantumTaskQueueInfo AWS API Documentation
+    #
+    class QuantumTaskQueueInfo < Struct.new(
+      :message,
+      :position,
+      :queue,
+      :queue_priority)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1278,3 +1431,4 @@ module Aws::Braket
 
   end
 end
+

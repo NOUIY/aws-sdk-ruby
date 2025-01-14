@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::GreengrassV2
   # @api private
   module ClientApi
@@ -62,6 +63,7 @@ module Aws::GreengrassV2
     CoreDevice = Shapes::StructureShape.new(name: 'CoreDevice')
     CoreDeviceArchitectureString = Shapes::StringShape.new(name: 'CoreDeviceArchitectureString')
     CoreDevicePlatformString = Shapes::StringShape.new(name: 'CoreDevicePlatformString')
+    CoreDeviceRuntimeString = Shapes::StringShape.new(name: 'CoreDeviceRuntimeString')
     CoreDeviceStatus = Shapes::StringShape.new(name: 'CoreDeviceStatus')
     CoreDeviceThingName = Shapes::StringShape.new(name: 'CoreDeviceThingName')
     CoreDevicesList = Shapes::ListShape.new(name: 'CoreDevicesList')
@@ -145,6 +147,7 @@ module Aws::GreengrassV2
     IoTJobRolloutIncrementFactor = Shapes::FloatShape.new(name: 'IoTJobRolloutIncrementFactor')
     IoTJobTimeoutConfig = Shapes::StructureShape.new(name: 'IoTJobTimeoutConfig')
     IoTThingName = Shapes::StringShape.new(name: 'IoTThingName')
+    IotEndpointType = Shapes::StringShape.new(name: 'IotEndpointType')
     IsLatestForTarget = Shapes::BooleanShape.new(name: 'IsLatestForTarget')
     IsRoot = Shapes::BooleanShape.new(name: 'IsRoot')
     LambdaContainerParams = Shapes::StructureShape.new(name: 'LambdaContainerParams')
@@ -200,6 +203,7 @@ module Aws::GreengrassV2
     ResolvedComponentVersionsList = Shapes::ListShape.new(name: 'ResolvedComponentVersionsList')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     RetryAfterSeconds = Shapes::IntegerShape.new(name: 'RetryAfterSeconds')
+    S3EndpointType = Shapes::StringShape.new(name: 'S3EndpointType')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     String = Shapes::StringShape.new(name: 'String')
     StringMap = Shapes::MapShape.new(name: 'StringMap')
@@ -305,7 +309,7 @@ module Aws::GreengrassV2
     ComponentDependencyRequirement.add_member(:dependency_type, Shapes::ShapeRef.new(shape: ComponentDependencyType, location_name: "dependencyType"))
     ComponentDependencyRequirement.struct_class = Types::ComponentDependencyRequirement
 
-    ComponentDeploymentSpecification.add_member(:component_version, Shapes::ShapeRef.new(shape: ComponentVersionString, location_name: "componentVersion"))
+    ComponentDeploymentSpecification.add_member(:component_version, Shapes::ShapeRef.new(shape: ComponentVersionString, required: true, location_name: "componentVersion"))
     ComponentDeploymentSpecification.add_member(:configuration_update, Shapes::ShapeRef.new(shape: ComponentConfigurationUpdate, location_name: "configurationUpdate"))
     ComponentDeploymentSpecification.add_member(:run_with, Shapes::ShapeRef.new(shape: ComponentRunWith, location_name: "runWith"))
     ComponentDeploymentSpecification.struct_class = Types::ComponentDeploymentSpecification
@@ -358,6 +362,9 @@ module Aws::GreengrassV2
     CoreDevice.add_member(:core_device_thing_name, Shapes::ShapeRef.new(shape: CoreDeviceThingName, location_name: "coreDeviceThingName"))
     CoreDevice.add_member(:status, Shapes::ShapeRef.new(shape: CoreDeviceStatus, location_name: "status"))
     CoreDevice.add_member(:last_status_update_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastStatusUpdateTimestamp"))
+    CoreDevice.add_member(:platform, Shapes::ShapeRef.new(shape: CoreDevicePlatformString, location_name: "platform"))
+    CoreDevice.add_member(:architecture, Shapes::ShapeRef.new(shape: CoreDeviceArchitectureString, location_name: "architecture"))
+    CoreDevice.add_member(:runtime, Shapes::ShapeRef.new(shape: CoreDeviceRuntimeString, location_name: "runtime"))
     CoreDevice.struct_class = Types::CoreDevice
 
     CoreDevicesList.member = Shapes::ShapeRef.new(shape: CoreDevice)
@@ -493,6 +500,8 @@ module Aws::GreengrassV2
 
     GetComponentVersionArtifactRequest.add_member(:arn, Shapes::ShapeRef.new(shape: ComponentVersionARN, required: true, location: "uri", location_name: "arn"))
     GetComponentVersionArtifactRequest.add_member(:artifact_name, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location: "uri", location_name: "artifactName"))
+    GetComponentVersionArtifactRequest.add_member(:s3_endpoint_type, Shapes::ShapeRef.new(shape: S3EndpointType, location: "querystring", location_name: "s3EndpointType"))
+    GetComponentVersionArtifactRequest.add_member(:iot_endpoint_type, Shapes::ShapeRef.new(shape: IotEndpointType, location: "header", location_name: "x-amz-iot-endpoint-type"))
     GetComponentVersionArtifactRequest.struct_class = Types::GetComponentVersionArtifactRequest
 
     GetComponentVersionArtifactResponse.add_member(:pre_signed_url, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location_name: "preSignedUrl"))
@@ -512,6 +521,7 @@ module Aws::GreengrassV2
     GetCoreDeviceResponse.add_member(:core_version, Shapes::ShapeRef.new(shape: GGCVersion, location_name: "coreVersion"))
     GetCoreDeviceResponse.add_member(:platform, Shapes::ShapeRef.new(shape: CoreDevicePlatformString, location_name: "platform"))
     GetCoreDeviceResponse.add_member(:architecture, Shapes::ShapeRef.new(shape: CoreDeviceArchitectureString, location_name: "architecture"))
+    GetCoreDeviceResponse.add_member(:runtime, Shapes::ShapeRef.new(shape: CoreDeviceRuntimeString, location_name: "runtime"))
     GetCoreDeviceResponse.add_member(:status, Shapes::ShapeRef.new(shape: CoreDeviceStatus, location_name: "status"))
     GetCoreDeviceResponse.add_member(:last_status_update_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastStatusUpdateTimestamp"))
     GetCoreDeviceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
@@ -676,6 +686,7 @@ module Aws::GreengrassV2
     ListCoreDevicesRequest.add_member(:status, Shapes::ShapeRef.new(shape: CoreDeviceStatus, location: "querystring", location_name: "status"))
     ListCoreDevicesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DefaultMaxResults, location: "querystring", location_name: "maxResults", metadata: {"box"=>true}))
     ListCoreDevicesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextTokenString, location: "querystring", location_name: "nextToken", metadata: {"box"=>true}))
+    ListCoreDevicesRequest.add_member(:runtime, Shapes::ShapeRef.new(shape: CoreDeviceRuntimeString, location: "querystring", location_name: "runtime"))
     ListCoreDevicesRequest.struct_class = Types::ListCoreDevicesRequest
 
     ListCoreDevicesResponse.add_member(:core_devices, Shapes::ShapeRef.new(shape: CoreDevicesList, location_name: "coreDevices"))
@@ -812,8 +823,10 @@ module Aws::GreengrassV2
 
       api.metadata = {
         "apiVersion" => "2020-11-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "greengrass",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "AWS GreengrassV2",
         "serviceFullName" => "AWS IoT Greengrass V2",
         "serviceId" => "GreengrassV2",

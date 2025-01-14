@@ -77,7 +77,7 @@ module Aws::RDS
       data[:offering_type]
     end
 
-    # Indicates if the offering applies to Multi-AZ deployments.
+    # Indicates whether the offering applies to Multi-AZ deployments.
     # @return [Boolean]
     def multi_az
       data[:multi_az]
@@ -103,7 +103,9 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_reserved_db_instances_offerings(reserved_db_instances_offering_id: @id)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_reserved_db_instances_offerings(reserved_db_instances_offering_id: @id)
+      end
       @data = resp.reserved_db_instances_offerings[0]
       self
     end
@@ -218,7 +220,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -245,16 +249,22 @@ module Aws::RDS
     #
     #   Default: `1`
     # @option options [Array<Types::Tag>] :tags
-    #   A list of tags. For more information, see [Tagging Amazon RDS
-    #   Resources][1] in the *Amazon RDS User Guide.*
+    #   A list of tags.
+    #
+    #   For more information, see [Tagging Amazon RDS resources][1] in the
+    #   *Amazon RDS User Guide* or [Tagging Amazon Aurora and Amazon RDS
+    #   resources][2] in the *Amazon Aurora User Guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html
     # @return [ReservedDBInstance]
     def purchase(options = {})
       options = options.merge(reserved_db_instances_offering_id: @id)
-      resp = @client.purchase_reserved_db_instances_offering(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.purchase_reserved_db_instances_offering(options)
+      end
       ReservedDBInstance.new(
         id: resp.data.reserved_db_instance.reserved_db_instance_id,
         data: resp.data.reserved_db_instance,

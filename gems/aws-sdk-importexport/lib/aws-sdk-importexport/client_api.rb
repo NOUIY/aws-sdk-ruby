@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ImportExport
   # @api private
   module ClientApi
@@ -261,6 +262,7 @@ module Aws::ImportExport
         "globalEndpoint" => "importexport.amazonaws.com",
         "protocol" => "query",
         "serviceFullName" => "AWS Import/Export",
+        "serviceId" => "importexport",
         "signatureVersion" => "v2",
         "uid" => "importexport-2010-06-01",
         "xmlNamespace" => "http://importexport.amazonaws.com/doc/2010-06-01/",

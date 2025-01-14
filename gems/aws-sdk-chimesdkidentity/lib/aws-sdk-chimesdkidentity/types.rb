@@ -46,7 +46,7 @@ module Aws::ChimeSDKIdentity
       include Aws::Structure
     end
 
-    # The details of an `AppInstanceAdmin`.
+    # The name and ARN of the admin for the `AppInstance`.
     #
     # @!attribute [rw] admin
     #   The `AppInstanceAdmin` data.
@@ -81,6 +81,69 @@ module Aws::ChimeSDKIdentity
     class AppInstanceAdminSummary < Struct.new(
       :admin)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An Amazon Lex V2 chat bot created under an `AppInstance`.
+    #
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the AppInstanceBot.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the AppInstanceBot.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration
+    #   The data processing instructions for an AppInstanceBot.
+    #   @return [Types::Configuration]
+    #
+    # @!attribute [rw] created_timestamp
+    #   The time at which the `AppInstanceBot` was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_timestamp
+    #   The time at which the `AppInstanceBot` was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata for an AppInstanceBot.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/AppInstanceBot AWS API Documentation
+    #
+    class AppInstanceBot < Struct.new(
+      :app_instance_bot_arn,
+      :name,
+      :configuration,
+      :created_timestamp,
+      :last_updated_timestamp,
+      :metadata)
+      SENSITIVE = [:name, :metadata]
+      include Aws::Structure
+    end
+
+    # High-level information about an AppInstanceBot.
+    #
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the AppInstanceBot.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the AppInstanceBox.
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata of the AppInstanceBot.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/AppInstanceBotSummary AWS API Documentation
+    #
+    class AppInstanceBotSummary < Struct.new(
+      :app_instance_bot_arn,
+      :name,
+      :metadata)
+      SENSITIVE = [:name, :metadata]
       include Aws::Structure
     end
 
@@ -144,6 +207,11 @@ module Aws::ChimeSDKIdentity
     #   The time at which the `AppInstanceUser` was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] expiration_settings
+    #   The interval after which an `AppInstanceUser` is automatically
+    #   deleted.
+    #   @return [Types::ExpirationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/AppInstanceUser AWS API Documentation
     #
     class AppInstanceUser < Struct.new(
@@ -151,7 +219,8 @@ module Aws::ChimeSDKIdentity
       :name,
       :metadata,
       :created_timestamp,
-      :last_updated_timestamp)
+      :last_updated_timestamp,
+      :expiration_settings)
       SENSITIVE = [:name, :metadata]
       include Aws::Structure
     end
@@ -203,11 +272,11 @@ module Aws::ChimeSDKIdentity
     #   A read-only field that represents the state of an
     #   `AppInstanceUserEndpoint`. Supported values:
     #
-    #   * `ACTIVE`\: The `AppInstanceUserEndpoint` is active and able to
+    #   * `ACTIVE`: The `AppInstanceUserEndpoint` is active and able to
     #     receive messages. When `ACTIVE`, the `EndpointStatusReason`
     #     remains empty.
     #
-    #   * `INACTIVE`\: The `AppInstanceUserEndpoint` is inactive and can't
+    #   * `INACTIVE`: The `AppInstanceUserEndpoint` is inactive and can't
     #     receive message. When `INACTIVE`, the corresponding reason will be
     #     conveyed through `EndpointStatusReason`.
     #
@@ -232,7 +301,7 @@ module Aws::ChimeSDKIdentity
       :last_updated_timestamp,
       :allow_messages,
       :endpoint_state)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id, :name, :resource_arn]
+      SENSITIVE = [:name]
       include Aws::Structure
     end
 
@@ -275,7 +344,7 @@ module Aws::ChimeSDKIdentity
       :type,
       :allow_messages,
       :endpoint_state)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id, :name]
+      SENSITIVE = [:name]
       include Aws::Structure
     end
 
@@ -334,6 +403,20 @@ module Aws::ChimeSDKIdentity
       include Aws::Structure
     end
 
+    # A structure that contains configuration data.
+    #
+    # @!attribute [rw] lex
+    #   The configuration for an Amazon Lex V2 bot.
+    #   @return [Types::LexConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/Configuration AWS API Documentation
+    #
+    class Configuration < Struct.new(
+      :lex)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request could not be processed because of conflict in the current
     # state of the resource.
     #
@@ -370,7 +453,9 @@ module Aws::ChimeSDKIdentity
     end
 
     # @!attribute [rw] app_instance_admin
-    #   The name and ARN of the admin for the `AppInstance`.
+    #   The ARN and name of the administrator, the ARN of the `AppInstance`,
+    #   and the created and last-updated timestamps. All timestamps use
+    #   epoch milliseconds.
     #   @return [Types::Identity]
     #
     # @!attribute [rw] app_instance_arn
@@ -386,6 +471,59 @@ module Aws::ChimeSDKIdentity
       include Aws::Structure
     end
 
+    # @!attribute [rw] app_instance_arn
+    #   The ARN of the `AppInstance` request.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The user's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   The request metadata. Limited to a 1KB string in UTF-8.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_request_token
+    #   The unique ID for the client making the request. Use different
+    #   tokens for different `AppInstanceBots`.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags assigned to the `AppInstanceBot`.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] configuration
+    #   Configuration information about the Amazon Lex V2 V2 bot.
+    #   @return [Types::Configuration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/CreateAppInstanceBotRequest AWS API Documentation
+    #
+    class CreateAppInstanceBotRequest < Struct.new(
+      :app_instance_arn,
+      :name,
+      :metadata,
+      :client_request_token,
+      :tags,
+      :configuration)
+      SENSITIVE = [:name, :metadata]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the `AppinstanceBot`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/CreateAppInstanceBotResponse AWS API Documentation
+    #
+    class CreateAppInstanceBotResponse < Struct.new(
+      :app_instance_bot_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the `AppInstance`.
     #   @return [String]
@@ -395,14 +533,15 @@ module Aws::ChimeSDKIdentity
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
-    #   The `ClientRequestToken` of the `AppInstance`.
+    #   The unique ID of the request. Use different tokens to create
+    #   different `AppInstances`.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags assigned to the `AppInstanceUser`.
+    #   Tags assigned to the `AppInstance`.
     #   @return [Array<Types::Tag>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/CreateAppInstanceRequest AWS API Documentation
@@ -412,7 +551,7 @@ module Aws::ChimeSDKIdentity
       :metadata,
       :client_request_token,
       :tags)
-      SENSITIVE = [:name, :metadata, :client_request_token]
+      SENSITIVE = [:name, :metadata]
       include Aws::Structure
     end
 
@@ -445,7 +584,8 @@ module Aws::ChimeSDKIdentity
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
-    #   The token assigned to the user requesting an `AppInstance`.
+    #   The unique ID of the request. Use different tokens to request
+    #   additional `AppInstances`.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -455,6 +595,11 @@ module Aws::ChimeSDKIdentity
     #   Tags assigned to the `AppInstanceUser`.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control the interval after which the `AppInstanceUser`
+    #   is automatically deleted.
+    #   @return [Types::ExpirationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/CreateAppInstanceUserRequest AWS API Documentation
     #
     class CreateAppInstanceUserRequest < Struct.new(
@@ -463,8 +608,9 @@ module Aws::ChimeSDKIdentity
       :name,
       :metadata,
       :client_request_token,
-      :tags)
-      SENSITIVE = [:app_instance_user_id, :name, :metadata, :client_request_token]
+      :tags,
+      :expiration_settings)
+      SENSITIVE = [:app_instance_user_id, :name, :metadata]
       include Aws::Structure
     end
 
@@ -493,6 +639,18 @@ module Aws::ChimeSDKIdentity
     class DeleteAppInstanceAdminRequest < Struct.new(
       :app_instance_admin_arn,
       :app_instance_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot` being deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DeleteAppInstanceBotRequest AWS API Documentation
+    #
+    class DeleteAppInstanceBotRequest < Struct.new(
+      :app_instance_bot_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -534,7 +692,7 @@ module Aws::ChimeSDKIdentity
     class DeregisterAppInstanceUserEndpointRequest < Struct.new(
       :app_instance_user_arn,
       :endpoint_id)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id]
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -565,6 +723,30 @@ module Aws::ChimeSDKIdentity
     #
     class DescribeAppInstanceAdminResponse < Struct.new(
       :app_instance_admin)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DescribeAppInstanceBotRequest AWS API Documentation
+    #
+    class DescribeAppInstanceBotRequest < Struct.new(
+      :app_instance_bot_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_bot
+    #   The detials of the `AppInstanceBot`.
+    #   @return [Types::AppInstanceBot]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DescribeAppInstanceBotResponse AWS API Documentation
+    #
+    class DescribeAppInstanceBotResponse < Struct.new(
+      :app_instance_bot)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -607,12 +789,12 @@ module Aws::ChimeSDKIdentity
     class DescribeAppInstanceUserEndpointRequest < Struct.new(
       :app_instance_user_arn,
       :endpoint_id)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id]
+      SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] app_instance_user_endpoint
-    #   The full details of an `AppInstanceUserEndpoint`\: the
+    #   The full details of an `AppInstanceUserEndpoint`: the
     #   `AppInstanceUserArn`, ID, name, type, resource ARN, attributes,
     #   allow messages, state, and created and last updated timestamps. All
     #   timestamps use epoch milliseconds.
@@ -673,11 +855,11 @@ module Aws::ChimeSDKIdentity
     # A read-only field that represents the state of an
     # `AppInstanceUserEndpoint`. Supported values:
     #
-    # * `ACTIVE`\: The `AppInstanceUserEndpoint` is active and able to
+    # * `ACTIVE`: The `AppInstanceUserEndpoint` is active and able to
     #   receive messages. When `ACTIVE`, the `EndpointStatusReason` remains
     #   empty.
     #
-    # * `INACTIVE`\: The `AppInstanceUserEndpoint` is inactive and can't
+    # * `INACTIVE`: The `AppInstanceUserEndpoint` is inactive and can't
     #   receive message. When INACTIVE, the corresponding reason will be
     #   conveyed through EndpointStatusReason.
     #
@@ -701,6 +883,28 @@ module Aws::ChimeSDKIdentity
     class EndpointState < Struct.new(
       :status,
       :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Determines the interval after which an `AppInstanceUser` is
+    # automatically deleted.
+    #
+    # @!attribute [rw] expiration_days
+    #   The period in days after which an `AppInstanceUser` will be
+    #   automatically deleted.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] expiration_criterion
+    #   Specifies the conditions under which an `AppInstanceUser` will
+    #   expire.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/ExpirationSettings AWS API Documentation
+    #
+    class ExpirationSettings < Struct.new(
+      :expiration_days,
+      :expiration_criterion)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -752,7 +956,7 @@ module Aws::ChimeSDKIdentity
       include Aws::Structure
     end
 
-    # The details of a user.
+    # The details of a user or bot.
     #
     # @!attribute [rw] arn
     #   The ARN in an Identity.
@@ -768,6 +972,88 @@ module Aws::ChimeSDKIdentity
       :arn,
       :name)
       SENSITIVE = [:name]
+      include Aws::Structure
+    end
+
+    # Specifies the type of message that triggers a bot.
+    #
+    # @!attribute [rw] standard_messages
+    #   Sets standard messages as the bot trigger. For standard messages:
+    #
+    #   * `ALL`: The bot processes all standard messages.
+    #
+    #   * `AUTO`: The bot responds to ALL messages when the channel has one
+    #     other non-hidden member, and responds to MENTIONS when the channel
+    #     has more than one other non-hidden member.
+    #
+    #   * `MENTIONS`: The bot processes all standard messages that have a
+    #     message attribute with `CHIME.mentions` and a value of the bot
+    #     ARN.
+    #
+    #   * `NONE`: The bot processes no standard messages.
+    #   @return [String]
+    #
+    # @!attribute [rw] targeted_messages
+    #   Sets targeted messages as the bot trigger. For targeted messages:
+    #
+    #   * `ALL`: The bot processes all `TargetedMessages` sent to it. The
+    #     bot then responds with a targeted message back to the sender.
+    #
+    #   * `NONE`: The bot processes no targeted messages.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/InvokedBy AWS API Documentation
+    #
+    class InvokedBy < Struct.new(
+      :standard_messages,
+      :targeted_messages)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for an Amazon Lex V2 bot.
+    #
+    # @!attribute [rw] responds_to
+    #   **Deprecated**. Use `InvokedBy` instead.
+    #
+    #   Determines whether the Amazon Lex V2 bot responds to all standard
+    #   messages. Control messages are not supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] invoked_by
+    #   Specifies the type of message that triggers a bot.
+    #   @return [Types::InvokedBy]
+    #
+    # @!attribute [rw] lex_bot_alias_arn
+    #   The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:
+    #   `arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS`
+    #   @return [String]
+    #
+    # @!attribute [rw] locale_id
+    #   Identifies the Amazon Lex V2 bot's language and locale. The string
+    #   must match one of the supported locales in Amazon Lex V2. All of the
+    #   intents, slot types, and slots used in the bot must have the same
+    #   locale. For more information, see [Supported languages][1] in the
+    #   *Amazon Lex V2 Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html
+    #   @return [String]
+    #
+    # @!attribute [rw] welcome_intent
+    #   The name of the welcome intent configured in the Amazon Lex V2 bot.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/LexConfiguration AWS API Documentation
+    #
+    class LexConfiguration < Struct.new(
+      :responds_to,
+      :invoked_by,
+      :lex_bot_alias_arn,
+      :locale_id,
+      :welcome_intent)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -812,6 +1098,52 @@ module Aws::ChimeSDKIdentity
     class ListAppInstanceAdminsResponse < Struct.new(
       :app_instance_arn,
       :app_instance_admins,
+      :next_token)
+      SENSITIVE = [:next_token]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_arn
+    #   The ARN of the `AppInstance`.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of requests to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token passed by previous API calls until all requested bots are
+    #   returned.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/ListAppInstanceBotsRequest AWS API Documentation
+    #
+    class ListAppInstanceBotsRequest < Struct.new(
+      :app_instance_arn,
+      :max_results,
+      :next_token)
+      SENSITIVE = [:next_token]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_arn
+    #   The ARN of the AppInstance.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_instance_bots
+    #   The information for each requested `AppInstanceBot`.
+    #   @return [Array<Types::AppInstanceBotSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token passed by previous API calls until all requested bots are
+    #   returned.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/ListAppInstanceBotsResponse AWS API Documentation
+    #
+    class ListAppInstanceBotsResponse < Struct.new(
+      :app_instance_arn,
+      :app_instance_bots,
       :next_token)
       SENSITIVE = [:next_token]
       include Aws::Structure
@@ -964,6 +1296,24 @@ module Aws::ChimeSDKIdentity
       include Aws::Structure
     end
 
+    # One or more of the resources in the request does not exist in the
+    # system.
+    #
+    # @!attribute [rw] code
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/NotFoundException AWS API Documentation
+    #
+    class NotFoundException < Struct.new(
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] app_instance_arn
     #   The ARN of the `AppInstance`.
     #   @return [String]
@@ -1002,6 +1352,42 @@ module Aws::ChimeSDKIdentity
     #   The ARN of the `AppInstanceUser`.
     #   @return [String]
     #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control the interval after which an `AppInstanceUser`
+    #   is automatically deleted.
+    #   @return [Types::ExpirationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/PutAppInstanceUserExpirationSettingsRequest AWS API Documentation
+    #
+    class PutAppInstanceUserExpirationSettingsRequest < Struct.new(
+      :app_instance_user_arn,
+      :expiration_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_user_arn
+    #   The ARN of the `AppInstanceUser`.
+    #   @return [String]
+    #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control the interval after which an `AppInstanceUser`
+    #   is automatically deleted.
+    #   @return [Types::ExpirationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/PutAppInstanceUserExpirationSettingsResponse AWS API Documentation
+    #
+    class PutAppInstanceUserExpirationSettingsResponse < Struct.new(
+      :app_instance_user_arn,
+      :expiration_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_user_arn
+    #   The ARN of the `AppInstanceUser`.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The name of the `AppInstanceUserEndpoint`.
     #   @return [String]
@@ -1009,12 +1395,12 @@ module Aws::ChimeSDKIdentity
     # @!attribute [rw] type
     #   The type of the `AppInstanceUserEndpoint`. Supported types:
     #
-    #   * `APNS`\: The mobile notification service for an Apple device.
+    #   * `APNS`: The mobile notification service for an Apple device.
     #
-    #   * `APNS_SANDBOX`\: The sandbox environment of the mobile
-    #     notification service for an Apple device.
+    #   * `APNS_SANDBOX`: The sandbox environment of the mobile notification
+    #     service for an Apple device.
     #
-    #   * `GCM`\: The mobile notification service for an Android device.
+    #   * `GCM`: The mobile notification service for an Android device.
     #
     #   Populate the `ResourceArn` value of each type as `PinpointAppArn`.
     #   @return [String]
@@ -1028,7 +1414,8 @@ module Aws::ChimeSDKIdentity
     #   @return [Types::EndpointAttributes]
     #
     # @!attribute [rw] client_request_token
-    #   The idempotency token for each client request.
+    #   The unique ID assigned to the request. Use different tokens to
+    #   register other endpoints.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -1050,7 +1437,7 @@ module Aws::ChimeSDKIdentity
       :endpoint_attributes,
       :client_request_token,
       :allow_messages)
-      SENSITIVE = [:app_instance_user_arn, :name, :resource_arn, :client_request_token]
+      SENSITIVE = [:app_instance_user_arn, :name]
       include Aws::Structure
     end
 
@@ -1067,7 +1454,7 @@ module Aws::ChimeSDKIdentity
     class RegisterAppInstanceUserEndpointResponse < Struct.new(
       :app_instance_user_arn,
       :endpoint_id)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id]
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -1205,6 +1592,45 @@ module Aws::ChimeSDKIdentity
     class UntagResourceRequest < Struct.new(
       :resource_arn,
       :tag_keys)
+      SENSITIVE = [:tag_keys]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot`.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the `AppInstanceBot`.
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   The metadata of the `AppInstanceBot`.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration
+    #   The configuration for the bot update.
+    #   @return [Types::Configuration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/UpdateAppInstanceBotRequest AWS API Documentation
+    #
+    class UpdateAppInstanceBotRequest < Struct.new(
+      :app_instance_bot_arn,
+      :name,
+      :metadata,
+      :configuration)
+      SENSITIVE = [:name, :metadata]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/UpdateAppInstanceBotResponse AWS API Documentation
+    #
+    class UpdateAppInstanceBotResponse < Struct.new(
+      :app_instance_bot_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1269,7 +1695,7 @@ module Aws::ChimeSDKIdentity
       :endpoint_id,
       :name,
       :allow_messages)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id, :name]
+      SENSITIVE = [:name]
       include Aws::Structure
     end
 
@@ -1286,7 +1712,7 @@ module Aws::ChimeSDKIdentity
     class UpdateAppInstanceUserEndpointResponse < Struct.new(
       :app_instance_user_arn,
       :endpoint_id)
-      SENSITIVE = [:app_instance_user_arn, :endpoint_id]
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -1326,3 +1752,4 @@ module Aws::ChimeSDKIdentity
 
   end
 end
+

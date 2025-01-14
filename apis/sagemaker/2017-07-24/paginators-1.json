@@ -54,6 +54,24 @@
       "limit_key": "MaxResults",
       "result_key": "Candidates"
     },
+    "ListClusterNodes": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "ClusterNodeSummaries"
+    },
+    "ListClusterSchedulerConfigs": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "ClusterSchedulerConfigSummaries"
+    },
+    "ListClusters": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "ClusterSummaries"
+    },
     "ListCodeRepositories": {
       "input_token": "NextToken",
       "output_token": "NextToken",
@@ -65,6 +83,12 @@
       "output_token": "NextToken",
       "limit_key": "MaxResults",
       "result_key": "CompilationJobSummaries"
+    },
+    "ListComputeQuotas": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "ComputeQuotaSummaries"
     },
     "ListContexts": {
       "input_token": "NextToken",
@@ -162,6 +186,12 @@
       "limit_key": "MaxResults",
       "result_key": "Images"
     },
+    "ListInferenceComponents": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "InferenceComponents"
+    },
     "ListInferenceExperiments": {
       "input_token": "NextToken",
       "output_token": "NextToken",
@@ -197,6 +227,12 @@
       "output_token": "NextToken",
       "limit_key": "MaxResults",
       "result_key": "LineageGroupSummaries"
+    },
+    "ListMlflowTrackingServers": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "TrackingServerSummaries"
     },
     "ListModelBiasJobDefinitions": {
       "input_token": "NextToken",
@@ -294,6 +330,18 @@
       "limit_key": "MaxResults",
       "result_key": "NotebookInstances"
     },
+    "ListOptimizationJobs": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "OptimizationJobSummaries"
+    },
+    "ListPartnerApps": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "Summaries"
+    },
     "ListPipelineExecutionSteps": {
       "input_token": "NextToken",
       "output_token": "NextToken",
@@ -328,6 +376,12 @@
       "input_token": "NextToken",
       "output_token": "NextToken",
       "limit_key": "MaxResults"
+    },
+    "ListResourceCatalogs": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "ResourceCatalogs"
     },
     "ListSpaces": {
       "input_token": "NextToken",
@@ -370,6 +424,12 @@
       "output_token": "NextToken",
       "limit_key": "MaxResults",
       "result_key": "TrainingJobSummaries"
+    },
+    "ListTrainingPlans": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "limit_key": "MaxResults",
+      "result_key": "TrainingPlanSummaries"
     },
     "ListTransformJobs": {
       "input_token": "NextToken",

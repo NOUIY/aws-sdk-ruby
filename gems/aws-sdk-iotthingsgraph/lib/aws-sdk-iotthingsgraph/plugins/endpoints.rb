@@ -14,34 +14,48 @@ module Aws::IoTThingsGraph
       option(
         :endpoint_provider,
         doc_type: 'Aws::IoTThingsGraph::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::IoTThingsGraph::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::IoTThingsGraph::EndpointParameters`.
+        DOCS
         Aws::IoTThingsGraph::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::IoTThingsGraph::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,81 +65,6 @@ module Aws::IoTThingsGraph
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :associate_entity_to_thing
-            Aws::IoTThingsGraph::Endpoints::AssociateEntityToThing.build(context)
-          when :create_flow_template
-            Aws::IoTThingsGraph::Endpoints::CreateFlowTemplate.build(context)
-          when :create_system_instance
-            Aws::IoTThingsGraph::Endpoints::CreateSystemInstance.build(context)
-          when :create_system_template
-            Aws::IoTThingsGraph::Endpoints::CreateSystemTemplate.build(context)
-          when :delete_flow_template
-            Aws::IoTThingsGraph::Endpoints::DeleteFlowTemplate.build(context)
-          when :delete_namespace
-            Aws::IoTThingsGraph::Endpoints::DeleteNamespace.build(context)
-          when :delete_system_instance
-            Aws::IoTThingsGraph::Endpoints::DeleteSystemInstance.build(context)
-          when :delete_system_template
-            Aws::IoTThingsGraph::Endpoints::DeleteSystemTemplate.build(context)
-          when :deploy_system_instance
-            Aws::IoTThingsGraph::Endpoints::DeploySystemInstance.build(context)
-          when :deprecate_flow_template
-            Aws::IoTThingsGraph::Endpoints::DeprecateFlowTemplate.build(context)
-          when :deprecate_system_template
-            Aws::IoTThingsGraph::Endpoints::DeprecateSystemTemplate.build(context)
-          when :describe_namespace
-            Aws::IoTThingsGraph::Endpoints::DescribeNamespace.build(context)
-          when :dissociate_entity_from_thing
-            Aws::IoTThingsGraph::Endpoints::DissociateEntityFromThing.build(context)
-          when :get_entities
-            Aws::IoTThingsGraph::Endpoints::GetEntities.build(context)
-          when :get_flow_template
-            Aws::IoTThingsGraph::Endpoints::GetFlowTemplate.build(context)
-          when :get_flow_template_revisions
-            Aws::IoTThingsGraph::Endpoints::GetFlowTemplateRevisions.build(context)
-          when :get_namespace_deletion_status
-            Aws::IoTThingsGraph::Endpoints::GetNamespaceDeletionStatus.build(context)
-          when :get_system_instance
-            Aws::IoTThingsGraph::Endpoints::GetSystemInstance.build(context)
-          when :get_system_template
-            Aws::IoTThingsGraph::Endpoints::GetSystemTemplate.build(context)
-          when :get_system_template_revisions
-            Aws::IoTThingsGraph::Endpoints::GetSystemTemplateRevisions.build(context)
-          when :get_upload_status
-            Aws::IoTThingsGraph::Endpoints::GetUploadStatus.build(context)
-          when :list_flow_execution_messages
-            Aws::IoTThingsGraph::Endpoints::ListFlowExecutionMessages.build(context)
-          when :list_tags_for_resource
-            Aws::IoTThingsGraph::Endpoints::ListTagsForResource.build(context)
-          when :search_entities
-            Aws::IoTThingsGraph::Endpoints::SearchEntities.build(context)
-          when :search_flow_executions
-            Aws::IoTThingsGraph::Endpoints::SearchFlowExecutions.build(context)
-          when :search_flow_templates
-            Aws::IoTThingsGraph::Endpoints::SearchFlowTemplates.build(context)
-          when :search_system_instances
-            Aws::IoTThingsGraph::Endpoints::SearchSystemInstances.build(context)
-          when :search_system_templates
-            Aws::IoTThingsGraph::Endpoints::SearchSystemTemplates.build(context)
-          when :search_things
-            Aws::IoTThingsGraph::Endpoints::SearchThings.build(context)
-          when :tag_resource
-            Aws::IoTThingsGraph::Endpoints::TagResource.build(context)
-          when :undeploy_system_instance
-            Aws::IoTThingsGraph::Endpoints::UndeploySystemInstance.build(context)
-          when :untag_resource
-            Aws::IoTThingsGraph::Endpoints::UntagResource.build(context)
-          when :update_flow_template
-            Aws::IoTThingsGraph::Endpoints::UpdateFlowTemplate.build(context)
-          when :update_system_template
-            Aws::IoTThingsGraph::Endpoints::UpdateSystemTemplate.build(context)
-          when :upload_entity_definitions
-            Aws::IoTThingsGraph::Endpoints::UploadEntityDefinitions.build(context)
           end
         end
       end

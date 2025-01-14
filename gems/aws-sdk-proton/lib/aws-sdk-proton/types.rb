@@ -257,6 +257,14 @@ module Aws::Proton
     #   with.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this component.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_client_request_token
+    #   The last token the client requested.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the component was last attempted.
     #   @return [Time]
@@ -268,6 +276,10 @@ module Aws::Proton
     # @!attribute [rw] last_modified_at
     #   The time when the component was last modified.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this component.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the component.
@@ -297,14 +309,49 @@ module Aws::Proton
       :deployment_status_message,
       :description,
       :environment_name,
+      :last_attempted_deployment_id,
+      :last_client_request_token,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
       :last_modified_at,
+      :last_succeeded_deployment_id,
       :name,
       :service_instance_name,
       :service_name,
       :service_spec)
       SENSITIVE = [:deployment_status_message, :description, :service_spec]
+      include Aws::Structure
+    end
+
+    # The detailed data about the current state of the component.
+    #
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance that this component is attached to.
+    #   Provided when a component is attached to a service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that `serviceInstanceName` is associated
+    #   with. Provided when a component is attached to a service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_spec
+    #   The service spec that the component uses to access service inputs.
+    #   Provided when a component is attached to a service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_file
+    #   The template file used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ComponentState AWS API Documentation
+    #
+    class ComponentState < Struct.new(
+      :service_instance_name,
+      :service_name,
+      :service_spec,
+      :template_file)
+      SENSITIVE = [:service_spec, :template_file]
       include Aws::Structure
     end
 
@@ -338,6 +385,10 @@ module Aws::Proton
     #   with.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this component.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the component was last attempted.
     #   @return [Time]
@@ -349,6 +400,10 @@ module Aws::Proton
     # @!attribute [rw] last_modified_at
     #   The time when the component was last modified.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this component.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the component.
@@ -372,9 +427,11 @@ module Aws::Proton
       :deployment_status,
       :deployment_status_message,
       :environment_name,
+      :last_attempted_deployment_id,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
       :last_modified_at,
+      :last_succeeded_deployment_id,
       :name,
       :service_instance_name,
       :service_name)
@@ -411,7 +468,8 @@ module Aws::Proton
     #
     # @!attribute [rw] environment_templates
     #   The total number of environment templates in the Amazon Web Services
-    #   account.
+    #   account. The `environmentTemplates` object will only contain `total`
+    #   members.
     #   @return [Types::ResourceCountsSummary]
     #
     # @!attribute [rw] environments
@@ -455,6 +513,13 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_token
+    #   The client token for the created component.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @!attribute [rw] description
     #   An optional customer-provided description of the component.
     #   @return [String]
@@ -520,6 +585,7 @@ module Aws::Proton
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/CreateComponentInput AWS API Documentation
     #
     class CreateComponentInput < Struct.new(
+      :client_token,
       :description,
       :environment_name,
       :manifest,
@@ -1052,6 +1118,73 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_token
+    #   The client token of the service instance to create.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the service instance to create.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service the service instance is added to.
+    #   @return [String]
+    #
+    # @!attribute [rw] spec
+    #   The spec for the service instance you want to create.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   An optional list of metadata items that you can associate with the
+    #   Proton service instance. A tag is a key-value pair.
+    #
+    #   For more information, see [Proton resources and tagging][1] in the
+    #   *Proton User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/proton/latest/userguide/resources.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] template_major_version
+    #   To create a new major and minor version of the service template,
+    #   *exclude* `major Version`.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_minor_version
+    #   To create a new minor version of the service template, include a
+    #   `major Version`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/CreateServiceInstanceInput AWS API Documentation
+    #
+    class CreateServiceInstanceInput < Struct.new(
+      :client_token,
+      :name,
+      :service_name,
+      :spec,
+      :tags,
+      :template_major_version,
+      :template_minor_version)
+      SENSITIVE = [:spec]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_instance
+    #   The detailed data of the service instance being created.
+    #   @return [Types::ServiceInstance]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/CreateServiceInstanceOutput AWS API Documentation
+    #
+    class CreateServiceInstanceOutput < Struct.new(
+      :service_instance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] service
     #   The service detail data that's returned by Proton.
     #   @return [Types::Service]
@@ -1060,6 +1193,50 @@ module Aws::Proton
     #
     class CreateServiceOutput < Struct.new(
       :service)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] branch
+    #   The repository branch for your Proton Ops file.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_path
+    #   The path to the Proton Ops file.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository_name
+    #   The repository name.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository_provider
+    #   The provider type for your repository.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service the Proton Ops file is for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/CreateServiceSyncConfigInput AWS API Documentation
+    #
+    class CreateServiceSyncConfigInput < Struct.new(
+      :branch,
+      :file_path,
+      :repository_name,
+      :repository_provider,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_sync_config
+    #   The detailed data of the Proton Ops file.
+    #   @return [Types::ServiceSyncConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/CreateServiceSyncConfigOutput AWS API Documentation
+    #
+    class CreateServiceSyncConfigOutput < Struct.new(
+      :service_sync_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1297,6 +1474,30 @@ module Aws::Proton
     end
 
     # @!attribute [rw] id
+    #   The ID of the deployment to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/DeleteDeploymentInput AWS API Documentation
+    #
+    class DeleteDeploymentInput < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] deployment
+    #   The detailed data of the deployment being deleted.
+    #   @return [Types::Deployment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/DeleteDeploymentOutput AWS API Documentation
+    #
+    class DeleteDeploymentOutput < Struct.new(
+      :deployment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
     #   The ID of the environment account connection to delete.
     #   @return [String]
     #
@@ -1457,6 +1658,31 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] service_name
+    #   The name of the service that you want to delete the service sync
+    #   configuration for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/DeleteServiceSyncConfigInput AWS API Documentation
+    #
+    class DeleteServiceSyncConfigInput < Struct.new(
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_sync_config
+    #   The detailed data for the service sync config.
+    #   @return [Types::ServiceSyncConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/DeleteServiceSyncConfigOutput AWS API Documentation
+    #
+    class DeleteServiceSyncConfigOutput < Struct.new(
+      :service_sync_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the service template to delete.
     #   @return [String]
@@ -1545,6 +1771,232 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # The detailed information about a deployment.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] completed_at
+    #   The date and time the deployment was completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] component_name
+    #   The name of the component associated with this deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the deployment was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deployment_status
+    #   The status of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] deployment_status_message
+    #   The deployment status message.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_name
+    #   The name of the environment associated with this deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] initial_state
+    #   The initial state of the target resource at the time of the
+    #   deployment.
+    #   @return [Types::DeploymentState]
+    #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_at
+    #   The date and time the deployment was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_instance_name
+    #   The name of the deployment's service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service in this deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the target of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_resource_created_at
+    #   The date and time the depoyment target was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] target_resource_type
+    #   The resource type of the deployment target. It can be an
+    #   environment, service, service instance, or component.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_state
+    #   The target state of the target resource at the time of the
+    #   deployment.
+    #   @return [Types::DeploymentState]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/Deployment AWS API Documentation
+    #
+    class Deployment < Struct.new(
+      :arn,
+      :completed_at,
+      :component_name,
+      :created_at,
+      :deployment_status,
+      :deployment_status_message,
+      :environment_name,
+      :id,
+      :initial_state,
+      :last_attempted_deployment_id,
+      :last_modified_at,
+      :last_succeeded_deployment_id,
+      :service_instance_name,
+      :service_name,
+      :target_arn,
+      :target_resource_created_at,
+      :target_resource_type,
+      :target_state)
+      SENSITIVE = [:deployment_status_message]
+      include Aws::Structure
+    end
+
+    # The detailed data about the current state of the deployment.
+    #
+    # @note DeploymentState is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DeploymentState corresponding to the set member.
+    #
+    # @!attribute [rw] component
+    #   The state of the component associated with the deployment.
+    #   @return [Types::ComponentState]
+    #
+    # @!attribute [rw] environment
+    #   The state of the environment associated with the deployment.
+    #   @return [Types::EnvironmentState]
+    #
+    # @!attribute [rw] service_instance
+    #   The state of the service instance associated with the deployment.
+    #   @return [Types::ServiceInstanceState]
+    #
+    # @!attribute [rw] service_pipeline
+    #   The state of the service pipeline associated with the deployment.
+    #   @return [Types::ServicePipelineState]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/DeploymentState AWS API Documentation
+    #
+    class DeploymentState < Struct.new(
+      :component,
+      :environment,
+      :service_instance,
+      :service_pipeline,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Component < DeploymentState; end
+      class Environment < DeploymentState; end
+      class ServiceInstance < DeploymentState; end
+      class ServicePipeline < DeploymentState; end
+      class Unknown < DeploymentState; end
+    end
+
+    # Summary data of the deployment.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] completed_at
+    #   The date and time the deployment was completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] component_name
+    #   The name of the component associated with the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the deployment was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deployment_status
+    #   The current status of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_name
+    #   The name of the environment associated with the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_at
+    #   The date and time the deployment was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance associated with the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service associated with the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the target of the deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_resource_created_at
+    #   The date and time the target resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] target_resource_type
+    #   The resource type of the deployment target. It can be an
+    #   environment, service, service instance, or component.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/DeploymentSummary AWS API Documentation
+    #
+    class DeploymentSummary < Struct.new(
+      :arn,
+      :completed_at,
+      :component_name,
+      :created_at,
+      :deployment_status,
+      :environment_name,
+      :id,
+      :last_attempted_deployment_id,
+      :last_modified_at,
+      :last_succeeded_deployment_id,
+      :service_instance_name,
+      :service_name,
+      :target_arn,
+      :target_resource_created_at,
+      :target_resource_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Detailed data of an Proton environment resource. An Proton environment
     # is a set of resources shared across Proton services.
     #
@@ -1601,6 +2053,10 @@ module Aws::Proton
     #   infrastructure resources are provisioned in.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this environment.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the environment was last attempted.
     #   @return [Time]
@@ -1608,6 +2064,10 @@ module Aws::Proton
     # @!attribute [rw] last_deployment_succeeded_at
     #   The time when the environment was last deployed successfully.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this environment.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the environment.
@@ -1627,7 +2087,11 @@ module Aws::Proton
     #   The linked repository that you use to host your rendered
     #   infrastructure templates for self-managed provisioning. A linked
     #   repository is a repository that has been registered with Proton. For
-    #   more information, see CreateRepository.
+    #   more information, see [CreateRepository][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/proton/latest/APIReference/API_CreateRepository.html
     #   @return [Types::RepositoryBranch]
     #
     # @!attribute [rw] spec
@@ -1658,8 +2122,10 @@ module Aws::Proton
       :description,
       :environment_account_connection_id,
       :environment_account_id,
+      :last_attempted_deployment_id,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
+      :last_succeeded_deployment_id,
       :name,
       :proton_service_role_arn,
       :provisioning,
@@ -1836,6 +2302,38 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # The detailed data about the current state of the environment.
+    #
+    # @!attribute [rw] spec
+    #   The environment spec that was used to create the environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_major_version
+    #   The major version of the environment template that was used to
+    #   create the environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_minor_version
+    #   The minor version of the environment template that was used to
+    #   create the environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_name
+    #   The name of the environment template that was used to create the
+    #   environment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/EnvironmentState AWS API Documentation
+    #
+    class EnvironmentState < Struct.new(
+      :spec,
+      :template_major_version,
+      :template_minor_version,
+      :template_name)
+      SENSITIVE = [:spec]
+      include Aws::Structure
+    end
+
     # Summary data of an Proton environment resource. An Proton environment
     # is a set of resources shared across Proton services.
     #
@@ -1886,6 +2384,10 @@ module Aws::Proton
     #   infrastructure resources are provisioned in.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this environment.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the environment was last attempted.
     #   @return [Time]
@@ -1893,6 +2395,10 @@ module Aws::Proton
     # @!attribute [rw] last_deployment_succeeded_at
     #   The time when the environment was last deployed successfully.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this environment.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the environment.
@@ -1931,8 +2437,10 @@ module Aws::Proton
       :description,
       :environment_account_connection_id,
       :environment_account_id,
+      :last_attempted_deployment_id,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
+      :last_succeeded_deployment_id,
       :name,
       :proton_service_role_arn,
       :provisioning,
@@ -2242,6 +2750,53 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] component_name
+    #   The name of a component that you want to get the detailed data for.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_name
+    #   The name of a environment that you want to get the detailed data
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the deployment that you want to get the detailed data for.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance associated with the given
+    #   deployment ID. `serviceName` must be specified to identify the
+    #   service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service associated with the given deployment ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetDeploymentInput AWS API Documentation
+    #
+    class GetDeploymentInput < Struct.new(
+      :component_name,
+      :environment_name,
+      :id,
+      :service_instance_name,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] deployment
+    #   The detailed data of the requested deployment.
+    #   @return [Types::Deployment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetDeploymentOutput AWS API Documentation
+    #
+    class GetDeploymentOutput < Struct.new(
+      :deployment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] id
     #   The ID of the environment account connection that you want to get
     #   the detailed data for.
@@ -2458,7 +3013,8 @@ module Aws::Proton
     #   @return [String]
     #
     # @!attribute [rw] service_name
-    #   The name of the service that the service instance belongs to.
+    #   The name of the service that you want the service instance input
+    #   for.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceInstanceInput AWS API Documentation
@@ -2482,6 +3038,47 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance that you want the sync status input
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that the service instance belongs to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceInstanceSyncStatusInput AWS API Documentation
+    #
+    class GetServiceInstanceSyncStatusInput < Struct.new(
+      :service_instance_name,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] desired_state
+    #   The service instance sync desired state that's returned by Proton
+    #   @return [Types::Revision]
+    #
+    # @!attribute [rw] latest_successful_sync
+    #   The detailed data of the latest successful sync with the service
+    #   instance.
+    #   @return [Types::ResourceSyncAttempt]
+    #
+    # @!attribute [rw] latest_sync
+    #   The detailed data of the latest sync with the service instance.
+    #   @return [Types::ResourceSyncAttempt]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceInstanceSyncStatusOutput AWS API Documentation
+    #
+    class GetServiceInstanceSyncStatusOutput < Struct.new(
+      :desired_state,
+      :latest_successful_sync,
+      :latest_sync)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] service
     #   The detailed data of the requested service.
     #   @return [Types::Service]
@@ -2490,6 +3087,64 @@ module Aws::Proton
     #
     class GetServiceOutput < Struct.new(
       :service)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance that you want to get the service
+    #   sync blocker summary for. If given bothe the instance name and the
+    #   service name, only the instance is blocked.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that you want to get the service sync
+    #   blocker summary for. If given only the service name, all instances
+    #   are blocked.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceSyncBlockerSummaryInput AWS API Documentation
+    #
+    class GetServiceSyncBlockerSummaryInput < Struct.new(
+      :service_instance_name,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_sync_blocker_summary
+    #   The detailed data of the requested service sync blocker summary.
+    #   @return [Types::ServiceSyncBlockerSummary]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceSyncBlockerSummaryOutput AWS API Documentation
+    #
+    class GetServiceSyncBlockerSummaryOutput < Struct.new(
+      :service_sync_blocker_summary)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_name
+    #   The name of the service that you want to get the service sync
+    #   configuration for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceSyncConfigInput AWS API Documentation
+    #
+    class GetServiceSyncConfigInput < Struct.new(
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_sync_config
+    #   The detailed data of the requested service sync configuration.
+    #   @return [Types::ServiceSyncConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/GetServiceSyncConfigOutput AWS API Documentation
+    #
+    class GetServiceSyncConfigOutput < Struct.new(
+      :service_sync_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2647,6 +3302,10 @@ module Aws::Proton
     #   The name of the component whose outputs you want.
     #   @return [String]
     #
+    # @!attribute [rw] deployment_id
+    #   The ID of the deployment whose outputs you want.
+    #   @return [String]
+    #
     # @!attribute [rw] next_token
     #   A token that indicates the location of the next output in the array
     #   of outputs, after the list of outputs that was previously requested.
@@ -2656,6 +3315,7 @@ module Aws::Proton
     #
     class ListComponentOutputsInput < Struct.new(
       :component_name,
+      :deployment_id,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -2675,7 +3335,7 @@ module Aws::Proton
     class ListComponentOutputsOutput < Struct.new(
       :next_token,
       :outputs)
-      SENSITIVE = []
+      SENSITIVE = [:outputs]
       include Aws::Structure
     end
 
@@ -2773,6 +3433,67 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] component_name
+    #   The name of a component for result list filtering. Proton returns
+    #   deployments associated with that component.
+    #   @return [String]
+    #
+    # @!attribute [rw] environment_name
+    #   The name of an environment for result list filtering. Proton returns
+    #   deployments associated with the environment.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of deployments to list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A token that indicates the location of the next deployment in the
+    #   array of deployment, after the list of deployment that was
+    #   previously requested.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_instance_name
+    #   The name of a service instance for result list filtering. Proton
+    #   returns the deployments associated with the service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of a service for result list filtering. Proton returns
+    #   deployments associated with service instances of the service.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ListDeploymentsInput AWS API Documentation
+    #
+    class ListDeploymentsInput < Struct.new(
+      :component_name,
+      :environment_name,
+      :max_results,
+      :next_token,
+      :service_instance_name,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] deployments
+    #   An array of deployment with summary data.
+    #   @return [Array<Types::DeploymentSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A token that indicates the location of the next deployment in the
+    #   array of deployment, after the current requested list of deployment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ListDeploymentsOutput AWS API Documentation
+    #
+    class ListDeploymentsOutput < Struct.new(
+      :deployments,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] environment_name
     #   The environment name that's associated with each listed environment
     #   account connection.
@@ -2830,6 +3551,10 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] deployment_id
+    #   The ID of the deployment whose outputs you want.
+    #   @return [String]
+    #
     # @!attribute [rw] environment_name
     #   The environment name.
     #   @return [String]
@@ -2843,6 +3568,7 @@ module Aws::Proton
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ListEnvironmentOutputsInput AWS API Documentation
     #
     class ListEnvironmentOutputsInput < Struct.new(
+      :deployment_id,
       :environment_name,
       :next_token)
       SENSITIVE = []
@@ -2864,7 +3590,7 @@ module Aws::Proton
     class ListEnvironmentOutputsOutput < Struct.new(
       :next_token,
       :outputs)
-      SENSITIVE = []
+      SENSITIVE = [:outputs]
       include Aws::Structure
     end
 
@@ -3130,6 +3856,10 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] deployment_id
+    #   The ID of the deployment whose outputs you want.
+    #   @return [String]
+    #
     # @!attribute [rw] next_token
     #   A token that indicates the location of the next output in the array
     #   of outputs, after the list of outputs that was previously requested.
@@ -3146,6 +3876,7 @@ module Aws::Proton
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ListServiceInstanceOutputsInput AWS API Documentation
     #
     class ListServiceInstanceOutputsInput < Struct.new(
+      :deployment_id,
       :next_token,
       :service_instance_name,
       :service_name)
@@ -3167,7 +3898,7 @@ module Aws::Proton
     class ListServiceInstanceOutputsOutput < Struct.new(
       :next_token,
       :outputs)
-      SENSITIVE = []
+      SENSITIVE = [:outputs]
       include Aws::Structure
     end
 
@@ -3225,8 +3956,8 @@ module Aws::Proton
     # @!attribute [rw] value
     #   A value to filter by.
     #
-    #   With the date/time keys (`*At\{Before,After\}`), the value is a
-    #   valid [RFC 3339][1] string with no UTC offset and with an optional
+    #   With the date/time keys (`*At{Before,After}`), the value is a valid
+    #   [RFC 3339][1] string with no UTC offset and with an optional
     #   fractional precision (for example, `1985-04-12T23:20:50.52Z`).
     #
     #
@@ -3310,6 +4041,10 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] deployment_id
+    #   The ID of the deployment you want the outputs for.
+    #   @return [String]
+    #
     # @!attribute [rw] next_token
     #   A token that indicates the location of the next output in the array
     #   of outputs, after the list of outputs that was previously requested.
@@ -3322,6 +4057,7 @@ module Aws::Proton
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ListServicePipelineOutputsInput AWS API Documentation
     #
     class ListServicePipelineOutputsInput < Struct.new(
+      :deployment_id,
       :next_token,
       :service_name)
       SENSITIVE = []
@@ -3342,7 +4078,7 @@ module Aws::Proton
     class ListServicePipelineOutputsOutput < Struct.new(
       :next_token,
       :outputs)
-      SENSITIVE = []
+      SENSITIVE = [:outputs]
       include Aws::Structure
     end
 
@@ -3588,7 +4324,7 @@ module Aws::Proton
       :resource_arn,
       :status,
       :status_message)
-      SENSITIVE = [:status_message]
+      SENSITIVE = [:outputs, :status_message]
       include Aws::Structure
     end
 
@@ -3769,6 +4505,11 @@ module Aws::Proton
     #   The Amazon Resource Name (ARN) of the linked repository.
     #   @return [String]
     #
+    # @!attribute [rw] connection_arn
+    #   The Amazon Resource Name (ARN) of the of your connection that
+    #   connects Proton to your repository.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The repository name.
     #   @return [String]
@@ -3781,6 +4522,7 @@ module Aws::Proton
     #
     class RepositorySummary < Struct.new(
       :arn,
+      :connection_arn,
       :name,
       :provider)
       SENSITIVE = []
@@ -4150,6 +4892,14 @@ module Aws::Proton
     #   into.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_client_request_token
+    #   The last client request token received.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the service instance was last
     #   attempted.
@@ -4158,6 +4908,10 @@ module Aws::Proton
     # @!attribute [rw] last_deployment_succeeded_at
     #   The time when the service instance was last deployed successfully.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this service instance.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the service instance.
@@ -4194,8 +4948,11 @@ module Aws::Proton
       :deployment_status,
       :deployment_status_message,
       :environment_name,
+      :last_attempted_deployment_id,
+      :last_client_request_token,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
+      :last_succeeded_deployment_id,
       :name,
       :service_name,
       :spec,
@@ -4203,6 +4960,56 @@ module Aws::Proton
       :template_minor_version,
       :template_name)
       SENSITIVE = [:deployment_status_message, :spec]
+      include Aws::Structure
+    end
+
+    # The detailed data about the current state of this service instance.
+    #
+    # @!attribute [rw] last_successful_component_deployment_ids
+    #   The IDs for the last successful components deployed for this service
+    #   instance.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] last_successful_environment_deployment_id
+    #   The ID for the last successful environment deployed for this service
+    #   instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_successful_service_pipeline_deployment_id
+    #   The ID for the last successful service pipeline deployed for this
+    #   service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] spec
+    #   The service spec that was used to create the service instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_major_version
+    #   The major version of the service template that was used to create
+    #   the service pipeline.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_minor_version
+    #   The minor version of the service template that was used to create
+    #   the service pipeline.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_name
+    #   The name of the service template that was used to create the service
+    #   instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ServiceInstanceState AWS API Documentation
+    #
+    class ServiceInstanceState < Struct.new(
+      :last_successful_component_deployment_ids,
+      :last_successful_environment_deployment_id,
+      :last_successful_service_pipeline_deployment_id,
+      :spec,
+      :template_major_version,
+      :template_minor_version,
+      :template_name)
+      SENSITIVE = [:spec]
       include Aws::Structure
     end
 
@@ -4229,6 +5036,10 @@ module Aws::Proton
     #   into.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this service instance.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the service was last attempted.
     #   @return [Time]
@@ -4236,6 +5047,10 @@ module Aws::Proton
     # @!attribute [rw] last_deployment_succeeded_at
     #   The time when the service was last deployed successfully.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this service instance.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the service instance.
@@ -4265,8 +5080,10 @@ module Aws::Proton
       :deployment_status,
       :deployment_status_message,
       :environment_name,
+      :last_attempted_deployment_id,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
+      :last_succeeded_deployment_id,
       :name,
       :service_name,
       :template_major_version,
@@ -4294,6 +5111,10 @@ module Aws::Proton
     #   A service pipeline deployment status message.
     #   @return [String]
     #
+    # @!attribute [rw] last_attempted_deployment_id
+    #   The ID of the last attempted deployment of this service pipeline.
+    #   @return [String]
+    #
     # @!attribute [rw] last_deployment_attempted_at
     #   The time when a deployment of the service pipeline was last
     #   attempted.
@@ -4302,6 +5123,10 @@ module Aws::Proton
     # @!attribute [rw] last_deployment_succeeded_at
     #   The time when the service pipeline was last deployed successfully.
     #   @return [Time]
+    #
+    # @!attribute [rw] last_succeeded_deployment_id
+    #   The ID of the last successful deployment of this service pipeline.
+    #   @return [String]
     #
     # @!attribute [rw] spec
     #   The service spec that was used to create the service pipeline.
@@ -4329,13 +5154,47 @@ module Aws::Proton
       :created_at,
       :deployment_status,
       :deployment_status_message,
+      :last_attempted_deployment_id,
       :last_deployment_attempted_at,
       :last_deployment_succeeded_at,
+      :last_succeeded_deployment_id,
       :spec,
       :template_major_version,
       :template_minor_version,
       :template_name)
       SENSITIVE = [:deployment_status_message, :spec]
+      include Aws::Structure
+    end
+
+    # The detailed data about the current state of the service pipeline.
+    #
+    # @!attribute [rw] spec
+    #   The service spec that was used to create the service pipeline.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_major_version
+    #   The major version of the service template that was used to create
+    #   the service pipeline.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_minor_version
+    #   The minor version of the service template that was used to create
+    #   the service pipeline.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_name
+    #   The name of the service template that was used to create the service
+    #   pipeline.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ServicePipelineState AWS API Documentation
+    #
+    class ServicePipelineState < Struct.new(
+      :spec,
+      :template_major_version,
+      :template_minor_version,
+      :template_name)
+      SENSITIVE = [:spec]
       include Aws::Structure
     end
 
@@ -4403,6 +5262,82 @@ module Aws::Proton
       :status_message,
       :template_name)
       SENSITIVE = [:description, :status_message]
+      include Aws::Structure
+    end
+
+    # If a service instance is manually updated, Proton wants to prevent
+    # accidentally overriding a manual change.
+    #
+    # A blocker is created because of the manual update or deletion of a
+    # service instance. The summary describes the blocker as being active or
+    # resolved.
+    #
+    # @!attribute [rw] latest_blockers
+    #   The latest active blockers for the synced service.
+    #   @return [Array<Types::SyncBlocker>]
+    #
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance that you want sync your service
+    #   configuration with.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that you want to get the sync blocker
+    #   summary for. If given a service instance name and a service name, it
+    #   will return the blockers only applying to the instance that is
+    #   blocked.
+    #
+    #   If given only a service name, it will return the blockers that apply
+    #   to all of the instances. In order to get the blockers for a single
+    #   instance, you will need to make two distinct calls, one to get the
+    #   sync blocker summary for the service and the other to get the sync
+    #   blocker for the service instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ServiceSyncBlockerSummary AWS API Documentation
+    #
+    class ServiceSyncBlockerSummary < Struct.new(
+      :latest_blockers,
+      :service_instance_name,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Detailed data of the service sync configuration.
+    #
+    # @!attribute [rw] branch
+    #   The name of the code repository branch that holds the service code
+    #   Proton will sync with.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_path
+    #   The file path to the service sync configuration file.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository_name
+    #   The name of the code repository that holds the service code Proton
+    #   will sync with.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository_provider
+    #   The name of the repository provider that holds the repository Proton
+    #   will sync with.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that the service instance is added to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/ServiceSyncConfig AWS API Documentation
+    #
+    class ServiceSyncConfig < Struct.new(
+      :branch,
+      :file_path,
+      :repository_name,
+      :repository_provider,
+      :service_name)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -4659,6 +5594,74 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # Detailed data of the sync blocker.
+    #
+    # @!attribute [rw] contexts
+    #   The contexts for the sync blocker.
+    #   @return [Array<Types::SyncBlockerContext>]
+    #
+    # @!attribute [rw] created_at
+    #   The time when the sync blocker was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_reason
+    #   The reason why the sync blocker was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the sync blocker.
+    #   @return [String]
+    #
+    # @!attribute [rw] resolved_at
+    #   The time the sync blocker was resolved.
+    #   @return [Time]
+    #
+    # @!attribute [rw] resolved_reason
+    #   The reason the sync blocker was resolved.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the sync blocker.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the sync blocker.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/SyncBlocker AWS API Documentation
+    #
+    class SyncBlocker < Struct.new(
+      :contexts,
+      :created_at,
+      :created_reason,
+      :id,
+      :resolved_at,
+      :resolved_reason,
+      :status,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Detailed data of the context of the sync blocker.
+    #
+    # @!attribute [rw] key
+    #   The key for the sync blocker context.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the sync blocker context.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/SyncBlockerContext AWS API Documentation
+    #
+    class SyncBlockerContext < Struct.new(
+      :key,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A description of a resource tag.
     #
     # @!attribute [rw] key
@@ -4854,6 +5857,13 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_token
+    #   The client token for the updated component.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @!attribute [rw] deployment_type
     #   The deployment type. It defines the mode for updating a component,
     #   as follows:
@@ -4920,6 +5930,7 @@ module Aws::Proton
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/UpdateComponentInput AWS API Documentation
     #
     class UpdateComponentInput < Struct.new(
+      :client_token,
       :deployment_type,
       :description,
       :name,
@@ -5247,6 +6258,13 @@ module Aws::Proton
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_token
+    #   The client token of the service instance to update.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @!attribute [rw] deployment_type
     #   The deployment type. It defines the mode for updating a service
     #   instance, as follows:
@@ -5311,6 +6329,7 @@ module Aws::Proton
     # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/UpdateServiceInstanceInput AWS API Documentation
     #
     class UpdateServiceInstanceInput < Struct.new(
+      :client_token,
       :deployment_type,
       :name,
       :service_name,
@@ -5425,6 +6444,93 @@ module Aws::Proton
     #
     class UpdateServicePipelineOutput < Struct.new(
       :pipeline)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the service sync blocker.
+    #   @return [String]
+    #
+    # @!attribute [rw] resolved_reason
+    #   The reason the service sync blocker was resolved.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/UpdateServiceSyncBlockerInput AWS API Documentation
+    #
+    class UpdateServiceSyncBlockerInput < Struct.new(
+      :id,
+      :resolved_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_instance_name
+    #   The name of the service instance that you want to update the service
+    #   sync blocker for.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that you want to update the service sync
+    #   blocker for.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_sync_blocker
+    #   The detailed data on the service sync blocker that was updated.
+    #   @return [Types::SyncBlocker]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/UpdateServiceSyncBlockerOutput AWS API Documentation
+    #
+    class UpdateServiceSyncBlockerOutput < Struct.new(
+      :service_instance_name,
+      :service_name,
+      :service_sync_blocker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] branch
+    #   The name of the code repository branch where the Proton Ops file is
+    #   found.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_path
+    #   The path to the Proton Ops file.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository_name
+    #   The name of the repository where the Proton Ops file is found.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository_provider
+    #   The name of the repository provider where the Proton Ops file is
+    #   found.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service the Proton Ops file is for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/UpdateServiceSyncConfigInput AWS API Documentation
+    #
+    class UpdateServiceSyncConfigInput < Struct.new(
+      :branch,
+      :file_path,
+      :repository_name,
+      :repository_provider,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_sync_config
+    #   The detailed data of the Proton Ops file.
+    #   @return [Types::ServiceSyncConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/proton-2020-07-20/UpdateServiceSyncConfigOutput AWS API Documentation
+    #
+    class UpdateServiceSyncConfigOutput < Struct.new(
+      :service_sync_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5605,3 +6711,4 @@ module Aws::Proton
 
   end
 end
+

@@ -5,12 +5,14 @@
     "endpointPrefix":"aoss",
     "jsonVersion":"1.0",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"OpenSearch Service Serverless",
     "serviceId":"OpenSearchServerless",
     "signatureVersion":"v4",
     "signingName":"aoss",
     "targetPrefix":"OpenSearchServerless",
-    "uid":"opensearchserverless-2021-11-01"
+    "uid":"opensearchserverless-2021-11-01",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "BatchGetCollection":{
@@ -21,6 +23,32 @@
       },
       "input":{"shape":"BatchGetCollectionRequest"},
       "output":{"shape":"BatchGetCollectionResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"}
+      ]
+    },
+    "BatchGetEffectiveLifecyclePolicy":{
+      "name":"BatchGetEffectiveLifecyclePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"BatchGetEffectiveLifecyclePolicyRequest"},
+      "output":{"shape":"BatchGetEffectiveLifecyclePolicyResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"}
+      ]
+    },
+    "BatchGetLifecyclePolicy":{
+      "name":"BatchGetLifecyclePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"BatchGetLifecyclePolicyRequest"},
+      "output":{"shape":"BatchGetLifecyclePolicyResponse"},
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"}
@@ -50,7 +78,8 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ],
       "idempotent":true
     },
@@ -63,9 +92,27 @@
       "input":{"shape":"CreateCollectionRequest"},
       "output":{"shape":"CreateCollectionResponse"},
       "errors":[
+        {"shape":"OcuLimitExceededException"},
         {"shape":"InternalServerException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
+      ],
+      "idempotent":true
+    },
+    "CreateLifecyclePolicy":{
+      "name":"CreateLifecyclePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateLifecyclePolicyRequest"},
+      "output":{"shape":"CreateLifecyclePolicyResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ConflictException"},
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ],
       "idempotent":true
     },
@@ -80,7 +127,8 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ],
       "idempotent":true
     },
@@ -95,7 +143,8 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ],
       "idempotent":true
     },
@@ -110,7 +159,8 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ],
       "idempotent":true
     },
@@ -138,6 +188,22 @@
       },
       "input":{"shape":"DeleteCollectionRequest"},
       "output":{"shape":"DeleteCollectionResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ValidationException"}
+      ],
+      "idempotent":true
+    },
+    "DeleteLifecyclePolicy":{
+      "name":"DeleteLifecyclePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteLifecyclePolicyRequest"},
+      "output":{"shape":"DeleteLifecyclePolicyResponse"},
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
@@ -287,6 +353,19 @@
         {"shape":"ValidationException"}
       ]
     },
+    "ListLifecyclePolicies":{
+      "name":"ListLifecyclePolicies",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListLifecyclePoliciesRequest"},
+      "output":{"shape":"ListLifecyclePoliciesResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"}
+      ]
+    },
     "ListSecurityConfigs":{
       "name":"ListSecurityConfigs",
       "http":{
@@ -352,7 +431,8 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ]
     },
     "UntagResource":{
@@ -414,6 +494,23 @@
       ],
       "idempotent":true
     },
+    "UpdateLifecyclePolicy":{
+      "name":"UpdateLifecyclePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateLifecyclePolicyRequest"},
+      "output":{"shape":"UpdateLifecyclePolicyResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
+      ],
+      "idempotent":true
+    },
     "UpdateSecurityConfig":{
       "name":"UpdateSecurityConfig",
       "http":{
@@ -442,7 +539,8 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConflictException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ServiceQuotaExceededException"}
       ],
       "idempotent":true
     },
@@ -525,6 +623,34 @@
         "collectionErrorDetails":{"shape":"CollectionErrorDetails"}
       }
     },
+    "BatchGetEffectiveLifecyclePolicyRequest":{
+      "type":"structure",
+      "required":["resourceIdentifiers"],
+      "members":{
+        "resourceIdentifiers":{"shape":"LifecyclePolicyResourceIdentifiers"}
+      }
+    },
+    "BatchGetEffectiveLifecyclePolicyResponse":{
+      "type":"structure",
+      "members":{
+        "effectiveLifecyclePolicyDetails":{"shape":"EffectiveLifecyclePolicyDetails"},
+        "effectiveLifecyclePolicyErrorDetails":{"shape":"EffectiveLifecyclePolicyErrorDetails"}
+      }
+    },
+    "BatchGetLifecyclePolicyRequest":{
+      "type":"structure",
+      "required":["identifiers"],
+      "members":{
+        "identifiers":{"shape":"LifecyclePolicyIdentifiers"}
+      }
+    },
+    "BatchGetLifecyclePolicyResponse":{
+      "type":"structure",
+      "members":{
+        "lifecyclePolicyDetails":{"shape":"LifecyclePolicyDetails"},
+        "lifecyclePolicyErrorDetails":{"shape":"LifecyclePolicyErrorDetails"}
+      }
+    },
     "BatchGetVpcEndpointRequest":{
       "type":"structure",
       "required":["ids"],
@@ -538,6 +664,10 @@
         "vpcEndpointDetails":{"shape":"VpcEndpointDetails"},
         "vpcEndpointErrorDetails":{"shape":"VpcEndpointErrorDetails"}
       }
+    },
+    "Boolean":{
+      "type":"boolean",
+      "box":true
     },
     "CapacityLimits":{
       "type":"structure",
@@ -559,10 +689,13 @@
         "createdDate":{"shape":"Long"},
         "dashboardEndpoint":{"shape":"String"},
         "description":{"shape":"String"},
+        "failureCode":{"shape":"String"},
+        "failureMessage":{"shape":"String"},
         "id":{"shape":"CollectionId"},
         "kmsKeyArn":{"shape":"String"},
         "lastModifiedDate":{"shape":"Long"},
         "name":{"shape":"CollectionName"},
+        "standbyReplicas":{"shape":"StandbyReplicas"},
         "status":{"shape":"CollectionStatus"},
         "type":{"shape":"CollectionType"}
       }
@@ -641,7 +774,8 @@
       "type":"string",
       "enum":[
         "SEARCH",
-        "TIMESERIES"
+        "TIMESERIES",
+        "VECTORSEARCH"
       ]
     },
     "ConfigDescription":{
@@ -696,6 +830,7 @@
         "kmsKeyArn":{"shape":"String"},
         "lastModifiedDate":{"shape":"Long"},
         "name":{"shape":"CollectionName"},
+        "standbyReplicas":{"shape":"StandbyReplicas"},
         "status":{"shape":"CollectionStatus"},
         "type":{"shape":"CollectionType"}
       }
@@ -710,6 +845,7 @@
         },
         "description":{"shape":"CreateCollectionRequestDescriptionString"},
         "name":{"shape":"CollectionName"},
+        "standbyReplicas":{"shape":"StandbyReplicas"},
         "tags":{"shape":"Tags"},
         "type":{"shape":"CollectionType"}
       }
@@ -725,6 +861,39 @@
         "createCollectionDetail":{"shape":"CreateCollectionDetail"}
       }
     },
+    "CreateIamIdentityCenterConfigOptions":{
+      "type":"structure",
+      "required":["instanceArn"],
+      "members":{
+        "groupAttribute":{"shape":"IamIdentityCenterGroupAttribute"},
+        "instanceArn":{"shape":"IamIdentityCenterInstanceArn"},
+        "userAttribute":{"shape":"IamIdentityCenterUserAttribute"}
+      }
+    },
+    "CreateLifecyclePolicyRequest":{
+      "type":"structure",
+      "required":[
+        "name",
+        "policy",
+        "type"
+      ],
+      "members":{
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "description":{"shape":"PolicyDescription"},
+        "name":{"shape":"PolicyName"},
+        "policy":{"shape":"PolicyDocument"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "CreateLifecyclePolicyResponse":{
+      "type":"structure",
+      "members":{
+        "lifecyclePolicyDetail":{"shape":"LifecyclePolicyDetail"}
+      }
+    },
     "CreateSecurityConfigRequest":{
       "type":"structure",
       "required":[
@@ -737,6 +906,7 @@
           "idempotencyToken":true
         },
         "description":{"shape":"ConfigDescription"},
+        "iamIdentityCenterOptions":{"shape":"CreateIamIdentityCenterConfigOptions"},
         "name":{"shape":"ConfigName"},
         "samlOptions":{"shape":"SamlConfigOptions"},
         "type":{"shape":"SecurityConfigType"}
@@ -849,6 +1019,26 @@
         "deleteCollectionDetail":{"shape":"DeleteCollectionDetail"}
       }
     },
+    "DeleteLifecyclePolicyRequest":{
+      "type":"structure",
+      "required":[
+        "name",
+        "type"
+      ],
+      "members":{
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "name":{"shape":"PolicyName"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "DeleteLifecyclePolicyResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DeleteSecurityConfigRequest":{
       "type":"structure",
       "required":["id"],
@@ -916,6 +1106,34 @@
       },
       "document":true
     },
+    "EffectiveLifecyclePolicyDetail":{
+      "type":"structure",
+      "members":{
+        "noMinRetentionPeriod":{"shape":"Boolean"},
+        "policyName":{"shape":"PolicyName"},
+        "resource":{"shape":"Resource"},
+        "resourceType":{"shape":"ResourceType"},
+        "retentionPeriod":{"shape":"String"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "EffectiveLifecyclePolicyDetails":{
+      "type":"list",
+      "member":{"shape":"EffectiveLifecyclePolicyDetail"}
+    },
+    "EffectiveLifecyclePolicyErrorDetail":{
+      "type":"structure",
+      "members":{
+        "errorCode":{"shape":"String"},
+        "errorMessage":{"shape":"String"},
+        "resource":{"shape":"Resource"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "EffectiveLifecyclePolicyErrorDetails":{
+      "type":"list",
+      "member":{"shape":"EffectiveLifecyclePolicyErrorDetail"}
+    },
     "GetAccessPolicyRequest":{
       "type":"structure",
       "required":[
@@ -953,6 +1171,7 @@
       "type":"structure",
       "members":{
         "AccessPolicyStats":{"shape":"AccessPolicyStats"},
+        "LifecyclePolicyStats":{"shape":"LifecyclePolicyStats"},
         "SecurityConfigStats":{"shape":"SecurityConfigStats"},
         "SecurityPolicyStats":{"shape":"SecurityPolicyStats"},
         "TotalPolicyCount":{"shape":"Long"}
@@ -988,6 +1207,44 @@
         "securityPolicyDetail":{"shape":"SecurityPolicyDetail"}
       }
     },
+    "IamIdentityCenterApplicationArn":{
+      "type":"string",
+      "max":1224,
+      "min":10,
+      "pattern":"^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$"
+    },
+    "IamIdentityCenterConfigOptions":{
+      "type":"structure",
+      "members":{
+        "applicationArn":{"shape":"IamIdentityCenterApplicationArn"},
+        "applicationDescription":{"shape":"String"},
+        "applicationName":{"shape":"String"},
+        "groupAttribute":{"shape":"IamIdentityCenterGroupAttribute"},
+        "instanceArn":{"shape":"IamIdentityCenterInstanceArn"},
+        "userAttribute":{"shape":"IamIdentityCenterUserAttribute"}
+      }
+    },
+    "IamIdentityCenterGroupAttribute":{
+      "type":"string",
+      "enum":[
+        "GroupId",
+        "GroupName"
+      ]
+    },
+    "IamIdentityCenterInstanceArn":{
+      "type":"string",
+      "max":1224,
+      "min":10,
+      "pattern":"^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$"
+    },
+    "IamIdentityCenterUserAttribute":{
+      "type":"string",
+      "enum":[
+        "UserId",
+        "UserName",
+        "Email"
+      ]
+    },
     "IndexingCapacityValue":{
       "type":"integer",
       "box":true,
@@ -1001,6 +1258,95 @@
       "exception":true,
       "fault":true
     },
+    "LifecyclePolicyDetail":{
+      "type":"structure",
+      "members":{
+        "createdDate":{"shape":"Long"},
+        "description":{"shape":"PolicyDescription"},
+        "lastModifiedDate":{"shape":"Long"},
+        "name":{"shape":"PolicyName"},
+        "policy":{"shape":"Document"},
+        "policyVersion":{"shape":"PolicyVersion"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "LifecyclePolicyDetails":{
+      "type":"list",
+      "member":{"shape":"LifecyclePolicyDetail"}
+    },
+    "LifecyclePolicyErrorDetail":{
+      "type":"structure",
+      "members":{
+        "errorCode":{"shape":"String"},
+        "errorMessage":{"shape":"String"},
+        "name":{"shape":"PolicyName"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "LifecyclePolicyErrorDetails":{
+      "type":"list",
+      "member":{"shape":"LifecyclePolicyErrorDetail"}
+    },
+    "LifecyclePolicyIdentifier":{
+      "type":"structure",
+      "required":[
+        "name",
+        "type"
+      ],
+      "members":{
+        "name":{"shape":"PolicyName"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "LifecyclePolicyIdentifiers":{
+      "type":"list",
+      "member":{"shape":"LifecyclePolicyIdentifier"},
+      "max":40,
+      "min":1
+    },
+    "LifecyclePolicyResourceIdentifier":{
+      "type":"structure",
+      "required":[
+        "resource",
+        "type"
+      ],
+      "members":{
+        "resource":{"shape":"ResourceName"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "LifecyclePolicyResourceIdentifiers":{
+      "type":"list",
+      "member":{"shape":"LifecyclePolicyResourceIdentifier"},
+      "max":100,
+      "min":1
+    },
+    "LifecyclePolicyStats":{
+      "type":"structure",
+      "members":{
+        "RetentionPolicyCount":{"shape":"Long"}
+      }
+    },
+    "LifecyclePolicySummaries":{
+      "type":"list",
+      "member":{"shape":"LifecyclePolicySummary"}
+    },
+    "LifecyclePolicySummary":{
+      "type":"structure",
+      "members":{
+        "createdDate":{"shape":"Long"},
+        "description":{"shape":"PolicyDescription"},
+        "lastModifiedDate":{"shape":"Long"},
+        "name":{"shape":"PolicyName"},
+        "policyVersion":{"shape":"PolicyVersion"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "LifecyclePolicyType":{
+      "type":"string",
+      "enum":["retention"]
+    },
+    "LifecycleResource":{"type":"string"},
     "ListAccessPoliciesRequest":{
       "type":"structure",
       "required":["type"],
@@ -1048,6 +1394,35 @@
       "type":"structure",
       "members":{
         "collectionSummaries":{"shape":"CollectionSummaries"},
+        "nextToken":{"shape":"String"}
+      }
+    },
+    "ListLifecyclePoliciesRequest":{
+      "type":"structure",
+      "required":["type"],
+      "members":{
+        "maxResults":{"shape":"ListLifecyclePoliciesRequestMaxResultsInteger"},
+        "nextToken":{"shape":"String"},
+        "resources":{"shape":"ListLifecyclePoliciesRequestResourcesList"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "ListLifecyclePoliciesRequestMaxResultsInteger":{
+      "type":"integer",
+      "box":true,
+      "max":100,
+      "min":1
+    },
+    "ListLifecyclePoliciesRequestResourcesList":{
+      "type":"list",
+      "member":{"shape":"LifecycleResource"},
+      "max":1000,
+      "min":1
+    },
+    "ListLifecyclePoliciesResponse":{
+      "type":"structure",
+      "members":{
+        "lifecyclePolicySummaries":{"shape":"LifecyclePolicySummaries"},
         "nextToken":{"shape":"String"}
       }
     },
@@ -1140,10 +1515,18 @@
       "type":"long",
       "box":true
     },
+    "OcuLimitExceededException":{
+      "type":"structure",
+      "required":["message"],
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
     "PolicyDescription":{
       "type":"string",
       "max":1000,
-      "min":1
+      "min":0
     },
     "PolicyDocument":{
       "type":"string",
@@ -1164,12 +1547,20 @@
       "pattern":"^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$"
     },
     "Resource":{"type":"string"},
+    "ResourceName":{
+      "type":"string",
+      "pattern":"^index/[a-z][a-z0-9-]{3,32}/([a-z;0-9&$%][+.~=\\-_a-z;0-9&$%]*)$"
+    },
     "ResourceNotFoundException":{
       "type":"structure",
       "members":{
         "message":{"shape":"String"}
       },
       "exception":true
+    },
+    "ResourceType":{
+      "type":"string",
+      "enum":["index"]
     },
     "SamlConfigOptions":{
       "type":"structure",
@@ -1198,6 +1589,7 @@
         "configVersion":{"shape":"PolicyVersion"},
         "createdDate":{"shape":"Long"},
         "description":{"shape":"ConfigDescription"},
+        "iamIdentityCenterOptions":{"shape":"IamIdentityCenterConfigOptions"},
         "id":{"shape":"SecurityConfigId"},
         "lastModifiedDate":{"shape":"Long"},
         "samlOptions":{"shape":"SamlConfigOptions"},
@@ -1232,7 +1624,10 @@
     },
     "SecurityConfigType":{
       "type":"string",
-      "enum":["saml"]
+      "enum":[
+        "saml",
+        "iamidentitycenter"
+      ]
     },
     "SecurityGroupId":{
       "type":"string",
@@ -1285,6 +1680,28 @@
       "enum":[
         "encryption",
         "network"
+      ]
+    },
+    "ServiceQuotaExceededException":{
+      "type":"structure",
+      "required":[
+        "message",
+        "serviceCode"
+      ],
+      "members":{
+        "message":{"shape":"String"},
+        "quotaCode":{"shape":"String"},
+        "resourceId":{"shape":"String"},
+        "resourceType":{"shape":"String"},
+        "serviceCode":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "StandbyReplicas":{
+      "type":"string",
+      "enum":[
+        "ENABLED",
+        "DISABLED"
       ]
     },
     "String":{"type":"string"},
@@ -1438,6 +1855,38 @@
         "updateCollectionDetail":{"shape":"UpdateCollectionDetail"}
       }
     },
+    "UpdateIamIdentityCenterConfigOptions":{
+      "type":"structure",
+      "members":{
+        "groupAttribute":{"shape":"IamIdentityCenterGroupAttribute"},
+        "userAttribute":{"shape":"IamIdentityCenterUserAttribute"}
+      }
+    },
+    "UpdateLifecyclePolicyRequest":{
+      "type":"structure",
+      "required":[
+        "name",
+        "policyVersion",
+        "type"
+      ],
+      "members":{
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "description":{"shape":"PolicyDescription"},
+        "name":{"shape":"PolicyName"},
+        "policy":{"shape":"PolicyDocument"},
+        "policyVersion":{"shape":"PolicyVersion"},
+        "type":{"shape":"LifecyclePolicyType"}
+      }
+    },
+    "UpdateLifecyclePolicyResponse":{
+      "type":"structure",
+      "members":{
+        "lifecyclePolicyDetail":{"shape":"LifecyclePolicyDetail"}
+      }
+    },
     "UpdateSecurityConfigRequest":{
       "type":"structure",
       "required":[
@@ -1451,6 +1900,7 @@
         },
         "configVersion":{"shape":"PolicyVersion"},
         "description":{"shape":"ConfigDescription"},
+        "iamIdentityCenterOptionsUpdates":{"shape":"UpdateIamIdentityCenterConfigOptions"},
         "id":{"shape":"SecurityConfigId"},
         "samlOptions":{"shape":"SamlConfigOptions"}
       }
@@ -1529,6 +1979,8 @@
       "type":"structure",
       "members":{
         "createdDate":{"shape":"Long"},
+        "failureCode":{"shape":"String"},
+        "failureMessage":{"shape":"String"},
         "id":{"shape":"VpcEndpointId"},
         "name":{"shape":"VpcEndpointName"},
         "securityGroupIds":{"shape":"SecurityGroupIds"},
@@ -1611,7 +2063,7 @@
     },
     "samlMetadata":{
       "type":"string",
-      "max":20480,
+      "max":51200,
       "min":1,
       "pattern":"[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+"
     },

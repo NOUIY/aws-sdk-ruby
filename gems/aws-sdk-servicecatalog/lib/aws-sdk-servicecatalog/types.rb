@@ -13,8 +13,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -70,7 +68,7 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] value
     #   The user to which the access level applies. The only supported value
-    #   is `Self`.
+    #   is `self`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/AccessLevelFilter AWS API Documentation
@@ -106,8 +104,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -118,19 +114,73 @@ module Aws::ServiceCatalog
     #   @return [String]
     #
     # @!attribute [rw] principal_arn
-    #   The ARN of the principal (IAM user, role, or group). This field
-    #   allows an ARN with no `accountID` if `PrincipalType` is
-    #   `IAM_PATTERN`.
+    #   The ARN of the principal (user, role, or group). If the
+    #   `PrincipalType` is `IAM`, the supported value is a fully defined
+    #   [IAM Amazon Resource Name (ARN)][1]. If the `PrincipalType` is
+    #   `IAM_PATTERN`, the supported value is an `IAM` ARN *without an
+    #   AccountID* in the following format:
     #
-    #   You can associate multiple `IAM` patterns even if the account has no
-    #   principal with that name. This is useful in Principal Name Sharing
-    #   if you want to share a principal without creating it in the account
-    #   that owns the portfolio.
+    #   *arn:partition:iam:::resource-type/resource-id*
+    #
+    #   The ARN resource-id can be either:
+    #
+    #   * A fully formed resource-id. For example,
+    #     *arn:aws:iam:::role/resource-name* or
+    #     *arn:aws:iam:::role/resource-path/resource-name*
+    #
+    #   * A wildcard ARN. The wildcard ARN accepts `IAM_PATTERN` values with
+    #     a "*" or "?" in the resource-id segment of the ARN. For
+    #     example
+    #     *arn:partition:service:::resource-type/resource-path/resource-name*.
+    #     The new symbols are exclusive to the **resource-path** and
+    #     **resource-name** and cannot replace the **resource-type** or
+    #     other ARN values.
+    #
+    #     The ARN path and principal name allow unlimited wildcard
+    #     characters.
+    #
+    #   Examples of an **acceptable** wildcard ARN:
+    #
+    #   * arn:aws:iam:::role/ResourceName\_*
+    #
+    #   * arn:aws:iam:::role/*/ResourceName\_?
+    #
+    #   Examples of an **unacceptable** wildcard ARN:
+    #
+    #   * arn:aws:iam:::*/ResourceName
+    #
+    #   ^
+    #
+    #   You can associate multiple `IAM_PATTERN`s even if the account has no
+    #   principal with that name.
+    #
+    #   The "?" wildcard character matches zero or one of any character.
+    #   This is similar to ".?" in regular regex context. The "*"
+    #   wildcard character matches any number of any characters. This is
+    #   similar to ".*" in regular regex context.
+    #
+    #   In the IAM Principal ARN format
+    #   (*arn:partition:iam:::resource-type/resource-path/resource-name*),
+    #   valid resource-type values include **user/**, **group/**, or
+    #   **role/**. The "?" and "*" characters are allowed only after
+    #   the resource-type in the resource-id segment. You can use special
+    #   characters anywhere within the resource-id.
+    #
+    #   The "*" character also matches the "/" character, allowing
+    #   paths to be formed *within* the resource-id. For example,
+    #   *arn:aws:iam:::role/*****/ResourceName\_?* matches both
+    #   *arn:aws:iam:::role/pathA/pathB/ResourceName\_1* and
+    #   *arn:aws:iam:::role/pathA/ResourceName\_1*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
     #   @return [String]
     #
     # @!attribute [rw] principal_type
     #   The principal type. The supported value is `IAM` if you use a fully
-    #   defined ARN, or `IAM_PATTERN` if you use an ARN with no `accountID`.
+    #   defined Amazon Resource Name (ARN), or `IAM_PATTERN` if you use an
+    #   ARN with no `accountID`, with or without wildcard characters.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/AssociatePrincipalWithPortfolioInput AWS API Documentation
@@ -150,8 +200,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -202,11 +250,19 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
+    #   @return [String]
+    #
+    # @!attribute [rw] idempotency_token
+    #   A unique identifier that you provide to ensure idempotency. If
+    #   multiple requests from the same Amazon Web Services account use the
+    #   same idempotency token, the same response is returned for each
+    #   repeated request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/AssociateServiceActionWithProvisioningArtifactInput AWS API Documentation
@@ -215,7 +271,8 @@ module Aws::ServiceCatalog
       :product_id,
       :provisioning_artifact_id,
       :service_action_id,
-      :accept_language)
+      :accept_language,
+      :idempotency_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -253,8 +310,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -289,8 +344,6 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -460,8 +513,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -530,8 +581,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -556,11 +605,11 @@ module Aws::ServiceCatalog
     #
     #     Specify the `RoleArn` property as follows:
     #
-    #     `\{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"\}`
+    #     `{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}`
     #
     #     Specify the `LocalRoleName` property as follows:
     #
-    #     `\{"LocalRoleName": "SCBasicLaunchRole"\}`
+    #     `{"LocalRoleName": "SCBasicLaunchRole"}`
     #
     #     If you specify the `LocalRoleName` property, when an account uses
     #     the launch constraint, the IAM role with that name in the account
@@ -583,14 +632,14 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `NotificationArns` property as follows:
     #
-    #     `\{"NotificationArns" :
-    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]\}`
+    #     `{"NotificationArns" :
+    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]}`
     #
     #   RESOURCE\_UPDATE
     #
     #   : Specify the `TagUpdatesOnProvisionedProduct` property as follows:
     #
-    #     `\{"Version":"2.0","Properties":\{"TagUpdateOnProvisionedProduct":"String"\}\}`
+    #     `{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}`
     #
     #     The `TagUpdatesOnProvisionedProduct` property accepts a string
     #     value of `ALLOWED` or `NOT_ALLOWED`.
@@ -599,9 +648,9 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `Parameters` property as follows:
     #
-    #     `\{"Version": "String", "Properties": \{"AccountList": [ "String"
-    #     ], "RegionList": [ "String" ], "AdminRole": "String",
-    #     "ExecutionRole": "String"\}\}`
+    #     `{"Version": "String", "Properties": {"AccountList": [ "String" ],
+    #     "RegionList": [ "String" ], "AdminRole": "String",
+    #     "ExecutionRole": "String"}}`
     #
     #     You cannot have both a `LAUNCH` and a `STACKSET` constraint.
     #
@@ -687,8 +736,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -752,8 +799,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -783,14 +828,19 @@ module Aws::ServiceCatalog
     #   @return [Boolean]
     #
     # @!attribute [rw] share_principals
+    #   This parameter is only supported for portfolios with an
+    #   **OrganizationalNode** Type of `ORGANIZATION` or
+    #   `ORGANIZATIONAL_UNIT`.
+    #
     #   Enables or disables `Principal` sharing when creating the portfolio
-    #   share. If this flag is not provided, principal sharing is disabled.
+    #   share. If you do **not** provide this flag, principal sharing is
+    #   disabled.
     #
     #   When you enable Principal Name Sharing for a portfolio share, the
     #   share recipient account end users with a principal that matches any
     #   of the associated IAM patterns can provision products from the
     #   portfolio. Once shared, the share recipient can view associations of
-    #   `PrincipalType`\: `IAM_PATTERN` on their portfolio. You can create
+    #   `PrincipalType`: `IAM_PATTERN` on their portfolio. You can create
     #   the principals in the recipient account before or after creating the
     #   share.
     #   @return [Boolean]
@@ -823,8 +873,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -937,8 +985,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1054,8 +1100,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1163,8 +1207,8 @@ module Aws::ServiceCatalog
     #
     #   : The list of parameters in JSON format.
     #
-    #     For example: `[\{"Name":"InstanceId","Type":"TARGET"\}]`
-    #     or `[\{"Name":"InstanceId","Type":"TEXT_VALUE"\}]`.
+    #     For example: `[{"Name":"InstanceId","Type":"TARGET"}]` or
+    #     `[{"Name":"InstanceId","Type":"TEXT_VALUE"}]`.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] description
@@ -1173,8 +1217,6 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1247,8 +1289,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1274,8 +1314,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1300,8 +1338,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1347,8 +1383,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1373,8 +1407,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1407,8 +1439,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1445,18 +1475,27 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
+    #   @return [String]
+    #
+    # @!attribute [rw] idempotency_token
+    #   A unique identifier that you provide to ensure idempotency. If
+    #   multiple requests from the same Amazon Web Services account use the
+    #   same idempotency token, the same response is returned for each
+    #   repeated request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DeleteServiceActionInput AWS API Documentation
     #
     class DeleteServiceActionInput < Struct.new(
       :id,
-      :accept_language)
+      :accept_language,
+      :idempotency_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1483,8 +1522,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1529,8 +1566,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1574,8 +1609,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1732,8 +1765,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1805,8 +1836,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1861,8 +1890,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1906,8 +1933,6 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1960,8 +1985,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2019,8 +2042,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2046,6 +2067,11 @@ module Aws::ServiceCatalog
     #   Indicates whether a verbose level of detail is enabled.
     #   @return [Boolean]
     #
+    # @!attribute [rw] include_provisioning_artifact_parameters
+    #   Indicates if the API call response does or does not include
+    #   additional details about the provisioning parameters.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DescribeProvisioningArtifactInput AWS API Documentation
     #
     class DescribeProvisioningArtifactInput < Struct.new(
@@ -2054,7 +2080,8 @@ module Aws::ServiceCatalog
       :product_id,
       :provisioning_artifact_name,
       :product_name,
-      :verbose)
+      :verbose,
+      :include_provisioning_artifact_parameters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2072,20 +2099,23 @@ module Aws::ServiceCatalog
     #   The status of the current request.
     #   @return [String]
     #
+    # @!attribute [rw] provisioning_artifact_parameters
+    #   Information about the parameters used to provision the product.
+    #   @return [Array<Types::ProvisioningArtifactParameter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DescribeProvisioningArtifactOutput AWS API Documentation
     #
     class DescribeProvisioningArtifactOutput < Struct.new(
       :provisioning_artifact_detail,
       :info,
-      :status)
+      :status,
+      :provisioning_artifact_parameters)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2187,8 +2217,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2255,8 +2283,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2290,8 +2316,6 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2378,8 +2402,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2390,14 +2412,15 @@ module Aws::ServiceCatalog
     #   @return [String]
     #
     # @!attribute [rw] principal_arn
-    #   The ARN of the principal (IAM user, role, or group). This field
-    #   allows an ARN with no `accountID` if `PrincipalType` is
-    #   `IAM_PATTERN`.
+    #   The ARN of the principal (user, role, or group). This field allows
+    #   an ARN with no `accountID` with or without wildcard characters if
+    #   `PrincipalType` is `IAM_PATTERN`.
     #   @return [String]
     #
     # @!attribute [rw] principal_type
     #   The supported value is `IAM` if you use a fully defined ARN, or
-    #   `IAM_PATTERN` if you use no `accountID`.
+    #   `IAM_PATTERN` if you specify an `IAM` ARN with no AccountId, with or
+    #   without wildcard characters.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DisassociatePrincipalFromPortfolioInput AWS API Documentation
@@ -2417,8 +2440,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2464,11 +2485,19 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
+    #   @return [String]
+    #
+    # @!attribute [rw] idempotency_token
+    #   A unique identifier that you provide to ensure idempotency. If
+    #   multiple requests from the same Amazon Web Services account use the
+    #   same idempotency token, the same response is returned for each
+    #   repeated request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DisassociateServiceActionFromProvisioningArtifactInput AWS API Documentation
@@ -2477,7 +2506,8 @@ module Aws::ServiceCatalog
       :product_id,
       :provisioning_artifact_id,
       :service_action_id,
-      :accept_language)
+      :accept_language,
+      :idempotency_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2523,10 +2553,24 @@ module Aws::ServiceCatalog
     #
     class EnableAWSOrganizationsAccessOutput < Aws::EmptyStructure; end
 
+    # The ID for the provisioned product resources that are part of a
+    # resource group.
+    #
+    # @!attribute [rw] unique_tag
+    #   The unique key-value pair for a tag that identifies provisioned
+    #   product resources.
+    #   @return [Types::UniqueTagResourceIdentifier]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/EngineWorkflowResourceIdentifier AWS API Documentation
+    #
+    class EngineWorkflowResourceIdentifier < Struct.new(
+      :unique_tag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2586,8 +2630,6 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2712,8 +2754,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2778,8 +2818,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2961,8 +2999,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3023,8 +3059,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3074,8 +3108,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3132,8 +3164,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3183,8 +3213,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3249,8 +3277,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3309,8 +3335,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3361,8 +3385,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3407,8 +3429,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3460,8 +3480,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3532,8 +3550,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3571,8 +3587,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3612,8 +3626,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3763,8 +3775,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3803,8 +3813,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3851,8 +3859,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3966,6 +3972,147 @@ module Aws::ServiceCatalog
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] workflow_token
+    #   The encrypted contents of the provisioning engine execution payload
+    #   that Service Catalog sends after the Terraform product provisioning
+    #   workflow starts.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the provisioning engine execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason why the provisioning engine execution failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_identifier
+    #   The ID for the provisioned product resources that are part of a
+    #   resource group.
+    #   @return [Types::EngineWorkflowResourceIdentifier]
+    #
+    # @!attribute [rw] outputs
+    #   The output of the provisioning engine execution.
+    #   @return [Array<Types::RecordOutput>]
+    #
+    # @!attribute [rw] idempotency_token
+    #   The idempotency token that identifies the provisioning engine
+    #   execution.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyProvisionProductEngineWorkflowResultInput AWS API Documentation
+    #
+    class NotifyProvisionProductEngineWorkflowResultInput < Struct.new(
+      :workflow_token,
+      :record_id,
+      :status,
+      :failure_reason,
+      :resource_identifier,
+      :outputs,
+      :idempotency_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyProvisionProductEngineWorkflowResultOutput AWS API Documentation
+    #
+    class NotifyProvisionProductEngineWorkflowResultOutput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] workflow_token
+    #   The encrypted contents of the terminate engine execution payload
+    #   that Service Catalog sends after the Terraform product terminate
+    #   workflow starts.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the terminate engine execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason why the terminate engine execution failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] idempotency_token
+    #   The idempotency token that identifies the terminate engine
+    #   execution.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyTerminateProvisionedProductEngineWorkflowResultInput AWS API Documentation
+    #
+    class NotifyTerminateProvisionedProductEngineWorkflowResultInput < Struct.new(
+      :workflow_token,
+      :record_id,
+      :status,
+      :failure_reason,
+      :idempotency_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyTerminateProvisionedProductEngineWorkflowResultOutput AWS API Documentation
+    #
+    class NotifyTerminateProvisionedProductEngineWorkflowResultOutput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] workflow_token
+    #   The encrypted contents of the update engine execution payload that
+    #   Service Catalog sends after the Terraform product update workflow
+    #   starts.
+    #   @return [String]
+    #
+    # @!attribute [rw] record_id
+    #   The identifier of the record.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the update engine execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason why the update engine execution failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] outputs
+    #   The output of the update engine execution.
+    #   @return [Array<Types::RecordOutput>]
+    #
+    # @!attribute [rw] idempotency_token
+    #   The idempotency token that identifies the update engine execution.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyUpdateProvisionedProductEngineWorkflowResultInput AWS API Documentation
+    #
+    class NotifyUpdateProvisionedProductEngineWorkflowResultInput < Struct.new(
+      :workflow_token,
+      :record_id,
+      :status,
+      :failure_reason,
+      :outputs,
+      :idempotency_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyUpdateProvisionedProductEngineWorkflowResultOutput AWS API Documentation
+    #
+    class NotifyUpdateProvisionedProductEngineWorkflowResultOutput < Aws::EmptyStructure; end
 
     # The operation is not supported.
     #
@@ -4145,14 +4292,22 @@ module Aws::ServiceCatalog
     # Information about a principal.
     #
     # @!attribute [rw] principal_arn
-    #   The ARN of the principal (IAM user, role, or group). This field
-    #   allows for an ARN with no `accountID` if the `PrincipalType` is an
-    #   `IAM_PATTERN`.
+    #   The ARN of the principal (user, role, or group). This field allows
+    #   for an ARN with no `accountID`, with or without wildcard characters
+    #   if the `PrincipalType` is an `IAM_PATTERN`.
+    #
+    #   For more information, review [associate-principal-with-portfolio][1]
+    #   in the Amazon Web Services CLI Command Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options
     #   @return [String]
     #
     # @!attribute [rw] principal_type
     #   The principal type. The supported value is `IAM` if you use a fully
-    #   defined ARN, or `IAM_PATTERN` if you use an ARN with no `accountID`.
+    #   defined ARN, or `IAM_PATTERN` if you use an ARN with no `accountID`,
+    #   with or without wildcard characters.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/Principal AWS API Documentation
@@ -4305,8 +4460,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4420,7 +4573,8 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] type
     #   The type of provisioned product. The supported values are
-    #   `CFN_STACK` and `CFN_STACKSET`.
+    #   `CFN_STACK`, `CFN_STACKSET`, `TERRAFORM_OPEN_SOURCE`,
+    #   `TERRAFORM_CLOUD`, and `EXTERNAL`.
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -4477,7 +4631,7 @@ module Aws::ServiceCatalog
     #   The record identifier of the last request performed on this
     #   provisioned product of the following types:
     #
-    #   * ProvisionedProduct
+    #   * ProvisionProduct
     #
     #   * UpdateProvisionedProduct
     #
@@ -4490,7 +4644,7 @@ module Aws::ServiceCatalog
     #   The record identifier of the last successful request performed on
     #   this provisioned product of the following types:
     #
-    #   * ProvisionedProduct
+    #   * ProvisionProduct
     #
     #   * UpdateProvisionedProduct
     #
@@ -4525,12 +4679,12 @@ module Aws::ServiceCatalog
     #   @return [String]
     #
     # @!attribute [rw] user_arn
-    #   The Amazon Resource Name (ARN) of the IAM user.
+    #   The Amazon Resource Name (ARN) of the user.
     #   @return [String]
     #
     # @!attribute [rw] user_arn_session
-    #   The ARN of the IAM user in the session. This ARN might contain a
-    #   session ID.
+    #   The ARN of the user in the session. This ARN might contain a session
+    #   ID.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/ProvisionedProductAttribute AWS API Documentation
@@ -4571,7 +4725,8 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] type
     #   The type of provisioned product. The supported values are
-    #   `CFN_STACK` and `CFN_STACKSET`.
+    #   `CFN_STACK`, `CFN_STACKSET`, `TERRAFORM_OPEN_SOURCE`,
+    #   `TERRAFORM_CLOUD`, and `EXTERNAL`.
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -4628,7 +4783,7 @@ module Aws::ServiceCatalog
     #   The record identifier of the last request performed on this
     #   provisioned product of the following types:
     #
-    #   * ProvisionedProduct
+    #   * ProvisionProduct
     #
     #   * UpdateProvisionedProduct
     #
@@ -4641,7 +4796,7 @@ module Aws::ServiceCatalog
     #   The record identifier of the last successful request performed on
     #   this provisioned product of the following types:
     #
-    #   * ProvisionedProduct
+    #   * ProvisionProduct
     #
     #   * UpdateProvisionedProduct
     #
@@ -4867,10 +5022,11 @@ module Aws::ServiceCatalog
     #
     #   * `CLOUD_FORMATION_TEMPLATE` - CloudFormation template
     #
-    #   * `MARKETPLACE_AMI` - Amazon Web Services Marketplace AMI
+    #   * `TERRAFORM_OPEN_SOURCE` - Terraform Open Source configuration file
     #
-    #   * `MARKETPLACE_CAR` - Amazon Web Services Marketplace Clusters and
-    #     Amazon Web Services Resources
+    #   * `TERRAFORM_CLOUD` - Terraform Cloud configuration file
+    #
+    #   * `EXTERNAL` - External configuration file
     #   @return [String]
     #
     # @!attribute [rw] created_time
@@ -5037,7 +5193,7 @@ module Aws::ServiceCatalog
     #   `"LoadTemplateFromURL":
     #   "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."`
     #
-    #   `ImportFromPhysicalId`\: The physical id of the resource that
+    #   `ImportFromPhysicalId`: The physical id of the resource that
     #   contains the template. Currently only supports CloudFormation stack
     #   arn. Specify the physical id in JSON format as follows:
     #   `ImportFromPhysicalId:
@@ -5049,15 +5205,19 @@ module Aws::ServiceCatalog
     #
     #   * `CLOUD_FORMATION_TEMPLATE` - CloudFormation template
     #
-    #   * `MARKETPLACE_AMI` - Amazon Web Services Marketplace AMI
+    #   * `TERRAFORM_OPEN_SOURCE` - Terraform Open Source configuration file
     #
-    #   * `MARKETPLACE_CAR` - Amazon Web Services Marketplace Clusters and
-    #     Amazon Web Services Resources
+    #   * `TERRAFORM_CLOUD` - Terraform Cloud configuration file
+    #
+    #   * `EXTERNAL` - External configuration file
     #   @return [String]
     #
     # @!attribute [rw] disable_template_validation
     #   If set to true, Service Catalog stops validating the specified
     #   provisioning artifact even if it is invalid.
+    #
+    #   Service Catalog does not support template validation for the
+    #   `TERRAFORM_OS` product type.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/ProvisioningArtifactProperties AWS API Documentation
@@ -5311,7 +5471,8 @@ module Aws::ServiceCatalog
     #
     # @!attribute [rw] provisioned_product_type
     #   The type of provisioned product. The supported values are
-    #   `CFN_STACK` and `CFN_STACKSET`.
+    #   `CFN_STACK`, `CFN_STACKSET`, `TERRAFORM_OPEN_SOURCE`,
+    #   `TERRAFORM_CLOUD`, and `EXTERNAL`.
     #   @return [String]
     #
     # @!attribute [rw] record_type
@@ -5439,8 +5600,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5631,8 +5790,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5682,8 +5839,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5758,8 +5913,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5828,8 +5981,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5844,10 +5995,10 @@ module Aws::ServiceCatalog
     #
     #   When the key is `SearchQuery`, the searchable fields are `arn`,
     #   `createdTime`, `id`, `lastRecordId`, `idempotencyToken`, `name`,
-    #   `physicalId`, `productId`, `provisioningArtifact`, `type`, `status`,
-    #   `tags`, `userArn`, `userArnSession`, `lastProvisioningRecordId`,
-    #   `lastSuccessfulProvisioningRecordId`, `productName`, and
-    #   `provisioningArtifactName`.
+    #   `physicalId`, `productId`, `provisioningArtifactId`, `type`,
+    #   `status`, `tags`, `userArn`, `userArnSession`,
+    #   `lastProvisioningRecordId`, `lastSuccessfulProvisioningRecordId`,
+    #   `productName`, and `provisioningArtifactName`.
     #
     #   Example: `"SearchQuery":["status:AVAILABLE"]`
     #   @return [Hash<String,Array<String>>]
@@ -6125,20 +6276,20 @@ module Aws::ServiceCatalog
     #   The status of the stack instance, in terms of its synchronization
     #   with its associated stack set.
     #
-    #   * `INOPERABLE`\: A `DeleteStackInstances` operation has failed and
+    #   * `INOPERABLE`: A `DeleteStackInstances` operation has failed and
     #     left the stack in an unstable state. Stacks in this state are
     #     excluded from further `UpdateStackSet` operations. You might need
     #     to perform a `DeleteStackInstances` operation, with `RetainStacks`
     #     set to true, to delete the stack instance, and then delete the
     #     stack manually.
     #
-    #   * `OUTDATED`\: The stack isn't currently up to date with the stack
+    #   * `OUTDATED`: The stack isn't currently up to date with the stack
     #     set because either the associated stack failed during a
     #     `CreateStackSet` or `UpdateStackSet` operation, or the stack was
     #     part of a `CreateStackSet` or `UpdateStackSet` operation that
     #     failed or was stopped before the stack was created or updated.
     #
-    #   * `CURRENT`\: The stack is currently up to date with the stack set.
+    #   * `CURRENT`: The stack is currently up to date with the stack set.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/StackInstance AWS API Documentation
@@ -6264,8 +6415,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -6304,10 +6453,28 @@ module Aws::ServiceCatalog
       include Aws::Structure
     end
 
+    # The unique key-value pair for a tag that identifies provisioned
+    # product resources.
+    #
+    # @!attribute [rw] key
+    #   A unique key that's attached to a resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   A unique value that's attached to a resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/UniqueTagResourceIdentifier AWS API Documentation
+    #
+    class UniqueTagResourceIdentifier < Struct.new(
+      :key,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -6333,11 +6500,11 @@ module Aws::ServiceCatalog
     #
     #     Specify the `RoleArn` property as follows:
     #
-    #     `\{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"\}`
+    #     `{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}`
     #
     #     Specify the `LocalRoleName` property as follows:
     #
-    #     `\{"LocalRoleName": "SCBasicLaunchRole"\}`
+    #     `{"LocalRoleName": "SCBasicLaunchRole"}`
     #
     #     If you specify the `LocalRoleName` property, when an account uses
     #     the launch constraint, the IAM role with that name in the account
@@ -6360,14 +6527,14 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `NotificationArns` property as follows:
     #
-    #     `\{"NotificationArns" :
-    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]\}`
+    #     `{"NotificationArns" :
+    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]}`
     #
     #   RESOURCE\_UPDATE
     #
     #   : Specify the `TagUpdatesOnProvisionedProduct` property as follows:
     #
-    #     `\{"Version":"2.0","Properties":\{"TagUpdateOnProvisionedProduct":"String"\}\}`
+    #     `{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}`
     #
     #     The `TagUpdatesOnProvisionedProduct` property accepts a string
     #     value of `ALLOWED` or `NOT_ALLOWED`.
@@ -6376,9 +6543,9 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `Parameters` property as follows:
     #
-    #     `\{"Version": "String", "Properties": \{"AccountList": [ "String"
-    #     ], "RegionList": [ "String" ], "AdminRole": "String",
-    #     "ExecutionRole": "String"\}\}`
+    #     `{"Version": "String", "Properties": {"AccountList": [ "String" ],
+    #     "RegionList": [ "String" ], "AdminRole": "String",
+    #     "ExecutionRole": "String"}}`
     #
     #     You cannot have both a `LAUNCH` and a `STACKSET` constraint.
     #
@@ -6433,8 +6600,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -6498,8 +6663,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -6568,8 +6731,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -6665,8 +6826,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -6770,8 +6929,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -6793,7 +6950,7 @@ module Aws::ServiceCatalog
     #   `ExecuteProvisionedProductServiceAction`. Only a role ARN is valid.
     #   A user ARN is invalid.
     #
-    #   The `OWNER` key accepts IAM user ARNs, IAM role ARNs, and STS
+    #   The `OWNER` key accepts user ARNs, IAM role ARNs, and STS
     #   assumed-role ARNs. The owner is the user that has permission to see,
     #   update, terminate, and execute service actions in the provisioned
     #   product.
@@ -6864,8 +7021,6 @@ module Aws::ServiceCatalog
 
     # @!attribute [rw] accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -7127,8 +7282,6 @@ module Aws::ServiceCatalog
     # @!attribute [rw] accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -7213,3 +7366,4 @@ module Aws::ServiceCatalog
 
   end
 end
+

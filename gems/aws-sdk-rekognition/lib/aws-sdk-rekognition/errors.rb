@@ -28,11 +28,13 @@ module Aws::Rekognition
   #
   # ## Error Classes
   # * {AccessDeniedException}
+  # * {ConflictException}
   # * {HumanLoopQuotaExceededException}
   # * {IdempotentParameterMismatchException}
   # * {ImageTooLargeException}
   # * {InternalServerError}
   # * {InvalidImageFormatException}
+  # * {InvalidManifestException}
   # * {InvalidPaginationTokenException}
   # * {InvalidParameterException}
   # * {InvalidPolicyRevisionIdException}
@@ -45,6 +47,7 @@ module Aws::Rekognition
   # * {ResourceNotFoundException}
   # * {ResourceNotReadyException}
   # * {ServiceQuotaExceededException}
+  # * {SessionNotFoundException}
   # * {ThrottlingException}
   # * {VideoTooLargeException}
   #
@@ -59,6 +62,16 @@ module Aws::Rekognition
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Rekognition::Types::AccessDeniedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class ConflictException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Rekognition::Types::ConflictException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -124,6 +137,16 @@ module Aws::Rekognition
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Rekognition::Types::InvalidImageFormatException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class InvalidManifestException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Rekognition::Types::InvalidManifestException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -244,6 +267,16 @@ module Aws::Rekognition
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Rekognition::Types::ServiceQuotaExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class SessionNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Rekognition::Types::SessionNotFoundException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

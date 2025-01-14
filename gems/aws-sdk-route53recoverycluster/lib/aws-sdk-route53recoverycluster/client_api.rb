@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Route53RecoveryCluster
   # @api private
   module ClientApi
@@ -25,6 +26,7 @@ module Aws::Route53RecoveryCluster
     ListRoutingControlsRequest = Shapes::StructureShape.new(name: 'ListRoutingControlsRequest')
     ListRoutingControlsResponse = Shapes::StructureShape.new(name: 'ListRoutingControlsResponse')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    Owner = Shapes::StringShape.new(name: 'Owner')
     PageToken = Shapes::StringShape.new(name: 'PageToken')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     RetryAfterSeconds = Shapes::IntegerShape.new(name: 'RetryAfterSeconds')
@@ -90,6 +92,7 @@ module Aws::Route53RecoveryCluster
     RoutingControl.add_member(:routing_control_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "RoutingControlArn"))
     RoutingControl.add_member(:routing_control_name, Shapes::ShapeRef.new(shape: RoutingControlName, location_name: "RoutingControlName"))
     RoutingControl.add_member(:routing_control_state, Shapes::ShapeRef.new(shape: RoutingControlState, location_name: "RoutingControlState"))
+    RoutingControl.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, location_name: "Owner"))
     RoutingControl.struct_class = Types::RoutingControl
 
     RoutingControls.member = Shapes::ShapeRef.new(shape: RoutingControl)
@@ -143,9 +146,11 @@ module Aws::Route53RecoveryCluster
 
       api.metadata = {
         "apiVersion" => "2019-12-02",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "route53-recovery-cluster",
         "jsonVersion" => "1.0",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Route53 Recovery Cluster",
         "serviceId" => "Route53 Recovery Cluster",
         "signatureVersion" => "v4",

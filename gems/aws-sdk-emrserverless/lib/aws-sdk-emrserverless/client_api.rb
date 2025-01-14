@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::EMRServerless
   # @api private
   module ClientApi
@@ -22,6 +23,7 @@ module Aws::EMRServerless
     ApplicationStateSet = Shapes::ListShape.new(name: 'ApplicationStateSet')
     ApplicationSummary = Shapes::StructureShape.new(name: 'ApplicationSummary')
     Architecture = Shapes::StringShape.new(name: 'Architecture')
+    AttemptNumber = Shapes::IntegerShape.new(name: 'AttemptNumber')
     AutoStartConfig = Shapes::StructureShape.new(name: 'AutoStartConfig')
     AutoStopConfig = Shapes::StructureShape.new(name: 'AutoStopConfig')
     AutoStopConfigIdleTimeoutMinutesInteger = Shapes::IntegerShape.new(name: 'AutoStopConfigIdleTimeoutMinutesInteger')
@@ -29,9 +31,12 @@ module Aws::EMRServerless
     CancelJobRunRequest = Shapes::StructureShape.new(name: 'CancelJobRunRequest')
     CancelJobRunResponse = Shapes::StructureShape.new(name: 'CancelJobRunResponse')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
+    CloudWatchLoggingConfiguration = Shapes::StructureShape.new(name: 'CloudWatchLoggingConfiguration')
     Configuration = Shapes::StructureShape.new(name: 'Configuration')
     ConfigurationList = Shapes::ListShape.new(name: 'ConfigurationList')
     ConfigurationOverrides = Shapes::StructureShape.new(name: 'ConfigurationOverrides')
+    ConfigurationPropertyKey = Shapes::StringShape.new(name: 'ConfigurationPropertyKey')
+    ConfigurationPropertyValue = Shapes::StringShape.new(name: 'ConfigurationPropertyValue')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     CpuSize = Shapes::StringShape.new(name: 'CpuSize')
     CreateApplicationRequest = Shapes::StructureShape.new(name: 'CreateApplicationRequest')
@@ -40,6 +45,7 @@ module Aws::EMRServerless
     DeleteApplicationRequest = Shapes::StructureShape.new(name: 'DeleteApplicationRequest')
     DeleteApplicationResponse = Shapes::StructureShape.new(name: 'DeleteApplicationResponse')
     DiskSize = Shapes::StringShape.new(name: 'DiskSize')
+    DiskType = Shapes::StringShape.new(name: 'DiskType')
     Double = Shapes::FloatShape.new(name: 'Double')
     Duration = Shapes::IntegerShape.new(name: 'Duration')
     EncryptionKeyArn = Shapes::StringShape.new(name: 'EncryptionKeyArn')
@@ -64,11 +70,15 @@ module Aws::EMRServerless
     InitialCapacityConfig = Shapes::StructureShape.new(name: 'InitialCapacityConfig')
     InitialCapacityConfigMap = Shapes::MapShape.new(name: 'InitialCapacityConfigMap')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
+    InteractiveConfiguration = Shapes::StructureShape.new(name: 'InteractiveConfiguration')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     JobArn = Shapes::StringShape.new(name: 'JobArn')
     JobDriver = Shapes::UnionShape.new(name: 'JobDriver')
     JobRun = Shapes::StructureShape.new(name: 'JobRun')
+    JobRunAttemptSummary = Shapes::StructureShape.new(name: 'JobRunAttemptSummary')
+    JobRunAttempts = Shapes::ListShape.new(name: 'JobRunAttempts')
     JobRunId = Shapes::StringShape.new(name: 'JobRunId')
+    JobRunMode = Shapes::StringShape.new(name: 'JobRunMode')
     JobRunState = Shapes::StringShape.new(name: 'JobRunState')
     JobRunStateSet = Shapes::ListShape.new(name: 'JobRunStateSet')
     JobRunSummary = Shapes::StructureShape.new(name: 'JobRunSummary')
@@ -77,23 +87,38 @@ module Aws::EMRServerless
     ListApplicationsRequest = Shapes::StructureShape.new(name: 'ListApplicationsRequest')
     ListApplicationsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListApplicationsRequestMaxResultsInteger')
     ListApplicationsResponse = Shapes::StructureShape.new(name: 'ListApplicationsResponse')
+    ListJobRunAttemptsRequest = Shapes::StructureShape.new(name: 'ListJobRunAttemptsRequest')
+    ListJobRunAttemptsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListJobRunAttemptsRequestMaxResultsInteger')
+    ListJobRunAttemptsResponse = Shapes::StructureShape.new(name: 'ListJobRunAttemptsResponse')
     ListJobRunsRequest = Shapes::StructureShape.new(name: 'ListJobRunsRequest')
     ListJobRunsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListJobRunsRequestMaxResultsInteger')
     ListJobRunsResponse = Shapes::StructureShape.new(name: 'ListJobRunsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
+    LogGroupName = Shapes::StringShape.new(name: 'LogGroupName')
+    LogStreamNamePrefix = Shapes::StringShape.new(name: 'LogStreamNamePrefix')
+    LogTypeList = Shapes::ListShape.new(name: 'LogTypeList')
+    LogTypeMap = Shapes::MapShape.new(name: 'LogTypeMap')
+    LogTypeString = Shapes::StringShape.new(name: 'LogTypeString')
+    Long = Shapes::IntegerShape.new(name: 'Long')
     ManagedPersistenceMonitoringConfiguration = Shapes::StructureShape.new(name: 'ManagedPersistenceMonitoringConfiguration')
     MaximumAllowedResources = Shapes::StructureShape.new(name: 'MaximumAllowedResources')
     MemorySize = Shapes::StringShape.new(name: 'MemorySize')
     MonitoringConfiguration = Shapes::StructureShape.new(name: 'MonitoringConfiguration')
     NetworkConfiguration = Shapes::StructureShape.new(name: 'NetworkConfiguration')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
+    PrometheusMonitoringConfiguration = Shapes::StructureShape.new(name: 'PrometheusMonitoringConfiguration')
+    PrometheusUrlString = Shapes::StringShape.new(name: 'PrometheusUrlString')
     Query = Shapes::StringShape.new(name: 'Query')
     ReleaseLabel = Shapes::StringShape.new(name: 'ReleaseLabel')
     RequestIdentityUserArn = Shapes::StringShape.new(name: 'RequestIdentityUserArn')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResourceUtilization = Shapes::StructureShape.new(name: 'ResourceUtilization')
+    RetryPolicy = Shapes::StructureShape.new(name: 'RetryPolicy')
+    RetryPolicyMaxFailedAttemptsPerHourInteger = Shapes::IntegerShape.new(name: 'RetryPolicyMaxFailedAttemptsPerHourInteger')
     S3MonitoringConfiguration = Shapes::StructureShape.new(name: 'S3MonitoringConfiguration')
+    SchedulerConfiguration = Shapes::StructureShape.new(name: 'SchedulerConfiguration')
     SecurityGroupIds = Shapes::ListShape.new(name: 'SecurityGroupIds')
     SecurityGroupString = Shapes::StringShape.new(name: 'SecurityGroupString')
     SensitivePropertiesMap = Shapes::MapShape.new(name: 'SensitivePropertiesMap')
@@ -150,6 +175,10 @@ module Aws::EMRServerless
     Application.add_member(:architecture, Shapes::ShapeRef.new(shape: Architecture, location_name: "architecture"))
     Application.add_member(:image_configuration, Shapes::ShapeRef.new(shape: ImageConfiguration, location_name: "imageConfiguration"))
     Application.add_member(:worker_type_specifications, Shapes::ShapeRef.new(shape: WorkerTypeSpecificationMap, location_name: "workerTypeSpecifications"))
+    Application.add_member(:runtime_configuration, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "runtimeConfiguration"))
+    Application.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "monitoringConfiguration"))
+    Application.add_member(:interactive_configuration, Shapes::ShapeRef.new(shape: InteractiveConfiguration, location_name: "interactiveConfiguration"))
+    Application.add_member(:scheduler_configuration, Shapes::ShapeRef.new(shape: SchedulerConfiguration, location_name: "schedulerConfiguration"))
     Application.struct_class = Types::Application
 
     ApplicationList.member = Shapes::ShapeRef.new(shape: ApplicationSummary)
@@ -183,6 +212,13 @@ module Aws::EMRServerless
     CancelJobRunResponse.add_member(:job_run_id, Shapes::ShapeRef.new(shape: JobRunId, required: true, location_name: "jobRunId"))
     CancelJobRunResponse.struct_class = Types::CancelJobRunResponse
 
+    CloudWatchLoggingConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enabled"))
+    CloudWatchLoggingConfiguration.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, location_name: "logGroupName"))
+    CloudWatchLoggingConfiguration.add_member(:log_stream_name_prefix, Shapes::ShapeRef.new(shape: LogStreamNamePrefix, location_name: "logStreamNamePrefix"))
+    CloudWatchLoggingConfiguration.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: EncryptionKeyArn, location_name: "encryptionKeyArn"))
+    CloudWatchLoggingConfiguration.add_member(:log_types, Shapes::ShapeRef.new(shape: LogTypeMap, location_name: "logTypes"))
+    CloudWatchLoggingConfiguration.struct_class = Types::CloudWatchLoggingConfiguration
+
     Configuration.add_member(:classification, Shapes::ShapeRef.new(shape: String1024, required: true, location_name: "classification"))
     Configuration.add_member(:properties, Shapes::ShapeRef.new(shape: SensitivePropertiesMap, location_name: "properties"))
     Configuration.add_member(:configurations, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "configurations"))
@@ -210,6 +246,10 @@ module Aws::EMRServerless
     CreateApplicationRequest.add_member(:architecture, Shapes::ShapeRef.new(shape: Architecture, location_name: "architecture"))
     CreateApplicationRequest.add_member(:image_configuration, Shapes::ShapeRef.new(shape: ImageConfigurationInput, location_name: "imageConfiguration"))
     CreateApplicationRequest.add_member(:worker_type_specifications, Shapes::ShapeRef.new(shape: WorkerTypeSpecificationInputMap, location_name: "workerTypeSpecifications"))
+    CreateApplicationRequest.add_member(:runtime_configuration, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "runtimeConfiguration"))
+    CreateApplicationRequest.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "monitoringConfiguration"))
+    CreateApplicationRequest.add_member(:interactive_configuration, Shapes::ShapeRef.new(shape: InteractiveConfiguration, location_name: "interactiveConfiguration"))
+    CreateApplicationRequest.add_member(:scheduler_configuration, Shapes::ShapeRef.new(shape: SchedulerConfiguration, location_name: "schedulerConfiguration"))
     CreateApplicationRequest.struct_class = Types::CreateApplicationRequest
 
     CreateApplicationResponse.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location_name: "applicationId"))
@@ -232,6 +272,8 @@ module Aws::EMRServerless
 
     GetDashboardForJobRunRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "applicationId"))
     GetDashboardForJobRunRequest.add_member(:job_run_id, Shapes::ShapeRef.new(shape: JobRunId, required: true, location: "uri", location_name: "jobRunId"))
+    GetDashboardForJobRunRequest.add_member(:attempt, Shapes::ShapeRef.new(shape: AttemptNumber, location: "querystring", location_name: "attempt"))
+    GetDashboardForJobRunRequest.add_member(:access_system_profile_logs, Shapes::ShapeRef.new(shape: Boolean, location: "querystring", location_name: "accessSystemProfileLogs"))
     GetDashboardForJobRunRequest.struct_class = Types::GetDashboardForJobRunRequest
 
     GetDashboardForJobRunResponse.add_member(:url, Shapes::ShapeRef.new(shape: Url, location_name: "url"))
@@ -239,6 +281,7 @@ module Aws::EMRServerless
 
     GetJobRunRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "applicationId"))
     GetJobRunRequest.add_member(:job_run_id, Shapes::ShapeRef.new(shape: JobRunId, required: true, location: "uri", location_name: "jobRunId"))
+    GetJobRunRequest.add_member(:attempt, Shapes::ShapeRef.new(shape: AttemptNumber, location: "querystring", location_name: "attempt"))
     GetJobRunRequest.struct_class = Types::GetJobRunRequest
 
     GetJobRunResponse.add_member(:job_run, Shapes::ShapeRef.new(shape: JobRun, required: true, location_name: "jobRun"))
@@ -262,6 +305,10 @@ module Aws::EMRServerless
 
     InitialCapacityConfigMap.key = Shapes::ShapeRef.new(shape: WorkerTypeString)
     InitialCapacityConfigMap.value = Shapes::ShapeRef.new(shape: InitialCapacityConfig)
+
+    InteractiveConfiguration.add_member(:studio_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "studioEnabled"))
+    InteractiveConfiguration.add_member(:livy_endpoint_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "livyEndpointEnabled"))
+    InteractiveConfiguration.struct_class = Types::InteractiveConfiguration
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String1024, required: true, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
@@ -291,13 +338,43 @@ module Aws::EMRServerless
     JobRun.add_member(:total_resource_utilization, Shapes::ShapeRef.new(shape: TotalResourceUtilization, location_name: "totalResourceUtilization"))
     JobRun.add_member(:network_configuration, Shapes::ShapeRef.new(shape: NetworkConfiguration, location_name: "networkConfiguration"))
     JobRun.add_member(:total_execution_duration_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "totalExecutionDurationSeconds"))
+    JobRun.add_member(:execution_timeout_minutes, Shapes::ShapeRef.new(shape: Duration, location_name: "executionTimeoutMinutes", metadata: {"box"=>true}))
+    JobRun.add_member(:billed_resource_utilization, Shapes::ShapeRef.new(shape: ResourceUtilization, location_name: "billedResourceUtilization"))
+    JobRun.add_member(:mode, Shapes::ShapeRef.new(shape: JobRunMode, location_name: "mode"))
+    JobRun.add_member(:retry_policy, Shapes::ShapeRef.new(shape: RetryPolicy, location_name: "retryPolicy"))
+    JobRun.add_member(:attempt, Shapes::ShapeRef.new(shape: AttemptNumber, location_name: "attempt"))
+    JobRun.add_member(:attempt_created_at, Shapes::ShapeRef.new(shape: Date, location_name: "attemptCreatedAt"))
+    JobRun.add_member(:attempt_updated_at, Shapes::ShapeRef.new(shape: Date, location_name: "attemptUpdatedAt"))
+    JobRun.add_member(:started_at, Shapes::ShapeRef.new(shape: Date, location_name: "startedAt"))
+    JobRun.add_member(:ended_at, Shapes::ShapeRef.new(shape: Date, location_name: "endedAt"))
+    JobRun.add_member(:queued_duration_milliseconds, Shapes::ShapeRef.new(shape: Long, location_name: "queuedDurationMilliseconds"))
     JobRun.struct_class = Types::JobRun
+
+    JobRunAttemptSummary.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location_name: "applicationId"))
+    JobRunAttemptSummary.add_member(:id, Shapes::ShapeRef.new(shape: JobRunId, required: true, location_name: "id"))
+    JobRunAttemptSummary.add_member(:name, Shapes::ShapeRef.new(shape: String256, location_name: "name"))
+    JobRunAttemptSummary.add_member(:mode, Shapes::ShapeRef.new(shape: JobRunMode, location_name: "mode"))
+    JobRunAttemptSummary.add_member(:arn, Shapes::ShapeRef.new(shape: JobArn, required: true, location_name: "arn"))
+    JobRunAttemptSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: RequestIdentityUserArn, required: true, location_name: "createdBy"))
+    JobRunAttemptSummary.add_member(:job_created_at, Shapes::ShapeRef.new(shape: Date, required: true, location_name: "jobCreatedAt"))
+    JobRunAttemptSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Date, required: true, location_name: "createdAt"))
+    JobRunAttemptSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Date, required: true, location_name: "updatedAt"))
+    JobRunAttemptSummary.add_member(:execution_role, Shapes::ShapeRef.new(shape: IAMRoleArn, required: true, location_name: "executionRole"))
+    JobRunAttemptSummary.add_member(:state, Shapes::ShapeRef.new(shape: JobRunState, required: true, location_name: "state"))
+    JobRunAttemptSummary.add_member(:state_details, Shapes::ShapeRef.new(shape: String256, required: true, location_name: "stateDetails"))
+    JobRunAttemptSummary.add_member(:release_label, Shapes::ShapeRef.new(shape: ReleaseLabel, required: true, location_name: "releaseLabel"))
+    JobRunAttemptSummary.add_member(:type, Shapes::ShapeRef.new(shape: JobRunType, location_name: "type"))
+    JobRunAttemptSummary.add_member(:attempt, Shapes::ShapeRef.new(shape: AttemptNumber, location_name: "attempt"))
+    JobRunAttemptSummary.struct_class = Types::JobRunAttemptSummary
+
+    JobRunAttempts.member = Shapes::ShapeRef.new(shape: JobRunAttemptSummary)
 
     JobRunStateSet.member = Shapes::ShapeRef.new(shape: JobRunState)
 
     JobRunSummary.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location_name: "applicationId"))
     JobRunSummary.add_member(:id, Shapes::ShapeRef.new(shape: JobRunId, required: true, location_name: "id"))
     JobRunSummary.add_member(:name, Shapes::ShapeRef.new(shape: String256, location_name: "name"))
+    JobRunSummary.add_member(:mode, Shapes::ShapeRef.new(shape: JobRunMode, location_name: "mode"))
     JobRunSummary.add_member(:arn, Shapes::ShapeRef.new(shape: JobArn, required: true, location_name: "arn"))
     JobRunSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: RequestIdentityUserArn, required: true, location_name: "createdBy"))
     JobRunSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Date, required: true, location_name: "createdAt"))
@@ -307,6 +384,9 @@ module Aws::EMRServerless
     JobRunSummary.add_member(:state_details, Shapes::ShapeRef.new(shape: String256, required: true, location_name: "stateDetails"))
     JobRunSummary.add_member(:release_label, Shapes::ShapeRef.new(shape: ReleaseLabel, required: true, location_name: "releaseLabel"))
     JobRunSummary.add_member(:type, Shapes::ShapeRef.new(shape: JobRunType, location_name: "type"))
+    JobRunSummary.add_member(:attempt, Shapes::ShapeRef.new(shape: AttemptNumber, location_name: "attempt"))
+    JobRunSummary.add_member(:attempt_created_at, Shapes::ShapeRef.new(shape: Date, location_name: "attemptCreatedAt"))
+    JobRunSummary.add_member(:attempt_updated_at, Shapes::ShapeRef.new(shape: Date, location_name: "attemptUpdatedAt"))
     JobRunSummary.struct_class = Types::JobRunSummary
 
     JobRuns.member = Shapes::ShapeRef.new(shape: JobRunSummary)
@@ -320,12 +400,23 @@ module Aws::EMRServerless
     ListApplicationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListApplicationsResponse.struct_class = Types::ListApplicationsResponse
 
+    ListJobRunAttemptsRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "applicationId"))
+    ListJobRunAttemptsRequest.add_member(:job_run_id, Shapes::ShapeRef.new(shape: JobRunId, required: true, location: "uri", location_name: "jobRunId"))
+    ListJobRunAttemptsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListJobRunAttemptsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListJobRunAttemptsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListJobRunAttemptsRequest.struct_class = Types::ListJobRunAttemptsRequest
+
+    ListJobRunAttemptsResponse.add_member(:job_run_attempts, Shapes::ShapeRef.new(shape: JobRunAttempts, required: true, location_name: "jobRunAttempts"))
+    ListJobRunAttemptsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListJobRunAttemptsResponse.struct_class = Types::ListJobRunAttemptsResponse
+
     ListJobRunsRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location: "uri", location_name: "applicationId"))
     ListJobRunsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListJobRunsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListJobRunsRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
     ListJobRunsRequest.add_member(:created_at_after, Shapes::ShapeRef.new(shape: Date, location: "querystring", location_name: "createdAtAfter"))
     ListJobRunsRequest.add_member(:created_at_before, Shapes::ShapeRef.new(shape: Date, location: "querystring", location_name: "createdAtBefore"))
     ListJobRunsRequest.add_member(:states, Shapes::ShapeRef.new(shape: JobRunStateSet, location: "querystring", location_name: "states"))
+    ListJobRunsRequest.add_member(:mode, Shapes::ShapeRef.new(shape: JobRunMode, location: "querystring", location_name: "mode"))
     ListJobRunsRequest.struct_class = Types::ListJobRunsRequest
 
     ListJobRunsResponse.add_member(:job_runs, Shapes::ShapeRef.new(shape: JobRuns, required: true, location_name: "jobRuns"))
@@ -338,6 +429,11 @@ module Aws::EMRServerless
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
 
+    LogTypeList.member = Shapes::ShapeRef.new(shape: LogTypeString)
+
+    LogTypeMap.key = Shapes::ShapeRef.new(shape: WorkerTypeString)
+    LogTypeMap.value = Shapes::ShapeRef.new(shape: LogTypeList)
+
     ManagedPersistenceMonitoringConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "enabled"))
     ManagedPersistenceMonitoringConfiguration.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: EncryptionKeyArn, location_name: "encryptionKeyArn"))
     ManagedPersistenceMonitoringConfiguration.struct_class = Types::ManagedPersistenceMonitoringConfiguration
@@ -349,23 +445,41 @@ module Aws::EMRServerless
 
     MonitoringConfiguration.add_member(:s3_monitoring_configuration, Shapes::ShapeRef.new(shape: S3MonitoringConfiguration, location_name: "s3MonitoringConfiguration"))
     MonitoringConfiguration.add_member(:managed_persistence_monitoring_configuration, Shapes::ShapeRef.new(shape: ManagedPersistenceMonitoringConfiguration, location_name: "managedPersistenceMonitoringConfiguration"))
+    MonitoringConfiguration.add_member(:cloud_watch_logging_configuration, Shapes::ShapeRef.new(shape: CloudWatchLoggingConfiguration, location_name: "cloudWatchLoggingConfiguration"))
+    MonitoringConfiguration.add_member(:prometheus_monitoring_configuration, Shapes::ShapeRef.new(shape: PrometheusMonitoringConfiguration, location_name: "prometheusMonitoringConfiguration"))
     MonitoringConfiguration.struct_class = Types::MonitoringConfiguration
 
     NetworkConfiguration.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIds, location_name: "subnetIds"))
     NetworkConfiguration.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIds, location_name: "securityGroupIds"))
     NetworkConfiguration.struct_class = Types::NetworkConfiguration
 
+    PrometheusMonitoringConfiguration.add_member(:remote_write_url, Shapes::ShapeRef.new(shape: PrometheusUrlString, location_name: "remoteWriteUrl"))
+    PrometheusMonitoringConfiguration.struct_class = Types::PrometheusMonitoringConfiguration
+
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String1024, required: true, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
+
+    ResourceUtilization.add_member(:v_cpu_hour, Shapes::ShapeRef.new(shape: Double, location_name: "vCPUHour"))
+    ResourceUtilization.add_member(:memory_gb_hour, Shapes::ShapeRef.new(shape: Double, location_name: "memoryGBHour"))
+    ResourceUtilization.add_member(:storage_gb_hour, Shapes::ShapeRef.new(shape: Double, location_name: "storageGBHour"))
+    ResourceUtilization.struct_class = Types::ResourceUtilization
+
+    RetryPolicy.add_member(:max_attempts, Shapes::ShapeRef.new(shape: AttemptNumber, location_name: "maxAttempts"))
+    RetryPolicy.add_member(:max_failed_attempts_per_hour, Shapes::ShapeRef.new(shape: RetryPolicyMaxFailedAttemptsPerHourInteger, location_name: "maxFailedAttemptsPerHour"))
+    RetryPolicy.struct_class = Types::RetryPolicy
 
     S3MonitoringConfiguration.add_member(:log_uri, Shapes::ShapeRef.new(shape: UriString, location_name: "logUri"))
     S3MonitoringConfiguration.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: EncryptionKeyArn, location_name: "encryptionKeyArn"))
     S3MonitoringConfiguration.struct_class = Types::S3MonitoringConfiguration
 
+    SchedulerConfiguration.add_member(:queue_timeout_minutes, Shapes::ShapeRef.new(shape: Integer, location_name: "queueTimeoutMinutes"))
+    SchedulerConfiguration.add_member(:max_concurrent_runs, Shapes::ShapeRef.new(shape: Integer, location_name: "maxConcurrentRuns"))
+    SchedulerConfiguration.struct_class = Types::SchedulerConfiguration
+
     SecurityGroupIds.member = Shapes::ShapeRef.new(shape: SecurityGroupString)
 
-    SensitivePropertiesMap.key = Shapes::ShapeRef.new(shape: String1024)
-    SensitivePropertiesMap.value = Shapes::ShapeRef.new(shape: String1024)
+    SensitivePropertiesMap.key = Shapes::ShapeRef.new(shape: ConfigurationPropertyKey)
+    SensitivePropertiesMap.value = Shapes::ShapeRef.new(shape: ConfigurationPropertyValue)
 
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String1024, required: true, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
@@ -388,6 +502,8 @@ module Aws::EMRServerless
     StartJobRunRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     StartJobRunRequest.add_member(:execution_timeout_minutes, Shapes::ShapeRef.new(shape: Duration, location_name: "executionTimeoutMinutes", metadata: {"box"=>true}))
     StartJobRunRequest.add_member(:name, Shapes::ShapeRef.new(shape: String256, location_name: "name"))
+    StartJobRunRequest.add_member(:mode, Shapes::ShapeRef.new(shape: JobRunMode, location_name: "mode"))
+    StartJobRunRequest.add_member(:retry_policy, Shapes::ShapeRef.new(shape: RetryPolicy, location_name: "retryPolicy"))
     StartJobRunRequest.struct_class = Types::StartJobRunRequest
 
     StartJobRunResponse.add_member(:application_id, Shapes::ShapeRef.new(shape: ApplicationId, required: true, location_name: "applicationId"))
@@ -434,6 +550,11 @@ module Aws::EMRServerless
     UpdateApplicationRequest.add_member(:architecture, Shapes::ShapeRef.new(shape: Architecture, location_name: "architecture"))
     UpdateApplicationRequest.add_member(:image_configuration, Shapes::ShapeRef.new(shape: ImageConfigurationInput, location_name: "imageConfiguration"))
     UpdateApplicationRequest.add_member(:worker_type_specifications, Shapes::ShapeRef.new(shape: WorkerTypeSpecificationInputMap, location_name: "workerTypeSpecifications"))
+    UpdateApplicationRequest.add_member(:interactive_configuration, Shapes::ShapeRef.new(shape: InteractiveConfiguration, location_name: "interactiveConfiguration"))
+    UpdateApplicationRequest.add_member(:release_label, Shapes::ShapeRef.new(shape: ReleaseLabel, location_name: "releaseLabel"))
+    UpdateApplicationRequest.add_member(:runtime_configuration, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "runtimeConfiguration"))
+    UpdateApplicationRequest.add_member(:monitoring_configuration, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "monitoringConfiguration"))
+    UpdateApplicationRequest.add_member(:scheduler_configuration, Shapes::ShapeRef.new(shape: SchedulerConfiguration, location_name: "schedulerConfiguration"))
     UpdateApplicationRequest.struct_class = Types::UpdateApplicationRequest
 
     UpdateApplicationResponse.add_member(:application, Shapes::ShapeRef.new(shape: Application, required: true, location_name: "application"))
@@ -445,6 +566,7 @@ module Aws::EMRServerless
     WorkerResourceConfig.add_member(:cpu, Shapes::ShapeRef.new(shape: CpuSize, required: true, location_name: "cpu"))
     WorkerResourceConfig.add_member(:memory, Shapes::ShapeRef.new(shape: MemorySize, required: true, location_name: "memory"))
     WorkerResourceConfig.add_member(:disk, Shapes::ShapeRef.new(shape: DiskSize, location_name: "disk"))
+    WorkerResourceConfig.add_member(:disk_type, Shapes::ShapeRef.new(shape: DiskType, location_name: "diskType"))
     WorkerResourceConfig.struct_class = Types::WorkerResourceConfig
 
     WorkerTypeSpecification.add_member(:image_configuration, Shapes::ShapeRef.new(shape: ImageConfiguration, location_name: "imageConfiguration"))
@@ -467,9 +589,10 @@ module Aws::EMRServerless
 
       api.metadata = {
         "apiVersion" => "2021-07-13",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "emr-serverless",
-        "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "EMR Serverless",
         "serviceId" => "EMR Serverless",
         "signatureVersion" => "v4",
@@ -551,6 +674,23 @@ module Aws::EMRServerless
         o.input = Shapes::ShapeRef.new(shape: ListApplicationsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListApplicationsResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_job_run_attempts, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListJobRunAttempts"
+        o.http_method = "GET"
+        o.http_request_uri = "/applications/{applicationId}/jobruns/{jobRunId}/attempts"
+        o.input = Shapes::ShapeRef.new(shape: ListJobRunAttemptsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListJobRunAttemptsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",

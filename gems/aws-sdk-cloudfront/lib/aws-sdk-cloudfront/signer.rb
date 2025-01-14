@@ -15,7 +15,8 @@ module Aws
       # @option options [String] :private_key_path
       def initialize(options = {})
         @key_pair_id = key_pair_id(options)
-        @private_key = private_key(options)
+        @cipher = OpenSSL::Digest::SHA1.new
+        @private_key = OpenSSL::PKey::RSA.new(private_key(options))
       end
 
       private
@@ -25,7 +26,7 @@ module Aws
         if url_sections.length < 2
           raise ArgumentError, "Invalid URL:#{url}"
         end
-        scheme = url_sections[0].gsub('*', '')
+        scheme = url_sections[0].delete('*')
         uri = "#{scheme}://#{url_sections[1]}"
         [scheme, uri]
       end
@@ -97,8 +98,7 @@ module Aws
 
       # create the signature string with policy signed
       def sign_policy(policy)
-        key = OpenSSL::PKey::RSA.new(@private_key)
-        key.sign(OpenSSL::Digest::SHA1.new, policy)
+        @private_key.sign(@cipher, policy)
       end
 
       # create canned policy that used for signing

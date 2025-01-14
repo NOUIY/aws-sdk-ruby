@@ -10,6 +10,66 @@
 module Aws::Account
   module Types
 
+    # @!attribute [rw] account_id
+    #   Specifies the 12-digit account ID number of the Amazon Web Services
+    #   account that you want to access or modify with this operation. To
+    #   use this parameter, the caller must be an identity in the
+    #   [organization's management account][1] or a delegated administrator
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
+    #   enabled][2], and the organization must have [trusted access][3]
+    #   enabled for the Account Management service, and optionally a
+    #   [delegated admin][4] account assigned.
+    #
+    #   This operation can only be called from the management account or the
+    #   delegated administrator account of an organization for a member
+    #   account.
+    #
+    #   <note markdown="1"> The management account can't specify its own `AccountId`.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html
+    #   @return [String]
+    #
+    # @!attribute [rw] otp
+    #   The OTP code sent to the `PrimaryEmail` specified on the
+    #   `StartPrimaryEmailUpdate` API call.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_email
+    #   The new primary email address for use with the specified account.
+    #   This must match the `PrimaryEmail` from the
+    #   `StartPrimaryEmailUpdate` API call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/AcceptPrimaryEmailUpdateRequest AWS API Documentation
+    #
+    class AcceptPrimaryEmailUpdateRequest < Struct.new(
+      :account_id,
+      :otp,
+      :primary_email)
+      SENSITIVE = [:otp, :primary_email]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   Retrieves the status of the accepted primary email update request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/AcceptPrimaryEmailUpdateResponse AWS API Documentation
+    #
+    class AcceptPrimaryEmailUpdateResponse < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The operation failed because the calling identity doesn't have the
     # minimum required permissions.
     #
@@ -122,8 +182,12 @@ module Aws::Account
     #   @return [String]
     #
     # @!attribute [rw] state_or_region
-    #   The state or region of the primary contact address. This field is
-    #   required in selected countries.
+    #   The state or region of the primary contact address. If the mailing
+    #   address is within the United States (US), the value in this field
+    #   can be either a two character state code (for example, `NJ`) or the
+    #   full state name (for example, `New Jersey`). This field is required
+    #   in the following countries: `US`, `CA`, `GB`, `DE`, `JP`, `IN`, and
+    #   `BR`.
     #   @return [String]
     #
     # @!attribute [rw] website_url
@@ -204,8 +268,8 @@ module Aws::Account
     #   Services account of the identity used to call the operation. To use
     #   this parameter, the caller must be an identity in the
     #   [organization's management account][1] or a delegated administrator
-    #   account. The specified account ID must also be a member account in
-    #   the same organization. The organization must have [all features
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
     #   enabled][2], and the organization must have [trusted access][3]
     #   enabled for the Account Management service, and optionally a
     #   [delegated admin][4] account assigned.
@@ -231,11 +295,12 @@ module Aws::Account
     #
     # @!attribute [rw] region_name
     #   Specifies the Region-code for a given Region name (for example,
-    #   `af-south-1`). When you disable a Region, AWS performs actions to
-    #   deactivate that Region in your account, such as destroying IAM
-    #   resources in the Region. This process takes a few minutes for most
-    #   accounts, but this can take several hours. You cannot enable the
-    #   Region until the disabling process is fully completed.
+    #   `af-south-1`). When you disable a Region, Amazon Web Services
+    #   performs actions to deactivate that Region in your account, such as
+    #   destroying IAM resources in the Region. This process takes a few
+    #   minutes for most accounts, but this can take several hours. You
+    #   cannot enable the Region until the disabling process is fully
+    #   completed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/DisableRegionRequest AWS API Documentation
@@ -254,8 +319,8 @@ module Aws::Account
     #   Services account of the identity used to call the operation. To use
     #   this parameter, the caller must be an identity in the
     #   [organization's management account][1] or a delegated administrator
-    #   account. The specified account ID must also be a member account in
-    #   the same organization. The organization must have [all features
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
     #   enabled][2], and the organization must have [trusted access][3]
     #   enabled for the Account Management service, and optionally a
     #   [delegated admin][4] account assigned.
@@ -281,12 +346,13 @@ module Aws::Account
     #
     # @!attribute [rw] region_name
     #   Specifies the Region-code for a given Region name (for example,
-    #   `af-south-1`). When you enable a Region, AWS performs actions to
-    #   prepare your account in that Region, such as distributing your IAM
-    #   resources to the Region. This process takes a few minutes for most
-    #   accounts, but it can take several hours. You cannot use the Region
-    #   until this process is complete. Furthermore, you cannot disable the
-    #   Region until the enabling process is fully completed.
+    #   `af-south-1`). When you enable a Region, Amazon Web Services
+    #   performs actions to prepare your account in that Region, such as
+    #   distributing your IAM resources to the Region. This process takes a
+    #   few minutes for most accounts, but it can take several hours. You
+    #   cannot use the Region until this process is complete. Furthermore,
+    #   you cannot disable the Region until the enabling process is fully
+    #   completed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/EnableRegionRequest AWS API Documentation
@@ -365,8 +431,8 @@ module Aws::Account
     #   Services account of the identity used to call the operation. To use
     #   this parameter, the caller must be an identity in the
     #   [organization's management account][1] or a delegated administrator
-    #   account. The specified account ID must also be a member account in
-    #   the same organization. The organization must have [all features
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
     #   enabled][2], and the organization must have [trusted access][3]
     #   enabled for the Account Management service, and optionally a
     #   [delegated admin][4] account assigned.
@@ -413,13 +479,61 @@ module Aws::Account
 
     # @!attribute [rw] account_id
     #   Specifies the 12-digit account ID number of the Amazon Web Services
+    #   account that you want to access or modify with this operation. To
+    #   use this parameter, the caller must be an identity in the
+    #   [organization's management account][1] or a delegated administrator
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
+    #   enabled][2], and the organization must have [trusted access][3]
+    #   enabled for the Account Management service, and optionally a
+    #   [delegated admin][4] account assigned.
+    #
+    #   This operation can only be called from the management account or the
+    #   delegated administrator account of an organization for a member
+    #   account.
+    #
+    #   <note markdown="1"> The management account can't specify its own `AccountId`.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/GetPrimaryEmailRequest AWS API Documentation
+    #
+    class GetPrimaryEmailRequest < Struct.new(
+      :account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] primary_email
+    #   Retrieves the primary email address associated with the specified
+    #   account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/GetPrimaryEmailResponse AWS API Documentation
+    #
+    class GetPrimaryEmailResponse < Struct.new(
+      :primary_email)
+      SENSITIVE = [:primary_email]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_id
+    #   Specifies the 12-digit account ID number of the Amazon Web Services
     #   account that you want to access or modify with this operation. If
     #   you don't specify this parameter, it defaults to the Amazon Web
     #   Services account of the identity used to call the operation. To use
     #   this parameter, the caller must be an identity in the
     #   [organization's management account][1] or a delegated administrator
-    #   account. The specified account ID must also be a member account in
-    #   the same organization. The organization must have [all features
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
     #   enabled][2], and the organization must have [trusted access][3]
     #   enabled for the Account Management service, and optionally a
     #   [delegated admin][4] account assigned.
@@ -497,8 +611,8 @@ module Aws::Account
     #   Services account of the identity used to call the operation. To use
     #   this parameter, the caller must be an identity in the
     #   [organization's management account][1] or a delegated administrator
-    #   account. The specified account ID must also be a member account in
-    #   the same organization. The organization must have [all features
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
     #   enabled][2], and the organization must have [trusted access][3]
     #   enabled for the Account Management service, and optionally a
     #   [delegated admin][4] account assigned.
@@ -661,8 +775,8 @@ module Aws::Account
     #   Services account of the identity used to call the operation. To use
     #   this parameter, the caller must be an identity in the
     #   [organization's management account][1] or a delegated administrator
-    #   account. The specified account ID must also be a member account in
-    #   the same organization. The organization must have [all features
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
     #   enabled][2], and the organization must have [trusted access][3]
     #   enabled for the Account Management service, and optionally a
     #   [delegated admin][4] account assigned.
@@ -735,6 +849,59 @@ module Aws::Account
       include Aws::Structure
     end
 
+    # @!attribute [rw] account_id
+    #   Specifies the 12-digit account ID number of the Amazon Web Services
+    #   account that you want to access or modify with this operation. To
+    #   use this parameter, the caller must be an identity in the
+    #   [organization's management account][1] or a delegated administrator
+    #   account. The specified account ID must be a member account in the
+    #   same organization. The organization must have [all features
+    #   enabled][2], and the organization must have [trusted access][3]
+    #   enabled for the Account Management service, and optionally a
+    #   [delegated admin][4] account assigned.
+    #
+    #   This operation can only be called from the management account or the
+    #   delegated administrator account of an organization for a member
+    #   account.
+    #
+    #   <note markdown="1"> The management account can't specify its own `AccountId`.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_email
+    #   The new primary email address (also known as the root user email
+    #   address) to use in the specified account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/StartPrimaryEmailUpdateRequest AWS API Documentation
+    #
+    class StartPrimaryEmailUpdateRequest < Struct.new(
+      :account_id,
+      :primary_email)
+      SENSITIVE = [:primary_email]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The status of the primary email update request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/account-2021-02-01/StartPrimaryEmailUpdateResponse AWS API Documentation
+    #
+    class StartPrimaryEmailUpdateResponse < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The operation failed because it was called too frequently and exceeded
     # a throttle limit.
     #
@@ -774,8 +941,8 @@ module Aws::Account
       include Aws::Structure
     end
 
-    # The input failed to meet the constraints specified by the AWS service
-    # in a specified field.
+    # The input failed to meet the constraints specified by the Amazon Web
+    # Services service in a specified field.
     #
     # @!attribute [rw] message
     #   A message about the validation exception.
@@ -796,3 +963,4 @@ module Aws::Account
 
   end
 end
+

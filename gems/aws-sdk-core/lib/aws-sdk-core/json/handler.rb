@@ -12,8 +12,7 @@ module Aws
         build_request(context)
         response = @handler.call(context)
         response.on(200..299) { |resp| parse_response(resp) }
-        response.on(200..599) { |resp| apply_request_id(context) }
-        response
+        response.on(200..599) { |_resp| apply_request_id(context) }
       end
 
       private
@@ -22,6 +21,7 @@ module Aws
         context.http_request.http_method = 'POST'
         context.http_request.headers['Content-Type'] = content_type(context)
         context.http_request.headers['X-Amz-Target'] = target(context)
+        context.http_request.headers['X-Amzn-Query-Mode'] = 'true' if query_compatible?(context)
         context.http_request.body = build_body(context)
       end
 
@@ -38,10 +38,10 @@ module Aws
       end
 
       def parse_body(context)
+        json = context.http_response.body_contents
         if simple_json?(context)
-          Json.load(context.http_response.body_contents)
-        elsif rules = context.operation.output
-          json = context.http_response.body_contents
+          Json.load(json)
+        elsif (rules = context.operation.output)
           if json.is_a?(Array)
             # an array of emitted events
             if json[0].respond_to?(:response)
@@ -59,7 +59,10 @@ module Aws
             end
             resp_struct
           else
-            Parser.new(rules).parse(json == '' ? '{}' : json)
+            Parser.new(
+              rules,
+              query_compatible: query_compatible?(context)
+            ).parse(json)
           end
         else
           EmptyStructure.new
@@ -81,6 +84,10 @@ module Aws
 
       def simple_json?(context)
         context.config.simple_json
+      end
+
+      def query_compatible?(context)
+        context.config.api.metadata.key?('awsQueryCompatible')
       end
 
     end

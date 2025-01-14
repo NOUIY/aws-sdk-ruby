@@ -83,11 +83,24 @@ module Aws::IoTDataPlane
     #   was stored by IoT.
     #   @return [Integer]
     #
+    # @!attribute [rw] user_properties
+    #   A base64-encoded JSON string that includes an array of JSON objects,
+    #   or null if the retained message doesn't include any user
+    #   properties.
+    #
+    #   The following example `userProperties` parameter is a JSON string
+    #   that represents two user properties. Note that it will be
+    #   base64-encoded:
+    #
+    #   `[{"deviceName": "alpha"}, {"deviceCnt": "45"}]`
+    #   @return [String]
+    #
     class GetRetainedMessageResponse < Struct.new(
       :topic,
       :payload,
       :qos,
-      :last_modified_time)
+      :last_modified_time,
+      :user_properties)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -274,7 +287,7 @@ module Aws::IoTDataPlane
     #   which represents two User Properties. Note that it needs to be
     #   base64-encoded:
     #
-    #   `[\{"deviceName": "alpha"\}, \{"deviceCnt": "45"\}]`
+    #   `[{"deviceName": "alpha"}, {"deviceCnt": "45"}]`
     #   @return [String]
     #
     # @!attribute [rw] payload_format_indicator
@@ -466,3 +479,4 @@ module Aws::IoTDataPlane
 
   end
 end
+

@@ -62,13 +62,20 @@ module Aws
     private
 
     def refresh
-      c = @client.assume_role(@assume_role_params).credentials
+      resp = @client.assume_role(@assume_role_params)
+      creds = resp.credentials
       @credentials = Credentials.new(
-        c.access_key_id,
-        c.secret_access_key,
-        c.session_token
+        creds.access_key_id,
+        creds.secret_access_key,
+        creds.session_token,
+        account_id: parse_account_id(resp)
       )
-      @expiration = c.expiration
+      @expiration = creds.expiration
+    end
+
+    def parse_account_id(resp)
+      arn = resp.assumed_role_user&.arn
+      ARNParser.parse(arn).account_id if ARNParser.arn?(arn)
     end
 
     class << self

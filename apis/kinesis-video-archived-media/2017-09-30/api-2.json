@@ -4,11 +4,13 @@
     "apiVersion":"2017-09-30",
     "endpointPrefix":"kinesisvideo",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"Kinesis Video Archived Media",
     "serviceFullName":"Amazon Kinesis Video Streams Archived Media",
     "serviceId":"Kinesis Video Archived Media",
     "signatureVersion":"v4",
-    "uid":"kinesis-video-archived-media-2017-09-30"
+    "uid":"kinesis-video-archived-media-2017-09-30",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "GetClip":{
@@ -81,7 +83,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidArgumentException"},
         {"shape":"ClientLimitExceededException"},
-        {"shape":"NotAuthorizedException"}
+        {"shape":"NotAuthorizedException"},
+        {"shape":"NoDataRetentionException"}
       ]
     },
     "GetMediaForFragmentList":{
@@ -355,7 +358,6 @@
         "ImageSelectorType",
         "StartTimestamp",
         "EndTimestamp",
-        "SamplingInterval",
         "Format"
       ],
       "members":{
@@ -587,11 +589,7 @@
       "error":{"httpStatusCode":404},
       "exception":true
     },
-    "SamplingInterval":{
-      "type":"integer",
-      "max":20000,
-      "min":3000
-    },
+    "SamplingInterval":{"type":"integer"},
     "StreamName":{
       "type":"string",
       "max":256,

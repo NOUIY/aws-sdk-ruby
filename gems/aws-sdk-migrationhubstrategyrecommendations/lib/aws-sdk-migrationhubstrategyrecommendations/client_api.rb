@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::MigrationHubStrategyRecommendations
   # @api private
   module ClientApi
@@ -14,6 +15,13 @@ module Aws::MigrationHubStrategyRecommendations
     include Seahorse::Model
 
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    AnalysisStatusUnion = Shapes::UnionShape.new(name: 'AnalysisStatusUnion')
+    AnalysisType = Shapes::StringShape.new(name: 'AnalysisType')
+    AnalyzableServerSummary = Shapes::StructureShape.new(name: 'AnalyzableServerSummary')
+    AnalyzableServerSummaryList = Shapes::ListShape.new(name: 'AnalyzableServerSummaryList')
+    AnalyzerNameUnion = Shapes::UnionShape.new(name: 'AnalyzerNameUnion')
+    AntipatternReportResult = Shapes::StructureShape.new(name: 'AntipatternReportResult')
+    AntipatternReportResultList = Shapes::ListShape.new(name: 'AntipatternReportResultList')
     AntipatternReportStatus = Shapes::StringShape.new(name: 'AntipatternReportStatus')
     AntipatternSeveritySummary = Shapes::StructureShape.new(name: 'AntipatternSeveritySummary')
     AppType = Shapes::StringShape.new(name: 'AppType')
@@ -29,6 +37,7 @@ module Aws::MigrationHubStrategyRecommendations
     ApplicationComponentSummary = Shapes::StructureShape.new(name: 'ApplicationComponentSummary')
     ApplicationMode = Shapes::StringShape.new(name: 'ApplicationMode')
     ApplicationPreferences = Shapes::StructureShape.new(name: 'ApplicationPreferences')
+    AssessmentDataSourceType = Shapes::StringShape.new(name: 'AssessmentDataSourceType')
     AssessmentStatus = Shapes::StringShape.new(name: 'AssessmentStatus')
     AssessmentStatusMessage = Shapes::StringShape.new(name: 'AssessmentStatusMessage')
     AssessmentSummary = Shapes::StructureShape.new(name: 'AssessmentSummary')
@@ -43,6 +52,7 @@ module Aws::MigrationHubStrategyRecommendations
     AwsManagedResources = Shapes::StructureShape.new(name: 'AwsManagedResources')
     AwsManagedTargetDestination = Shapes::StringShape.new(name: 'AwsManagedTargetDestination')
     AwsManagedTargetDestinations = Shapes::ListShape.new(name: 'AwsManagedTargetDestinations')
+    BinaryAnalyzerName = Shapes::StringShape.new(name: 'BinaryAnalyzerName')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     BusinessGoals = Shapes::StructureShape.new(name: 'BusinessGoals')
     BusinessGoalsInteger = Shapes::IntegerShape.new(name: 'BusinessGoalsInteger')
@@ -97,6 +107,8 @@ module Aws::MigrationHubStrategyRecommendations
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InterfaceName = Shapes::StringShape.new(name: 'InterfaceName')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
+    ListAnalyzableServersRequest = Shapes::StructureShape.new(name: 'ListAnalyzableServersRequest')
+    ListAnalyzableServersResponse = Shapes::StructureShape.new(name: 'ListAnalyzableServersResponse')
     ListAntipatternSeveritySummary = Shapes::ListShape.new(name: 'ListAntipatternSeveritySummary')
     ListApplicationComponentStatusSummary = Shapes::ListShape.new(name: 'ListApplicationComponentStatusSummary')
     ListApplicationComponentSummary = Shapes::ListShape.new(name: 'ListApplicationComponentSummary')
@@ -147,6 +159,9 @@ module Aws::MigrationHubStrategyRecommendations
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceSubType = Shapes::StringShape.new(name: 'ResourceSubType')
+    Result = Shapes::StructureShape.new(name: 'Result')
+    ResultList = Shapes::ListShape.new(name: 'ResultList')
+    RunTimeAnalyzerName = Shapes::StringShape.new(name: 'RunTimeAnalyzerName')
     RunTimeAssessmentStatus = Shapes::StringShape.new(name: 'RunTimeAssessmentStatus')
     RuntimeAnalysisStatus = Shapes::StringShape.new(name: 'RuntimeAnalysisStatus')
     S3Bucket = Shapes::StringShape.new(name: 'S3Bucket')
@@ -173,6 +188,7 @@ module Aws::MigrationHubStrategyRecommendations
     Severity = Shapes::StringShape.new(name: 'Severity')
     SortOrder = Shapes::StringShape.new(name: 'SortOrder')
     SourceCode = Shapes::StructureShape.new(name: 'SourceCode')
+    SourceCodeAnalyzerName = Shapes::StringShape.new(name: 'SourceCodeAnalyzerName')
     SourceCodeList = Shapes::ListShape.new(name: 'SourceCodeList')
     SourceCodeRepositories = Shapes::ListShape.new(name: 'SourceCodeRepositories')
     SourceCodeRepository = Shapes::StructureShape.new(name: 'SourceCodeRepository')
@@ -224,6 +240,40 @@ module Aws::MigrationHubStrategyRecommendations
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
 
+    AnalysisStatusUnion.add_member(:runtime_analysis_status, Shapes::ShapeRef.new(shape: RuntimeAnalysisStatus, location_name: "runtimeAnalysisStatus"))
+    AnalysisStatusUnion.add_member(:src_code_or_db_analysis_status, Shapes::ShapeRef.new(shape: SrcCodeOrDbAnalysisStatus, location_name: "srcCodeOrDbAnalysisStatus"))
+    AnalysisStatusUnion.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AnalysisStatusUnion.add_member_subclass(:runtime_analysis_status, Types::AnalysisStatusUnion::RuntimeAnalysisStatus)
+    AnalysisStatusUnion.add_member_subclass(:src_code_or_db_analysis_status, Types::AnalysisStatusUnion::SrcCodeOrDbAnalysisStatus)
+    AnalysisStatusUnion.add_member_subclass(:unknown, Types::AnalysisStatusUnion::Unknown)
+    AnalysisStatusUnion.struct_class = Types::AnalysisStatusUnion
+
+    AnalyzableServerSummary.add_member(:hostname, Shapes::ShapeRef.new(shape: String, location_name: "hostname"))
+    AnalyzableServerSummary.add_member(:ip_address, Shapes::ShapeRef.new(shape: String, location_name: "ipAddress"))
+    AnalyzableServerSummary.add_member(:source, Shapes::ShapeRef.new(shape: String, location_name: "source"))
+    AnalyzableServerSummary.add_member(:vm_id, Shapes::ShapeRef.new(shape: String, location_name: "vmId"))
+    AnalyzableServerSummary.struct_class = Types::AnalyzableServerSummary
+
+    AnalyzableServerSummaryList.member = Shapes::ShapeRef.new(shape: AnalyzableServerSummary)
+
+    AnalyzerNameUnion.add_member(:binary_analyzer_name, Shapes::ShapeRef.new(shape: BinaryAnalyzerName, location_name: "binaryAnalyzerName"))
+    AnalyzerNameUnion.add_member(:run_time_analyzer_name, Shapes::ShapeRef.new(shape: RunTimeAnalyzerName, location_name: "runTimeAnalyzerName"))
+    AnalyzerNameUnion.add_member(:source_code_analyzer_name, Shapes::ShapeRef.new(shape: SourceCodeAnalyzerName, location_name: "sourceCodeAnalyzerName"))
+    AnalyzerNameUnion.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AnalyzerNameUnion.add_member_subclass(:binary_analyzer_name, Types::AnalyzerNameUnion::BinaryAnalyzerName)
+    AnalyzerNameUnion.add_member_subclass(:run_time_analyzer_name, Types::AnalyzerNameUnion::RunTimeAnalyzerName)
+    AnalyzerNameUnion.add_member_subclass(:source_code_analyzer_name, Types::AnalyzerNameUnion::SourceCodeAnalyzerName)
+    AnalyzerNameUnion.add_member_subclass(:unknown, Types::AnalyzerNameUnion::Unknown)
+    AnalyzerNameUnion.struct_class = Types::AnalyzerNameUnion
+
+    AntipatternReportResult.add_member(:analyzer_name, Shapes::ShapeRef.new(shape: AnalyzerNameUnion, location_name: "analyzerName"))
+    AntipatternReportResult.add_member(:anti_pattern_report_s3_object, Shapes::ShapeRef.new(shape: S3Object, location_name: "antiPatternReportS3Object"))
+    AntipatternReportResult.add_member(:antipattern_report_status, Shapes::ShapeRef.new(shape: AntipatternReportStatus, location_name: "antipatternReportStatus"))
+    AntipatternReportResult.add_member(:antipattern_report_status_message, Shapes::ShapeRef.new(shape: StatusMessage, location_name: "antipatternReportStatusMessage"))
+    AntipatternReportResult.struct_class = Types::AntipatternReportResult
+
+    AntipatternReportResultList.member = Shapes::ShapeRef.new(shape: AntipatternReportResult)
+
     AntipatternSeveritySummary.add_member(:count, Shapes::ShapeRef.new(shape: Integer, location_name: "count"))
     AntipatternSeveritySummary.add_member(:severity, Shapes::ShapeRef.new(shape: Severity, location_name: "severity"))
     AntipatternSeveritySummary.struct_class = Types::AntipatternSeveritySummary
@@ -249,6 +299,7 @@ module Aws::MigrationHubStrategyRecommendations
     ApplicationComponentDetail.add_member(:os_version, Shapes::ShapeRef.new(shape: String, location_name: "osVersion"))
     ApplicationComponentDetail.add_member(:recommendation_set, Shapes::ShapeRef.new(shape: RecommendationSet, location_name: "recommendationSet"))
     ApplicationComponentDetail.add_member(:resource_sub_type, Shapes::ShapeRef.new(shape: ResourceSubType, location_name: "resourceSubType"))
+    ApplicationComponentDetail.add_member(:result_list, Shapes::ShapeRef.new(shape: ResultList, location_name: "resultList"))
     ApplicationComponentDetail.add_member(:runtime_status, Shapes::ShapeRef.new(shape: RuntimeAnalysisStatus, location_name: "runtimeStatus"))
     ApplicationComponentDetail.add_member(:runtime_status_message, Shapes::ShapeRef.new(shape: StatusMessage, location_name: "runtimeStatusMessage"))
     ApplicationComponentDetail.add_member(:source_code_repositories, Shapes::ShapeRef.new(shape: SourceCodeRepositories, location_name: "sourceCodeRepositories"))
@@ -487,6 +538,15 @@ module Aws::MigrationHubStrategyRecommendations
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
 
+    ListAnalyzableServersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult, location_name: "maxResults"))
+    ListAnalyzableServersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListAnalyzableServersRequest.add_member(:sort, Shapes::ShapeRef.new(shape: SortOrder, location_name: "sort"))
+    ListAnalyzableServersRequest.struct_class = Types::ListAnalyzableServersRequest
+
+    ListAnalyzableServersResponse.add_member(:analyzable_servers, Shapes::ShapeRef.new(shape: AnalyzableServerSummaryList, location_name: "analyzableServers"))
+    ListAnalyzableServersResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListAnalyzableServersResponse.struct_class = Types::ListAnalyzableServersResponse
+
     ListAntipatternSeveritySummary.member = Shapes::ShapeRef.new(shape: AntipatternSeveritySummary)
 
     ListApplicationComponentStatusSummary.member = Shapes::ShapeRef.new(shape: ApplicationComponentStatusSummary)
@@ -607,6 +667,14 @@ module Aws::MigrationHubStrategyRecommendations
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: errorMessage, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
+    Result.add_member(:analysis_status, Shapes::ShapeRef.new(shape: AnalysisStatusUnion, location_name: "analysisStatus"))
+    Result.add_member(:analysis_type, Shapes::ShapeRef.new(shape: AnalysisType, location_name: "analysisType"))
+    Result.add_member(:antipattern_report_result_list, Shapes::ShapeRef.new(shape: AntipatternReportResultList, location_name: "antipatternReportResultList"))
+    Result.add_member(:status_message, Shapes::ShapeRef.new(shape: StatusMessage, location_name: "statusMessage"))
+    Result.struct_class = Types::Result
+
+    ResultList.member = Shapes::ShapeRef.new(shape: Result)
+
     S3Keys.member = Shapes::ShapeRef.new(shape: String)
 
     S3Object.add_member(:s3_bucket, Shapes::ShapeRef.new(shape: S3Bucket, location_name: "s3Bucket"))
@@ -677,6 +745,7 @@ module Aws::MigrationHubStrategyRecommendations
     SourceCodeRepository.add_member(:version_control_type, Shapes::ShapeRef.new(shape: String, location_name: "versionControlType"))
     SourceCodeRepository.struct_class = Types::SourceCodeRepository
 
+    StartAssessmentRequest.add_member(:assessment_data_source_type, Shapes::ShapeRef.new(shape: AssessmentDataSourceType, location_name: "assessmentDataSourceType"))
     StartAssessmentRequest.add_member(:assessment_targets, Shapes::ShapeRef.new(shape: AssessmentTargets, location_name: "assessmentTargets"))
     StartAssessmentRequest.add_member(:s3bucket_for_analysis_data, Shapes::ShapeRef.new(shape: StartAssessmentRequestS3bucketForAnalysisDataString, location_name: "s3bucketForAnalysisData"))
     StartAssessmentRequest.add_member(:s3bucket_for_report_data, Shapes::ShapeRef.new(shape: StartAssessmentRequestS3bucketForReportDataString, location_name: "s3bucketForReportData"))
@@ -909,6 +978,24 @@ module Aws::MigrationHubStrategyRecommendations
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:list_analyzable_servers, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAnalyzableServers"
+        o.http_method = "POST"
+        o.http_request_uri = "/list-analyzable-servers"
+        o.input = Shapes::ShapeRef.new(shape: ListAnalyzableServersRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAnalyzableServersResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_application_components, Seahorse::Model::Operation.new.tap do |o|

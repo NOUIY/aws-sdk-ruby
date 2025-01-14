@@ -63,8 +63,8 @@ module Aws::QLDB
     #   The permissions mode to assign to the ledger that you want to
     #   create. This parameter can have one of the following values:
     #
-    #   * `ALLOW_ALL`\: A legacy permissions mode that enables access
-    #     control with API-level granularity for ledgers.
+    #   * `ALLOW_ALL`: A legacy permissions mode that enables access control
+    #     with API-level granularity for ledgers.
     #
     #     This mode allows users who have the `SendCommand` API permission
     #     for this ledger to run all PartiQL commands (hence, `ALLOW_ALL`)
@@ -72,9 +72,9 @@ module Aws::QLDB
     #     table-level or command-level IAM permissions policies that you
     #     create for the ledger.
     #
-    #   * `STANDARD`\: (*Recommended*) A permissions mode that enables
-    #     access control with finer granularity for ledgers, tables, and
-    #     PartiQL commands.
+    #   * `STANDARD`: (*Recommended*) A permissions mode that enables access
+    #     control with finer granularity for ledgers, tables, and PartiQL
+    #     commands.
     #
     #     By default, this mode denies all user requests to run any PartiQL
     #     commands on any tables in this ledger. To allow PartiQL commands
@@ -95,13 +95,13 @@ module Aws::QLDB
     #   @return [String]
     #
     # @!attribute [rw] deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If
-    #   not provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
@@ -111,14 +111,15 @@ module Aws::QLDB
     #
     #   Use one of the following options to specify this parameter:
     #
-    #   * `AWS_OWNED_KMS_KEY`\: Use an KMS key that is owned and managed by
+    #   * `AWS_OWNED_KMS_KEY`: Use an KMS key that is owned and managed by
     #     Amazon Web Services on your behalf.
     #
-    #   * **Undefined**\: By default, use an Amazon Web Services owned KMS
+    #   * **Undefined**: By default, use an Amazon Web Services owned KMS
     #     key.
     #
-    #   * **A valid symmetric customer managed KMS key**\: Use the specified
-    #     KMS key in your account that you create, own, and manage.
+    #   * **A valid symmetric customer managed KMS key**: Use the specified
+    #     symmetric encryption KMS key in your account that you create, own,
+    #     and manage.
     #
     #     Amazon QLDB does not support asymmetric keys. For more
     #     information, see [Using symmetric and asymmetric keys][2] in the
@@ -186,13 +187,13 @@ module Aws::QLDB
     #   @return [String]
     #
     # @!attribute [rw] deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If
-    #   not provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key_arn
@@ -324,19 +325,21 @@ module Aws::QLDB
     #   @return [String]
     #
     # @!attribute [rw] deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If
-    #   not provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] encryption_description
     #   Information about the encryption of data at rest in the ledger. This
     #   includes the current status, the KMS key, and when the key became
-    #   inaccessible (in the case of an error).
+    #   inaccessible (in the case of an error). If this parameter is
+    #   undefined, the ledger uses an Amazon Web Services owned KMS key for
+    #   encryption.
     #   @return [Types::LedgerEncryptionDescription]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qldb-2019-01-02/DescribeLedgerResponse AWS API Documentation
@@ -393,8 +396,7 @@ module Aws::QLDB
     #   The Amazon Resource Name (ARN) of the IAM role that grants QLDB
     #   permissions for a journal export job to do the following:
     #
-    #   * Write objects into your Amazon Simple Storage Service (Amazon S3)
-    #     bucket.
+    #   * Write objects into your Amazon S3 bucket.
     #
     #   * (Optional) Use your customer managed key in Key Management Service
     #     (KMS) for server-side encryption of your exported data.
@@ -405,8 +407,23 @@ module Aws::QLDB
     #   @return [String]
     #
     # @!attribute [rw] output_format
-    #   The output format of your exported journal data. If this parameter
-    #   is not specified, the exported data defaults to `ION_TEXT` format.
+    #   The output format of your exported journal data. A journal export
+    #   job can write the data objects in either the text or binary
+    #   representation of [Amazon Ion][1] format, or in [JSON Lines][2] text
+    #   format.
+    #
+    #   Default: `ION_TEXT`
+    #
+    #   In JSON Lines format, each journal block in an exported data object
+    #   is a valid JSON object that is delimited by a newline. You can use
+    #   this format to directly integrate JSON exports with analytics tools
+    #   such as Amazon Athena and Glue because these services can parse
+    #   newline-delimited JSON automatically.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/qldb/latest/developerguide/ion.html
+    #   [2]: https://jsonlines.org/
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qldb-2019-01-02/ExportJournalToS3Request AWS API Documentation
@@ -447,7 +464,7 @@ module Aws::QLDB
     #   Amazon Ion structure that has two fields: `strandId` and
     #   `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}`.
     #   @return [Types::ValueHolder]
     #
     # @!attribute [rw] digest_tip_address
@@ -455,7 +472,7 @@ module Aws::QLDB
     #   a proof. An address is an Amazon Ion structure that has two fields:
     #   `strandId` and `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}`.
     #   @return [Types::ValueHolder]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qldb-2019-01-02/GetBlockRequest AWS API Documentation
@@ -529,7 +546,7 @@ module Aws::QLDB
     #   address is an Amazon Ion structure that has two fields: `strandId`
     #   and `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}`.
     #   @return [Types::ValueHolder]
     #
     # @!attribute [rw] document_id
@@ -542,7 +559,7 @@ module Aws::QLDB
     #   a proof. An address is an Amazon Ion structure that has two fields:
     #   `strandId` and `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}`.
     #   @return [Types::ValueHolder]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/qldb-2019-01-02/GetRevisionRequest AWS API Documentation
@@ -752,11 +769,12 @@ module Aws::QLDB
     #   Data Streams record, increasing the number of records sent per API
     #   call.
     #
-    #   *This option is enabled by default.* Record aggregation has
-    #   important implications for processing records and requires
-    #   de-aggregation in your stream consumer. To learn more, see [KPL Key
-    #   Concepts][1] and [Consumer De-aggregation][2] in the *Amazon Kinesis
-    #   Data Streams Developer Guide*.
+    #   Default: `True`
+    #
+    #   Record aggregation has important implications for processing records
+    #   and requires de-aggregation in your stream consumer. To learn more,
+    #   see [KPL Key Concepts][1] and [Consumer De-aggregation][2] in the
+    #   *Amazon Kinesis Data Streams Developer Guide*.
     #
     #
     #
@@ -789,16 +807,18 @@ module Aws::QLDB
     #   The Amazon Resource Name (ARN) of the customer managed KMS key that
     #   the ledger uses for encryption at rest. If this parameter is
     #   undefined, the ledger uses an Amazon Web Services owned KMS key for
-    #   encryption.
+    #   encryption. It will display `AWS_OWNED_KMS_KEY` when updating the
+    #   ledger's encryption configuration to the Amazon Web Services owned
+    #   KMS key.
     #   @return [String]
     #
     # @!attribute [rw] encryption_status
     #   The current state of encryption at rest for the ledger. This can be
     #   one of the following values:
     #
-    #   * `ENABLED`\: Encryption is fully enabled using the specified key.
+    #   * `ENABLED`: Encryption is fully enabled using the specified key.
     #
-    #   * `UPDATING`\: The ledger is actively processing the specified key
+    #   * `UPDATING`: The ledger is actively processing the specified key
     #     change.
     #
     #     Key changes in QLDB are asynchronous. The ledger is fully
@@ -806,7 +826,7 @@ module Aws::QLDB
     #     being processed. The amount of time it takes to update a key
     #     varies depending on the ledger size.
     #
-    #   * `KMS_KEY_INACCESSIBLE`\: The specified customer managed KMS key is
+    #   * `KMS_KEY_INACCESSIBLE`: The specified customer managed KMS key is
     #     not accessible, and the ledger is impaired. Either the key was
     #     disabled or deleted, or the grants on the key were revoked. When a
     #     ledger is impaired, it is not accessible and does not accept any
@@ -912,8 +932,8 @@ module Aws::QLDB
     end
 
     # @!attribute [rw] streams
-    #   The array of QLDB journal stream descriptors that are associated
-    #   with the given ledger.
+    #   The QLDB journal streams that are currently associated with the
+    #   given ledger.
     #   @return [Array<Types::JournalKinesisStreamDescription>]
     #
     # @!attribute [rw] next_token
@@ -962,8 +982,8 @@ module Aws::QLDB
     end
 
     # @!attribute [rw] journal_s3_exports
-    #   The array of journal export job descriptions that are associated
-    #   with the specified ledger.
+    #   The journal export jobs that are currently associated with the
+    #   specified ledger.
     #   @return [Array<Types::JournalS3ExportDescription>]
     #
     # @!attribute [rw] next_token
@@ -1007,9 +1027,8 @@ module Aws::QLDB
     end
 
     # @!attribute [rw] journal_s3_exports
-    #   The array of journal export job descriptions for all ledgers that
-    #   are associated with the current Amazon Web Services account and
-    #   Region.
+    #   The journal export jobs for all ledgers that are associated with the
+    #   current Amazon Web Services account and Region.
     #   @return [Array<Types::JournalS3ExportDescription>]
     #
     # @!attribute [rw] next_token
@@ -1052,8 +1071,8 @@ module Aws::QLDB
     end
 
     # @!attribute [rw] ledgers
-    #   The array of ledger summaries that are associated with the current
-    #   Amazon Web Services account and Region.
+    #   The ledgers that are associated with the current Amazon Web Services
+    #   account and Region.
     #   @return [Array<Types::LedgerSummary>]
     #
     # @!attribute [rw] next_token
@@ -1213,8 +1232,9 @@ module Aws::QLDB
     #   @return [String]
     #
     # @!attribute [rw] kms_key_arn
-    #   The Amazon Resource Name (ARN) of a symmetric key in Key Management
-    #   Service (KMS). Amazon S3 does not support asymmetric KMS keys.
+    #   The Amazon Resource Name (ARN) of a symmetric encryption key in Key
+    #   Management Service (KMS). Amazon S3 does not support asymmetric KMS
+    #   keys.
     #
     #   You must provide a `KmsKeyArn` if you specify `SSE_KMS` as the
     #   `ObjectEncryptionType`.
@@ -1434,8 +1454,8 @@ module Aws::QLDB
     #   The permissions mode to assign to the ledger. This parameter can
     #   have one of the following values:
     #
-    #   * `ALLOW_ALL`\: A legacy permissions mode that enables access
-    #     control with API-level granularity for ledgers.
+    #   * `ALLOW_ALL`: A legacy permissions mode that enables access control
+    #     with API-level granularity for ledgers.
     #
     #     This mode allows users who have the `SendCommand` API permission
     #     for this ledger to run all PartiQL commands (hence, `ALLOW_ALL`)
@@ -1443,9 +1463,9 @@ module Aws::QLDB
     #     table-level or command-level IAM permissions policies that you
     #     create for the ledger.
     #
-    #   * `STANDARD`\: (*Recommended*) A permissions mode that enables
-    #     access control with finer granularity for ledgers, tables, and
-    #     PartiQL commands.
+    #   * `STANDARD`: (*Recommended*) A permissions mode that enables access
+    #     control with finer granularity for ledgers, tables, and PartiQL
+    #     commands.
     #
     #     By default, this mode denies all user requests to run any PartiQL
     #     commands on any tables in this ledger. To allow PartiQL commands
@@ -1501,13 +1521,13 @@ module Aws::QLDB
     #   @return [String]
     #
     # @!attribute [rw] deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If
-    #   not provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
@@ -1517,13 +1537,14 @@ module Aws::QLDB
     #
     #   Use one of the following options to specify this parameter:
     #
-    #   * `AWS_OWNED_KMS_KEY`\: Use an KMS key that is owned and managed by
+    #   * `AWS_OWNED_KMS_KEY`: Use an KMS key that is owned and managed by
     #     Amazon Web Services on your behalf.
     #
-    #   * **Undefined**\: Make no changes to the KMS key of the ledger.
+    #   * **Undefined**: Make no changes to the KMS key of the ledger.
     #
-    #   * **A valid symmetric customer managed KMS key**\: Use the specified
-    #     KMS key in your account that you create, own, and manage.
+    #   * **A valid symmetric customer managed KMS key**: Use the specified
+    #     symmetric encryption KMS key in your account that you create, own,
+    #     and manage.
     #
     #     Amazon QLDB does not support asymmetric keys. For more
     #     information, see [Using symmetric and asymmetric keys][2] in the
@@ -1585,13 +1606,13 @@ module Aws::QLDB
     #   @return [Time]
     #
     # @!attribute [rw] deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If
-    #   not provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] encryption_description
@@ -1630,3 +1651,4 @@ module Aws::QLDB
 
   end
 end
+

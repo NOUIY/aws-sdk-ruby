@@ -24,15 +24,16 @@ module Aws
       end
 
       # When a client is stubbed allow the user to access the requests made
-      @api_requests = []
-
-      requests = @api_requests
+      requests = @api_requests = []
+      requests_mutex = @requests_mutex = Mutex.new
       self.handle do |context|
-        requests << {
-          operation_name: context.operation_name,
-          params: context.params,
-          context: context
-        }
+        requests_mutex.synchronize do
+          requests << {
+            operation_name: context.operation_name,
+            params: context.params,
+            context: context
+          }
+        end
         @handler.call(context)
       end
     end
@@ -194,10 +195,12 @@ module Aws
     #   is not stubbed.
     def api_requests(options = {})
       if config.stub_responses
-        if options[:exclude_presign]
-          @api_requests.reject {|req| req[:context][:presigned_url] }
-        else
-          @api_requests
+        @requests_mutex.synchronize do
+          if options[:exclude_presign]
+            @api_requests.reject {|req| req[:context][:presigned_url] }
+          else
+            @api_requests
+          end
         end
       else
         msg = 'This method is only implemented for stubbed clients, and is '\
@@ -304,13 +307,14 @@ module Aws
 
     def protocol_helper
       case config.api.metadata['protocol']
-      when 'json'        then Stubbing::Protocols::Json
-      when 'query'       then Stubbing::Protocols::Query
-      when 'ec2'         then Stubbing::Protocols::EC2
-      when 'rest-json'   then Stubbing::Protocols::RestJson
-      when 'rest-xml'    then Stubbing::Protocols::RestXml
-      when 'api-gateway' then Stubbing::Protocols::ApiGateway
-      else raise "unsupported protocol"
+      when 'json'               then Stubbing::Protocols::Json
+      when 'rest-json'          then Stubbing::Protocols::RestJson
+      when 'rest-xml'           then Stubbing::Protocols::RestXml
+      when 'query'              then Stubbing::Protocols::Query
+      when 'ec2'                then Stubbing::Protocols::EC2
+      when 'smithy-rpc-v2-cbor' then Stubbing::Protocols::RpcV2
+      when 'api-gateway'        then Stubbing::Protocols::ApiGateway
+      else raise 'unsupported protocol'
       end.new
     end
   end

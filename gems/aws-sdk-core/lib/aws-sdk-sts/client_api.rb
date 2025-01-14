@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::STS
   # @api private
   module ClientApi
@@ -19,12 +20,14 @@ module Aws::STS
     AssumeRoleWithSAMLResponse = Shapes::StructureShape.new(name: 'AssumeRoleWithSAMLResponse')
     AssumeRoleWithWebIdentityRequest = Shapes::StructureShape.new(name: 'AssumeRoleWithWebIdentityRequest')
     AssumeRoleWithWebIdentityResponse = Shapes::StructureShape.new(name: 'AssumeRoleWithWebIdentityResponse')
+    AssumeRootRequest = Shapes::StructureShape.new(name: 'AssumeRootRequest')
+    AssumeRootResponse = Shapes::StructureShape.new(name: 'AssumeRootResponse')
     AssumedRoleUser = Shapes::StructureShape.new(name: 'AssumedRoleUser')
     Audience = Shapes::StringShape.new(name: 'Audience')
     Credentials = Shapes::StructureShape.new(name: 'Credentials')
     DecodeAuthorizationMessageRequest = Shapes::StructureShape.new(name: 'DecodeAuthorizationMessageRequest')
     DecodeAuthorizationMessageResponse = Shapes::StructureShape.new(name: 'DecodeAuthorizationMessageResponse')
-    ExpiredTokenException = Shapes::StructureShape.new(name: 'ExpiredTokenException')
+    ExpiredTokenException = Shapes::StructureShape.new(name: 'ExpiredTokenException', error: {"code"=>"ExpiredTokenException", "httpStatusCode"=>400, "senderFault"=>true})
     FederatedUser = Shapes::StructureShape.new(name: 'FederatedUser')
     GetAccessKeyInfoRequest = Shapes::StructureShape.new(name: 'GetAccessKeyInfoRequest')
     GetAccessKeyInfoResponse = Shapes::StructureShape.new(name: 'GetAccessKeyInfoResponse')
@@ -34,26 +37,31 @@ module Aws::STS
     GetFederationTokenResponse = Shapes::StructureShape.new(name: 'GetFederationTokenResponse')
     GetSessionTokenRequest = Shapes::StructureShape.new(name: 'GetSessionTokenRequest')
     GetSessionTokenResponse = Shapes::StructureShape.new(name: 'GetSessionTokenResponse')
-    IDPCommunicationErrorException = Shapes::StructureShape.new(name: 'IDPCommunicationErrorException')
-    IDPRejectedClaimException = Shapes::StructureShape.new(name: 'IDPRejectedClaimException')
-    InvalidAuthorizationMessageException = Shapes::StructureShape.new(name: 'InvalidAuthorizationMessageException')
-    InvalidIdentityTokenException = Shapes::StructureShape.new(name: 'InvalidIdentityTokenException')
+    IDPCommunicationErrorException = Shapes::StructureShape.new(name: 'IDPCommunicationErrorException', error: {"code"=>"IDPCommunicationError", "httpStatusCode"=>400, "senderFault"=>true})
+    IDPRejectedClaimException = Shapes::StructureShape.new(name: 'IDPRejectedClaimException', error: {"code"=>"IDPRejectedClaim", "httpStatusCode"=>403, "senderFault"=>true})
+    InvalidAuthorizationMessageException = Shapes::StructureShape.new(name: 'InvalidAuthorizationMessageException', error: {"code"=>"InvalidAuthorizationMessageException", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidIdentityTokenException = Shapes::StructureShape.new(name: 'InvalidIdentityTokenException', error: {"code"=>"InvalidIdentityToken", "httpStatusCode"=>400, "senderFault"=>true})
     Issuer = Shapes::StringShape.new(name: 'Issuer')
-    MalformedPolicyDocumentException = Shapes::StructureShape.new(name: 'MalformedPolicyDocumentException')
+    MalformedPolicyDocumentException = Shapes::StructureShape.new(name: 'MalformedPolicyDocumentException', error: {"code"=>"MalformedPolicyDocument", "httpStatusCode"=>400, "senderFault"=>true})
     NameQualifier = Shapes::StringShape.new(name: 'NameQualifier')
-    PackedPolicyTooLargeException = Shapes::StructureShape.new(name: 'PackedPolicyTooLargeException')
+    PackedPolicyTooLargeException = Shapes::StructureShape.new(name: 'PackedPolicyTooLargeException', error: {"code"=>"PackedPolicyTooLarge", "httpStatusCode"=>400, "senderFault"=>true})
     PolicyDescriptorType = Shapes::StructureShape.new(name: 'PolicyDescriptorType')
-    RegionDisabledException = Shapes::StructureShape.new(name: 'RegionDisabledException')
+    ProvidedContext = Shapes::StructureShape.new(name: 'ProvidedContext')
+    ProvidedContextsListType = Shapes::ListShape.new(name: 'ProvidedContextsListType')
+    RegionDisabledException = Shapes::StructureShape.new(name: 'RegionDisabledException', error: {"code"=>"RegionDisabledException", "httpStatusCode"=>403, "senderFault"=>true})
+    RootDurationSecondsType = Shapes::IntegerShape.new(name: 'RootDurationSecondsType')
     SAMLAssertionType = Shapes::StringShape.new(name: 'SAMLAssertionType')
     Subject = Shapes::StringShape.new(name: 'Subject')
     SubjectType = Shapes::StringShape.new(name: 'SubjectType')
     Tag = Shapes::StructureShape.new(name: 'Tag')
+    TargetPrincipalType = Shapes::StringShape.new(name: 'TargetPrincipalType')
     accessKeyIdType = Shapes::StringShape.new(name: 'accessKeyIdType')
     accessKeySecretType = Shapes::StringShape.new(name: 'accessKeySecretType')
     accountType = Shapes::StringShape.new(name: 'accountType')
     arnType = Shapes::StringShape.new(name: 'arnType')
     assumedRoleIdType = Shapes::StringShape.new(name: 'assumedRoleIdType')
     clientTokenType = Shapes::StringShape.new(name: 'clientTokenType')
+    contextAssertionType = Shapes::StringShape.new(name: 'contextAssertionType')
     dateType = Shapes::TimestampShape.new(name: 'dateType')
     decodedMessageType = Shapes::StringShape.new(name: 'decodedMessageType')
     durationSecondsType = Shapes::IntegerShape.new(name: 'durationSecondsType')
@@ -81,6 +89,7 @@ module Aws::STS
     tagValueType = Shapes::StringShape.new(name: 'tagValueType')
     tokenCodeType = Shapes::StringShape.new(name: 'tokenCodeType')
     tokenType = Shapes::StringShape.new(name: 'tokenType')
+    unrestrictedSessionPolicyDocumentType = Shapes::StringShape.new(name: 'unrestrictedSessionPolicyDocumentType')
     urlType = Shapes::StringShape.new(name: 'urlType')
     userIdType = Shapes::StringShape.new(name: 'userIdType')
     userNameType = Shapes::StringShape.new(name: 'userNameType')
@@ -89,7 +98,7 @@ module Aws::STS
     AssumeRoleRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: arnType, required: true, location_name: "RoleArn"))
     AssumeRoleRequest.add_member(:role_session_name, Shapes::ShapeRef.new(shape: roleSessionNameType, required: true, location_name: "RoleSessionName"))
     AssumeRoleRequest.add_member(:policy_arns, Shapes::ShapeRef.new(shape: policyDescriptorListType, location_name: "PolicyArns"))
-    AssumeRoleRequest.add_member(:policy, Shapes::ShapeRef.new(shape: sessionPolicyDocumentType, location_name: "Policy"))
+    AssumeRoleRequest.add_member(:policy, Shapes::ShapeRef.new(shape: unrestrictedSessionPolicyDocumentType, location_name: "Policy"))
     AssumeRoleRequest.add_member(:duration_seconds, Shapes::ShapeRef.new(shape: roleDurationSecondsType, location_name: "DurationSeconds"))
     AssumeRoleRequest.add_member(:tags, Shapes::ShapeRef.new(shape: tagListType, location_name: "Tags"))
     AssumeRoleRequest.add_member(:transitive_tag_keys, Shapes::ShapeRef.new(shape: tagKeyListType, location_name: "TransitiveTagKeys"))
@@ -97,6 +106,7 @@ module Aws::STS
     AssumeRoleRequest.add_member(:serial_number, Shapes::ShapeRef.new(shape: serialNumberType, location_name: "SerialNumber"))
     AssumeRoleRequest.add_member(:token_code, Shapes::ShapeRef.new(shape: tokenCodeType, location_name: "TokenCode"))
     AssumeRoleRequest.add_member(:source_identity, Shapes::ShapeRef.new(shape: sourceIdentityType, location_name: "SourceIdentity"))
+    AssumeRoleRequest.add_member(:provided_contexts, Shapes::ShapeRef.new(shape: ProvidedContextsListType, location_name: "ProvidedContexts"))
     AssumeRoleRequest.struct_class = Types::AssumeRoleRequest
 
     AssumeRoleResponse.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "Credentials"))
@@ -141,6 +151,15 @@ module Aws::STS
     AssumeRoleWithWebIdentityResponse.add_member(:audience, Shapes::ShapeRef.new(shape: Audience, location_name: "Audience"))
     AssumeRoleWithWebIdentityResponse.add_member(:source_identity, Shapes::ShapeRef.new(shape: sourceIdentityType, location_name: "SourceIdentity"))
     AssumeRoleWithWebIdentityResponse.struct_class = Types::AssumeRoleWithWebIdentityResponse
+
+    AssumeRootRequest.add_member(:target_principal, Shapes::ShapeRef.new(shape: TargetPrincipalType, required: true, location_name: "TargetPrincipal"))
+    AssumeRootRequest.add_member(:task_policy_arn, Shapes::ShapeRef.new(shape: PolicyDescriptorType, required: true, location_name: "TaskPolicyArn"))
+    AssumeRootRequest.add_member(:duration_seconds, Shapes::ShapeRef.new(shape: RootDurationSecondsType, location_name: "DurationSeconds"))
+    AssumeRootRequest.struct_class = Types::AssumeRootRequest
+
+    AssumeRootResponse.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "Credentials"))
+    AssumeRootResponse.add_member(:source_identity, Shapes::ShapeRef.new(shape: sourceIdentityType, location_name: "SourceIdentity"))
+    AssumeRootResponse.struct_class = Types::AssumeRootResponse
 
     AssumedRoleUser.add_member(:assumed_role_id, Shapes::ShapeRef.new(shape: assumedRoleIdType, required: true, location_name: "AssumedRoleId"))
     AssumedRoleUser.add_member(:arn, Shapes::ShapeRef.new(shape: arnType, required: true, location_name: "Arn"))
@@ -219,6 +238,12 @@ module Aws::STS
     PolicyDescriptorType.add_member(:arn, Shapes::ShapeRef.new(shape: arnType, location_name: "arn"))
     PolicyDescriptorType.struct_class = Types::PolicyDescriptorType
 
+    ProvidedContext.add_member(:provider_arn, Shapes::ShapeRef.new(shape: arnType, location_name: "ProviderArn"))
+    ProvidedContext.add_member(:context_assertion, Shapes::ShapeRef.new(shape: contextAssertionType, location_name: "ContextAssertion"))
+    ProvidedContext.struct_class = Types::ProvidedContext
+
+    ProvidedContextsListType.member = Shapes::ShapeRef.new(shape: ProvidedContext)
+
     RegionDisabledException.add_member(:message, Shapes::ShapeRef.new(shape: regionDisabledMessage, location_name: "message"))
     RegionDisabledException.struct_class = Types::RegionDisabledException
 
@@ -240,9 +265,11 @@ module Aws::STS
 
       api.metadata = {
         "apiVersion" => "2011-06-15",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "sts",
         "globalEndpoint" => "sts.amazonaws.com",
         "protocol" => "query",
+        "protocols" => ["query"],
         "serviceAbbreviation" => "AWS STS",
         "serviceFullName" => "AWS Security Token Service",
         "serviceId" => "STS",
@@ -267,7 +294,7 @@ module Aws::STS
         o.name = "AssumeRoleWithSAML"
         o.http_method = "POST"
         o.http_request_uri = "/"
-        o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: AssumeRoleWithSAMLRequest)
         o.output = Shapes::ShapeRef.new(shape: AssumeRoleWithSAMLResponse)
         o.errors << Shapes::ShapeRef.new(shape: MalformedPolicyDocumentException)
@@ -282,7 +309,7 @@ module Aws::STS
         o.name = "AssumeRoleWithWebIdentity"
         o.http_method = "POST"
         o.http_request_uri = "/"
-        o['authtype'] = "none"
+        o['auth'] = ["smithy.api#noAuth"]
         o.input = Shapes::ShapeRef.new(shape: AssumeRoleWithWebIdentityRequest)
         o.output = Shapes::ShapeRef.new(shape: AssumeRoleWithWebIdentityResponse)
         o.errors << Shapes::ShapeRef.new(shape: MalformedPolicyDocumentException)
@@ -292,6 +319,16 @@ module Aws::STS
         o.errors << Shapes::ShapeRef.new(shape: InvalidIdentityTokenException)
         o.errors << Shapes::ShapeRef.new(shape: ExpiredTokenException)
         o.errors << Shapes::ShapeRef.new(shape: RegionDisabledException)
+      end)
+
+      api.add_operation(:assume_root, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AssumeRoot"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AssumeRootRequest)
+        o.output = Shapes::ShapeRef.new(shape: AssumeRootResponse)
+        o.errors << Shapes::ShapeRef.new(shape: RegionDisabledException)
+        o.errors << Shapes::ShapeRef.new(shape: ExpiredTokenException)
       end)
 
       api.add_operation(:decode_authorization_message, Seahorse::Model::Operation.new.tap do |o|

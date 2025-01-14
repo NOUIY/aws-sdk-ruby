@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::TranscribeStreamingService
   # @api private
   module ClientApi
@@ -378,6 +379,7 @@ module Aws::TranscribeStreamingService
     StartStreamTranscriptionRequest.add_member(:identify_language, Shapes::ShapeRef.new(shape: Boolean, location: "header", location_name: "x-amzn-transcribe-identify-language"))
     StartStreamTranscriptionRequest.add_member(:language_options, Shapes::ShapeRef.new(shape: LanguageOptions, location: "header", location_name: "x-amzn-transcribe-language-options"))
     StartStreamTranscriptionRequest.add_member(:preferred_language, Shapes::ShapeRef.new(shape: LanguageCode, location: "header", location_name: "x-amzn-transcribe-preferred-language"))
+    StartStreamTranscriptionRequest.add_member(:identify_multiple_languages, Shapes::ShapeRef.new(shape: Boolean, location: "header", location_name: "x-amzn-transcribe-identify-multiple-languages"))
     StartStreamTranscriptionRequest.add_member(:vocabulary_names, Shapes::ShapeRef.new(shape: VocabularyNames, location: "header", location_name: "x-amzn-transcribe-vocabulary-names"))
     StartStreamTranscriptionRequest.add_member(:vocabulary_filter_names, Shapes::ShapeRef.new(shape: VocabularyFilterNames, location: "header", location_name: "x-amzn-transcribe-vocabulary-filter-names"))
     StartStreamTranscriptionRequest.struct_class = Types::StartStreamTranscriptionRequest
@@ -405,6 +407,7 @@ module Aws::TranscribeStreamingService
     StartStreamTranscriptionResponse.add_member(:identify_language, Shapes::ShapeRef.new(shape: Boolean, location: "header", location_name: "x-amzn-transcribe-identify-language"))
     StartStreamTranscriptionResponse.add_member(:language_options, Shapes::ShapeRef.new(shape: LanguageOptions, location: "header", location_name: "x-amzn-transcribe-language-options"))
     StartStreamTranscriptionResponse.add_member(:preferred_language, Shapes::ShapeRef.new(shape: LanguageCode, location: "header", location_name: "x-amzn-transcribe-preferred-language"))
+    StartStreamTranscriptionResponse.add_member(:identify_multiple_languages, Shapes::ShapeRef.new(shape: Boolean, location: "header", location_name: "x-amzn-transcribe-identify-multiple-languages"))
     StartStreamTranscriptionResponse.add_member(:vocabulary_names, Shapes::ShapeRef.new(shape: VocabularyNames, location: "header", location_name: "x-amzn-transcribe-vocabulary-names"))
     StartStreamTranscriptionResponse.add_member(:vocabulary_filter_names, Shapes::ShapeRef.new(shape: VocabularyFilterNames, location: "header", location_name: "x-amzn-transcribe-vocabulary-filter-names"))
     StartStreamTranscriptionResponse.struct_class = Types::StartStreamTranscriptionResponse
@@ -453,9 +456,11 @@ module Aws::TranscribeStreamingService
 
       api.metadata = {
         "apiVersion" => "2017-10-26",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "transcribestreaming",
         "protocol" => "rest-json",
         "protocolSettings" => {"h2"=>"eventstream"},
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Transcribe Streaming Service",
         "serviceId" => "Transcribe Streaming",
         "signatureVersion" => "v4",

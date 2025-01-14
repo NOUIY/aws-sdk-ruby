@@ -22,18 +22,19 @@ require 'aws-sdk-core/plugins/endpoint_pattern.rb'
 require 'aws-sdk-core/plugins/response_paging.rb'
 require 'aws-sdk-core/plugins/stub_responses.rb'
 require 'aws-sdk-core/plugins/idempotency_token.rb'
+require 'aws-sdk-core/plugins/invocation_id.rb'
 require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
 require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
 require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
 require 'aws-sdk-core/plugins/transfer_encoding.rb'
 require 'aws-sdk-core/plugins/http_checksum.rb'
 require 'aws-sdk-core/plugins/checksum_algorithm.rb'
+require 'aws-sdk-core/plugins/request_compression.rb'
 require 'aws-sdk-core/plugins/defaults_mode.rb'
 require 'aws-sdk-core/plugins/recursion_detection.rb'
+require 'aws-sdk-core/plugins/telemetry.rb'
 require 'aws-sdk-core/plugins/sign.rb'
 require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:chime)
 
 module Aws::Chime
   # An API client for Chime.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Chime
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Chime::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Chime
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Chime
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Chime
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Chime
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,11 @@ module Aws::Chime
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +306,24 @@ module Aws::Chime
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +333,16 @@ module Aws::Chime
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +371,75 @@ module Aws::Chime
     #     sending the request.
     #
     #   @option options [Aws::Chime::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Chime::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Chime::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -400,6 +479,19 @@ module Aws::Chime
 
     # Associates phone numbers with the specified Amazon Chime Voice
     # Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [AssociatePhoneNumbersWithVoiceConnector][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnector.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -443,6 +535,20 @@ module Aws::Chime
 
     # Associates phone numbers with the specified Amazon Chime Voice
     # Connector group.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [AssociatePhoneNumbersWithVoiceConnectorGroup][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnectorGroup.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_group_id
     #   The Amazon Chime Voice Connector group ID.
@@ -516,12 +622,24 @@ module Aws::Chime
     end
 
     # Creates up to 100 new attendees for an active Amazon Chime SDK
-    # meeting. For more information about the Amazon Chime SDK, see [Using
-    # the Amazon Chime SDK][1] in the *Amazon Chime Developer Guide*.
+    # meeting.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [BatchCreateAttendee][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    # For more information about the Amazon Chime SDK, see [Using the Amazon
+    # Chime SDK][3] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_BatchCreateAttendee.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -572,6 +690,19 @@ module Aws::Chime
     end
 
     # Adds a specified number of users to a channel.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [BatchCreateChannelMembership][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_BatchCreateChannelMembership.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel to which you're adding users.
@@ -958,6 +1089,19 @@ module Aws::Chime
     # `CreateAppInstance` supports idempotency behavior as described in the
     # AWS API Standard.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateAppInstance][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstance.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :name
     #   The name of the `AppInstance`.
     #
@@ -1007,12 +1151,25 @@ module Aws::Chime
     # Promotes an `AppInstanceUser` to an `AppInstanceAdmin`. The promoted
     # user can perform the following actions.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateAppInstanceAdmin][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
     # * `ChannelModerator` actions across all channels in the `AppInstance`.
     #
     # * `DeleteChannelMessage` actions.
     #
     # Only an `AppInstanceUser` can be promoted to an `AppInstanceAdmin`
     # role.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceAdmin.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_admin_arn
     #   The ARN of the administrator of the current `AppInstance`.
@@ -1049,6 +1206,19 @@ module Aws::Chime
 
     # Creates a user under an Amazon Chime `AppInstance`. The request
     # consists of a unique `appInstanceUserId` and `Name` for that user.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateAppInstanceUser][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance` request.
@@ -1106,11 +1276,21 @@ module Aws::Chime
 
     # Creates a new attendee for an active Amazon Chime SDK meeting. For
     # more information about the Amazon Chime SDK, see [Using the Amazon
-    # Chime SDK][1] in the *Amazon Chime Developer Guide*.
+    # Chime SDK][1] in the *Amazon Chime SDK Developer Guide*.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateAttendee][2], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][3] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateAttendee.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -1200,13 +1380,26 @@ module Aws::Chime
 
     # Creates a channel to which you can add users and send messages.
     #
-    # **Restriction**\: You can't change a channel's privacy.
+    # **Restriction**: You can't change a channel's privacy.
     #
     # <note markdown="1"> The `x-amz-chime-bearer` request header is mandatory. Use the
     # `AppInstanceUserArn` of the user that makes the API call as the value
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateChannel][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannel.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the channel request.
@@ -1289,6 +1482,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateChannelBan][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelBan.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the ban request.
     #
@@ -1351,6 +1557,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateChannelMembership][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelMembership.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel to which you're adding users.
@@ -1415,6 +1634,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateChannelModerator][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelModerator.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
     #
@@ -1454,6 +1686,19 @@ module Aws::Chime
 
     # Creates a media capture pipeline.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateMediaCapturePipeline][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_CreateMediaCapturePipeline
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :source_type
     #   Source type from which the media artifacts will be captured. A Chime
     #   SDK Meeting is the only supported source.
@@ -1469,7 +1714,9 @@ module Aws::Chime
     #   The ARN of the sink type.
     #
     # @option params [String] :client_request_token
-    #   The token assigned to the client making the pipeline request.
+    #   The unique identifier for the client request. The token makes the API
+    #   request idempotent. Use a different token for different media pipeline
+    #   requests.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -1545,14 +1792,24 @@ module Aws::Chime
     # Creates a new Amazon Chime SDK meeting in the specified media Region
     # with no initial attendees. For more information about specifying media
     # Regions, see [Amazon Chime SDK Media Regions][1] in the *Amazon Chime
-    # Developer Guide* . For more information about the Amazon Chime SDK,
-    # see [Using the Amazon Chime SDK][2] in the *Amazon Chime Developer
-    # Guide* .
+    # SDK Developer Guide* . For more information about the Amazon Chime
+    # SDK, see [Using the Amazon Chime SDK][2] in the *Amazon Chime SDK
+    # Developer Guide*.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateMeeting][3], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][4] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html
-    # [2]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html
+    # [4]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :client_request_token
     #   The unique identifier for the client request. Use a different token
@@ -1638,6 +1895,8 @@ module Aws::Chime
     # (IVR), use the `CreateSipMediaApplicationCall` action with the
     # corresponding SIP media application ID.
     #
+    # **This API is is not available in a dedicated namespace.**
+    #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
     #
@@ -1684,14 +1943,25 @@ module Aws::Chime
 
     # Creates a new Amazon Chime SDK meeting in the specified media Region,
     # with attendees. For more information about specifying media Regions,
-    # see [Amazon Chime SDK Media Regions][1] in the *Amazon Chime Developer
-    # Guide* . For more information about the Amazon Chime SDK, see [Using
-    # the Amazon Chime SDK][2] in the *Amazon Chime Developer Guide* .
+    # see [Amazon Chime SDK Media Regions][1] in the *Amazon Chime SDK
+    # Developer Guide* . For more information about the Amazon Chime SDK,
+    # see [Using the Amazon Chime SDK][2] in the *Amazon Chime SDK Developer
+    # Guide* .
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateMeetingWithAttendees][3],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][4] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html
-    # [2]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeetingWithAttendees.html
+    # [4]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :client_request_token
     #   The unique identifier for the client request. Use a different token
@@ -1722,7 +1992,7 @@ module Aws::Chime
     #   The resource target configurations for receiving Amazon Chime SDK
     #   meeting and attendee event notifications. The Amazon Chime SDK
     #   supports resource targets located in the US East (N. Virginia) AWS
-    #   Region (`us-east-1`).
+    #   Region (us-east-1).
     #
     # @option params [Array<Types::CreateAttendeeRequestItem>] :attendees
     #   The request containing the attendees to create.
@@ -1838,6 +2108,19 @@ module Aws::Chime
 
     # Creates a proxy session on the specified Amazon Chime Voice Connector
     # for the specified participant phone numbers.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateProxySession][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
@@ -2011,6 +2294,19 @@ module Aws::Chime
 
     # Creates a SIP media application.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateSipMediaApplication][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplication.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :aws_region
     #   The AWS Region assigned to the SIP media application.
     #
@@ -2060,6 +2356,19 @@ module Aws::Chime
     # specified in the request, and it invokes the endpoint of the specified
     # `sipMediaApplicationId`.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [CreateSipMediaApplicationCall][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplicationCall.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :from_phone_number
     #   The phone number that a user calls from. This is a phone number in
     #   your Amazon Chime phone number inventory.
@@ -2103,6 +2412,19 @@ module Aws::Chime
 
     # Creates a SIP rule which can be used to run a SIP media application as
     # a target for a specific trigger type.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateSipRule][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipRule.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :name
     #   The name of the SIP rule.
@@ -2233,6 +2555,19 @@ module Aws::Chime
     # and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and
     # unencrypted outbound calls are blocked.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateVoiceConnector][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnector.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :name
     #   The name of the Amazon Chime Voice Connector.
     #
@@ -2284,6 +2619,19 @@ module Aws::Chime
     # You can include Amazon Chime Voice Connectors from different AWS
     # Regions in your group. This creates a fault tolerant mechanism for
     # fallback in case of availability events.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [CreateVoiceConnectorGroup][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnectorGroup.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :name
     #   The name of the Amazon Chime Voice Connector group.
@@ -2364,6 +2712,19 @@ module Aws::Chime
 
     # Deletes an `AppInstance` and all associated data asynchronously.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteAppInstance][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstance.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
     #
@@ -2386,6 +2747,19 @@ module Aws::Chime
 
     # Demotes an `AppInstanceAdmin` to an `AppInstanceUser`. This action
     # does not delete the user.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteAppInstanceAdmin][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceAdmin.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_admin_arn
     #   The ARN of the `AppInstance`'s administrator.
@@ -2413,6 +2787,20 @@ module Aws::Chime
 
     # Deletes the streaming configurations of an `AppInstance`.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DeleteAppInstanceStreamingConfigurations][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceStreamingConfigurations.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the streaming configurations being deleted.
     #
@@ -2434,6 +2822,19 @@ module Aws::Chime
     end
 
     # Deletes an `AppInstanceUser`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteAppInstanceUser][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_user_arn
     #   The ARN of the user request being deleted.
@@ -2459,11 +2860,21 @@ module Aws::Chime
     # deletes their `JoinToken`. Attendees are automatically deleted when a
     # Amazon Chime SDK meeting is deleted. For more information about the
     # Amazon Chime SDK, see [Using the Amazon Chime SDK][1] in the *Amazon
-    # Chime Developer Guide*.
+    # Chime SDK Developer Guide*.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteAttendee][2], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][3] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteAttendee.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -2498,6 +2909,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteChannel][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannel.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel being deleted.
     #
@@ -2529,6 +2953,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteChannelBan][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelBan.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel from which the `AppInstanceUser` was banned.
@@ -2565,6 +3002,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteChannelMembership][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMembership.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel from which you want to remove the user.
@@ -2604,6 +3054,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteChannelMessage][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMessage.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
     #
@@ -2639,6 +3102,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteChannelModerator][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelModerator.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -2697,6 +3173,19 @@ module Aws::Chime
 
     # Deletes the media capture pipeline.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteMediaCapturePipeline][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_DeleteMediaCapturePipeline.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :media_pipeline_id
     #   The ID of the media capture pipeline being deleted.
     #
@@ -2720,12 +3209,22 @@ module Aws::Chime
     # Deletes the specified Amazon Chime SDK meeting. The operation deletes
     # all attendees, disconnects all clients, and prevents new clients from
     # joining the meeting. For more information about the Amazon Chime SDK,
-    # see [Using the Amazon Chime SDK][1] in the *Amazon Chime Developer
+    # see [Using the Amazon Chime SDK][1] in the *Amazon Chime SDK Developer
     # Guide*.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteMeeting][2], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][3] in the *Amazon Chime SDK Developer Guide*.
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteMeeting.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -2776,6 +3275,19 @@ module Aws::Chime
 
     # Deletes the specified proxy session from the specified Amazon Chime
     # Voice Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteProxySession][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
@@ -2860,6 +3372,19 @@ module Aws::Chime
 
     # Deletes a SIP media application.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteSipMediaApplication][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipMediaApplication.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :sip_media_application_id
     #   The SIP media application ID.
     #
@@ -2882,6 +3407,19 @@ module Aws::Chime
 
     # Deletes a SIP rule. You must disable a SIP rule before you can delete
     # it.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteSipRule][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipRule.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :sip_rule_id
     #   The SIP rule ID.
@@ -2907,6 +3445,19 @@ module Aws::Chime
     # associated with the Amazon Chime Voice Connector must be disassociated
     # from it before it can be deleted.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteVoiceConnector][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnector.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -2929,6 +3480,20 @@ module Aws::Chime
 
     # Deletes the emergency calling configuration details from the specified
     # Amazon Chime Voice Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DeleteVoiceConnectorEmergencyCallingConfiguration][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorEmergencyCallingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -2953,6 +3518,19 @@ module Aws::Chime
     # Deletes the specified Amazon Chime Voice Connector group. Any
     # `VoiceConnectorItems` and phone numbers associated with the group must
     # be removed before it can be deleted.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteVoiceConnectorGroup][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorGroup.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_group_id
     #   The Amazon Chime Voice Connector group ID.
@@ -2983,6 +3561,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DeleteVoiceConnectorOrigination][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorOrigination.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -3006,6 +3597,19 @@ module Aws::Chime
     # Deletes the proxy configuration from the specified Amazon Chime Voice
     # Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DeleteVoiceProxy][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -3028,6 +3632,20 @@ module Aws::Chime
 
     # Deletes the streaming configuration for the specified Amazon Chime
     # Voice Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DeleteVoiceConnectorStreamingConfiguration][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorStreamingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -3058,6 +3676,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DeleteVoiceConnectorTermination][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTermination.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -3080,6 +3711,20 @@ module Aws::Chime
 
     # Deletes the specified SIP credentials used by your equipment to
     # authenticate during call termination.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DeleteVoiceConnectorTerminationCredentials][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTerminationCredentials.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -3107,6 +3752,19 @@ module Aws::Chime
     end
 
     # Returns the full details of an `AppInstance`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeAppInstance][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstance.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
@@ -3139,6 +3797,19 @@ module Aws::Chime
     end
 
     # Returns the full details of an `AppInstanceAdmin`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeAppInstanceAdmin][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceAdmin.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_admin_arn
     #   The ARN of the `AppInstanceAdmin`.
@@ -3174,6 +3845,19 @@ module Aws::Chime
     end
 
     # Returns the full details of an `AppInstanceUser`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeAppInstanceUser][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_user_arn
     #   The ARN of the `AppInstanceUser`.
@@ -3213,6 +3897,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeChannel][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannel.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -3261,6 +3958,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeChannelBan][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelBan.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel from which the user is banned.
     #
@@ -3307,6 +4017,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeChannelMembership][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembership.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -3358,6 +4081,20 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DescribeChannelMembershipForAppInstanceUser][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembershipForAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel to which the user belongs.
     #
@@ -3408,6 +4145,20 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DescribeChannelModeratedByAppInstanceUser][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModeratedByAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the moderated channel.
     #
@@ -3454,6 +4205,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [DescribeChannelModerator][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModerator.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -3524,6 +4288,20 @@ module Aws::Chime
     # Disassociates the specified phone numbers from the specified Amazon
     # Chime Voice Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DisassociatePhoneNumbersFromVoiceConnector][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnector.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -3559,6 +4337,20 @@ module Aws::Chime
 
     # Disassociates the specified phone numbers from the specified Amazon
     # Chime Voice Connector group.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [DisassociatePhoneNumbersFromVoiceConnectorGroup][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnectorGroup.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_group_id
     #   The Amazon Chime Voice Connector group ID.
@@ -3697,6 +4489,19 @@ module Aws::Chime
 
     # Gets the retention settings for an `AppInstance`.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetMessagingRetentionSettings][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_GetAppInstanceRetentionSettings.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
     #
@@ -3726,6 +4531,19 @@ module Aws::Chime
     end
 
     # Gets the streaming settings for an `AppInstance`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetMessagingStreamingConfigurations][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingStreamingConfigurations.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
@@ -3757,12 +4575,22 @@ module Aws::Chime
 
     # Gets the Amazon Chime SDK attendee details for a specified meeting ID
     # and attendee ID. For more information about the Amazon Chime SDK, see
-    # [Using the Amazon Chime SDK][1] in the *Amazon Chime Developer Guide*
-    # .
+    # [Using the Amazon Chime SDK][1] in the *Amazon Chime SDK Developer
+    # Guide*.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetAttendee][2], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][3] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetAttendee.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -3844,6 +4672,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetChannelMessage][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetChannelMessage.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -3950,6 +4791,19 @@ module Aws::Chime
 
     # Gets an existing media capture pipeline.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetMediaCapturePipeline][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_GetMediaCapturePipeline.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :media_pipeline_id
     #   The ID of the pipeline that you want to get.
     #
@@ -3992,13 +4846,23 @@ module Aws::Chime
       req.send_request(options)
     end
 
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetMeeting][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
     # Gets the Amazon Chime SDK meeting details for the specified meeting
     # ID. For more information about the Amazon Chime SDK, see [Using the
-    # Amazon Chime SDK][1] in the *Amazon Chime Developer Guide* .
+    # Amazon Chime SDK][3] in the *Amazon Chime SDK Developer Guide* .
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -4037,6 +4901,19 @@ module Aws::Chime
     end
 
     # The details of the endpoint for the messaging session.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetMessagingSessionEndpoint][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingSessionEndpoint.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @return [Types::GetMessagingSessionEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4166,6 +5043,19 @@ module Aws::Chime
     # Gets the specified proxy session details for the specified Amazon
     # Chime Voice Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetProxySession][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
     #
@@ -4291,6 +5181,19 @@ module Aws::Chime
     # Retrieves the information for a SIP media application, including name,
     # AWS Region, and endpoints.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetSipMediaApplication][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplication.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :sip_media_application_id
     #   The SIP media application ID.
     #
@@ -4326,6 +5229,20 @@ module Aws::Chime
     # Returns the logging configuration for the specified SIP media
     # application.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetSipMediaApplicationLoggingConfiguration][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplicationLoggingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :sip_media_application_id
     #   The SIP media application ID.
     #
@@ -4354,6 +5271,19 @@ module Aws::Chime
 
     # Retrieves the details of a SIP rule, such as the rule ID, name,
     # triggers, and target endpoints.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetSipRule][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipRule.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :sip_rule_id
     #   The SIP rule ID.
@@ -4478,6 +5408,19 @@ module Aws::Chime
     # Retrieves details for the specified Amazon Chime Voice Connector, such
     # as timestamps,name, outbound host, and encryption requirements.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetVoiceConnector][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnector.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -4514,6 +5457,20 @@ module Aws::Chime
     # Gets the emergency calling configuration details for the specified
     # Amazon Chime Voice Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetVoiceConnectorEmergencyCallingConfiguration][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorEmergencyCallingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -4545,6 +5502,19 @@ module Aws::Chime
 
     # Retrieves details for the specified Amazon Chime Voice Connector
     # group, such as timestamps,name, and associated `VoiceConnectorItems`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetVoiceConnectorGroup][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorGroup.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_group_id
     #   The Amazon Chime Voice Connector group ID.
@@ -4583,6 +5553,19 @@ module Aws::Chime
     # Chime Voice Connector. Shows whether SIP message logs are enabled for
     # sending to Amazon CloudWatch Logs.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetVoiceConnectorLoggingConfiguration][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorLoggingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -4612,6 +5595,19 @@ module Aws::Chime
 
     # Retrieves origination setting details for the specified Amazon Chime
     # Voice Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetVoiceConnectorOrigination][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorOrigination.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -4648,6 +5644,19 @@ module Aws::Chime
     # Gets the proxy configuration details for the specified Amazon Chime
     # Voice Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetVoiceConnectorProxy][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
     #
@@ -4683,6 +5692,19 @@ module Aws::Chime
     # sending to Amazon Kinesis. It also shows the retention period, in
     # hours, for the Amazon Kinesis data.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetVoiceConnectorStreamingConfiguration][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorStreamingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -4714,6 +5736,19 @@ module Aws::Chime
 
     # Retrieves termination setting details for the specified Amazon Chime
     # Voice Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [GetVoiceConnectorTermination][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTermination.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -4747,9 +5782,22 @@ module Aws::Chime
       req.send_request(options)
     end
 
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [GetVoiceConnectorTerminationHealth][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
     # Retrieves information about the last time a SIP `OPTIONS` ping was
     # received from your SIP infrastructure for the specified Amazon Chime
     # Voice Connector.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTerminationHealth.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -4881,6 +5929,19 @@ module Aws::Chime
 
     # Returns a list of the administrators in the `AppInstance`.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListAppInstanceAdmins][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceAdmins.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
     #
@@ -4925,6 +5986,19 @@ module Aws::Chime
     end
 
     # List all `AppInstanceUsers` created under a single `AppInstance`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListAppInstanceUsers][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceUsers.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
@@ -4973,6 +6047,19 @@ module Aws::Chime
     # Lists all Amazon Chime `AppInstance`s created under a single AWS
     # account.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListAppInstances][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstances.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [Integer] :max_results
     #   The maximum number of `AppInstance`s that you want to return.
     #
@@ -5013,6 +6100,9 @@ module Aws::Chime
 
     # Lists the tags applied to an Amazon Chime SDK attendee resource.
     #
+    # ListAttendeeTags is not supported in the Amazon Chime SDK Meetings
+    # Namespace. Update your application to remove calls to this API.
+    #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
     #
@@ -5047,11 +6137,21 @@ module Aws::Chime
 
     # Lists the attendees for the specified Amazon Chime SDK meeting. For
     # more information about the Amazon Chime SDK, see [Using the Amazon
-    # Chime SDK][1] in the *Amazon Chime Developer Guide*.
+    # Chime SDK][1] in the *Amazon Chime SDK Developer Guide*.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListAttendees][2], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][3] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListAttendees.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -5153,6 +6253,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListChannelBans][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelBans.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
     #
@@ -5207,6 +6320,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListChannelMemberships][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMemberships.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The maximum number of channel memberships that you want returned.
@@ -5273,6 +6399,20 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [ListChannelMembershipsForAppInstanceUser][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [String] :app_instance_user_arn
     #   The ARN of the `AppInstanceUser`s
     #
@@ -5337,6 +6477,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListChannelMessages][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMessages.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -5414,6 +6567,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListChannelModerators][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelModerators.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
     #
@@ -5478,6 +6644,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListChannels][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannels.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
     #
@@ -5541,6 +6720,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [ListChannelsModeratedByAppInstanceUser][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelsModeratedByAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [String] :app_instance_user_arn
     #   The ARN of the user in the moderated channel.
     #
@@ -5591,6 +6783,19 @@ module Aws::Chime
     end
 
     # Returns a list of media capture pipelines.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListMediaCapturePipelines][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_ListMediaCapturePipelines.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [String] :next_token
     #   The token used to retrieve the next page of results.
@@ -5646,6 +6851,19 @@ module Aws::Chime
 
     # Lists the tags applied to an Amazon Chime SDK meeting resource.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListTagsForResource][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
     #
@@ -5674,13 +6892,17 @@ module Aws::Chime
       req.send_request(options)
     end
 
-    # Lists up to 100 active Amazon Chime SDK meetings. For more information
-    # about the Amazon Chime SDK, see [Using the Amazon Chime SDK][1] in the
-    # *Amazon Chime Developer Guide*.
+    # Lists up to 100 active Amazon Chime SDK meetings.
+    #
+    # ListMeetings is not supported in the Amazon Chime SDK Meetings
+    # Namespace. Update your application to remove calls to this API.
+    #
+    # For more information about the Amazon Chime SDK, see [Using the Amazon
+    # Chime SDK][1] in the *Amazon Chime SDK Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html
     #
     # @option params [String] :next_token
     #   The token to use to retrieve the next page of results.
@@ -5849,6 +7071,19 @@ module Aws::Chime
 
     # Lists the proxy sessions for the specified Amazon Chime Voice
     # Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListProxySessions][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
@@ -6019,6 +7254,19 @@ module Aws::Chime
     # Lists the SIP media applications under the administrator's AWS
     # account.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListSipMediaApplications][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipMediaApplications.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [Integer] :max_results
     #   The maximum number of results to return in a single call. Defaults to
     #   100.
@@ -6062,6 +7310,19 @@ module Aws::Chime
     end
 
     # Lists the SIP rules under the administrator's AWS account.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListSipRules][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipRules.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [String] :sip_media_application_id
     #   The SIP media application ID.
@@ -6144,7 +7405,25 @@ module Aws::Chime
       req.send_request(options)
     end
 
-    # Lists the tags applied to an Amazon Chime SDK meeting resource.
+    # Lists the tags applied to an Amazon Chime SDK meeting and messaging
+    # resources.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the applicable latest version in the Amazon Chime SDK.
+    #
+    #  * For meetings: [ListTagsForResource][1].
+    #
+    # * For messaging: [ListTagsForResource][2].
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][3] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListTagsForResource.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :resource_arn
     #   The resource ARN.
@@ -6242,6 +7521,19 @@ module Aws::Chime
     # Lists the Amazon Chime Voice Connector groups for the administrator's
     # AWS account.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListVoiceConnectorGroups][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorGroups.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [String] :next_token
     #   The token to use to retrieve the next page of results.
     #
@@ -6287,6 +7579,20 @@ module Aws::Chime
     # Lists the SIP credentials for the specified Amazon Chime Voice
     # Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [ListVoiceConnectorTerminationCredentials][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorTerminationCredentials.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -6316,6 +7622,19 @@ module Aws::Chime
 
     # Lists the Amazon Chime Voice Connectors for the administrator's AWS
     # account.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ListVoiceConnectors][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectors.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [String] :next_token
     #   The token to use to retrieve the next page of results.
@@ -6389,6 +7708,19 @@ module Aws::Chime
     # Sets the amount of time in days that a given `AppInstance` retains
     # data.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutAppInstanceRetentionSettings][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_PutAppInstanceRetentionSettings.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
     #
@@ -6426,6 +7758,19 @@ module Aws::Chime
     end
 
     # The data streaming configurations of an `AppInstance`.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutMessagingStreamingConfigurations][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_PutMessagingStreamingConfigurations.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
@@ -6568,6 +7913,20 @@ module Aws::Chime
     # Updates the logging configuration for the specified SIP media
     # application.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutSipMediaApplicationLoggingConfiguration][1], in the Amazon Chime
+    # SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutSipMediaApplicationLoggingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :sip_media_application_id
     #   The SIP media application ID.
     #
@@ -6605,6 +7964,20 @@ module Aws::Chime
     # countries. Origination and termination settings must be enabled for
     # the Amazon Chime Voice Connector before emergency calling can be
     # configured.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutVoiceConnectorEmergencyCallingConfiguration][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorEmergencyCallingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -6651,6 +8024,19 @@ module Aws::Chime
     # Connector. The logging configuration specifies whether SIP message
     # logs are enabled for sending to Amazon CloudWatch Logs.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutVoiceConnectorLoggingConfiguration][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorLoggingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -6693,6 +8079,19 @@ module Aws::Chime
     # settings.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [PutVoiceConnectorOrigination][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorOrigination.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
@@ -6743,6 +8142,19 @@ module Aws::Chime
 
     # Puts the specified proxy configuration to the specified Amazon Chime
     # Voice Connector.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [PutVoiceConnectorProxy][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
@@ -6796,6 +8208,19 @@ module Aws::Chime
     # streaming is enabled for sending to Kinesis. It also sets the
     # retention period, in hours, for the Amazon Kinesis data.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutVoiceConnectorStreamingConfiguration][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorStreamingConfiguration.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -6846,6 +8271,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [PutVoiceConnectorTermination][1],
+    # in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTermination.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -6891,6 +8329,19 @@ module Aws::Chime
     # Adds termination SIP credentials for the specified Amazon Chime Voice
     # Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [PutVoiceConnectorTerminationCredentials][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTerminationCredentials.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -6929,6 +8380,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [RedactChannelMessage][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_RedactChannelMessage.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel containing the messages that you want to
@@ -7245,6 +8709,19 @@ module Aws::Chime
     #
     #  </note>
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [SendChannelMessage][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_SendChannelMessage.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
     #
@@ -7301,7 +8778,38 @@ module Aws::Chime
       req.send_request(options)
     end
 
-    # Starts transcription for the specified `meetingId`.
+    # Starts transcription for the specified `meetingId`. For more
+    # information, refer to [ Using Amazon Chime SDK live transcription ][1]
+    # in the *Amazon Chime SDK Developer Guide*.
+    #
+    # If you specify an invalid configuration, a `TranscriptFailed` event
+    # will be sent with the contents of the `BadRequestException` generated
+    # by Amazon Transcribe. For more information on each parameter and which
+    # combinations are valid, refer to the [StartStreamTranscription][2] API
+    # in the *Amazon Transcribe Developer Guide*.
+    #
+    # <note markdown="1"> Amazon Chime SDK live transcription is powered by Amazon Transcribe.
+    # Use of Amazon Transcribe is subject to the [AWS Service Terms][3],
+    # including the terms specific to the AWS Machine Learning and
+    # Artificial Intelligence Services.
+    #
+    #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [StartMeetingTranscription][4], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][5] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html
+    # [2]: https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html
+    # [3]: https://aws.amazon.com/service-terms/
+    # [4]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StartMeetingTranscription.html
+    # [5]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :meeting_id
     #   The unique ID of the meeting being transcribed.
@@ -7319,7 +8827,7 @@ module Aws::Chime
     #     meeting_id: "GuidString", # required
     #     transcription_configuration: { # required
     #       engine_transcribe_settings: {
-    #         language_code: "en-US", # required, accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR, ja-JP, ko-KR, zh-CN
+    #         language_code: "en-US", # accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR, ja-JP, ko-KR, zh-CN, th-TH, hi-IN
     #         vocabulary_filter_method: "remove", # accepts remove, mask, tag
     #         vocabulary_filter_name: "String",
     #         vocabulary_name: "String",
@@ -7330,6 +8838,11 @@ module Aws::Chime
     #         content_redaction_type: "PII", # accepts PII
     #         pii_entity_types: "TranscribePiiEntityTypes",
     #         language_model_name: "TranscribeLanguageModelName",
+    #         identify_language: false,
+    #         language_options: "TranscribeLanguageOptions",
+    #         preferred_language: "en-US", # accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR, ja-JP, ko-KR, zh-CN, th-TH, hi-IN
+    #         vocabulary_names: "TranscribeVocabularyNamesOrFilterNamesString",
+    #         vocabulary_filter_names: "TranscribeVocabularyNamesOrFilterNamesString",
     #       },
     #       engine_transcribe_medical_settings: {
     #         language_code: "en-US", # required, accepts en-US
@@ -7353,6 +8866,19 @@ module Aws::Chime
 
     # Stops transcription for the specified `meetingId`.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [StopMeetingTranscription][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StopMeetingTranscription.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :meeting_id
     #   The unique ID of the meeting for which you stop transcription.
     #
@@ -7373,7 +8899,10 @@ module Aws::Chime
       req.send_request(options)
     end
 
-    # Applies the specified tags to the specified Amazon Chime SDK attendee.
+    # Applies the specified tags to the specified Amazon Chime attendee.
+    #
+    # TagAttendee is not supported in the Amazon Chime SDK Meetings
+    # Namespace. Update your application to remove calls to this API.
     #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
@@ -7410,6 +8939,19 @@ module Aws::Chime
 
     # Applies the specified tags to the specified Amazon Chime SDK meeting.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [TagResource][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
     #
@@ -7441,6 +8983,19 @@ module Aws::Chime
 
     # Applies the specified tags to the specified Amazon Chime SDK meeting
     # resource.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [TagResource][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :resource_arn
     #   The resource ARN.
@@ -7474,6 +9029,9 @@ module Aws::Chime
     # Untags the specified tags from the specified Amazon Chime SDK
     # attendee.
     #
+    # UntagAttendee is not supported in the Amazon Chime SDK Meetings
+    # Namespace. Update your application to remove calls to this API.
+    #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
     #
@@ -7504,6 +9062,19 @@ module Aws::Chime
 
     # Untags the specified tags from the specified Amazon Chime SDK meeting.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UntagResource][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :meeting_id
     #   The Amazon Chime SDK meeting ID.
     #
@@ -7530,6 +9101,22 @@ module Aws::Chime
 
     # Untags the specified tags from the specified Amazon Chime SDK meeting
     # resource.
+    #
+    # Applies the specified tags to the specified Amazon Chime SDK meeting
+    # resource.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UntagResource][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :resource_arn
     #   The resource ARN.
@@ -7642,6 +9229,19 @@ module Aws::Chime
 
     # Updates `AppInstance` metadata.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateAppInstance][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstance.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :app_instance_arn
     #   The ARN of the `AppInstance`.
     #
@@ -7678,6 +9278,19 @@ module Aws::Chime
 
     # Updates the details of an `AppInstanceUser`. You can update names and
     # metadata.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateAppInstanceUser][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstanceUser.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :app_instance_user_arn
     #   The ARN of the `AppInstanceUser`.
@@ -7760,13 +9373,26 @@ module Aws::Chime
 
     # Update a channel's attributes.
     #
-    # **Restriction**\: You can't change a channel's privacy.
+    # **Restriction**: You can't change a channel's privacy.
     #
     # <note markdown="1"> The `x-amz-chime-bearer` request header is mandatory. Use the
     # `AppInstanceUserArn` of the user that makes the API call as the value
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateChannel][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannel.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -7817,6 +9443,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateChannelMessage][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelMessage.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -7869,6 +9508,19 @@ module Aws::Chime
     # in the header.
     #
     #  </note>
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateChannelReadMarker][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelReadMarker.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :channel_arn
     #   The ARN of the channel.
@@ -8027,6 +9679,19 @@ module Aws::Chime
     # Updates the specified proxy session details, such as voice or SMS
     # capabilities.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateProxySession][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime voice connector ID.
     #
@@ -8176,6 +9841,19 @@ module Aws::Chime
 
     # Updates the details of the specified SIP media application.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateSipMediaApplication][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplication.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :sip_media_application_id
     #   The SIP media application ID.
     #
@@ -8224,6 +9902,19 @@ module Aws::Chime
     # application and transaction ID in an update request. The Lambda
     # function can then return a new set of actions.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version,
+    # [UpdateSipMediaApplicationCall][1], in the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplicationCall.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :sip_media_application_id
     #   The ID of the SIP media application handling the call.
     #
@@ -8262,6 +9953,19 @@ module Aws::Chime
     end
 
     # Updates the details of the specified SIP rule.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateSipRule][1], in the Amazon
+    # Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipRule.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :sip_rule_id
     #   The SIP rule ID.
@@ -8418,6 +10122,19 @@ module Aws::Chime
 
     # Updates details for the specified Amazon Chime Voice Connector.
     #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateVoiceConnector][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnector.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
+    #
     # @option params [required, String] :voice_connector_id
     #   The Amazon Chime Voice Connector ID.
     #
@@ -8462,6 +10179,19 @@ module Aws::Chime
 
     # Updates details of the specified Amazon Chime Voice Connector group,
     # such as the name and Amazon Chime Voice Connector priority ranking.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [UpdateVoiceConnectorGroup][1], in
+    # the Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnectorGroup.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :voice_connector_group_id
     #   The Amazon Chime Voice Connector group ID.
@@ -8514,6 +10244,19 @@ module Aws::Chime
     # Information Data Format Location Object file that you include in SIP
     # requests. That helps ensure that addresses are routed to the
     # appropriate Public Safety Answering Point.
+    #
+    # **This API is is no longer supported and will not be updated.** We
+    # recommend using the latest version, [ValidateE911Address][1], in the
+    # Amazon Chime SDK.
+    #
+    #  Using the latest version requires migrating to a dedicated namespace.
+    # For more information, refer to [Migrating from the Amazon Chime
+    # namespace][2] in the *Amazon Chime SDK Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ValidateE911Address.html
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
     #
     # @option params [required, String] :aws_account_id
     #   The AWS account ID.
@@ -8593,14 +10336,19 @@ module Aws::Chime
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Chime')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-chime'
-      context[:gem_version] = '1.70.0'
+      context[:gem_version] = '1.96.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

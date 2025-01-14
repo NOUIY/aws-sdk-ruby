@@ -5,12 +5,14 @@
     "endpointPrefix":"apprunner",
     "jsonVersion":"1.0",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"AWS App Runner",
     "serviceId":"AppRunner",
     "signatureVersion":"v4",
     "signingName":"apprunner",
     "targetPrefix":"AppRunner",
-    "uid":"apprunner-2020-05-15"
+    "uid":"apprunner-2020-05-15",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AssociateCustomDomain":{
@@ -363,6 +365,20 @@
         {"shape":"InternalServiceErrorException"}
       ]
     },
+    "ListServicesForAutoScalingConfiguration":{
+      "name":"ListServicesForAutoScalingConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListServicesForAutoScalingConfigurationRequest"},
+      "output":{"shape":"ListServicesForAutoScalingConfigurationResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
     "ListTagsForResource":{
       "name":"ListTagsForResource",
       "http":{
@@ -478,6 +494,20 @@
         {"shape":"InvalidStateException"}
       ]
     },
+    "UpdateDefaultAutoScalingConfiguration":{
+      "name":"UpdateDefaultAutoScalingConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateDefaultAutoScalingConfigurationRequest"},
+      "output":{"shape":"UpdateDefaultAutoScalingConfigurationResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
     "UpdateService":{
       "name":"UpdateService",
       "http":{
@@ -517,7 +547,6 @@
     },
     "ASConfigMaxSize":{
       "type":"integer",
-      "max":25,
       "min":1
     },
     "ASConfigMinSize":{
@@ -570,14 +599,16 @@
       "members":{
         "AutoScalingConfigurationArn":{"shape":"AppRunnerResourceArn"},
         "AutoScalingConfigurationName":{"shape":"AutoScalingConfigurationName"},
-        "AutoScalingConfigurationRevision":{"shape":"Integer"},
-        "Latest":{"shape":"Boolean"},
+        "AutoScalingConfigurationRevision":{"shape":"AutoScalingConfigurationRevision"},
+        "Latest":{"shape":"Latest"},
         "Status":{"shape":"AutoScalingConfigurationStatus"},
-        "MaxConcurrency":{"shape":"Integer"},
-        "MinSize":{"shape":"Integer"},
-        "MaxSize":{"shape":"Integer"},
+        "MaxConcurrency":{"shape":"MaxConcurrency"},
+        "MinSize":{"shape":"MinSize"},
+        "MaxSize":{"shape":"MaxSize"},
         "CreatedAt":{"shape":"Timestamp"},
-        "DeletedAt":{"shape":"Timestamp"}
+        "DeletedAt":{"shape":"Timestamp"},
+        "HasAssociatedService":{"shape":"HasAssociatedService"},
+        "IsDefault":{"shape":"IsDefault"}
       }
     },
     "AutoScalingConfigurationName":{
@@ -586,6 +617,7 @@
       "min":4,
       "pattern":"[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}"
     },
+    "AutoScalingConfigurationRevision":{"type":"integer"},
     "AutoScalingConfigurationStatus":{
       "type":"string",
       "enum":[
@@ -598,7 +630,11 @@
       "members":{
         "AutoScalingConfigurationArn":{"shape":"AppRunnerResourceArn"},
         "AutoScalingConfigurationName":{"shape":"AutoScalingConfigurationName"},
-        "AutoScalingConfigurationRevision":{"shape":"Integer"}
+        "AutoScalingConfigurationRevision":{"shape":"Integer"},
+        "Status":{"shape":"AutoScalingConfigurationStatus"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "HasAssociatedService":{"shape":"HasAssociatedService"},
+        "IsDefault":{"shape":"IsDefault"}
       }
     },
     "AutoScalingConfigurationSummaryList":{
@@ -661,7 +697,8 @@
       "members":{
         "RepositoryUrl":{"shape":"String"},
         "SourceCodeVersion":{"shape":"SourceCodeVersion"},
-        "CodeConfiguration":{"shape":"CodeConfiguration"}
+        "CodeConfiguration":{"shape":"CodeConfiguration"},
+        "SourceDirectory":{"shape":"SourceDirectory"}
       }
     },
     "ConfigurationSource":{
@@ -712,9 +749,9 @@
     },
     "Cpu":{
       "type":"string",
-      "max":6,
-      "min":4,
-      "pattern":"1024|2048|(1|2) vCPU"
+      "max":9,
+      "min":3,
+      "pattern":"256|512|1024|2048|4096|(0.25|0.5|1|2|4) vCPU"
     },
     "CreateAutoScalingConfigurationRequest":{
       "type":"structure",
@@ -879,7 +916,8 @@
       "type":"structure",
       "required":["AutoScalingConfigurationArn"],
       "members":{
-        "AutoScalingConfigurationArn":{"shape":"AppRunnerResourceArn"}
+        "AutoScalingConfigurationArn":{"shape":"AppRunnerResourceArn"},
+        "DeleteAllRevisions":{"shape":"Boolean"}
       }
     },
     "DeleteAutoScalingConfigurationResponse":{
@@ -1119,6 +1157,7 @@
       "type":"string",
       "max":600
     },
+    "HasAssociatedService":{"type":"boolean"},
     "HealthCheckConfiguration":{
       "type":"structure",
       "members":{
@@ -1239,12 +1278,21 @@
       },
       "exception":true
     },
+    "IpAddressType":{
+      "type":"string",
+      "enum":[
+        "IPV4",
+        "DUAL_STACK"
+      ]
+    },
+    "IsDefault":{"type":"boolean"},
     "KmsKeyArn":{
       "type":"string",
       "max":256,
       "min":0,
       "pattern":"arn:aws(-[\\w]+)*:kms:[a-z\\-]+-[0-9]{1}:[0-9]{12}:key\\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     },
+    "Latest":{"type":"boolean"},
     "ListAutoScalingConfigurationsRequest":{
       "type":"structure",
       "members":{
@@ -1316,6 +1364,23 @@
         "NextToken":{"shape":"String"}
       }
     },
+    "ListServicesForAutoScalingConfigurationRequest":{
+      "type":"structure",
+      "required":["AutoScalingConfigurationArn"],
+      "members":{
+        "AutoScalingConfigurationArn":{"shape":"AppRunnerResourceArn"},
+        "MaxResults":{"shape":"MaxResults"},
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListServicesForAutoScalingConfigurationResponse":{
+      "type":"structure",
+      "required":["ServiceArnList"],
+      "members":{
+        "ServiceArnList":{"shape":"ServiceArnList"},
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
     "ListServicesRequest":{
       "type":"structure",
       "members":{
@@ -1382,22 +1447,26 @@
         "NextToken":{"shape":"NextToken"}
       }
     },
+    "MaxConcurrency":{"type":"integer"},
     "MaxResults":{
       "type":"integer",
       "max":100,
       "min":1
     },
+    "MaxSize":{"type":"integer"},
     "Memory":{
       "type":"string",
-      "max":4,
-      "min":4,
-      "pattern":"2048|3072|4096|(2|3|4) GB"
+      "max":6,
+      "min":3,
+      "pattern":"512|1024|2048|3072|4096|6144|8192|10240|12288|(0.5|1|2|3|4|6|8|10|12) GB"
     },
+    "MinSize":{"type":"integer"},
     "NetworkConfiguration":{
       "type":"structure",
       "members":{
         "EgressConfiguration":{"shape":"EgressConfiguration"},
-        "IngressConfiguration":{"shape":"IngressConfiguration"}
+        "IngressConfiguration":{"shape":"IngressConfiguration"},
+        "IpAddressType":{"shape":"IpAddressType"}
       }
     },
     "NextToken":{
@@ -1480,7 +1549,8 @@
         "CREATE_SERVICE",
         "PAUSE_SERVICE",
         "RESUME_SERVICE",
-        "DELETE_SERVICE"
+        "DELETE_SERVICE",
+        "UPDATE_SERVICE"
       ]
     },
     "PauseServiceRequest":{
@@ -1500,7 +1570,10 @@
     },
     "ProviderType":{
       "type":"string",
-      "enum":["GITHUB"]
+      "enum":[
+        "GITHUB",
+        "BITBUCKET"
+      ]
     },
     "ResourceNotFoundException":{
       "type":"structure",
@@ -1542,7 +1615,9 @@
         "GO_1",
         "DOTNET_6",
         "PHP_81",
-        "RUBY_31"
+        "RUBY_31",
+        "PYTHON_311",
+        "NODEJS_18"
       ]
     },
     "RuntimeEnvironmentSecrets":{
@@ -1612,6 +1687,10 @@
         "NetworkConfiguration":{"shape":"NetworkConfiguration"},
         "ObservabilityConfiguration":{"shape":"ServiceObservabilityConfiguration"}
       }
+    },
+    "ServiceArnList":{
+      "type":"list",
+      "member":{"shape":"AppRunnerResourceArn"}
     },
     "ServiceId":{
       "type":"string",
@@ -1695,6 +1774,12 @@
         "AutoDeploymentsEnabled":{"shape":"NullableBoolean"},
         "AuthenticationConfiguration":{"shape":"AuthenticationConfiguration"}
       }
+    },
+    "SourceDirectory":{
+      "type":"string",
+      "max":4096,
+      "min":1,
+      "pattern":"[^\\x00]+"
     },
     "StartCommand":{
       "type":"string",
@@ -1800,6 +1885,20 @@
     "UntagResourceResponse":{
       "type":"structure",
       "members":{
+      }
+    },
+    "UpdateDefaultAutoScalingConfigurationRequest":{
+      "type":"structure",
+      "required":["AutoScalingConfigurationArn"],
+      "members":{
+        "AutoScalingConfigurationArn":{"shape":"AppRunnerResourceArn"}
+      }
+    },
+    "UpdateDefaultAutoScalingConfigurationResponse":{
+      "type":"structure",
+      "required":["AutoScalingConfiguration"],
+      "members":{
+        "AutoScalingConfiguration":{"shape":"AutoScalingConfiguration"}
       }
     },
     "UpdateServiceRequest":{

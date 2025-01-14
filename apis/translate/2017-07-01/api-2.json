@@ -5,12 +5,14 @@
     "endpointPrefix":"translate",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"Amazon Translate",
     "serviceId":"Translate",
     "signatureVersion":"v4",
     "signingName":"translate",
     "targetPrefix":"AWSShineFrontendService_20170701",
-    "uid":"translate-2017-07-01"
+    "uid":"translate-2017-07-01",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CreateParallelData":{
@@ -241,6 +243,24 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "TranslateDocument":{
+      "name":"TranslateDocument",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"TranslateDocumentRequest"},
+      "output":{"shape":"TranslateDocumentResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"UnsupportedLanguagePairException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ServiceUnavailableException"}
+      ]
+    },
     "TranslateText":{
       "name":"TranslateText",
       "http":{
@@ -312,6 +332,10 @@
       "max":10000,
       "min":1,
       "pattern":"[\\P{M}\\p{M}]{1,10000}"
+    },
+    "Brevity":{
+      "type":"string",
+      "enum":["ON"]
     },
     "ClientTokenString":{
       "type":"string",
@@ -432,6 +456,22 @@
         "zh",
         "zh-TW"
       ]
+    },
+    "Document":{
+      "type":"structure",
+      "required":[
+        "Content",
+        "ContentType"
+      ],
+      "members":{
+        "Content":{"shape":"DocumentContent"},
+        "ContentType":{"shape":"ContentType"}
+      }
+    },
+    "DocumentContent":{
+      "type":"blob",
+      "max":102400,
+      "sensitive":true
     },
     "EncryptionKey":{
       "type":"structure",
@@ -733,10 +773,6 @@
     },
     "ParallelDataConfig":{
       "type":"structure",
-      "required":[
-        "S3Uri",
-        "Format"
-      ],
       "members":{
         "S3Uri":{"shape":"S3Uri"},
         "Format":{"shape":"ParallelDataFormat"}
@@ -1073,6 +1109,36 @@
       },
       "exception":true
     },
+    "TranslateDocumentRequest":{
+      "type":"structure",
+      "required":[
+        "Document",
+        "SourceLanguageCode",
+        "TargetLanguageCode"
+      ],
+      "members":{
+        "Document":{"shape":"Document"},
+        "TerminologyNames":{"shape":"ResourceNameList"},
+        "SourceLanguageCode":{"shape":"LanguageCodeString"},
+        "TargetLanguageCode":{"shape":"LanguageCodeString"},
+        "Settings":{"shape":"TranslationSettings"}
+      }
+    },
+    "TranslateDocumentResponse":{
+      "type":"structure",
+      "required":[
+        "TranslatedDocument",
+        "SourceLanguageCode",
+        "TargetLanguageCode"
+      ],
+      "members":{
+        "TranslatedDocument":{"shape":"TranslatedDocument"},
+        "SourceLanguageCode":{"shape":"LanguageCodeString"},
+        "TargetLanguageCode":{"shape":"LanguageCodeString"},
+        "AppliedTerminologies":{"shape":"AppliedTerminologyList"},
+        "AppliedSettings":{"shape":"TranslationSettings"}
+      }
+    },
     "TranslateTextRequest":{
       "type":"structure",
       "required":[
@@ -1103,6 +1169,17 @@
         "AppliedSettings":{"shape":"TranslationSettings"}
       }
     },
+    "TranslatedDocument":{
+      "type":"structure",
+      "required":["Content"],
+      "members":{
+        "Content":{"shape":"TranslatedDocumentContent"}
+      }
+    },
+    "TranslatedDocumentContent":{
+      "type":"blob",
+      "sensitive":true
+    },
     "TranslatedTextString":{
       "type":"string",
       "max":20000,
@@ -1112,7 +1189,8 @@
       "type":"structure",
       "members":{
         "Formality":{"shape":"Formality"},
-        "Profanity":{"shape":"Profanity"}
+        "Profanity":{"shape":"Profanity"},
+        "Brevity":{"shape":"Brevity"}
       }
     },
     "UnboundedLengthString":{"type":"string"},

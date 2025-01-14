@@ -10,6 +10,90 @@
 module Aws::DataExchange
   module Types
 
+    # @!attribute [rw] data_grant_arn
+    #   The Amazon Resource Name (ARN) of the data grant to accept.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/AcceptDataGrantRequest AWS API Documentation
+    #
+    class AcceptDataGrantRequest < Struct.new(
+      :data_grant_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the accepted data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sender_principal
+    #   The Amazon Web Services account ID of the data grant sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the accepted data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] accepted_at
+    #   The timestamp of when the data grant was accepted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] grant_distribution_scope
+    #   The distribution scope for the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_id
+    #   The ID of the data set associated to the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the accepted data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the data grant was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the data grant was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/AcceptDataGrantResponse AWS API Documentation
+    #
+    class AcceptDataGrantResponse < Struct.new(
+      :name,
+      :sender_principal,
+      :receiver_principal,
+      :description,
+      :acceptance_state,
+      :accepted_at,
+      :ends_at,
+      :grant_distribution_scope,
+      :data_set_id,
+      :id,
+      :arn,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Access to the resource is denied.
     #
     # @!attribute [rw] message
@@ -327,6 +411,130 @@ module Aws::DataExchange
       :message,
       :resource_id,
       :resource_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] grant_distribution_scope
+    #   The distribution scope of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_set_id
+    #   The ID of the data set used to create the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to add to the data grant. A tag is a key-value pair.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/CreateDataGrantRequest AWS API Documentation
+    #
+    class CreateDataGrantRequest < Struct.new(
+      :name,
+      :grant_distribution_scope,
+      :receiver_principal,
+      :source_data_set_id,
+      :ends_at,
+      :description,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sender_principal
+    #   The Amazon Web Services account ID of the data grant sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] accepted_at
+    #   The timestamp of when the data grant was accepted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] grant_distribution_scope
+    #   The distribution scope for the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_id
+    #   The ID of the data set associated to the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_set_id
+    #   The ID of the data set used to create the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the data grant was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the data grant was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated to the data grant. A tag is a key-value pair.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/CreateDataGrantResponse AWS API Documentation
+    #
+    class CreateDataGrantResponse < Struct.new(
+      :name,
+      :sender_principal,
+      :receiver_principal,
+      :description,
+      :acceptance_state,
+      :accepted_at,
+      :ends_at,
+      :grant_distribution_scope,
+      :data_set_id,
+      :source_data_set_id,
+      :id,
+      :arn,
+      :created_at,
+      :updated_at,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -707,6 +915,75 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # Information about a data grant.
+    #
+    # @!attribute [rw] name
+    #   The name of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sender_principal
+    #   The Amazon Web Services account ID of the data grant sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] accepted_at
+    #   The timestamp of when the data grant was accepted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] data_set_id
+    #   The ID of the data set associated to the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_set_id
+    #   The ID of the data set used to create the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the data grant was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the data grant was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/DataGrantSummaryEntry AWS API Documentation
+    #
+    class DataGrantSummaryEntry < Struct.new(
+      :name,
+      :sender_principal,
+      :receiver_principal,
+      :acceptance_state,
+      :accepted_at,
+      :ends_at,
+      :data_set_id,
+      :source_data_set_id,
+      :id,
+      :arn,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A data set is an AWS resource with one or more revisions.
     #
     # @!attribute [rw] arn
@@ -771,6 +1048,22 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # Extra details specific to a data update type notification.
+    #
+    # @!attribute [rw] data_updated_at
+    #   A datetime in the past when the data was updated. This typically
+    #   means that the underlying resource supporting the data set was
+    #   updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/DataUpdateRequestDetails AWS API Documentation
+    #
+    class DataUpdateRequestDetails < Struct.new(
+      :data_updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The LF-tag policy for database resources.
     #
     # @!attribute [rw] expression
@@ -826,6 +1119,18 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # @!attribute [rw] data_grant_id
+    #   The ID of the data grant to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/DeleteDataGrantRequest AWS API Documentation
+    #
+    class DeleteDataGrantRequest < Struct.new(
+      :data_grant_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] data_set_id
     #   The unique identifier for a data set.
     #   @return [String]
@@ -863,6 +1168,20 @@ module Aws::DataExchange
     class DeleteRevisionRequest < Struct.new(
       :data_set_id,
       :revision_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Extra details specific to a deprecation type notification.
+    #
+    # @!attribute [rw] deprecation_at
+    #   A datetime in the future when the data set will be deprecated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/DeprecationRequestDetails AWS API Documentation
+    #
+    class DeprecationRequestDetails < Struct.new(
+      :deprecation_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1237,6 +1556,100 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # @!attribute [rw] data_grant_id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/GetDataGrantRequest AWS API Documentation
+    #
+    class GetDataGrantRequest < Struct.new(
+      :data_grant_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sender_principal
+    #   The Amazon Web Services account ID of the data grant sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] accepted_at
+    #   The timestamp of when the data grant was accepted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] grant_distribution_scope
+    #   The distribution scope for the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_id
+    #   The ID of the data set associated to the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_set_id
+    #   The ID of the data set used to create the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the data grant was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the data grant was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated to the data grant. A tag is a key-value pair.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/GetDataGrantResponse AWS API Documentation
+    #
+    class GetDataGrantResponse < Struct.new(
+      :name,
+      :sender_principal,
+      :receiver_principal,
+      :description,
+      :acceptance_state,
+      :accepted_at,
+      :ends_at,
+      :grant_distribution_scope,
+      :data_set_id,
+      :source_data_set_id,
+      :id,
+      :arn,
+      :created_at,
+      :updated_at,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] data_set_id
     #   The unique identifier for a data set.
     #   @return [String]
@@ -1421,6 +1834,90 @@ module Aws::DataExchange
       :id,
       :state,
       :type,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_grant_arn
+    #   The Amazon Resource Name (ARN) of the data grant.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/GetReceivedDataGrantRequest AWS API Documentation
+    #
+    class GetReceivedDataGrantRequest < Struct.new(
+      :data_grant_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sender_principal
+    #   The Amazon Web Services account ID of the data grant sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] accepted_at
+    #   The timestamp of when the data grant was accepted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] grant_distribution_scope
+    #   The distribution scope for the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_id
+    #   The ID of the data set associated to the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the data grant was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the data grant was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/GetReceivedDataGrantResponse AWS API Documentation
+    #
+    class GetReceivedDataGrantResponse < Struct.new(
+      :name,
+      :sender_principal,
+      :receiver_principal,
+      :description,
+      :acceptance_state,
+      :accepted_at,
+      :ends_at,
+      :grant_distribution_scope,
+      :data_set_id,
+      :id,
+      :arn,
+      :created_at,
       :updated_at)
       SENSITIVE = []
       include Aws::Structure
@@ -2036,6 +2533,25 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the
+    # shared S3 objects.
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The AWS KMS CMK (Key Management System Customer Managed Key) used to
+    #   encrypt S3 objects in the shared S3 Bucket. AWS Data exchange will
+    #   create a KMS grant for each subscriber to allow them to access and
+    #   decrypt their entitled data that is encrypted using this KMS key
+    #   specified.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/KmsKeyToGrant AWS API Documentation
+    #
+    class KmsKeyToGrant < Struct.new(
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details about the AWS Lake Formation resource (Table or Database)
     # included in the AWS Lake Formation data permission.
     #
@@ -2144,6 +2660,61 @@ module Aws::DataExchange
     #
     class LakeFormationDataPermissionDetails < Struct.new(
       :lf_tag_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Extra details specific to the affected scope in this LF data set.
+    #
+    # @!attribute [rw] database
+    #   The underlying Glue database that the notification is referring to.
+    #   @return [String]
+    #
+    # @!attribute [rw] table
+    #   The underlying Glue table that the notification is referring to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/LakeFormationTagPolicyDetails AWS API Documentation
+    #
+    class LakeFormationTagPolicyDetails < Struct.new(
+      :database,
+      :table)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be included in the next page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/ListDataGrantsRequest AWS API Documentation
+    #
+    class ListDataGrantsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_grant_summaries
+    #   An object that contains a list of data grant information.
+    #   @return [Array<Types::DataGrantSummaryEntry>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/ListDataGrantsResponse AWS API Documentation
+    #
+    class ListDataGrantsResponse < Struct.new(
+      :data_grant_summaries,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2318,6 +2889,47 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be included in the next page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grants to list.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/ListReceivedDataGrantsRequest AWS API Documentation
+    #
+    class ListReceivedDataGrantsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :acceptance_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_grant_summaries
+    #   An object that contains a list of received data grant information.
+    #   @return [Array<Types::ReceivedDataGrantSummariesEntry>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/ListReceivedDataGrantsResponse AWS API Documentation
+    #
+    class ListReceivedDataGrantsResponse < Struct.new(
+      :data_grant_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] data_set_id
     #   The unique identifier for a data set.
     #   @return [String]
@@ -2390,16 +3002,109 @@ module Aws::DataExchange
       include Aws::Structure
     end
 
+    # Extra details specific to this notification.
+    #
+    # @!attribute [rw] data_update
+    #   Extra details specific to a data update type notification.
+    #   @return [Types::DataUpdateRequestDetails]
+    #
+    # @!attribute [rw] deprecation
+    #   Extra details specific to a deprecation type notification.
+    #   @return [Types::DeprecationRequestDetails]
+    #
+    # @!attribute [rw] schema_change
+    #   Extra details specific to a schema change type notification.
+    #   @return [Types::SchemaChangeRequestDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/NotificationDetails AWS API Documentation
+    #
+    class NotificationDetails < Struct.new(
+      :data_update,
+      :deprecation,
+      :schema_change)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details about the origin of the data set.
     #
     # @!attribute [rw] product_id
     #   The product ID of the origin of the data set.
     #   @return [String]
     #
+    # @!attribute [rw] data_grant_id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/OriginDetails AWS API Documentation
     #
     class OriginDetails < Struct.new(
-      :product_id)
+      :product_id,
+      :data_grant_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a received data grant.
+    #
+    # @!attribute [rw] name
+    #   The name of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] sender_principal
+    #   The Amazon Web Services account ID of the data grant sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] receiver_principal
+    #   The Amazon Web Services account ID of the data grant receiver.
+    #   @return [String]
+    #
+    # @!attribute [rw] acceptance_state
+    #   The acceptance state of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] accepted_at
+    #   The timestamp of when the data grant was accepted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ends_at
+    #   The timestamp of when access to the associated data set ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] data_set_id
+    #   The ID of the data set associated to the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the data grant.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the data grant was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp of when the data grant was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/ReceivedDataGrantSummariesEntry AWS API Documentation
+    #
+    class ReceivedDataGrantSummariesEntry < Struct.new(
+      :name,
+      :sender_principal,
+      :receiver_principal,
+      :acceptance_state,
+      :accepted_at,
+      :ends_at,
+      :data_set_id,
+      :id,
+      :arn,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2428,6 +3133,52 @@ module Aws::DataExchange
     #
     class RedshiftDataShareAssetSourceEntry < Struct.new(
       :data_share_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Extra details specific to the affected scope in this Redshift data
+    # set.
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the underlying Redshift data share that is being affected
+    #   by this notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] database
+    #   The database name in the Redshift data share that is being affected
+    #   by this notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] function
+    #   A function name in the Redshift database that is being affected by
+    #   this notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] table
+    #   A table name in the Redshift database that is being affected by this
+    #   notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema
+    #   A schema name in the Redshift database that is being affected by
+    #   this notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] view
+    #   A view name in the Redshift database that is being affected by this
+    #   notification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/RedshiftDataShareDetails AWS API Documentation
+    #
+    class RedshiftDataShareDetails < Struct.new(
+      :arn,
+      :database,
+      :function,
+      :table,
+      :schema,
+      :view)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2813,6 +3564,13 @@ module Aws::DataExchange
     #   their entitled data using the S3 Access Point ARN.
     #   @return [String]
     #
+    # @!attribute [rw] kms_keys_to_grant
+    #   List of AWS KMS CMKs (Key Management System Customer Managed Keys)
+    #   and ARNs used to encrypt S3 objects being shared in this S3 Data
+    #   Access asset. Providers must include all AWS KMS keys used to
+    #   encrypt these shared S3 objects.
+    #   @return [Array<Types::KmsKeyToGrant>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/S3DataAccessAsset AWS API Documentation
     #
     class S3DataAccessAsset < Struct.new(
@@ -2820,7 +3578,8 @@ module Aws::DataExchange
       :key_prefixes,
       :keys,
       :s3_access_point_alias,
-      :s3_access_point_arn)
+      :s3_access_point_arn,
+      :kms_keys_to_grant)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2841,10 +3600,39 @@ module Aws::DataExchange
     #   The keys used to create the Amazon S3 data access.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] kms_keys_to_grant
+    #   List of AWS KMS CMKs (Key Management System Customer Managed Keys)
+    #   and ARNs used to encrypt S3 objects being shared in this S3 Data
+    #   Access asset.
+    #   @return [Array<Types::KmsKeyToGrant>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/S3DataAccessAssetSourceEntry AWS API Documentation
     #
     class S3DataAccessAssetSourceEntry < Struct.new(
       :bucket,
+      :key_prefixes,
+      :keys,
+      :kms_keys_to_grant)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Extra details specific to the affected scope in this S3 Data Access
+    # data set.
+    #
+    # @!attribute [rw] key_prefixes
+    #   A list of the key prefixes affected by this notification. This can
+    #   have up to 50 entries.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] keys
+    #   A list of the keys affected by this notification. This can have up
+    #   to 50 entries.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/S3DataAccessDetails AWS API Documentation
+    #
+    class S3DataAccessDetails < Struct.new(
       :key_prefixes,
       :keys)
       SENSITIVE = []
@@ -2861,6 +3649,79 @@ module Aws::DataExchange
     #
     class S3SnapshotAsset < Struct.new(
       :size)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object encompassing information about a schema change to a single,
+    # particular field, a notification can have up to 100 of these.
+    #
+    # @!attribute [rw] name
+    #   Name of the changing field. This value can be up to 255 characters
+    #   long.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Is the field being added, removed, or modified?
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description of what's changing about this field. This value can be
+    #   up to 512 characters long.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/SchemaChangeDetails AWS API Documentation
+    #
+    class SchemaChangeDetails < Struct.new(
+      :name,
+      :type,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Extra details specific to this schema change type notification.
+    #
+    # @!attribute [rw] changes
+    #   List of schema changes happening in the scope of this notification.
+    #   This can have up to 100 entries.
+    #   @return [Array<Types::SchemaChangeDetails>]
+    #
+    # @!attribute [rw] schema_change_at
+    #   A date in the future when the schema change is taking effect.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/SchemaChangeRequestDetails AWS API Documentation
+    #
+    class SchemaChangeRequestDetails < Struct.new(
+      :changes,
+      :schema_change_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about the scope of the notifications such as the affected
+    # resources.
+    #
+    # @!attribute [rw] lake_formation_tag_policies
+    #   Underlying LF resources that will be affected by this notification.
+    #   @return [Array<Types::LakeFormationTagPolicyDetails>]
+    #
+    # @!attribute [rw] redshift_data_shares
+    #   Underlying Redshift resources that will be affected by this
+    #   notification.
+    #   @return [Array<Types::RedshiftDataShareDetails>]
+    #
+    # @!attribute [rw] s3_data_accesses
+    #   Underlying S3 resources that will be affected by this notification.
+    #   @return [Array<Types::S3DataAccessDetails>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/ScopeDetails AWS API Documentation
+    #
+    class ScopeDetails < Struct.new(
+      :lake_formation_tag_policies,
+      :redshift_data_shares,
+      :s3_data_accesses)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2897,7 +3758,7 @@ module Aws::DataExchange
     #
     # @!attribute [rw] path
     #   URI path value for the API request. Alternatively, you can set the
-    #   URI path directly by invoking /v1/\\\{pathValue\\}.
+    #   URI path directly by invoking /v1/\{pathValue}.
     #   @return [String]
     #
     # @!attribute [rw] revision_id
@@ -2936,6 +3797,55 @@ module Aws::DataExchange
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] scope
+    #   Affected scope of this notification such as the underlying resources
+    #   affected by the notification event.
+    #   @return [Types::ScopeDetails]
+    #
+    # @!attribute [rw] client_token
+    #   Idempotency key for the notification, this key allows us to
+    #   deduplicate notifications that are sent in quick succession
+    #   erroneously.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] comment
+    #   Free-form text field for providers to add information about their
+    #   notifications.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_id
+    #   Affected data set of the notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] details
+    #   Extra details specific to this notification type.
+    #   @return [Types::NotificationDetails]
+    #
+    # @!attribute [rw] type
+    #   The type of the notification. Describing the kind of event the
+    #   notification is alerting you to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/SendDataSetNotificationRequest AWS API Documentation
+    #
+    class SendDataSetNotificationRequest < Struct.new(
+      :scope,
+      :client_token,
+      :comment,
+      :data_set_id,
+      :details,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dataexchange-2017-07-25/SendDataSetNotificationResponse AWS API Documentation
+    #
+    class SendDataSetNotificationResponse < Aws::EmptyStructure; end
 
     # The request has exceeded the quotas imposed by the service.
     #
@@ -3429,3 +4339,4 @@ module Aws::DataExchange
 
   end
 end
+

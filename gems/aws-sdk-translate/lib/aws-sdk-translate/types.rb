@@ -228,6 +228,38 @@ module Aws::Translate
       include Aws::Structure
     end
 
+    # The content and content type of a document.
+    #
+    # @!attribute [rw] content
+    #   The `Content`field type is Binary large object (blob). This object
+    #   contains the document content converted into base64-encoded binary
+    #   data. If you use one of the AWS SDKs, the SDK performs the
+    #   Base64-encoding on this field before sending the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_type
+    #   Describes the format of the document. You can specify one of the
+    #   following:
+    #
+    #   * `text/html` - The input data consists of HTML content. Amazon
+    #     Translate translates only the text in the HTML element.
+    #
+    #   * `text/plain` - The input data consists of unformatted text. Amazon
+    #     Translate translates every character in the content.
+    #
+    #   * `application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+    #     - The input data consists of a Word document (.docx).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/Document AWS API Documentation
+    #
+    class Document < Struct.new(
+      :content,
+      :content_type)
+      SENSITIVE = [:content]
+      include Aws::Structure
+    end
+
     # The encryption key used to encrypt this object.
     #
     # @!attribute [rw] type
@@ -460,26 +492,26 @@ module Aws::Translate
     #   as input. You can specify one of the following multipurpose internet
     #   mail extension (MIME) types:
     #
-    #   * `text/html`\: The input data consists of one or more HTML files.
+    #   * `text/html`: The input data consists of one or more HTML files.
     #     Amazon Translate translates only the text that resides in the
     #     `html` element in each file.
     #
-    #   * `text/plain`\: The input data consists of one or more unformatted
+    #   * `text/plain`: The input data consists of one or more unformatted
     #     text files. Amazon Translate translates every character in this
     #     type of input.
     #
-    #   * `application/vnd.openxmlformats-officedocument.wordprocessingml.document`\:
+    #   * `application/vnd.openxmlformats-officedocument.wordprocessingml.document`:
     #     The input data consists of one or more Word documents (.docx).
     #
-    #   * `application/vnd.openxmlformats-officedocument.presentationml.presentation`\:
+    #   * `application/vnd.openxmlformats-officedocument.presentationml.presentation`:
     #     The input data consists of one or more PowerPoint Presentation
     #     files (.pptx).
     #
-    #   * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`\:
+    #   * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`:
     #     The input data consists of one or more Excel Workbook files
     #     (.xlsx).
     #
-    #   * `application/x-xliff+xml`\: The input data consists of one or more
+    #   * `application/x-xliff+xml`: The input data consists of one or more
     #     XML Localization Interchange File Format (XLIFF) files (.xlf).
     #     Amazon Translate supports only XLIFF version 1.2.
     #
@@ -1135,9 +1167,15 @@ module Aws::Translate
     #   @return [String]
     #
     # @!attribute [rw] settings
-    #   Settings to configure your translation output, including the option
-    #   to set the formality level of the output text and the option to mask
-    #   profane words and phrases.
+    #   Settings to configure your translation output. You can configure the
+    #   following options:
+    #
+    #   * Brevity: not supported.
+    #
+    #   * Formality: sets the formality level of the output text.
+    #
+    #   * Profanity: masks profane words and phrases in your translation
+    #     output.
     #   @return [Types::TranslationSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StartTextTranslationJobRequest AWS API Documentation
@@ -1598,7 +1636,7 @@ module Aws::Translate
     #   @return [String]
     #
     # @!attribute [rw] settings
-    #   Settings that configure the translation output.
+    #   Settings that modify the translation output.
     #   @return [Types::TranslationSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TextTranslationJobProperties AWS API Documentation
@@ -1654,6 +1692,125 @@ module Aws::Translate
       include Aws::Structure
     end
 
+    # @!attribute [rw] document
+    #   The content and content type for the document to be translated. The
+    #   document size must not exceed 100 KB.
+    #   @return [Types::Document]
+    #
+    # @!attribute [rw] terminology_names
+    #   The name of a terminology list file to add to the translation job.
+    #   This file provides source terms and the desired translation for each
+    #   term. A terminology list can contain a maximum of 256 terms. You can
+    #   use one custom terminology resource in your translation request.
+    #
+    #   Use the ListTerminologies operation to get the available terminology
+    #   lists.
+    #
+    #   For more information about custom terminology lists, see [Custom
+    #   terminology][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] source_language_code
+    #   The language code for the language of the source text. For a list of
+    #   supported language codes, see [Supported languages][1].
+    #
+    #   To have Amazon Translate determine the source language of your text,
+    #   you can specify `auto` in the `SourceLanguageCode` field. If you
+    #   specify `auto`, Amazon Translate will call [Amazon Comprehend][2] to
+    #   determine the source language.
+    #
+    #   <note markdown="1"> If you specify `auto`, you must send the `TranslateDocument` request
+    #   in a region that supports Amazon Comprehend. Otherwise, the request
+    #   returns an error indicating that autodetect is not supported.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html
+    #   [2]: https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html
+    #   @return [String]
+    #
+    # @!attribute [rw] target_language_code
+    #   The language code requested for the translated document. For a list
+    #   of supported language codes, see [Supported languages][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   Settings to configure your translation output. You can configure the
+    #   following options:
+    #
+    #   * Brevity: not supported.
+    #
+    #   * Formality: sets the formality level of the output text.
+    #
+    #   * Profanity: masks profane words and phrases in your translation
+    #     output.
+    #   @return [Types::TranslationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslateDocumentRequest AWS API Documentation
+    #
+    class TranslateDocumentRequest < Struct.new(
+      :document,
+      :terminology_names,
+      :source_language_code,
+      :target_language_code,
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] translated_document
+    #   The document containing the translated content. The document format
+    #   matches the source document format.
+    #   @return [Types::TranslatedDocument]
+    #
+    # @!attribute [rw] source_language_code
+    #   The language code of the source document.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_language_code
+    #   The language code of the translated document.
+    #   @return [String]
+    #
+    # @!attribute [rw] applied_terminologies
+    #   The names of the custom terminologies applied to the input text by
+    #   Amazon Translate to produce the translated text document.
+    #   @return [Array<Types::AppliedTerminology>]
+    #
+    # @!attribute [rw] applied_settings
+    #   Settings to configure your translation output. You can configure the
+    #   following options:
+    #
+    #   * Brevity: reduces the length of the translation output for most
+    #     translations. Available for `TranslateText` only.
+    #
+    #   * Formality: sets the formality level of the translation output.
+    #
+    #   * Profanity: masks profane words and phrases in the translation
+    #     output.
+    #   @return [Types::TranslationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslateDocumentResponse AWS API Documentation
+    #
+    class TranslateDocumentResponse < Struct.new(
+      :translated_document,
+      :source_language_code,
+      :target_language_code,
+      :applied_terminologies,
+      :applied_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] text
     #   The text to translate. The text string can be a maximum of 10,000
     #   bytes long. Depending on your character set, this may be fewer than
@@ -1661,15 +1818,24 @@ module Aws::Translate
     #   @return [String]
     #
     # @!attribute [rw] terminology_names
-    #   The name of the terminology list file to be used in the
-    #   TranslateText request. You can use 1 terminology list at most in a
-    #   `TranslateText` request. Terminology lists can contain a maximum of
-    #   256 terms.
+    #   The name of a terminology list file to add to the translation job.
+    #   This file provides source terms and the desired translation for each
+    #   term. A terminology list can contain a maximum of 256 terms. You can
+    #   use one custom terminology resource in your translation request.
+    #
+    #   Use the ListTerminologies operation to get the available terminology
+    #   lists.
+    #
+    #   For more information about custom terminology lists, see [Custom
+    #   terminology][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html
     #   @return [Array<String>]
     #
     # @!attribute [rw] source_language_code
-    #   The language code for the language of the source text. The language
-    #   must be a language supported by Amazon Translate. For a list of
+    #   The language code for the language of the source text. For a list of
     #   language codes, see [Supported languages][1].
     #
     #   To have Amazon Translate determine the source language of your text,
@@ -1690,14 +1856,25 @@ module Aws::Translate
     #   @return [String]
     #
     # @!attribute [rw] target_language_code
-    #   The language code requested for the language of the target text. The
-    #   language must be a language supported by Amazon Translate.
+    #   The language code requested for the language of the target text. For
+    #   a list of language codes, see [Supported languages][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html
     #   @return [String]
     #
     # @!attribute [rw] settings
-    #   Settings to configure your translation output, including the option
-    #   to set the formality level of the output text and the option to mask
-    #   profane words and phrases.
+    #   Settings to configure your translation output. You can configure the
+    #   following options:
+    #
+    #   * Brevity: reduces the length of the translated output for most
+    #     translations.
+    #
+    #   * Formality: sets the formality level of the output text.
+    #
+    #   * Profanity: masks profane words and phrases in your translation
+    #     output.
     #   @return [Types::TranslationSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslateTextRequest AWS API Documentation
@@ -1730,7 +1907,7 @@ module Aws::Translate
     #   @return [Array<Types::AppliedTerminology>]
     #
     # @!attribute [rw] applied_settings
-    #   Settings that configure the translation output.
+    #   Optional settings that modify the translation output.
     #   @return [Types::TranslationSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslateTextResponse AWS API Documentation
@@ -1745,17 +1922,39 @@ module Aws::Translate
       include Aws::Structure
     end
 
-    # Optional settings that configure the translation output. Use these
-    # settings for real time translations and asynchronous translation jobs.
+    # The translated content.
+    #
+    # @!attribute [rw] content
+    #   The document containing the translated content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslatedDocument AWS API Documentation
+    #
+    class TranslatedDocument < Struct.new(
+      :content)
+      SENSITIVE = [:content]
+      include Aws::Structure
+    end
+
+    # Settings to configure your translation output. You can configure the
+    # following options:
+    #
+    # * Brevity: reduces the length of the translation output for most
+    #   translations. Available for `TranslateText` only.
+    #
+    # * Formality: sets the formality level of the translation output.
+    #
+    # * Profanity: masks profane words and phrases in the translation
+    #   output.
     #
     # @!attribute [rw] formality
-    #   You can optionally specify the desired level of formality for
-    #   translations to supported target languages. The formality setting
-    #   controls the level of formal language usage (also known as
-    #   [register][1]) in the translation output. You can set the value to
-    #   informal or formal. If you don't specify a value for formality, or
-    #   if the target language doesn't support formality, the translation
-    #   will ignore the formality setting.
+    #   You can specify the desired level of formality for translations to
+    #   supported target languages. The formality setting controls the level
+    #   of formal language usage (also known as [register][1]) in the
+    #   translation output. You can set the value to informal or formal. If
+    #   you don't specify a value for formality, or if the target language
+    #   doesn't support formality, the translation will ignore the
+    #   formality setting.
     #
     #   If you specify multiple target languages for the job, translate
     #   ignores the formality setting for any unsupported target language.
@@ -1770,8 +1969,8 @@ module Aws::Translate
     #   @return [String]
     #
     # @!attribute [rw] profanity
-    #   Enable the profanity setting if you want Amazon Translate to mask
-    #   profane words and phrases in your translation output.
+    #   You can enable the profanity setting if you want to mask profane
+    #   words and phrases in your translation output.
     #
     #   To mask profane words and phrases, Amazon Translate replaces them
     #   with the grawlix string “?$#@$“. This 5-character sequence is used
@@ -1793,11 +1992,30 @@ module Aws::Translate
     #   [1]: https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages
     #   @return [String]
     #
+    # @!attribute [rw] brevity
+    #   When you turn on brevity, Amazon Translate reduces the length of the
+    #   translation output for most translations (when compared with the
+    #   same translation with brevity turned off). By default, brevity is
+    #   turned off.
+    #
+    #   If you turn on brevity for a translation request with an unsupported
+    #   language pair, the translation proceeds with the brevity setting
+    #   turned off.
+    #
+    #   For the language pairs that brevity supports, see [Using brevity][1]
+    #   in the Amazon Translate Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-brevity
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslationSettings AWS API Documentation
     #
     class TranslationSettings < Struct.new(
       :formality,
-      :profanity)
+      :profanity,
+      :brevity)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1822,11 +2040,11 @@ module Aws::Translate
 
     # Amazon Translate does not support translation from the language of the
     # source text into the requested target language. For more information,
-    # see [Error messages][1].
+    # see [Supported languages][1].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/translate/latest/dg/how-to-error-msg.html
+    # [1]: https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -1939,3 +2157,4 @@ module Aws::Translate
 
   end
 end
+

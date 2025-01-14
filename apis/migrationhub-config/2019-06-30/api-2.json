@@ -5,12 +5,14 @@
     "endpointPrefix":"migrationhub-config",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"AWS Migration Hub Config",
     "serviceId":"MigrationHub Config",
     "signatureVersion":"v4",
     "signingName":"mgh",
     "targetPrefix":"AWSMigrationHubMultiAccountService",
-    "uid":"migrationhub-config-2019-06-30"
+    "uid":"migrationhub-config-2019-06-30",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CreateHomeRegionControl":{
@@ -27,6 +29,22 @@
         {"shape":"AccessDeniedException"},
         {"shape":"ThrottlingException"},
         {"shape":"DryRunOperation"},
+        {"shape":"InvalidInputException"}
+      ]
+    },
+    "DeleteHomeRegionControl":{
+      "name":"DeleteHomeRegionControl",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteHomeRegionControlRequest"},
+      "output":{"shape":"DeleteHomeRegionControlResult"},
+      "errors":[
+        {"shape":"InternalServerError"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
         {"shape":"InvalidInputException"}
       ]
     },
@@ -93,6 +111,18 @@
       "type":"structure",
       "members":{
         "HomeRegionControl":{"shape":"HomeRegionControl"}
+      }
+    },
+    "DeleteHomeRegionControlRequest":{
+      "type":"structure",
+      "required":["ControlId"],
+      "members":{
+        "ControlId":{"shape":"ControlId"}
+      }
+    },
+    "DeleteHomeRegionControlResult":{
+      "type":"structure",
+      "members":{
       }
     },
     "DescribeHomeRegionControlsMaxResults":{

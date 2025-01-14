@@ -5,13 +5,15 @@
     "endpointPrefix":"network-firewall",
     "jsonVersion":"1.0",
     "protocol":"json",
+    "protocols":["json"],
     "serviceAbbreviation":"Network Firewall",
     "serviceFullName":"AWS Network Firewall",
     "serviceId":"Network Firewall",
     "signatureVersion":"v4",
     "signingName":"network-firewall",
     "targetPrefix":"NetworkFirewall_20201112",
-    "uid":"network-firewall-2020-11-12"
+    "uid":"network-firewall-2020-11-12",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AssociateFirewallPolicy":{
@@ -98,6 +100,22 @@
         {"shape":"InsufficientCapacityException"}
       ]
     },
+    "CreateTLSInspectionConfiguration":{
+      "name":"CreateTLSInspectionConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateTLSInspectionConfigurationRequest"},
+      "output":{"shape":"CreateTLSInspectionConfigurationResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServerError"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InsufficientCapacityException"}
+      ]
+    },
     "DeleteFirewall":{
       "name":"DeleteFirewall",
       "http":{
@@ -162,6 +180,22 @@
         {"shape":"ThrottlingException"},
         {"shape":"InternalServerError"},
         {"shape":"UnsupportedOperationException"},
+        {"shape":"InvalidOperationException"}
+      ]
+    },
+    "DeleteTLSInspectionConfiguration":{
+      "name":"DeleteTLSInspectionConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteTLSInspectionConfigurationRequest"},
+      "output":{"shape":"DeleteTLSInspectionConfigurationResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerError"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
         {"shape":"InvalidOperationException"}
       ]
     },
@@ -255,6 +289,21 @@
         {"shape":"InternalServerError"}
       ]
     },
+    "DescribeTLSInspectionConfiguration":{
+      "name":"DescribeTLSInspectionConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeTLSInspectionConfigurationRequest"},
+      "output":{"shape":"DescribeTLSInspectionConfigurationResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerError"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"}
+      ]
+    },
     "DisassociateSubnets":{
       "name":"DisassociateSubnets",
       "http":{
@@ -312,6 +361,20 @@
         {"shape":"InvalidRequestException"},
         {"shape":"ThrottlingException"},
         {"shape":"InternalServerError"}
+      ]
+    },
+    "ListTLSInspectionConfigurations":{
+      "name":"ListTLSInspectionConfigurations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListTLSInspectionConfigurationsRequest"},
+      "output":{"shape":"ListTLSInspectionConfigurationsResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"InternalServerError"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "ListTagsForResource":{
@@ -507,6 +570,22 @@
         {"shape":"InvalidTokenException"},
         {"shape":"ResourceOwnerCheckException"}
       ]
+    },
+    "UpdateTLSInspectionConfiguration":{
+      "name":"UpdateTLSInspectionConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateTLSInspectionConfigurationRequest"},
+      "output":{"shape":"UpdateTLSInspectionConfigurationResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServerError"},
+        {"shape":"InvalidTokenException"}
+      ]
     }
   },
   "shapes":{
@@ -538,6 +617,18 @@
     "Addresses":{
       "type":"list",
       "member":{"shape":"Address"}
+    },
+    "AnalysisResult":{
+      "type":"structure",
+      "members":{
+        "IdentifiedRuleIds":{"shape":"RuleIdList"},
+        "IdentifiedType":{"shape":"IdentifiedType"},
+        "AnalysisDetail":{"shape":"CollectionMember_String"}
+      }
+    },
+    "AnalysisResultList":{
+      "type":"list",
+      "member":{"shape":"AnalysisResult"}
     },
     "AssociateFirewallPolicyRequest":{
       "type":"structure",
@@ -591,6 +682,8 @@
       "enum":[
         "CREATING",
         "DELETING",
+        "FAILED",
+        "ERROR",
         "SCALING",
         "READY"
       ]
@@ -624,6 +717,17 @@
       "type":"structure",
       "members":{
         "CIDRs":{"shape":"CIDRSummary"}
+      }
+    },
+    "Certificates":{
+      "type":"list",
+      "member":{"shape":"TlsCertificateData"}
+    },
+    "CheckCertificateRevocationStatusActions":{
+      "type":"structure",
+      "members":{
+        "RevokedStatusAction":{"shape":"RevocationCheckAction"},
+        "UnknownStatusAction":{"shape":"RevocationCheckAction"}
       }
     },
     "CollectionMember_String":{"type":"string"},
@@ -706,7 +810,8 @@
         "Tags":{"shape":"TagList"},
         "DryRun":{"shape":"Boolean"},
         "EncryptionConfiguration":{"shape":"EncryptionConfiguration"},
-        "SourceMetadata":{"shape":"SourceMetadata"}
+        "SourceMetadata":{"shape":"SourceMetadata"},
+        "AnalyzeRuleGroup":{"shape":"Boolean"}
       }
     },
     "CreateRuleGroupResponse":{
@@ -718,6 +823,31 @@
       "members":{
         "UpdateToken":{"shape":"UpdateToken"},
         "RuleGroupResponse":{"shape":"RuleGroupResponse"}
+      }
+    },
+    "CreateTLSInspectionConfigurationRequest":{
+      "type":"structure",
+      "required":[
+        "TLSInspectionConfigurationName",
+        "TLSInspectionConfiguration"
+      ],
+      "members":{
+        "TLSInspectionConfigurationName":{"shape":"ResourceName"},
+        "TLSInspectionConfiguration":{"shape":"TLSInspectionConfiguration"},
+        "Description":{"shape":"Description"},
+        "Tags":{"shape":"TagList"},
+        "EncryptionConfiguration":{"shape":"EncryptionConfiguration"}
+      }
+    },
+    "CreateTLSInspectionConfigurationResponse":{
+      "type":"structure",
+      "required":[
+        "UpdateToken",
+        "TLSInspectionConfigurationResponse"
+      ],
+      "members":{
+        "UpdateToken":{"shape":"UpdateToken"},
+        "TLSInspectionConfigurationResponse":{"shape":"TLSInspectionConfigurationResponse"}
       }
     },
     "CustomAction":{
@@ -788,6 +918,20 @@
       "required":["RuleGroupResponse"],
       "members":{
         "RuleGroupResponse":{"shape":"RuleGroupResponse"}
+      }
+    },
+    "DeleteTLSInspectionConfigurationRequest":{
+      "type":"structure",
+      "members":{
+        "TLSInspectionConfigurationArn":{"shape":"ResourceArn"},
+        "TLSInspectionConfigurationName":{"shape":"ResourceName"}
+      }
+    },
+    "DeleteTLSInspectionConfigurationResponse":{
+      "type":"structure",
+      "required":["TLSInspectionConfigurationResponse"],
+      "members":{
+        "TLSInspectionConfigurationResponse":{"shape":"TLSInspectionConfigurationResponse"}
       }
     },
     "DescribeFirewallPolicyRequest":{
@@ -880,7 +1024,8 @@
       "members":{
         "RuleGroupName":{"shape":"ResourceName"},
         "RuleGroupArn":{"shape":"ResourceArn"},
-        "Type":{"shape":"RuleGroupType"}
+        "Type":{"shape":"RuleGroupType"},
+        "AnalyzeRuleGroup":{"shape":"Boolean"}
       }
     },
     "DescribeRuleGroupResponse":{
@@ -893,6 +1038,25 @@
         "UpdateToken":{"shape":"UpdateToken"},
         "RuleGroup":{"shape":"RuleGroup"},
         "RuleGroupResponse":{"shape":"RuleGroupResponse"}
+      }
+    },
+    "DescribeTLSInspectionConfigurationRequest":{
+      "type":"structure",
+      "members":{
+        "TLSInspectionConfigurationArn":{"shape":"ResourceArn"},
+        "TLSInspectionConfigurationName":{"shape":"ResourceName"}
+      }
+    },
+    "DescribeTLSInspectionConfigurationResponse":{
+      "type":"structure",
+      "required":[
+        "UpdateToken",
+        "TLSInspectionConfigurationResponse"
+      ],
+      "members":{
+        "UpdateToken":{"shape":"UpdateToken"},
+        "TLSInspectionConfiguration":{"shape":"TLSInspectionConfiguration"},
+        "TLSInspectionConfigurationResponse":{"shape":"TLSInspectionConfigurationResponse"}
       }
     },
     "Description":{
@@ -1008,7 +1172,9 @@
         "StatelessCustomActions":{"shape":"CustomActions"},
         "StatefulRuleGroupReferences":{"shape":"StatefulRuleGroupReferences"},
         "StatefulDefaultActions":{"shape":"StatefulActions"},
-        "StatefulEngineOptions":{"shape":"StatefulEngineOptions"}
+        "StatefulEngineOptions":{"shape":"StatefulEngineOptions"},
+        "TLSInspectionConfigurationArn":{"shape":"ResourceArn"},
+        "PolicyVariables":{"shape":"PolicyVariables"}
       }
     },
     "FirewallPolicyMetadata":{
@@ -1068,6 +1234,12 @@
       "type":"list",
       "member":{"shape":"TCPFlag"}
     },
+    "FlowTimeouts":{
+      "type":"structure",
+      "members":{
+        "TcpIdleTimeoutSeconds":{"shape":"TcpIdleTimeoutRangeBound"}
+      }
+    },
     "GeneratedRulesType":{
       "type":"string",
       "enum":[
@@ -1110,7 +1282,8 @@
       "type":"string",
       "enum":[
         "DUALSTACK",
-        "IPV4"
+        "IPV4",
+        "IPV6"
       ]
     },
     "IPSet":{
@@ -1153,6 +1326,13 @@
       "type":"map",
       "key":{"shape":"RuleVariableName"},
       "value":{"shape":"IPSet"}
+    },
+    "IdentifiedType":{
+      "type":"string",
+      "enum":[
+        "STATELESS_RULE_FORWARDING_ASYMMETRICALLY",
+        "STATELESS_RULE_CONTAINS_TCP_FLAGS"
+      ]
     },
     "InsufficientCapacityException":{
       "type":"structure",
@@ -1264,6 +1444,20 @@
         "RuleGroups":{"shape":"RuleGroups"}
       }
     },
+    "ListTLSInspectionConfigurationsRequest":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"PaginationToken"},
+        "MaxResults":{"shape":"PaginationMaxResults"}
+      }
+    },
+    "ListTLSInspectionConfigurationsResponse":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"PaginationToken"},
+        "TLSInspectionConfigurations":{"shape":"TLSInspectionConfigurations"}
+      }
+    },
     "ListTagsForResourceRequest":{
       "type":"structure",
       "required":["ResourceArn"],
@@ -1324,7 +1518,8 @@
       "type":"string",
       "enum":[
         "ALERT",
-        "FLOW"
+        "FLOW",
+        "TLS"
       ]
     },
     "LoggingConfiguration":{
@@ -1357,7 +1552,7 @@
     },
     "PaginationToken":{
       "type":"string",
-      "max":2048,
+      "max":4096,
       "min":1,
       "pattern":"[0-9A-Za-z:\\/+=]+$"
     },
@@ -1381,6 +1576,12 @@
       "max":395000,
       "min":1,
       "pattern":".*\\S.*"
+    },
+    "PolicyVariables":{
+      "type":"structure",
+      "members":{
+        "RuleVariables":{"shape":"IPSets"}
+      }
     },
     "Port":{
       "type":"string",
@@ -1512,7 +1713,16 @@
       "type":"string",
       "enum":[
         "ACTIVE",
-        "DELETING"
+        "DELETING",
+        "ERROR"
+      ]
+    },
+    "RevocationCheckAction":{
+      "type":"string",
+      "enum":[
+        "PASS",
+        "DROP",
+        "REJECT"
       ]
     },
     "RuleCapacity":{"type":"integer"},
@@ -1565,7 +1775,8 @@
         "EncryptionConfiguration":{"shape":"EncryptionConfiguration"},
         "SourceMetadata":{"shape":"SourceMetadata"},
         "SnsTopic":{"shape":"ResourceArn"},
-        "LastModifiedTime":{"shape":"LastUpdateTime"}
+        "LastModifiedTime":{"shape":"LastUpdateTime"},
+        "AnalysisResults":{"shape":"AnalysisResultList"}
       }
     },
     "RuleGroupType":{
@@ -1578,6 +1789,10 @@
     "RuleGroups":{
       "type":"list",
       "member":{"shape":"RuleGroupMetadata"}
+    },
+    "RuleIdList":{
+      "type":"list",
+      "member":{"shape":"CollectionMember_String"}
     },
     "RuleOption":{
       "type":"structure",
@@ -1642,6 +1857,43 @@
       "max":2000000,
       "min":0
     },
+    "ServerCertificate":{
+      "type":"structure",
+      "members":{
+        "ResourceArn":{"shape":"ResourceArn"}
+      }
+    },
+    "ServerCertificateConfiguration":{
+      "type":"structure",
+      "members":{
+        "ServerCertificates":{"shape":"ServerCertificates"},
+        "Scopes":{"shape":"ServerCertificateScopes"},
+        "CertificateAuthorityArn":{"shape":"ResourceArn"},
+        "CheckCertificateRevocationStatus":{"shape":"CheckCertificateRevocationStatusActions"}
+      }
+    },
+    "ServerCertificateConfigurations":{
+      "type":"list",
+      "member":{"shape":"ServerCertificateConfiguration"}
+    },
+    "ServerCertificateScope":{
+      "type":"structure",
+      "members":{
+        "Sources":{"shape":"Addresses"},
+        "Destinations":{"shape":"Addresses"},
+        "SourcePorts":{"shape":"PortRanges"},
+        "DestinationPorts":{"shape":"PortRanges"},
+        "Protocols":{"shape":"ProtocolNumbers"}
+      }
+    },
+    "ServerCertificateScopes":{
+      "type":"list",
+      "member":{"shape":"ServerCertificateScope"}
+    },
+    "ServerCertificates":{
+      "type":"list",
+      "member":{"shape":"ServerCertificate"}
+    },
     "Setting":{
       "type":"string",
       "max":8192,
@@ -1682,7 +1934,8 @@
       "type":"structure",
       "members":{
         "RuleOrder":{"shape":"RuleOrder"},
-        "StreamExceptionPolicy":{"shape":"StreamExceptionPolicy"}
+        "StreamExceptionPolicy":{"shape":"StreamExceptionPolicy"},
+        "FlowTimeouts":{"shape":"FlowTimeouts"}
       }
     },
     "StatefulRule":{
@@ -1804,11 +2057,18 @@
       }
     },
     "StatusMessage":{"type":"string"},
+    "StatusReason":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"^[a-zA-Z0-9- ]+$"
+    },
     "StreamExceptionPolicy":{
       "type":"string",
       "enum":[
         "DROP",
-        "CONTINUE"
+        "CONTINUE",
+        "REJECT"
       ]
     },
     "SubnetMapping":{
@@ -1864,6 +2124,44 @@
     "TCPFlags":{
       "type":"list",
       "member":{"shape":"TCPFlagField"}
+    },
+    "TLSInspectionConfiguration":{
+      "type":"structure",
+      "members":{
+        "ServerCertificateConfigurations":{"shape":"ServerCertificateConfigurations"}
+      }
+    },
+    "TLSInspectionConfigurationMetadata":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"ResourceName"},
+        "Arn":{"shape":"ResourceArn"}
+      }
+    },
+    "TLSInspectionConfigurationResponse":{
+      "type":"structure",
+      "required":[
+        "TLSInspectionConfigurationArn",
+        "TLSInspectionConfigurationName",
+        "TLSInspectionConfigurationId"
+      ],
+      "members":{
+        "TLSInspectionConfigurationArn":{"shape":"ResourceArn"},
+        "TLSInspectionConfigurationName":{"shape":"ResourceName"},
+        "TLSInspectionConfigurationId":{"shape":"ResourceId"},
+        "TLSInspectionConfigurationStatus":{"shape":"ResourceStatus"},
+        "Description":{"shape":"Description"},
+        "Tags":{"shape":"TagList"},
+        "LastModifiedTime":{"shape":"LastUpdateTime"},
+        "NumberOfAssociations":{"shape":"NumberOfAssociations"},
+        "EncryptionConfiguration":{"shape":"EncryptionConfiguration"},
+        "Certificates":{"shape":"Certificates"},
+        "CertificateAuthority":{"shape":"TlsCertificateData"}
+      }
+    },
+    "TLSInspectionConfigurations":{
+      "type":"list",
+      "member":{"shape":"TLSInspectionConfigurationMetadata"}
     },
     "Tag":{
       "type":"structure",
@@ -1932,12 +2230,22 @@
       "type":"list",
       "member":{"shape":"TargetType"}
     },
+    "TcpIdleTimeoutRangeBound":{"type":"integer"},
     "ThrottlingException":{
       "type":"structure",
       "members":{
         "Message":{"shape":"ErrorMessage"}
       },
       "exception":true
+    },
+    "TlsCertificateData":{
+      "type":"structure",
+      "members":{
+        "CertificateArn":{"shape":"ResourceArn"},
+        "CertificateSerial":{"shape":"CollectionMember_String"},
+        "Status":{"shape":"CollectionMember_String"},
+        "StatusMessage":{"shape":"StatusReason"}
+      }
     },
     "UnsupportedOperationException":{
       "type":"structure",
@@ -2092,7 +2400,8 @@
         "Description":{"shape":"Description"},
         "DryRun":{"shape":"Boolean"},
         "EncryptionConfiguration":{"shape":"EncryptionConfiguration"},
-        "SourceMetadata":{"shape":"SourceMetadata"}
+        "SourceMetadata":{"shape":"SourceMetadata"},
+        "AnalyzeRuleGroup":{"shape":"Boolean"}
       }
     },
     "UpdateRuleGroupResponse":{
@@ -2123,6 +2432,32 @@
         "FirewallArn":{"shape":"ResourceArn"},
         "FirewallName":{"shape":"ResourceName"},
         "SubnetChangeProtection":{"shape":"Boolean"}
+      }
+    },
+    "UpdateTLSInspectionConfigurationRequest":{
+      "type":"structure",
+      "required":[
+        "TLSInspectionConfiguration",
+        "UpdateToken"
+      ],
+      "members":{
+        "TLSInspectionConfigurationArn":{"shape":"ResourceArn"},
+        "TLSInspectionConfigurationName":{"shape":"ResourceName"},
+        "TLSInspectionConfiguration":{"shape":"TLSInspectionConfiguration"},
+        "Description":{"shape":"Description"},
+        "EncryptionConfiguration":{"shape":"EncryptionConfiguration"},
+        "UpdateToken":{"shape":"UpdateToken"}
+      }
+    },
+    "UpdateTLSInspectionConfigurationResponse":{
+      "type":"structure",
+      "required":[
+        "UpdateToken",
+        "TLSInspectionConfigurationResponse"
+      ],
+      "members":{
+        "UpdateToken":{"shape":"UpdateToken"},
+        "TLSInspectionConfigurationResponse":{"shape":"TLSInspectionConfigurationResponse"}
       }
     },
     "UpdateToken":{

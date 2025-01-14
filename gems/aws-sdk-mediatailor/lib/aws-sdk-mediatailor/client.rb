@@ -22,18 +22,19 @@ require 'aws-sdk-core/plugins/endpoint_pattern.rb'
 require 'aws-sdk-core/plugins/response_paging.rb'
 require 'aws-sdk-core/plugins/stub_responses.rb'
 require 'aws-sdk-core/plugins/idempotency_token.rb'
+require 'aws-sdk-core/plugins/invocation_id.rb'
 require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
 require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
 require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
 require 'aws-sdk-core/plugins/transfer_encoding.rb'
 require 'aws-sdk-core/plugins/http_checksum.rb'
 require 'aws-sdk-core/plugins/checksum_algorithm.rb'
+require 'aws-sdk-core/plugins/request_compression.rb'
 require 'aws-sdk-core/plugins/defaults_mode.rb'
 require 'aws-sdk-core/plugins/recursion_detection.rb'
+require 'aws-sdk-core/plugins/telemetry.rb'
 require 'aws-sdk-core/plugins/sign.rb'
 require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:mediatailor)
 
 module Aws::MediaTailor
   # An API client for MediaTailor.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::MediaTailor
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::MediaTailor::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::MediaTailor
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::MediaTailor
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::MediaTailor
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::MediaTailor
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,11 @@ module Aws::MediaTailor
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +306,24 @@ module Aws::MediaTailor
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +333,16 @@ module Aws::MediaTailor
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +371,75 @@ module Aws::MediaTailor
     #     sending the request.
     #
     #   @option options [Aws::MediaTailor::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::MediaTailor::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::MediaTailor::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -456,6 +535,9 @@ module Aws::MediaTailor
     #
     # [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html
     #
+    # @option params [Array<String>] :audiences
+    #   The list of audiences defined in channel.
+    #
     # @option params [required, String] :channel_name
     #   The name of the channel.
     #
@@ -491,9 +573,14 @@ module Aws::MediaTailor
     # @option params [String] :tier
     #   The tier of the channel.
     #
+    # @option params [Types::TimeShiftConfiguration] :time_shift_configuration
+    #   The time-shifted viewing configuration you want to associate to the
+    #   channel.
+    #
     # @return [Types::CreateChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateChannelResponse#arn #arn} => String
+    #   * {Types::CreateChannelResponse#audiences #audiences} => Array&lt;String&gt;
     #   * {Types::CreateChannelResponse#channel_name #channel_name} => String
     #   * {Types::CreateChannelResponse#channel_state #channel_state} => String
     #   * {Types::CreateChannelResponse#creation_time #creation_time} => Time
@@ -503,10 +590,12 @@ module Aws::MediaTailor
     #   * {Types::CreateChannelResponse#playback_mode #playback_mode} => String
     #   * {Types::CreateChannelResponse#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::CreateChannelResponse#tier #tier} => String
+    #   * {Types::CreateChannelResponse#time_shift_configuration #time_shift_configuration} => Types::TimeShiftConfiguration
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_channel({
+    #     audiences: ["String"],
     #     channel_name: "__string", # required
     #     filler_slate: {
     #       source_location_name: "__string",
@@ -521,6 +610,7 @@ module Aws::MediaTailor
     #           suggested_presentation_delay_seconds: 1,
     #         },
     #         hls_playlist_settings: {
+    #           ad_markup_type: ["DATERANGE"], # accepts DATERANGE, SCTE35_ENHANCED
     #           manifest_window_seconds: 1,
     #         },
     #         manifest_name: "__string", # required
@@ -532,11 +622,16 @@ module Aws::MediaTailor
     #       "__string" => "__string",
     #     },
     #     tier: "BASIC", # accepts BASIC, STANDARD
+    #     time_shift_configuration: {
+    #       max_time_delay_seconds: 1, # required
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.audiences #=> Array
+    #   resp.audiences[0] #=> String
     #   resp.channel_name #=> String
     #   resp.channel_state #=> String, one of "RUNNING", "STOPPED"
     #   resp.creation_time #=> Time
@@ -548,6 +643,8 @@ module Aws::MediaTailor
     #   resp.outputs[0].dash_playlist_settings.min_buffer_time_seconds #=> Integer
     #   resp.outputs[0].dash_playlist_settings.min_update_period_seconds #=> Integer
     #   resp.outputs[0].dash_playlist_settings.suggested_presentation_delay_seconds #=> Integer
+    #   resp.outputs[0].hls_playlist_settings.ad_markup_type #=> Array
+    #   resp.outputs[0].hls_playlist_settings.ad_markup_type[0] #=> String, one of "DATERANGE", "SCTE35_ENHANCED"
     #   resp.outputs[0].hls_playlist_settings.manifest_window_seconds #=> Integer
     #   resp.outputs[0].manifest_name #=> String
     #   resp.outputs[0].playback_url #=> String
@@ -556,6 +653,7 @@ module Aws::MediaTailor
     #   resp.tags #=> Hash
     #   resp.tags["__string"] #=> String
     #   resp.tier #=> String
+    #   resp.time_shift_configuration.max_time_delay_seconds #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/CreateChannel AWS API Documentation
     #
@@ -742,6 +840,9 @@ module Aws::MediaTailor
     # @option params [Array<Types::AdBreak>] :ad_breaks
     #   The ad break configuration settings.
     #
+    # @option params [Array<Types::AudienceMedia>] :audience_media
+    #   The list of AudienceMedia defined in program.
+    #
     # @option params [required, String] :channel_name
     #   The name of the channel for this Program.
     #
@@ -764,6 +865,7 @@ module Aws::MediaTailor
     #
     #   * {Types::CreateProgramResponse#ad_breaks #ad_breaks} => Array&lt;Types::AdBreak&gt;
     #   * {Types::CreateProgramResponse#arn #arn} => String
+    #   * {Types::CreateProgramResponse#audience_media #audience_media} => Array&lt;Types::AudienceMedia&gt;
     #   * {Types::CreateProgramResponse#channel_name #channel_name} => String
     #   * {Types::CreateProgramResponse#clip_range #clip_range} => Types::ClipRange
     #   * {Types::CreateProgramResponse#creation_time #creation_time} => Time
@@ -779,8 +881,14 @@ module Aws::MediaTailor
     #   resp = client.create_program({
     #     ad_breaks: [
     #       {
+    #         ad_break_metadata: [
+    #           {
+    #             key: "String", # required
+    #             value: "String", # required
+    #           },
+    #         ],
     #         message_type: "SPLICE_INSERT", # accepts SPLICE_INSERT, TIME_SIGNAL
-    #         offset_millis: 1,
+    #         offset_millis: 1, # required
     #         slate: {
     #           source_location_name: "__string",
     #           vod_source_name: "__string",
@@ -807,12 +915,67 @@ module Aws::MediaTailor
     #         },
     #       },
     #     ],
+    #     audience_media: [
+    #       {
+    #         alternate_media: [
+    #           {
+    #             ad_breaks: [
+    #               {
+    #                 ad_break_metadata: [
+    #                   {
+    #                     key: "String", # required
+    #                     value: "String", # required
+    #                   },
+    #                 ],
+    #                 message_type: "SPLICE_INSERT", # accepts SPLICE_INSERT, TIME_SIGNAL
+    #                 offset_millis: 1, # required
+    #                 slate: {
+    #                   source_location_name: "__string",
+    #                   vod_source_name: "__string",
+    #                 },
+    #                 splice_insert_message: {
+    #                   avail_num: 1,
+    #                   avails_expected: 1,
+    #                   splice_event_id: 1,
+    #                   unique_program_id: 1,
+    #                 },
+    #                 time_signal_message: {
+    #                   segmentation_descriptors: [
+    #                     {
+    #                       segment_num: 1,
+    #                       segmentation_event_id: 1,
+    #                       segmentation_type_id: 1,
+    #                       segmentation_upid: "String",
+    #                       segmentation_upid_type: 1,
+    #                       segments_expected: 1,
+    #                       sub_segment_num: 1,
+    #                       sub_segments_expected: 1,
+    #                     },
+    #                   ],
+    #                 },
+    #               },
+    #             ],
+    #             clip_range: {
+    #               end_offset_millis: 1,
+    #               start_offset_millis: 1,
+    #             },
+    #             duration_millis: 1,
+    #             live_source_name: "__string",
+    #             scheduled_start_time_millis: 1,
+    #             source_location_name: "__string",
+    #             vod_source_name: "__string",
+    #           },
+    #         ],
+    #         audience: "__string",
+    #       },
+    #     ],
     #     channel_name: "__string", # required
     #     live_source_name: "__string",
     #     program_name: "__string", # required
     #     schedule_configuration: { # required
     #       clip_range: {
-    #         end_offset_millis: 1, # required
+    #         end_offset_millis: 1,
+    #         start_offset_millis: 1,
     #       },
     #       transition: { # required
     #         duration_millis: 1,
@@ -829,6 +992,9 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.ad_breaks #=> Array
+    #   resp.ad_breaks[0].ad_break_metadata #=> Array
+    #   resp.ad_breaks[0].ad_break_metadata[0].key #=> String
+    #   resp.ad_breaks[0].ad_break_metadata[0].value #=> String
     #   resp.ad_breaks[0].message_type #=> String, one of "SPLICE_INSERT", "TIME_SIGNAL"
     #   resp.ad_breaks[0].offset_millis #=> Integer
     #   resp.ad_breaks[0].slate.source_location_name #=> String
@@ -847,8 +1013,40 @@ module Aws::MediaTailor
     #   resp.ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segment_num #=> Integer
     #   resp.ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segments_expected #=> Integer
     #   resp.arn #=> String
+    #   resp.audience_media #=> Array
+    #   resp.audience_media[0].alternate_media #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata[0].key #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata[0].value #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].message_type #=> String, one of "SPLICE_INSERT", "TIME_SIGNAL"
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].slate.source_location_name #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].slate.vod_source_name #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.avail_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.avails_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.splice_event_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.unique_program_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segment_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_event_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_type_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_upid #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_upid_type #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segments_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segment_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segments_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].clip_range.end_offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].clip_range.start_offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].duration_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].live_source_name #=> String
+    #   resp.audience_media[0].alternate_media[0].scheduled_start_time_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].source_location_name #=> String
+    #   resp.audience_media[0].alternate_media[0].vod_source_name #=> String
+    #   resp.audience_media[0].audience #=> String
     #   resp.channel_name #=> String
     #   resp.clip_range.end_offset_millis #=> Integer
+    #   resp.clip_range.start_offset_millis #=> Integer
     #   resp.creation_time #=> Time
     #   resp.duration_millis #=> Integer
     #   resp.live_source_name #=> String
@@ -917,7 +1115,7 @@ module Aws::MediaTailor
     #
     #   resp = client.create_source_location({
     #     access_configuration: {
-    #       access_type: "S3_SIGV4", # accepts S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN
+    #       access_type: "S3_SIGV4", # accepts S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN, AUTODETECT_SIGV4
     #       secrets_manager_access_token_configuration: {
     #         header_name: "__string",
     #         secret_arn: "__string",
@@ -944,7 +1142,7 @@ module Aws::MediaTailor
     #
     # @example Response structure
     #
-    #   resp.access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN"
+    #   resp.access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN", "AUTODETECT_SIGV4"
     #   resp.access_configuration.secrets_manager_access_token_configuration.header_name #=> String
     #   resp.access_configuration.secrets_manager_access_token_configuration.secret_arn #=> String
     #   resp.access_configuration.secrets_manager_access_token_configuration.secret_string_key #=> String
@@ -1276,6 +1474,7 @@ module Aws::MediaTailor
     # @return [Types::DescribeChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeChannelResponse#arn #arn} => String
+    #   * {Types::DescribeChannelResponse#audiences #audiences} => Array&lt;String&gt;
     #   * {Types::DescribeChannelResponse#channel_name #channel_name} => String
     #   * {Types::DescribeChannelResponse#channel_state #channel_state} => String
     #   * {Types::DescribeChannelResponse#creation_time #creation_time} => Time
@@ -1286,6 +1485,7 @@ module Aws::MediaTailor
     #   * {Types::DescribeChannelResponse#playback_mode #playback_mode} => String
     #   * {Types::DescribeChannelResponse#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::DescribeChannelResponse#tier #tier} => String
+    #   * {Types::DescribeChannelResponse#time_shift_configuration #time_shift_configuration} => Types::TimeShiftConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -1296,6 +1496,8 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.audiences #=> Array
+    #   resp.audiences[0] #=> String
     #   resp.channel_name #=> String
     #   resp.channel_state #=> String, one of "RUNNING", "STOPPED"
     #   resp.creation_time #=> Time
@@ -1309,6 +1511,8 @@ module Aws::MediaTailor
     #   resp.outputs[0].dash_playlist_settings.min_buffer_time_seconds #=> Integer
     #   resp.outputs[0].dash_playlist_settings.min_update_period_seconds #=> Integer
     #   resp.outputs[0].dash_playlist_settings.suggested_presentation_delay_seconds #=> Integer
+    #   resp.outputs[0].hls_playlist_settings.ad_markup_type #=> Array
+    #   resp.outputs[0].hls_playlist_settings.ad_markup_type[0] #=> String, one of "DATERANGE", "SCTE35_ENHANCED"
     #   resp.outputs[0].hls_playlist_settings.manifest_window_seconds #=> Integer
     #   resp.outputs[0].manifest_name #=> String
     #   resp.outputs[0].playback_url #=> String
@@ -1317,6 +1521,7 @@ module Aws::MediaTailor
     #   resp.tags #=> Hash
     #   resp.tags["__string"] #=> String
     #   resp.tier #=> String
+    #   resp.time_shift_configuration.max_time_delay_seconds #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/DescribeChannel AWS API Documentation
     #
@@ -1392,6 +1597,7 @@ module Aws::MediaTailor
     #
     #   * {Types::DescribeProgramResponse#ad_breaks #ad_breaks} => Array&lt;Types::AdBreak&gt;
     #   * {Types::DescribeProgramResponse#arn #arn} => String
+    #   * {Types::DescribeProgramResponse#audience_media #audience_media} => Array&lt;Types::AudienceMedia&gt;
     #   * {Types::DescribeProgramResponse#channel_name #channel_name} => String
     #   * {Types::DescribeProgramResponse#clip_range #clip_range} => Types::ClipRange
     #   * {Types::DescribeProgramResponse#creation_time #creation_time} => Time
@@ -1412,6 +1618,9 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.ad_breaks #=> Array
+    #   resp.ad_breaks[0].ad_break_metadata #=> Array
+    #   resp.ad_breaks[0].ad_break_metadata[0].key #=> String
+    #   resp.ad_breaks[0].ad_break_metadata[0].value #=> String
     #   resp.ad_breaks[0].message_type #=> String, one of "SPLICE_INSERT", "TIME_SIGNAL"
     #   resp.ad_breaks[0].offset_millis #=> Integer
     #   resp.ad_breaks[0].slate.source_location_name #=> String
@@ -1430,8 +1639,40 @@ module Aws::MediaTailor
     #   resp.ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segment_num #=> Integer
     #   resp.ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segments_expected #=> Integer
     #   resp.arn #=> String
+    #   resp.audience_media #=> Array
+    #   resp.audience_media[0].alternate_media #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata[0].key #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata[0].value #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].message_type #=> String, one of "SPLICE_INSERT", "TIME_SIGNAL"
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].slate.source_location_name #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].slate.vod_source_name #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.avail_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.avails_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.splice_event_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.unique_program_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segment_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_event_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_type_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_upid #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_upid_type #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segments_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segment_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segments_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].clip_range.end_offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].clip_range.start_offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].duration_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].live_source_name #=> String
+    #   resp.audience_media[0].alternate_media[0].scheduled_start_time_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].source_location_name #=> String
+    #   resp.audience_media[0].alternate_media[0].vod_source_name #=> String
+    #   resp.audience_media[0].audience #=> String
     #   resp.channel_name #=> String
     #   resp.clip_range.end_offset_millis #=> Integer
+    #   resp.clip_range.start_offset_millis #=> Integer
     #   resp.creation_time #=> Time
     #   resp.duration_millis #=> Integer
     #   resp.live_source_name #=> String
@@ -1480,7 +1721,7 @@ module Aws::MediaTailor
     #
     # @example Response structure
     #
-    #   resp.access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN"
+    #   resp.access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN", "AUTODETECT_SIGV4"
     #   resp.access_configuration.secrets_manager_access_token_configuration.header_name #=> String
     #   resp.access_configuration.secrets_manager_access_token_configuration.secret_arn #=> String
     #   resp.access_configuration.secrets_manager_access_token_configuration.secret_string_key #=> String
@@ -1516,6 +1757,7 @@ module Aws::MediaTailor
     #
     # @return [Types::DescribeVodSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::DescribeVodSourceResponse#ad_break_opportunities #ad_break_opportunities} => Array&lt;Types::AdBreakOpportunity&gt;
     #   * {Types::DescribeVodSourceResponse#arn #arn} => String
     #   * {Types::DescribeVodSourceResponse#creation_time #creation_time} => Time
     #   * {Types::DescribeVodSourceResponse#http_package_configurations #http_package_configurations} => Array&lt;Types::HttpPackageConfiguration&gt;
@@ -1533,6 +1775,8 @@ module Aws::MediaTailor
     #
     # @example Response structure
     #
+    #   resp.ad_break_opportunities #=> Array
+    #   resp.ad_break_opportunities[0].offset_millis #=> Integer
     #   resp.arn #=> String
     #   resp.creation_time #=> Time
     #   resp.http_package_configurations #=> Array
@@ -1585,6 +1829,9 @@ module Aws::MediaTailor
 
     # Retrieves information about your channel's schedule.
     #
+    # @option params [String] :audience
+    #   The single audience for GetChannelScheduleRequest.
+    #
     # @option params [required, String] :channel_name
     #   The name of the channel associated with this Channel Schedule.
     #
@@ -1621,6 +1868,7 @@ module Aws::MediaTailor
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_channel_schedule({
+    #     audience: "__string",
     #     channel_name: "__string", # required
     #     duration_minutes: "__string",
     #     max_results: 1,
@@ -1633,6 +1881,8 @@ module Aws::MediaTailor
     #   resp.items[0].approximate_duration_seconds #=> Integer
     #   resp.items[0].approximate_start_time #=> Time
     #   resp.items[0].arn #=> String
+    #   resp.items[0].audiences #=> Array
+    #   resp.items[0].audiences[0] #=> String
     #   resp.items[0].channel_name #=> String
     #   resp.items[0].live_source_name #=> String
     #   resp.items[0].program_name #=> String
@@ -1641,7 +1891,7 @@ module Aws::MediaTailor
     #   resp.items[0].schedule_ad_breaks[0].approximate_start_time #=> Time
     #   resp.items[0].schedule_ad_breaks[0].source_location_name #=> String
     #   resp.items[0].schedule_ad_breaks[0].vod_source_name #=> String
-    #   resp.items[0].schedule_entry_type #=> String, one of "PROGRAM", "FILLER_SLATE"
+    #   resp.items[0].schedule_entry_type #=> String, one of "PROGRAM", "FILLER_SLATE", "ALTERNATE_MEDIA"
     #   resp.items[0].source_location_name #=> String
     #   resp.items[0].vod_source_name #=> String
     #   resp.next_token #=> String
@@ -1675,6 +1925,7 @@ module Aws::MediaTailor
     #   * {Types::GetPlaybackConfigurationResponse#configuration_aliases #configuration_aliases} => Hash&lt;String,Hash&lt;String,String&gt;&gt;
     #   * {Types::GetPlaybackConfigurationResponse#dash_configuration #dash_configuration} => Types::DashConfiguration
     #   * {Types::GetPlaybackConfigurationResponse#hls_configuration #hls_configuration} => Types::HlsConfiguration
+    #   * {Types::GetPlaybackConfigurationResponse#insertion_mode #insertion_mode} => String
     #   * {Types::GetPlaybackConfigurationResponse#live_pre_roll_configuration #live_pre_roll_configuration} => Types::LivePreRollConfiguration
     #   * {Types::GetPlaybackConfigurationResponse#log_configuration #log_configuration} => Types::LogConfiguration
     #   * {Types::GetPlaybackConfigurationResponse#manifest_processing_rules #manifest_processing_rules} => Types::ManifestProcessingRules
@@ -1697,7 +1948,8 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.ad_decision_server_url #=> String
-    #   resp.avail_suppression.mode #=> String, one of "OFF", "BEHIND_LIVE_EDGE"
+    #   resp.avail_suppression.fill_policy #=> String, one of "FULL_AVAIL_ONLY", "PARTIAL_AVAIL"
+    #   resp.avail_suppression.mode #=> String, one of "OFF", "BEHIND_LIVE_EDGE", "AFTER_LIVE_EDGE"
     #   resp.avail_suppression.value #=> String
     #   resp.bumper.end_url #=> String
     #   resp.bumper.start_url #=> String
@@ -1710,6 +1962,7 @@ module Aws::MediaTailor
     #   resp.dash_configuration.mpd_location #=> String
     #   resp.dash_configuration.origin_manifest_type #=> String, one of "SINGLE_PERIOD", "MULTI_PERIOD"
     #   resp.hls_configuration.manifest_endpoint_prefix #=> String
+    #   resp.insertion_mode #=> String, one of "STITCHED_ONLY", "PLAYER_SELECT"
     #   resp.live_pre_roll_configuration.ad_decision_server_url #=> String
     #   resp.live_pre_roll_configuration.max_duration_seconds #=> Integer
     #   resp.log_configuration.percent_enabled #=> Integer
@@ -1832,6 +2085,7 @@ module Aws::MediaTailor
     #   resp.items #=> Array
     #   resp.items[0].alert_code #=> String
     #   resp.items[0].alert_message #=> String
+    #   resp.items[0].category #=> String, one of "SCHEDULING_ERROR", "PLAYBACK_WARNING", "INFO"
     #   resp.items[0].last_modified_time #=> Time
     #   resp.items[0].related_resource_arns #=> Array
     #   resp.items[0].related_resource_arns[0] #=> String
@@ -1878,6 +2132,8 @@ module Aws::MediaTailor
     #
     #   resp.items #=> Array
     #   resp.items[0].arn #=> String
+    #   resp.items[0].audiences #=> Array
+    #   resp.items[0].audiences[0] #=> String
     #   resp.items[0].channel_name #=> String
     #   resp.items[0].channel_state #=> String
     #   resp.items[0].creation_time #=> Time
@@ -1891,6 +2147,8 @@ module Aws::MediaTailor
     #   resp.items[0].outputs[0].dash_playlist_settings.min_buffer_time_seconds #=> Integer
     #   resp.items[0].outputs[0].dash_playlist_settings.min_update_period_seconds #=> Integer
     #   resp.items[0].outputs[0].dash_playlist_settings.suggested_presentation_delay_seconds #=> Integer
+    #   resp.items[0].outputs[0].hls_playlist_settings.ad_markup_type #=> Array
+    #   resp.items[0].outputs[0].hls_playlist_settings.ad_markup_type[0] #=> String, one of "DATERANGE", "SCTE35_ENHANCED"
     #   resp.items[0].outputs[0].hls_playlist_settings.manifest_window_seconds #=> Integer
     #   resp.items[0].outputs[0].manifest_name #=> String
     #   resp.items[0].outputs[0].playback_url #=> String
@@ -2003,7 +2261,8 @@ module Aws::MediaTailor
     #
     #   resp.items #=> Array
     #   resp.items[0].ad_decision_server_url #=> String
-    #   resp.items[0].avail_suppression.mode #=> String, one of "OFF", "BEHIND_LIVE_EDGE"
+    #   resp.items[0].avail_suppression.fill_policy #=> String, one of "FULL_AVAIL_ONLY", "PARTIAL_AVAIL"
+    #   resp.items[0].avail_suppression.mode #=> String, one of "OFF", "BEHIND_LIVE_EDGE", "AFTER_LIVE_EDGE"
     #   resp.items[0].avail_suppression.value #=> String
     #   resp.items[0].bumper.end_url #=> String
     #   resp.items[0].bumper.start_url #=> String
@@ -2016,6 +2275,7 @@ module Aws::MediaTailor
     #   resp.items[0].dash_configuration.mpd_location #=> String
     #   resp.items[0].dash_configuration.origin_manifest_type #=> String, one of "SINGLE_PERIOD", "MULTI_PERIOD"
     #   resp.items[0].hls_configuration.manifest_endpoint_prefix #=> String
+    #   resp.items[0].insertion_mode #=> String, one of "STITCHED_ONLY", "PLAYER_SELECT"
     #   resp.items[0].live_pre_roll_configuration.ad_decision_server_url #=> String
     #   resp.items[0].live_pre_roll_configuration.max_duration_seconds #=> Integer
     #   resp.items[0].log_configuration.percent_enabled #=> Integer
@@ -2144,7 +2404,7 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.items #=> Array
-    #   resp.items[0].access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN"
+    #   resp.items[0].access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN", "AUTODETECT_SIGV4"
     #   resp.items[0].access_configuration.secrets_manager_access_token_configuration.header_name #=> String
     #   resp.items[0].access_configuration.secrets_manager_access_token_configuration.secret_arn #=> String
     #   resp.items[0].access_configuration.secrets_manager_access_token_configuration.secret_string_key #=> String
@@ -2338,6 +2598,14 @@ module Aws::MediaTailor
     # @option params [Types::DashConfigurationForPut] :dash_configuration
     #   The configuration for DASH content.
     #
+    # @option params [String] :insertion_mode
+    #   The setting that controls whether players can use stitched or guided
+    #   ad insertion. The default, `STITCHED_ONLY`, forces all player sessions
+    #   to use stitched (server-side) ad insertion. Choosing `PLAYER_SELECT`
+    #   allows players to select either stitched or guided ad insertion at
+    #   session-initialization time. The default for players that do not
+    #   specify an insertion mode is stitched.
+    #
     # @option params [Types::LivePreRollConfiguration] :live_pre_roll_configuration
     #   The configuration for pre-roll ad insertion.
     #
@@ -2401,6 +2669,7 @@ module Aws::MediaTailor
     #   * {Types::PutPlaybackConfigurationResponse#configuration_aliases #configuration_aliases} => Hash&lt;String,Hash&lt;String,String&gt;&gt;
     #   * {Types::PutPlaybackConfigurationResponse#dash_configuration #dash_configuration} => Types::DashConfiguration
     #   * {Types::PutPlaybackConfigurationResponse#hls_configuration #hls_configuration} => Types::HlsConfiguration
+    #   * {Types::PutPlaybackConfigurationResponse#insertion_mode #insertion_mode} => String
     #   * {Types::PutPlaybackConfigurationResponse#live_pre_roll_configuration #live_pre_roll_configuration} => Types::LivePreRollConfiguration
     #   * {Types::PutPlaybackConfigurationResponse#log_configuration #log_configuration} => Types::LogConfiguration
     #   * {Types::PutPlaybackConfigurationResponse#manifest_processing_rules #manifest_processing_rules} => Types::ManifestProcessingRules
@@ -2419,7 +2688,8 @@ module Aws::MediaTailor
     #   resp = client.put_playback_configuration({
     #     ad_decision_server_url: "__string",
     #     avail_suppression: {
-    #       mode: "OFF", # accepts OFF, BEHIND_LIVE_EDGE
+    #       fill_policy: "FULL_AVAIL_ONLY", # accepts FULL_AVAIL_ONLY, PARTIAL_AVAIL
+    #       mode: "OFF", # accepts OFF, BEHIND_LIVE_EDGE, AFTER_LIVE_EDGE
     #       value: "__string",
     #     },
     #     bumper: {
@@ -2439,6 +2709,7 @@ module Aws::MediaTailor
     #       mpd_location: "__string",
     #       origin_manifest_type: "SINGLE_PERIOD", # accepts SINGLE_PERIOD, MULTI_PERIOD
     #     },
+    #     insertion_mode: "STITCHED_ONLY", # accepts STITCHED_ONLY, PLAYER_SELECT
     #     live_pre_roll_configuration: {
     #       ad_decision_server_url: "__string",
     #       max_duration_seconds: 1,
@@ -2461,7 +2732,8 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.ad_decision_server_url #=> String
-    #   resp.avail_suppression.mode #=> String, one of "OFF", "BEHIND_LIVE_EDGE"
+    #   resp.avail_suppression.fill_policy #=> String, one of "FULL_AVAIL_ONLY", "PARTIAL_AVAIL"
+    #   resp.avail_suppression.mode #=> String, one of "OFF", "BEHIND_LIVE_EDGE", "AFTER_LIVE_EDGE"
     #   resp.avail_suppression.value #=> String
     #   resp.bumper.end_url #=> String
     #   resp.bumper.start_url #=> String
@@ -2474,6 +2746,7 @@ module Aws::MediaTailor
     #   resp.dash_configuration.mpd_location #=> String
     #   resp.dash_configuration.origin_manifest_type #=> String, one of "SINGLE_PERIOD", "MULTI_PERIOD"
     #   resp.hls_configuration.manifest_endpoint_prefix #=> String
+    #   resp.insertion_mode #=> String, one of "STITCHED_ONLY", "PLAYER_SELECT"
     #   resp.live_pre_roll_configuration.ad_decision_server_url #=> String
     #   resp.live_pre_roll_configuration.max_duration_seconds #=> Integer
     #   resp.log_configuration.percent_enabled #=> Integer
@@ -2627,6 +2900,9 @@ module Aws::MediaTailor
     #
     # [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html
     #
+    # @option params [Array<String>] :audiences
+    #   The list of audiences defined in channel.
+    #
     # @option params [required, String] :channel_name
     #   The name of the channel.
     #
@@ -2639,9 +2915,14 @@ module Aws::MediaTailor
     # @option params [required, Array<Types::RequestOutputItem>] :outputs
     #   The channel's output properties.
     #
+    # @option params [Types::TimeShiftConfiguration] :time_shift_configuration
+    #   The time-shifted viewing configuration you want to associate to the
+    #   channel.
+    #
     # @return [Types::UpdateChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateChannelResponse#arn #arn} => String
+    #   * {Types::UpdateChannelResponse#audiences #audiences} => Array&lt;String&gt;
     #   * {Types::UpdateChannelResponse#channel_name #channel_name} => String
     #   * {Types::UpdateChannelResponse#channel_state #channel_state} => String
     #   * {Types::UpdateChannelResponse#creation_time #creation_time} => Time
@@ -2651,10 +2932,12 @@ module Aws::MediaTailor
     #   * {Types::UpdateChannelResponse#playback_mode #playback_mode} => String
     #   * {Types::UpdateChannelResponse#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::UpdateChannelResponse#tier #tier} => String
+    #   * {Types::UpdateChannelResponse#time_shift_configuration #time_shift_configuration} => Types::TimeShiftConfiguration
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_channel({
+    #     audiences: ["String"],
     #     channel_name: "__string", # required
     #     filler_slate: {
     #       source_location_name: "__string",
@@ -2669,17 +2952,23 @@ module Aws::MediaTailor
     #           suggested_presentation_delay_seconds: 1,
     #         },
     #         hls_playlist_settings: {
+    #           ad_markup_type: ["DATERANGE"], # accepts DATERANGE, SCTE35_ENHANCED
     #           manifest_window_seconds: 1,
     #         },
     #         manifest_name: "__string", # required
     #         source_group: "__string", # required
     #       },
     #     ],
+    #     time_shift_configuration: {
+    #       max_time_delay_seconds: 1, # required
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.audiences #=> Array
+    #   resp.audiences[0] #=> String
     #   resp.channel_name #=> String
     #   resp.channel_state #=> String, one of "RUNNING", "STOPPED"
     #   resp.creation_time #=> Time
@@ -2691,6 +2980,8 @@ module Aws::MediaTailor
     #   resp.outputs[0].dash_playlist_settings.min_buffer_time_seconds #=> Integer
     #   resp.outputs[0].dash_playlist_settings.min_update_period_seconds #=> Integer
     #   resp.outputs[0].dash_playlist_settings.suggested_presentation_delay_seconds #=> Integer
+    #   resp.outputs[0].hls_playlist_settings.ad_markup_type #=> Array
+    #   resp.outputs[0].hls_playlist_settings.ad_markup_type[0] #=> String, one of "DATERANGE", "SCTE35_ENHANCED"
     #   resp.outputs[0].hls_playlist_settings.manifest_window_seconds #=> Integer
     #   resp.outputs[0].manifest_name #=> String
     #   resp.outputs[0].playback_url #=> String
@@ -2699,6 +2990,7 @@ module Aws::MediaTailor
     #   resp.tags #=> Hash
     #   resp.tags["__string"] #=> String
     #   resp.tier #=> String
+    #   resp.time_shift_configuration.max_time_delay_seconds #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/UpdateChannel AWS API Documentation
     #
@@ -2773,6 +3065,9 @@ module Aws::MediaTailor
     # @option params [Array<Types::AdBreak>] :ad_breaks
     #   The ad break configuration settings.
     #
+    # @option params [Array<Types::AudienceMedia>] :audience_media
+    #   The list of AudienceMedia defined in program.
+    #
     # @option params [required, String] :channel_name
     #   The name of the channel for this Program.
     #
@@ -2786,6 +3081,7 @@ module Aws::MediaTailor
     #
     #   * {Types::UpdateProgramResponse#ad_breaks #ad_breaks} => Array&lt;Types::AdBreak&gt;
     #   * {Types::UpdateProgramResponse#arn #arn} => String
+    #   * {Types::UpdateProgramResponse#audience_media #audience_media} => Array&lt;Types::AudienceMedia&gt;
     #   * {Types::UpdateProgramResponse#channel_name #channel_name} => String
     #   * {Types::UpdateProgramResponse#clip_range #clip_range} => Types::ClipRange
     #   * {Types::UpdateProgramResponse#creation_time #creation_time} => Time
@@ -2801,8 +3097,14 @@ module Aws::MediaTailor
     #   resp = client.update_program({
     #     ad_breaks: [
     #       {
+    #         ad_break_metadata: [
+    #           {
+    #             key: "String", # required
+    #             value: "String", # required
+    #           },
+    #         ],
     #         message_type: "SPLICE_INSERT", # accepts SPLICE_INSERT, TIME_SIGNAL
-    #         offset_millis: 1,
+    #         offset_millis: 1, # required
     #         slate: {
     #           source_location_name: "__string",
     #           vod_source_name: "__string",
@@ -2829,11 +3131,66 @@ module Aws::MediaTailor
     #         },
     #       },
     #     ],
+    #     audience_media: [
+    #       {
+    #         alternate_media: [
+    #           {
+    #             ad_breaks: [
+    #               {
+    #                 ad_break_metadata: [
+    #                   {
+    #                     key: "String", # required
+    #                     value: "String", # required
+    #                   },
+    #                 ],
+    #                 message_type: "SPLICE_INSERT", # accepts SPLICE_INSERT, TIME_SIGNAL
+    #                 offset_millis: 1, # required
+    #                 slate: {
+    #                   source_location_name: "__string",
+    #                   vod_source_name: "__string",
+    #                 },
+    #                 splice_insert_message: {
+    #                   avail_num: 1,
+    #                   avails_expected: 1,
+    #                   splice_event_id: 1,
+    #                   unique_program_id: 1,
+    #                 },
+    #                 time_signal_message: {
+    #                   segmentation_descriptors: [
+    #                     {
+    #                       segment_num: 1,
+    #                       segmentation_event_id: 1,
+    #                       segmentation_type_id: 1,
+    #                       segmentation_upid: "String",
+    #                       segmentation_upid_type: 1,
+    #                       segments_expected: 1,
+    #                       sub_segment_num: 1,
+    #                       sub_segments_expected: 1,
+    #                     },
+    #                   ],
+    #                 },
+    #               },
+    #             ],
+    #             clip_range: {
+    #               end_offset_millis: 1,
+    #               start_offset_millis: 1,
+    #             },
+    #             duration_millis: 1,
+    #             live_source_name: "__string",
+    #             scheduled_start_time_millis: 1,
+    #             source_location_name: "__string",
+    #             vod_source_name: "__string",
+    #           },
+    #         ],
+    #         audience: "__string",
+    #       },
+    #     ],
     #     channel_name: "__string", # required
     #     program_name: "__string", # required
     #     schedule_configuration: { # required
     #       clip_range: {
-    #         end_offset_millis: 1, # required
+    #         end_offset_millis: 1,
+    #         start_offset_millis: 1,
     #       },
     #       transition: {
     #         duration_millis: 1,
@@ -2845,6 +3202,9 @@ module Aws::MediaTailor
     # @example Response structure
     #
     #   resp.ad_breaks #=> Array
+    #   resp.ad_breaks[0].ad_break_metadata #=> Array
+    #   resp.ad_breaks[0].ad_break_metadata[0].key #=> String
+    #   resp.ad_breaks[0].ad_break_metadata[0].value #=> String
     #   resp.ad_breaks[0].message_type #=> String, one of "SPLICE_INSERT", "TIME_SIGNAL"
     #   resp.ad_breaks[0].offset_millis #=> Integer
     #   resp.ad_breaks[0].slate.source_location_name #=> String
@@ -2863,8 +3223,40 @@ module Aws::MediaTailor
     #   resp.ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segment_num #=> Integer
     #   resp.ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segments_expected #=> Integer
     #   resp.arn #=> String
+    #   resp.audience_media #=> Array
+    #   resp.audience_media[0].alternate_media #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata[0].key #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].ad_break_metadata[0].value #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].message_type #=> String, one of "SPLICE_INSERT", "TIME_SIGNAL"
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].slate.source_location_name #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].slate.vod_source_name #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.avail_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.avails_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.splice_event_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].splice_insert_message.unique_program_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors #=> Array
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segment_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_event_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_type_id #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_upid #=> String
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segmentation_upid_type #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].segments_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segment_num #=> Integer
+    #   resp.audience_media[0].alternate_media[0].ad_breaks[0].time_signal_message.segmentation_descriptors[0].sub_segments_expected #=> Integer
+    #   resp.audience_media[0].alternate_media[0].clip_range.end_offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].clip_range.start_offset_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].duration_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].live_source_name #=> String
+    #   resp.audience_media[0].alternate_media[0].scheduled_start_time_millis #=> Integer
+    #   resp.audience_media[0].alternate_media[0].source_location_name #=> String
+    #   resp.audience_media[0].alternate_media[0].vod_source_name #=> String
+    #   resp.audience_media[0].audience #=> String
     #   resp.channel_name #=> String
     #   resp.clip_range.end_offset_millis #=> Integer
+    #   resp.clip_range.start_offset_millis #=> Integer
     #   resp.creation_time #=> Time
     #   resp.duration_millis #=> Integer
     #   resp.live_source_name #=> String
@@ -2923,7 +3315,7 @@ module Aws::MediaTailor
     #
     #   resp = client.update_source_location({
     #     access_configuration: {
-    #       access_type: "S3_SIGV4", # accepts S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN
+    #       access_type: "S3_SIGV4", # accepts S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN, AUTODETECT_SIGV4
     #       secrets_manager_access_token_configuration: {
     #         header_name: "__string",
     #         secret_arn: "__string",
@@ -2947,7 +3339,7 @@ module Aws::MediaTailor
     #
     # @example Response structure
     #
-    #   resp.access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN"
+    #   resp.access_configuration.access_type #=> String, one of "S3_SIGV4", "SECRETS_MANAGER_ACCESS_TOKEN", "AUTODETECT_SIGV4"
     #   resp.access_configuration.secrets_manager_access_token_configuration.header_name #=> String
     #   resp.access_configuration.secrets_manager_access_token_configuration.secret_arn #=> String
     #   resp.access_configuration.secrets_manager_access_token_configuration.secret_string_key #=> String
@@ -3037,14 +3429,19 @@ module Aws::MediaTailor
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::MediaTailor')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-mediatailor'
-      context[:gem_version] = '1.60.0'
+      context[:gem_version] = '1.91.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

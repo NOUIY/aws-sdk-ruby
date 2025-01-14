@@ -23,16 +23,11 @@ module Seahorse
 
         NETWORK_ERRORS = [
           SocketError, EOFError, IOError, Timeout::Error,
-          Errno::ECONNABORTED, Errno::ECONNRESET, Errno::EPIPE,
-          Errno::EINVAL, Errno::ETIMEDOUT, OpenSSL::SSL::SSLError,
-          Errno::EHOSTUNREACH, Errno::ECONNREFUSED,
+          Errno::ECONNABORTED, Errno::ECONNRESET, Errno::EPIPE, Errno::EINVAL,
+          Errno::ETIMEDOUT, Errno::EHOSTUNREACH, Errno::ECONNREFUSED,
+          OpenSSL::SSL::SSLError, OpenSSL::SSL::SSLErrorWaitReadable,
           Net::HTTPFatalError # for proxy connection failures
         ]
-
-        # does not exist in Ruby 1.9.3
-        if OpenSSL::SSL.const_defined?(:SSLErrorWaitReadable)
-          NETWORK_ERRORS << OpenSSL::SSL::SSLErrorWaitReadable
-        end
 
         # @api private
         DNS_ERROR_MESSAGES = [
@@ -47,7 +42,13 @@ module Seahorse
         # @param [RequestContext] context
         # @return [Response]
         def call(context)
-          transmit(context.config, context.http_request, context.http_response)
+          span_wrapper(context) do
+            transmit(
+              context.config,
+              context.http_request,
+              context.http_response
+            )
+          end
           Response.new(context: context)
         end
 
@@ -197,6 +198,17 @@ module Seahorse
           end
         end
 
+        def span_wrapper(context, &block)
+          context.tracer.in_span(
+            'Handler.NetHttp',
+            attributes: Aws::Telemetry.http_request_attrs(context)
+          ) do |span|
+            block.call
+            span.add_attributes(
+              Aws::Telemetry.http_response_attrs(context)
+            )
+          end
+        end
       end
     end
   end

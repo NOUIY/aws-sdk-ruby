@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::IoTDeviceAdvisor
   # @api private
   module ClientApi
@@ -14,6 +15,8 @@ module Aws::IoTDeviceAdvisor
     include Seahorse::Model
 
     AmazonResourceName = Shapes::StringShape.new(name: 'AmazonResourceName')
+    AuthenticationMethod = Shapes::StringShape.new(name: 'AuthenticationMethod')
+    ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     CreateSuiteDefinitionRequest = Shapes::StructureShape.new(name: 'CreateSuiteDefinitionRequest')
     CreateSuiteDefinitionResponse = Shapes::StructureShape.new(name: 'CreateSuiteDefinitionResponse')
@@ -99,6 +102,7 @@ module Aws::IoTDeviceAdvisor
 
     CreateSuiteDefinitionRequest.add_member(:suite_definition_configuration, Shapes::ShapeRef.new(shape: SuiteDefinitionConfiguration, required: true, location_name: "suiteDefinitionConfiguration"))
     CreateSuiteDefinitionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateSuiteDefinitionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateSuiteDefinitionRequest.struct_class = Types::CreateSuiteDefinitionRequest
 
     CreateSuiteDefinitionResponse.add_member(:suite_definition_id, Shapes::ShapeRef.new(shape: UUID, location_name: "suiteDefinitionId"))
@@ -114,12 +118,15 @@ module Aws::IoTDeviceAdvisor
 
     DeviceUnderTest.add_member(:thing_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location_name: "thingArn"))
     DeviceUnderTest.add_member(:certificate_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location_name: "certificateArn"))
+    DeviceUnderTest.add_member(:device_role_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location_name: "deviceRoleArn"))
     DeviceUnderTest.struct_class = Types::DeviceUnderTest
 
     DeviceUnderTestList.member = Shapes::ShapeRef.new(shape: DeviceUnderTest)
 
     GetEndpointRequest.add_member(:thing_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location: "querystring", location_name: "thingArn"))
     GetEndpointRequest.add_member(:certificate_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location: "querystring", location_name: "certificateArn"))
+    GetEndpointRequest.add_member(:device_role_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location: "querystring", location_name: "deviceRoleArn"))
+    GetEndpointRequest.add_member(:authentication_method, Shapes::ShapeRef.new(shape: AuthenticationMethod, location: "querystring", location_name: "authenticationMethod"))
     GetEndpointRequest.struct_class = Types::GetEndpointRequest
 
     GetEndpointResponse.add_member(:endpoint, Shapes::ShapeRef.new(shape: Endpoint, location_name: "endpoint"))
@@ -325,9 +332,11 @@ module Aws::IoTDeviceAdvisor
 
       api.metadata = {
         "apiVersion" => "2020-09-18",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "api.iotdeviceadvisor",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "AWSIoTDeviceAdvisor",
         "serviceFullName" => "AWS IoT Core Device Advisor",
         "serviceId" => "IotDeviceAdvisor",

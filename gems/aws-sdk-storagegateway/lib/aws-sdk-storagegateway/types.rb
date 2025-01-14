@@ -50,10 +50,11 @@ module Aws::StorageGateway
     #
     # @!attribute [rw] gateway_timezone
     #   A value that indicates the time zone you want to set for the
-    #   gateway. The time zone is of the format "GMT-hr:mm" or
-    #   "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours
-    #   behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The
-    #   time zone is used, for example, for scheduling snapshots and your
+    #   gateway. The time zone is of the format "GMT", "GMT-hr:mm", or
+    #   "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time
+    #   without any offset. GMT-4:00 indicates the time is 4 hours behind
+    #   GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time
+    #   zone is used, for example, for scheduling snapshots and your
     #   gateway's maintenance schedule.
     #   @return [String]
     #
@@ -79,8 +80,17 @@ module Aws::StorageGateway
     #   specified is critical to all later functions of the gateway and
     #   cannot be changed after activation. The default value is `CACHED`.
     #
-    #   Valid Values: `STORED` \| `CACHED` \| `VTL` \| `VTL_SNOW` \|
-    #   `FILE_S3` \| `FILE_FSX_SMB`
+    #   Amazon FSx File Gateway is no longer available to new customers.
+    #   Existing customers of FSx File Gateway can continue to use the
+    #   service normally. For capabilities similar to FSx File Gateway,
+    #   visit [this blog post][1].
+    #
+    #   Valid Values: `STORED` \| `CACHED` \| `VTL` \| `FILE_S3` \|
+    #   `FILE_FSX_SMB`
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/
     #   @return [String]
     #
     # @!attribute [rw] tape_drive_type
@@ -601,6 +611,10 @@ module Aws::StorageGateway
     # one or more days of the week, during which bandwidth rate limits are
     # specified for uploading, downloading, or both.
     #
+    # <note markdown="1"> FSx File Gateway does not support this feature.
+    #
+    #  </note>
+    #
     # @!attribute [rw] start_hour_of_day
     #   The hour of the day to start the bandwidth rate limit interval.
     #   @return [Integer]
@@ -632,12 +646,23 @@ module Aws::StorageGateway
     #   The average upload rate limit component of the bandwidth rate limit
     #   interval, in bits per second. This field does not appear in the
     #   response if the upload rate limit is not set.
+    #
+    #   <note markdown="1"> For Tape Gateway and Volume Gateway, the minimum value is `51200`.
+    #
+    #    This field is required for S3 File Gateway, and the minimum value is
+    #   `104857600`.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] average_download_rate_limit_in_bits_per_sec
     #   The average download rate limit component of the bandwidth rate
     #   limit interval, in bits per second. This field does not appear in
     #   the response if the download rate limit is not set.
+    #
+    #   <note markdown="1"> S3 File Gateway does not support this feature.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/BandwidthRateLimitInterval AWS API Documentation
@@ -754,10 +779,11 @@ module Aws::StorageGateway
     #   @return [Integer]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] target_name
@@ -1036,18 +1062,50 @@ module Aws::StorageGateway
     #   want to create a file share.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_type
+    #   A value that specifies the type of server-side encryption that the
+    #   file share will use for the data that it stores in Amazon S3.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] kms_encrypted
-    #   Set to `true` to use Amazon S3 server-side encryption with your own
-    #   KMS key, or `false` to use a key managed by Amazon S3. Optional.
+    #   Optional. Set to `true` to use Amazon S3 server-side encryption with
+    #   your own KMS key (SSE-KMS), or `false` to use a key managed by
+    #   Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+    #   `EncryptionType` parameter instead.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
     #
     #   Valid Values: `true` \| `false`
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] role
@@ -1065,7 +1123,7 @@ module Aws::StorageGateway
     #
     #    Bucket ARN:
     #
-    #    `arn:aws:s3:::my-bucket/prefix/`
+    #    `arn:aws:s3:::amzn-s3-demo-bucket/prefix/`
     #
     #    Access point ARN:
     #
@@ -1113,11 +1171,11 @@ module Aws::StorageGateway
     #
     #   Valid values are the following:
     #
-    #   * `RootSquash`\: Only root is mapped to anonymous user.
+    #   * `RootSquash`: Only root is mapped to anonymous user.
     #
-    #   * `NoSquash`\: No one is mapped to anonymous user.
+    #   * `NoSquash`: No one is mapped to anonymous user.
     #
-    #   * `AllSquash`\: Everyone is mapped to anonymous user.
+    #   * `AllSquash`: Everyone is mapped to anonymous user.
     #   @return [String]
     #
     # @!attribute [rw] read_only
@@ -1171,6 +1229,9 @@ module Aws::StorageGateway
     #   <note markdown="1"> `FileShareName` must be set if an S3 prefix name is set in
     #   `LocationARN`, or if an access point or access point alias is used.
     #
+    #    A valid NFS file share name can only contain the following
+    #   characters: `a`-`z`, `A`-`Z`, `0`-`9`, `-`, `.`, and `_`.
+    #
     #    </note>
     #   @return [String]
     #
@@ -1190,16 +1251,21 @@ module Aws::StorageGateway
     #   <note markdown="1"> `SettlingTimeInSeconds` has no effect on the timing of the object
     #   uploading to Amazon S3, only the timing of the notification.
     #
+    #    This setting is not meant to specify an exact time at which the
+    #   notification will be sent. In some cases, the gateway might require
+    #   more than the specified delay time to generate and send
+    #   notifications.
+    #
     #    </note>
     #
     #   The following example sets `NotificationPolicy` on with
     #   `SettlingTimeInSeconds` set to 60.
     #
-    #   `\{"Upload": \{"SettlingTimeInSeconds": 60\}\}`
+    #   `{"Upload": {"SettlingTimeInSeconds": 60}}`
     #
     #   The following example sets `NotificationPolicy` off.
     #
-    #   `\{\}`
+    #   `{}`
     #   @return [String]
     #
     # @!attribute [rw] vpc_endpoint_dns_name
@@ -1234,6 +1300,7 @@ module Aws::StorageGateway
       :client_token,
       :nfs_file_share_defaults,
       :gateway_arn,
+      :encryption_type,
       :kms_encrypted,
       :kms_key,
       :role,
@@ -1282,18 +1349,50 @@ module Aws::StorageGateway
     #   share.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_type
+    #   A value that specifies the type of server-side encryption that the
+    #   file share will use for the data that it stores in Amazon S3.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] kms_encrypted
-    #   Set to `true` to use Amazon S3 server-side encryption with your own
-    #   KMS key, or `false` to use a key managed by Amazon S3. Optional.
+    #   Optional. Set to `true` to use Amazon S3 server-side encryption with
+    #   your own KMS key (SSE-KMS), or `false` to use a key managed by
+    #   Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+    #   `EncryptionType` parameter instead.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
     #
     #   Valid Values: `true` \| `false`
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] role
@@ -1311,7 +1410,7 @@ module Aws::StorageGateway
     #
     #    Bucket ARN:
     #
-    #    `arn:aws:s3:::my-bucket/prefix/`
+    #    `arn:aws:s3:::amzn-s3-demo-bucket/prefix/`
     #
     #    Access point ARN:
     #
@@ -1386,14 +1485,14 @@ module Aws::StorageGateway
     #   SMB file share. Set it to `false` to map file and directory
     #   permissions to the POSIX permissions.
     #
-    #   For more information, see [Using Microsoft Windows ACLs to control
-    #   access to an SMB file share][1] in the *Storage Gateway User Guide*.
+    #   For more information, see [Using Windows ACLs to limit SMB file
+    #   share access][1] in the *Amazon S3 File Gateway User Guide*.
     #
     #   Valid Values: `true` \| `false`
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html
+    #   [1]: https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html
     #   @return [Boolean]
     #
     # @!attribute [rw] access_based_enumeration
@@ -1464,6 +1563,10 @@ module Aws::StorageGateway
     #   <note markdown="1"> `FileShareName` must be set if an S3 prefix name is set in
     #   `LocationARN`, or if an access point or access point alias is used.
     #
+    #    A valid SMB file share name cannot contain the following characters:
+    #   `[`,`]`,`#`,`;`,`<`,`>`,`:`,`"`,``,`/`,`|`,`?`,`*`,`+`, or ASCII
+    #   control characters `1-31`.
+    #
     #    </note>
     #   @return [String]
     #
@@ -1483,16 +1586,21 @@ module Aws::StorageGateway
     #   <note markdown="1"> `SettlingTimeInSeconds` has no effect on the timing of the object
     #   uploading to Amazon S3, only the timing of the notification.
     #
+    #    This setting is not meant to specify an exact time at which the
+    #   notification will be sent. In some cases, the gateway might require
+    #   more than the specified delay time to generate and send
+    #   notifications.
+    #
     #    </note>
     #
     #   The following example sets `NotificationPolicy` on with
     #   `SettlingTimeInSeconds` set to 60.
     #
-    #   `\{"Upload": \{"SettlingTimeInSeconds": 60\}\}`
+    #   `{"Upload": {"SettlingTimeInSeconds": 60}}`
     #
     #   The following example sets `NotificationPolicy` off.
     #
-    #   `\{\}`
+    #   `{}`
     #   @return [String]
     #
     # @!attribute [rw] vpc_endpoint_dns_name
@@ -1535,6 +1643,7 @@ module Aws::StorageGateway
     class CreateSMBFileShareInput < Struct.new(
       :client_token,
       :gateway_arn,
+      :encryption_type,
       :kms_encrypted,
       :kms_key,
       :role,
@@ -2701,18 +2810,18 @@ module Aws::StorageGateway
     #   array is returned. CHAP credential information is provided in a JSON
     #   object with the following fields:
     #
-    #   * **InitiatorName**\: The iSCSI initiator that connects to the
+    #   * **InitiatorName**: The iSCSI initiator that connects to the
     #     target.
     #
-    #   * **SecretToAuthenticateInitiator**\: The secret key that the
+    #   * **SecretToAuthenticateInitiator**: The secret key that the
     #     initiator (for example, the Windows client) must provide to
     #     participate in mutual CHAP with the target.
     #
-    #   * **SecretToAuthenticateTarget**\: The secret key that the target
+    #   * **SecretToAuthenticateTarget**: The secret key that the target
     #     must provide to participate in mutual CHAP with the initiator
     #     (e.g. Windows client).
     #
-    #   * **TargetARN**\: The Amazon Resource Name (ARN) of the storage
+    #   * **TargetARN**: The Amazon Resource Name (ARN) of the storage
     #     volume.
     #   @return [Array<Types::ChapInfo>]
     #
@@ -2799,6 +2908,15 @@ module Aws::StorageGateway
     #
     # @!attribute [rw] gateway_type
     #   The type of the gateway.
+    #
+    #   Amazon FSx File Gateway is no longer available to new customers.
+    #   Existing customers of FSx File Gateway can continue to use the
+    #   service normally. For capabilities similar to FSx File Gateway,
+    #   visit [this blog post][1].
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/
     #   @return [String]
     #
     # @!attribute [rw] next_update_availability_date
@@ -2847,6 +2965,10 @@ module Aws::StorageGateway
     # @!attribute [rw] host_environment
     #   The type of hardware or software platform on which the gateway is
     #   running.
+    #
+    #   <note markdown="1"> Tape Gateway is no longer available on Snow Family devices.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] endpoint_type
@@ -2880,6 +3002,10 @@ module Aws::StorageGateway
     #   environments, and its format depends on the host environment type.
     #   @return [String]
     #
+    # @!attribute [rw] software_version
+    #   The version number of the software running on the gateway appliance.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/DescribeGatewayInformationOutput AWS API Documentation
     #
     class DescribeGatewayInformationOutput < Struct.new(
@@ -2903,8 +3029,9 @@ module Aws::StorageGateway
       :deprecation_date,
       :gateway_capacity,
       :supported_gateway_capacities,
-      :host_environment_id)
-      SENSITIVE = []
+      :host_environment_id,
+      :software_version)
+      SENSITIVE = [:gateway_network_interfaces]
       include Aws::Structure
     end
 
@@ -2926,6 +3053,8 @@ module Aws::StorageGateway
     end
 
     # A JSON object containing the following fields:
+    #
+    # * DescribeMaintenanceStartTimeOutput$SoftwareUpdatePreferences
     #
     # * DescribeMaintenanceStartTimeOutput$DayOfMonth
     #
@@ -2964,8 +3093,8 @@ module Aws::StorageGateway
     # @!attribute [rw] day_of_month
     #   The day of the month component of the maintenance start time
     #   represented as an ordinal number from 1 to 28, where 1 represents
-    #   the first day of the month and 28 represents the last day of the
-    #   month.
+    #   the first day of the month. It is not possible to set the
+    #   maintenance schedule to start on days 29 through 31.
     #   @return [Integer]
     #
     # @!attribute [rw] timezone
@@ -2973,6 +3102,23 @@ module Aws::StorageGateway
     #   The start time and day of week specified should be in the time zone
     #   of the gateway.
     #   @return [String]
+    #
+    # @!attribute [rw] software_update_preferences
+    #   A set of variables indicating the software update preferences for
+    #   the gateway.
+    #
+    #   Includes `AutomaticUpdatePolicy` parameter with the following
+    #   inputs:
+    #
+    #   `ALL_VERSIONS` - Enables regular gateway maintenance updates.
+    #
+    #   `EMERGENCY_VERSIONS_ONLY` - Disables regular gateway maintenance
+    #   updates. The gateway will still receive emergency version updates on
+    #   rare occasions if necessary to remedy highly critical security or
+    #   durability issues. You will be notified before an emergency version
+    #   update is applied. These updates are applied during your gateway's
+    #   scheduled maintenance window.
+    #   @return [Types::SoftwareUpdatePreferences]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/DescribeMaintenanceStartTimeOutput AWS API Documentation
     #
@@ -2982,7 +3128,8 @@ module Aws::StorageGateway
       :minute_of_hour,
       :day_of_week,
       :day_of_month,
-      :timezone)
+      :timezone,
+      :software_update_preferences)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3073,24 +3220,23 @@ module Aws::StorageGateway
     #   Indicates the status of a gateway that is a member of the Active
     #   Directory domain.
     #
-    #   * `ACCESS_DENIED`\: Indicates that the `JoinDomain` operation failed
+    #   * `ACCESS_DENIED`: Indicates that the `JoinDomain` operation failed
     #     due to an authentication error.
     #
-    #   * `DETACHED`\: Indicates that gateway is not joined to a domain.
+    #   * `DETACHED`: Indicates that gateway is not joined to a domain.
     #
-    #   * `JOINED`\: Indicates that the gateway has successfully joined a
+    #   * `JOINED`: Indicates that the gateway has successfully joined a
     #     domain.
     #
-    #   * `JOINING`\: Indicates that a `JoinDomain` operation is in
-    #     progress.
+    #   * `JOINING`: Indicates that a `JoinDomain` operation is in progress.
     #
-    #   * `NETWORK_ERROR`\: Indicates that `JoinDomain` operation failed due
+    #   * `NETWORK_ERROR`: Indicates that `JoinDomain` operation failed due
     #     to a network or connectivity error.
     #
-    #   * `TIMEOUT`\: Indicates that the `JoinDomain` operation failed
+    #   * `TIMEOUT`: Indicates that the `JoinDomain` operation failed
     #     because the operation didn't complete within the allotted time.
     #
-    #   * `UNKNOWN_ERROR`\: Indicates that the `JoinDomain` operation failed
+    #   * `UNKNOWN_ERROR`: Indicates that the `JoinDomain` operation failed
     #     due to another type of error.
     #   @return [String]
     #
@@ -3104,22 +3250,30 @@ module Aws::StorageGateway
     # @!attribute [rw] smb_security_strategy
     #   The type of security strategy that was specified for file gateway.
     #
-    #   * `ClientSpecified`\: If you use this option, requests are
+    #   * `ClientSpecified`: If you choose this option, requests are
     #     established based on what is negotiated by the client. This option
     #     is recommended when you want to maximize compatibility across
-    #     different clients in your environment. Only supported for S3 File
-    #     Gateways.
+    #     different clients in your environment. Supported only for S3 File
+    #     Gateway.
     #
-    #   * `MandatorySigning`\: If you use this option, file gateway only
+    #   * `MandatorySigning`: If you choose this option, File Gateway only
     #     allows connections from SMBv2 or SMBv3 clients that have signing
-    #     enabled. This option works with SMB clients on Microsoft Windows
-    #     Vista, Windows Server 2008 or newer.
+    #     turned on. This option works with SMB clients on Microsoft Windows
+    #     Vista, Windows Server 2008, or later.
     #
-    #   * `MandatoryEncryption`\: If you use this option, file gateway only
-    #     allows connections from SMBv3 clients that have encryption
-    #     enabled. This option is highly recommended for environments that
-    #     handle sensitive data. This option works with SMB clients on
-    #     Microsoft Windows 8, Windows Server 2012 or newer.
+    #   * `MandatoryEncryption`: If you choose this option, File Gateway
+    #     only allows connections from SMBv3 clients that have encryption
+    #     turned on. Both 256-bit and 128-bit algorithms are allowed. This
+    #     option is recommended for environments that handle sensitive data.
+    #     It works with SMB clients on Microsoft Windows 8, Windows Server
+    #     2012, or later.
+    #
+    #   * `MandatoryEncryptionNoAes128`: If you choose this option, File
+    #     Gateway only allows connections from SMBv3 clients that use
+    #     256-bit AES encryption algorithms. 128-bit algorithms are not
+    #     allowed. This option is recommended for environments that handle
+    #     sensitive data. It works with SMB clients on Microsoft Windows 8,
+    #     Windows Server 2012, or later.
     #   @return [String]
     #
     # @!attribute [rw] file_shares_visible
@@ -3227,53 +3381,53 @@ module Aws::StorageGateway
     #   Describes a single unit of output from DescribeStorediSCSIVolumes.
     #   The following fields are returned:
     #
-    #   * `ChapEnabled`\: Indicates whether mutual CHAP is enabled for the
+    #   * `ChapEnabled`: Indicates whether mutual CHAP is enabled for the
     #     iSCSI target.
     #
-    #   * `LunNumber`\: The logical disk number.
+    #   * `LunNumber`: The logical disk number.
     #
-    #   * `NetworkInterfaceId`\: The network interface ID of the stored
+    #   * `NetworkInterfaceId`: The network interface ID of the stored
     #     volume that initiator use to map the stored volume as an iSCSI
     #     target.
     #
-    #   * `NetworkInterfacePort`\: The port used to communicate with iSCSI
+    #   * `NetworkInterfacePort`: The port used to communicate with iSCSI
     #     targets.
     #
-    #   * `PreservedExistingData`\: Indicates when the stored volume was
+    #   * `PreservedExistingData`: Indicates when the stored volume was
     #     created, existing data on the underlying local disk was preserved.
     #
-    #   * `SourceSnapshotId`\: If the stored volume was created from a
+    #   * `SourceSnapshotId`: If the stored volume was created from a
     #     snapshot, this field contains the snapshot ID used, e.g.
     #     `snap-1122aabb`. Otherwise, this field is not included.
     #
-    #   * `StorediSCSIVolumes`\: An array of StorediSCSIVolume objects where
+    #   * `StorediSCSIVolumes`: An array of StorediSCSIVolume objects where
     #     each object contains metadata about one stored volume.
     #
-    #   * `TargetARN`\: The Amazon Resource Name (ARN) of the volume target.
+    #   * `TargetARN`: The Amazon Resource Name (ARN) of the volume target.
     #
-    #   * `VolumeARN`\: The Amazon Resource Name (ARN) of the stored volume.
+    #   * `VolumeARN`: The Amazon Resource Name (ARN) of the stored volume.
     #
-    #   * `VolumeDiskId`\: The disk ID of the local disk that was specified
+    #   * `VolumeDiskId`: The disk ID of the local disk that was specified
     #     in the CreateStorediSCSIVolume operation.
     #
-    #   * `VolumeId`\: The unique identifier of the storage volume, e.g.
+    #   * `VolumeId`: The unique identifier of the storage volume, e.g.
     #     `vol-1122AABB`.
     #
-    #   * `VolumeiSCSIAttributes`\: An VolumeiSCSIAttributes object that
+    #   * `VolumeiSCSIAttributes`: An VolumeiSCSIAttributes object that
     #     represents a collection of iSCSI attributes for one stored volume.
     #
-    #   * `VolumeProgress`\: Represents the percentage complete if the
-    #     volume is restoring or bootstrapping that represents the percent
-    #     of data transferred. This field does not appear in the response if
-    #     the stored volume is not restoring or bootstrapping.
+    #   * `VolumeProgress`: Represents the percentage complete if the volume
+    #     is restoring or bootstrapping that represents the percent of data
+    #     transferred. This field does not appear in the response if the
+    #     stored volume is not restoring or bootstrapping.
     #
-    #   * `VolumeSizeInBytes`\: The size of the volume in bytes.
+    #   * `VolumeSizeInBytes`: The size of the volume in bytes.
     #
-    #   * `VolumeStatus`\: One of the `VolumeStatus` values that indicates
+    #   * `VolumeStatus`: One of the `VolumeStatus` values that indicates
     #     the state of the volume.
     #
-    #   * `VolumeType`\: One of the enumeration values describing the type
-    #     of the volume. Currently, only `STORED` volumes are supported.
+    #   * `VolumeType`: One of the enumeration values describing the type of
+    #     the volume. Currently, only `STORED` volumes are supported.
     #   @return [Array<Types::StorediSCSIVolume>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/DescribeStorediSCSIVolumesOutput AWS API Documentation
@@ -4026,6 +4180,15 @@ module Aws::StorageGateway
     #
     # @!attribute [rw] gateway_type
     #   The type of the gateway.
+    #
+    #   Amazon FSx File Gateway is no longer available to new customers.
+    #   Existing customers of FSx File Gateway can continue to use the
+    #   service normally. For capabilities similar to FSx File Gateway,
+    #   visit [this blog post][1].
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/
     #   @return [String]
     #
     # @!attribute [rw] gateway_operational_state
@@ -4051,12 +4214,25 @@ module Aws::StorageGateway
     # @!attribute [rw] host_environment
     #   The type of hardware or software platform on which the gateway is
     #   running.
+    #
+    #   <note markdown="1"> Tape Gateway is no longer available on Snow Family devices.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] host_environment_id
     #   A unique identifier for the specific instance of the host platform
     #   running the gateway. This value is only available for certain host
     #   environments, and its format depends on the host environment type.
+    #   @return [String]
+    #
+    # @!attribute [rw] deprecation_date
+    #   Date after which this gateway will not receive software updates for
+    #   new features and bug fixes.
+    #   @return [String]
+    #
+    # @!attribute [rw] software_version
+    #   The version number of the software running on the gateway appliance.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/GatewayInfo AWS API Documentation
@@ -4070,7 +4246,9 @@ module Aws::StorageGateway
       :ec2_instance_id,
       :ec2_instance_region,
       :host_environment,
-      :host_environment_id)
+      :host_environment_id,
+      :deprecation_date,
+      :software_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4185,24 +4363,23 @@ module Aws::StorageGateway
     #   Indicates the status of the gateway as a member of the Active
     #   Directory domain.
     #
-    #   * `ACCESS_DENIED`\: Indicates that the `JoinDomain` operation failed
+    #   * `ACCESS_DENIED`: Indicates that the `JoinDomain` operation failed
     #     due to an authentication error.
     #
-    #   * `DETACHED`\: Indicates that gateway is not joined to a domain.
+    #   * `DETACHED`: Indicates that gateway is not joined to a domain.
     #
-    #   * `JOINED`\: Indicates that the gateway has successfully joined a
+    #   * `JOINED`: Indicates that the gateway has successfully joined a
     #     domain.
     #
-    #   * `JOINING`\: Indicates that a `JoinDomain` operation is in
-    #     progress.
+    #   * `JOINING`: Indicates that a `JoinDomain` operation is in progress.
     #
-    #   * `NETWORK_ERROR`\: Indicates that `JoinDomain` operation failed due
+    #   * `NETWORK_ERROR`: Indicates that `JoinDomain` operation failed due
     #     to a network or connectivity error.
     #
-    #   * `TIMEOUT`\: Indicates that the `JoinDomain` operation failed
+    #   * `TIMEOUT`: Indicates that the `JoinDomain` operation failed
     #     because the operation didn't complete within the allotted time.
     #
-    #   * `UNKNOWN_ERROR`\: Indicates that the `JoinDomain` operation failed
+    #   * `UNKNOWN_ERROR`: Indicates that the `JoinDomain` operation failed
     #     due to another type of error.
     #   @return [String]
     #
@@ -4804,18 +4981,50 @@ module Aws::StorageGateway
     #   Web Services Region.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_type
+    #   A value that specifies the type of server-side encryption that the
+    #   file share will use for the data that it stores in Amazon S3.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] kms_encrypted
-    #   Set to `true` to use Amazon S3 server-side encryption with your own
-    #   KMS key, or `false` to use a key managed by Amazon S3. Optional.
+    #   Optional. Set to `true` to use Amazon S3 server-side encryption with
+    #   your own KMS key (SSE-KMS), or `false` to use a key managed by
+    #   Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+    #   `EncryptionType` parameter instead.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
     #
     #   Valid Values: `true` \| `false`
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] path
@@ -4838,7 +5047,7 @@ module Aws::StorageGateway
     #
     #    Bucket ARN:
     #
-    #    `arn:aws:s3:::my-bucket/prefix/`
+    #    `arn:aws:s3:::amzn-s3-demo-bucket/prefix/`
     #
     #    Access point ARN:
     #
@@ -4884,11 +5093,11 @@ module Aws::StorageGateway
     # @!attribute [rw] squash
     #   The user mapped to anonymous user. Valid options are the following:
     #
-    #   * `RootSquash`\: Only root is mapped to anonymous user.
+    #   * `RootSquash`: Only root is mapped to anonymous user.
     #
-    #   * `NoSquash`\: No one is mapped to anonymous user.
+    #   * `NoSquash`: No one is mapped to anonymous user.
     #
-    #   * `AllSquash`\: Everyone is mapped to anonymous user.
+    #   * `AllSquash`: Everyone is mapped to anonymous user.
     #   @return [String]
     #
     # @!attribute [rw] read_only
@@ -4956,16 +5165,21 @@ module Aws::StorageGateway
     #   <note markdown="1"> `SettlingTimeInSeconds` has no effect on the timing of the object
     #   uploading to Amazon S3, only the timing of the notification.
     #
+    #    This setting is not meant to specify an exact time at which the
+    #   notification will be sent. In some cases, the gateway might require
+    #   more than the specified delay time to generate and send
+    #   notifications.
+    #
     #    </note>
     #
     #   The following example sets `NotificationPolicy` on with
     #   `SettlingTimeInSeconds` set to 60.
     #
-    #   `\{"Upload": \{"SettlingTimeInSeconds": 60\}\}`
+    #   `{"Upload": {"SettlingTimeInSeconds": 60}}`
     #
     #   The following example sets `NotificationPolicy` off.
     #
-    #   `\{\}`
+    #   `{}`
     #   @return [String]
     #
     # @!attribute [rw] vpc_endpoint_dns_name
@@ -5002,6 +5216,7 @@ module Aws::StorageGateway
       :file_share_id,
       :file_share_status,
       :gateway_arn,
+      :encryption_type,
       :kms_encrypted,
       :kms_key,
       :path,
@@ -5148,6 +5363,9 @@ module Aws::StorageGateway
     #   folders at the root of the Amazon S3 bucket. If `Recursive` is set
     #   to `true`, the entire S3 bucket that the file share has access to is
     #   refreshed.
+    #
+    #   Do not include `/` when specifying folder names. For example, you
+    #   would specify `samplefolder` rather than `samplefolder/`.
     #   @return [Array<String>]
     #
     # @!attribute [rw] recursive
@@ -5357,18 +5575,50 @@ module Aws::StorageGateway
     #   Web Services Region.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_type
+    #   A value that specifies the type of server-side encryption that the
+    #   file share will use for the data that it stores in Amazon S3.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] kms_encrypted
-    #   Set to `true` to use Amazon S3 server-side encryption with your own
-    #   KMS key, or `false` to use a key managed by Amazon S3. Optional.
+    #   Optional. Set to `true` to use Amazon S3 server-side encryption with
+    #   your own KMS key (SSE-KMS), or `false` to use a key managed by
+    #   Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+    #   `EncryptionType` parameter instead.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
     #
     #   Valid Values: `true` \| `false`
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] path
@@ -5391,7 +5641,7 @@ module Aws::StorageGateway
     #
     #    Bucket ARN:
     #
-    #    `arn:aws:s3:::my-bucket/prefix/`
+    #    `arn:aws:s3:::amzn-s3-demo-bucket/prefix/`
     #
     #    Access point ARN:
     #
@@ -5467,12 +5717,12 @@ module Aws::StorageGateway
     #   `false`, it indicates that file and directory permissions are mapped
     #   to the POSIX permission.
     #
-    #   For more information, see [Using Microsoft Windows ACLs to control
-    #   access to an SMB file share][1] in the *Storage Gateway User Guide*.
+    #   For more information, see [Using Windows ACLs to limit SMB file
+    #   share access][1] in the *Amazon S3 File Gateway User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html
+    #   [1]: https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html
     #   @return [Boolean]
     #
     # @!attribute [rw] access_based_enumeration
@@ -5553,16 +5803,21 @@ module Aws::StorageGateway
     #   <note markdown="1"> `SettlingTimeInSeconds` has no effect on the timing of the object
     #   uploading to Amazon S3, only the timing of the notification.
     #
+    #    This setting is not meant to specify an exact time at which the
+    #   notification will be sent. In some cases, the gateway might require
+    #   more than the specified delay time to generate and send
+    #   notifications.
+    #
     #    </note>
     #
     #   The following example sets `NotificationPolicy` on with
     #   `SettlingTimeInSeconds` set to 60.
     #
-    #   `\{"Upload": \{"SettlingTimeInSeconds": 60\}\}`
+    #   `{"Upload": {"SettlingTimeInSeconds": 60}}`
     #
     #   The following example sets `NotificationPolicy` off.
     #
-    #   `\{\}`
+    #   `{}`
     #   @return [String]
     #
     # @!attribute [rw] vpc_endpoint_dns_name
@@ -5607,6 +5862,7 @@ module Aws::StorageGateway
       :file_share_id,
       :file_share_status,
       :gateway_arn,
+      :encryption_type,
       :kms_encrypted,
       :kms_key,
       :path,
@@ -5776,6 +6032,30 @@ module Aws::StorageGateway
     #
     class ShutdownGatewayOutput < Struct.new(
       :gateway_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A set of variables indicating the software update preferences for the
+    # gateway.
+    #
+    # @!attribute [rw] automatic_update_policy
+    #   Indicates the automatic update policy for a gateway.
+    #
+    #   `ALL_VERSIONS` - Enables regular gateway maintenance updates.
+    #
+    #   `EMERGENCY_VERSIONS_ONLY` - Disables regular gateway maintenance
+    #   updates. The gateway will still receive emergency version updates on
+    #   rare occasions if necessary to remedy highly critical security or
+    #   durability issues. You will be notified before an emergency version
+    #   update is applied. These updates are applied during your gateway's
+    #   scheduled maintenance window.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/SoftwareUpdatePreferences AWS API Documentation
+    #
+    class SoftwareUpdatePreferences < Struct.new(
+      :automatic_update_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5950,10 +6230,11 @@ module Aws::StorageGateway
     #   @return [Integer]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] target_name
@@ -6053,10 +6334,11 @@ module Aws::StorageGateway
     #   @return [Integer]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] pool_id
@@ -6148,10 +6430,11 @@ module Aws::StorageGateway
     #   @return [Integer]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] pool_id
@@ -6553,7 +6836,14 @@ module Aws::StorageGateway
     #   @return [String]
     #
     # @!attribute [rw] gateway_capacity
-    #   Specifies the size of the gateway's metadata cache.
+    #   Specifies the size of the gateway's metadata cache. This setting
+    #   impacts gateway performance and hardware recommendations. For more
+    #   information, see [Performance guidance for gateways with multiple
+    #   file shares][1] in the *Amazon S3 File Gateway User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/filegateway/latest/files3/performance-multiple-file-shares.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/UpdateGatewayInformationInput AWS API Documentation
@@ -6626,6 +6916,8 @@ module Aws::StorageGateway
 
     # A JSON object containing the following fields:
     #
+    # * UpdateMaintenanceStartTimeInput$SoftwareUpdatePreferences
+    #
     # * UpdateMaintenanceStartTimeInput$DayOfMonth
     #
     # * UpdateMaintenanceStartTimeInput$DayOfWeek
@@ -6655,15 +6947,31 @@ module Aws::StorageGateway
     # @!attribute [rw] day_of_week
     #   The day of the week component of the maintenance start time week
     #   represented as an ordinal number from 0 to 6, where 0 represents
-    #   Sunday and 6 Saturday.
+    #   Sunday and 6 represents Saturday.
     #   @return [Integer]
     #
     # @!attribute [rw] day_of_month
     #   The day of the month component of the maintenance start time
     #   represented as an ordinal number from 1 to 28, where 1 represents
-    #   the first day of the month and 28 represents the last day of the
-    #   month.
+    #   the first day of the month. It is not possible to set the
+    #   maintenance schedule to start on days 29 through 31.
     #   @return [Integer]
+    #
+    # @!attribute [rw] software_update_preferences
+    #   A set of variables indicating the software update preferences for
+    #   the gateway.
+    #
+    #   Includes `AutomaticUpdatePolicy` field with the following inputs:
+    #
+    #   `ALL_VERSIONS` - Enables regular gateway maintenance updates.
+    #
+    #   `EMERGENCY_VERSIONS_ONLY` - Disables regular gateway maintenance
+    #   updates. The gateway will still receive emergency version updates on
+    #   rare occasions if necessary to remedy highly critical security or
+    #   durability issues. You will be notified before an emergency version
+    #   update is applied. These updates are applied during your gateway's
+    #   scheduled maintenance window.
+    #   @return [Types::SoftwareUpdatePreferences]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/UpdateMaintenanceStartTimeInput AWS API Documentation
     #
@@ -6672,7 +6980,8 @@ module Aws::StorageGateway
       :hour_of_day,
       :minute_of_hour,
       :day_of_week,
-      :day_of_month)
+      :day_of_month,
+      :software_update_preferences)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6700,18 +7009,50 @@ module Aws::StorageGateway
     #   The Amazon Resource Name (ARN) of the file share to be updated.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_type
+    #   A value that specifies the type of server-side encryption that the
+    #   file share will use for the data that it stores in Amazon S3.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] kms_encrypted
-    #   Set to `true` to use Amazon S3 server-side encryption with your own
-    #   KMS key, or `false` to use a key managed by Amazon S3. Optional.
+    #   Optional. Set to `true` to use Amazon S3 server-side encryption with
+    #   your own KMS key (SSE-KMS), or `false` to use a key managed by
+    #   Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+    #   `EncryptionType` parameter instead.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
     #
     #   Valid Values: `true` \| `false`
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] nfs_file_share_defaults
@@ -6744,11 +7085,11 @@ module Aws::StorageGateway
     #
     #   Valid values are the following:
     #
-    #   * `RootSquash`\: Only root is mapped to anonymous user.
+    #   * `RootSquash`: Only root is mapped to anonymous user.
     #
-    #   * `NoSquash`\: No one is mapped to anonymous user.
+    #   * `NoSquash`: No one is mapped to anonymous user.
     #
-    #   * `AllSquash`\: Everyone is mapped to anonymous user.
+    #   * `AllSquash`: Everyone is mapped to anonymous user.
     #   @return [String]
     #
     # @!attribute [rw] read_only
@@ -6790,6 +7131,9 @@ module Aws::StorageGateway
     #   <note markdown="1"> `FileShareName` must be set if an S3 prefix name is set in
     #   `LocationARN`, or if an access point or access point alias is used.
     #
+    #    A valid NFS file share name can only contain the following
+    #   characters: `a`-`z`, `A`-`Z`, `0`-`9`, `-`, `.`, and `_`.
+    #
     #    </note>
     #   @return [String]
     #
@@ -6809,16 +7153,21 @@ module Aws::StorageGateway
     #   <note markdown="1"> `SettlingTimeInSeconds` has no effect on the timing of the object
     #   uploading to Amazon S3, only the timing of the notification.
     #
+    #    This setting is not meant to specify an exact time at which the
+    #   notification will be sent. In some cases, the gateway might require
+    #   more than the specified delay time to generate and send
+    #   notifications.
+    #
     #    </note>
     #
     #   The following example sets `NotificationPolicy` on with
     #   `SettlingTimeInSeconds` set to 60.
     #
-    #   `\{"Upload": \{"SettlingTimeInSeconds": 60\}\}`
+    #   `{"Upload": {"SettlingTimeInSeconds": 60}}`
     #
     #   The following example sets `NotificationPolicy` off.
     #
-    #   `\{\}`
+    #   `{}`
     #   @return [String]
     #
     # @!attribute [rw] audit_destination_arn
@@ -6829,6 +7178,7 @@ module Aws::StorageGateway
     #
     class UpdateNFSFileShareInput < Struct.new(
       :file_share_arn,
+      :encryption_type,
       :kms_encrypted,
       :kms_key,
       :nfs_file_share_defaults,
@@ -6868,18 +7218,50 @@ module Aws::StorageGateway
     #   to update.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_type
+    #   A value that specifies the type of server-side encryption that the
+    #   file share will use for the data that it stores in Amazon S3.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] kms_encrypted
-    #   Set to `true` to use Amazon S3 server-side encryption with your own
-    #   KMS key, or `false` to use a key managed by Amazon S3. Optional.
+    #   Optional. Set to `true` to use Amazon S3 server-side encryption with
+    #   your own KMS key (SSE-KMS), or `false` to use a key managed by
+    #   Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+    #   `EncryptionType` parameter instead.
+    #
+    #   <note markdown="1"> We recommend using `EncryptionType` instead of `KMSEncrypted` to set
+    #   the file share encryption method. You do not need to provide values
+    #   for both parameters.
+    #
+    #    If values for both parameters exist in the same request, then the
+    #   specified encryption methods must not conflict. For example, if
+    #   `EncryptionType` is `SseS3`, then `KMSEncrypted` must be `false`. If
+    #   `EncryptionType` is `SseKms` or `DsseKms`, then `KMSEncrypted` must
+    #   be `true`.
+    #
+    #    </note>
     #
     #   Valid Values: `true` \| `false`
     #   @return [Boolean]
     #
     # @!attribute [rw] kms_key
-    #   The Amazon Resource Name (ARN) of a symmetric customer master key
-    #   (CMK) used for Amazon S3 server-side encryption. Storage Gateway
-    #   does not support asymmetric CMKs. This value can only be set when
-    #   `KMSEncrypted` is `true`. Optional.
+    #   Optional. The Amazon Resource Name (ARN) of a symmetric customer
+    #   master key (CMK) used for Amazon S3 server-side encryption. Storage
+    #   Gateway does not support asymmetric CMKs. This value must be set if
+    #   `KMSEncrypted` is `true`, or if `EncryptionType` is `SseKms` or
+    #   `DsseKms`.
     #   @return [String]
     #
     # @!attribute [rw] default_storage_class
@@ -6935,14 +7317,14 @@ module Aws::StorageGateway
     #   SMB file share. Set it to `false` to map file and directory
     #   permissions to the POSIX permissions.
     #
-    #   For more information, see [Using Microsoft Windows ACLs to control
-    #   access to an SMB file share][1] in the *Storage Gateway User Guide*.
+    #   For more information, see [Using Windows ACLs to limit SMB file
+    #   share access][1] in the *Amazon S3 File Gateway User Guide*.
     #
     #   Valid Values: `true` \| `false`
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html
+    #   [1]: https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html
     #   @return [Boolean]
     #
     # @!attribute [rw] access_based_enumeration
@@ -6991,6 +7373,10 @@ module Aws::StorageGateway
     #   <note markdown="1"> `FileShareName` must be set if an S3 prefix name is set in
     #   `LocationARN`, or if an access point or access point alias is used.
     #
+    #    A valid SMB file share name cannot contain the following characters:
+    #   `[`,`]`,`#`,`;`,`<`,`>`,`:`,`"`,``,`/`,`|`,`?`,`*`,`+`, or ASCII
+    #   control characters `1-31`.
+    #
     #    </note>
     #   @return [String]
     #
@@ -7010,16 +7396,21 @@ module Aws::StorageGateway
     #   <note markdown="1"> `SettlingTimeInSeconds` has no effect on the timing of the object
     #   uploading to Amazon S3, only the timing of the notification.
     #
+    #    This setting is not meant to specify an exact time at which the
+    #   notification will be sent. In some cases, the gateway might require
+    #   more than the specified delay time to generate and send
+    #   notifications.
+    #
     #    </note>
     #
     #   The following example sets `NotificationPolicy` on with
     #   `SettlingTimeInSeconds` set to 60.
     #
-    #   `\{"Upload": \{"SettlingTimeInSeconds": 60\}\}`
+    #   `{"Upload": {"SettlingTimeInSeconds": 60}}`
     #
     #   The following example sets `NotificationPolicy` off.
     #
-    #   `\{\}`
+    #   `{}`
     #   @return [String]
     #
     # @!attribute [rw] oplocks_enabled
@@ -7039,6 +7430,7 @@ module Aws::StorageGateway
     #
     class UpdateSMBFileShareInput < Struct.new(
       :file_share_arn,
+      :encryption_type,
       :kms_encrypted,
       :kms_key,
       :default_storage_class,
@@ -7151,21 +7543,29 @@ module Aws::StorageGateway
     # @!attribute [rw] smb_security_strategy
     #   Specifies the type of security strategy.
     #
-    #   ClientSpecified: if you use this option, requests are established
-    #   based on what is negotiated by the client. This option is
-    #   recommended when you want to maximize compatibility across different
-    #   clients in your environment. Supported only in S3 File Gateway.
+    #   `ClientSpecified`: If you choose this option, requests are
+    #   established based on what is negotiated by the client. This option
+    #   is recommended when you want to maximize compatibility across
+    #   different clients in your environment. Supported only for S3 File
+    #   Gateway.
     #
-    #   MandatorySigning: if you use this option, file gateway only allows
-    #   connections from SMBv2 or SMBv3 clients that have signing enabled.
-    #   This option works with SMB clients on Microsoft Windows Vista,
-    #   Windows Server 2008 or newer.
+    #   `MandatorySigning`: If you choose this option, File Gateway only
+    #   allows connections from SMBv2 or SMBv3 clients that have signing
+    #   enabled. This option works with SMB clients on Microsoft Windows
+    #   Vista, Windows Server 2008 or newer.
     #
-    #   MandatoryEncryption: if you use this option, file gateway only
+    #   `MandatoryEncryption`: If you choose this option, File Gateway only
     #   allows connections from SMBv3 clients that have encryption enabled.
-    #   This option is highly recommended for environments that handle
-    #   sensitive data. This option works with SMB clients on Microsoft
-    #   Windows 8, Windows Server 2012 or newer.
+    #   This option is recommended for environments that handle sensitive
+    #   data. This option works with SMB clients on Microsoft Windows 8,
+    #   Windows Server 2012 or newer.
+    #
+    #   `MandatoryEncryptionNoAes128`: If you choose this option, File
+    #   Gateway only allows connections from SMBv3 clients that use 256-bit
+    #   AES encryption algorithms. 128-bit algorithms are not allowed. This
+    #   option is recommended for environments that handle sensitive data.
+    #   It works with SMB clients on Microsoft Windows 8, Windows Server
+    #   2012, or later.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/storagegateway-2013-06-30/UpdateSMBSecurityStrategyInput AWS API Documentation
@@ -7470,3 +7870,4 @@ module Aws::StorageGateway
 
   end
 end
+

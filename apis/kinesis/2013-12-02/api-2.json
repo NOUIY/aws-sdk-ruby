@@ -6,12 +6,14 @@
     "jsonVersion":"1.1",
     "protocol":"json",
     "protocolSettings":{"h2":"eventstream"},
+    "protocols":["json"],
     "serviceAbbreviation":"Kinesis",
     "serviceFullName":"Amazon Kinesis",
     "serviceId":"Kinesis",
     "signatureVersion":"v4",
     "targetPrefix":"Kinesis_20131202",
-    "uid":"kinesis-2013-12-02"
+    "uid":"kinesis-2013-12-02",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AddTagsToStream":{
@@ -58,6 +60,24 @@
         {"shape":"LimitExceededException"},
         {"shape":"InvalidArgumentException"},
         {"shape":"AccessDeniedException"}
+      ],
+      "staticContextParams":{
+        "OperationType":{"value":"control"}
+      }
+    },
+    "DeleteResourcePolicy":{
+      "name":"DeleteResourcePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteResourcePolicyInput"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InvalidArgumentException"},
+        {"shape":"ResourceInUseException"}
       ],
       "staticContextParams":{
         "OperationType":{"value":"control"}
@@ -223,6 +243,25 @@
       ],
       "staticContextParams":{
         "OperationType":{"value":"data"}
+      }
+    },
+    "GetResourcePolicy":{
+      "name":"GetResourcePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetResourcePolicyInput"},
+      "output":{"shape":"GetResourcePolicyOutput"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InvalidArgumentException"},
+        {"shape":"ResourceInUseException"}
+      ],
+      "staticContextParams":{
+        "OperationType":{"value":"control"}
       }
     },
     "GetShardIterator":{
@@ -397,6 +436,24 @@
       ],
       "staticContextParams":{
         "OperationType":{"value":"data"}
+      }
+    },
+    "PutResourcePolicy":{
+      "name":"PutResourcePolicy",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"PutResourcePolicyInput"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InvalidArgumentException"},
+        {"shape":"ResourceInUseException"}
+      ],
+      "staticContextParams":{
+        "OperationType":{"value":"control"}
       }
     },
     "RegisterStreamConsumer":{
@@ -658,7 +715,8 @@
       "members":{
         "StreamName":{"shape":"StreamName"},
         "ShardCount":{"shape":"PositiveIntegerObject"},
-        "StreamModeDetails":{"shape":"StreamModeDetails"}
+        "StreamModeDetails":{"shape":"StreamModeDetails"},
+        "Tags":{"shape":"TagMap"}
       }
     },
     "Data":{
@@ -675,6 +733,16 @@
         "StreamARN":{
           "shape":"StreamARN",
           "contextParam":{"name":"StreamARN"}
+        }
+      }
+    },
+    "DeleteResourcePolicyInput":{
+      "type":"structure",
+      "required":["ResourceARN"],
+      "members":{
+        "ResourceARN":{
+          "shape":"ResourceARN",
+          "contextParam":{"name":"ResourceARN"}
         }
       }
     },
@@ -876,6 +944,23 @@
         "NextShardIterator":{"shape":"ShardIterator"},
         "MillisBehindLatest":{"shape":"MillisBehindLatest"},
         "ChildShards":{"shape":"ChildShardList"}
+      }
+    },
+    "GetResourcePolicyInput":{
+      "type":"structure",
+      "required":["ResourceARN"],
+      "members":{
+        "ResourceARN":{
+          "shape":"ResourceARN",
+          "contextParam":{"name":"ResourceARN"}
+        }
+      }
+    },
+    "GetResourcePolicyOutput":{
+      "type":"structure",
+      "required":["Policy"],
+      "members":{
+        "Policy":{"shape":"Policy"}
       }
     },
     "GetShardIteratorInput":{
@@ -1163,6 +1248,7 @@
       "max":256,
       "min":1
     },
+    "Policy":{"type":"string"},
     "PositiveIntegerObject":{
       "type":"integer",
       "min":1
@@ -1258,6 +1344,20 @@
       "max":500,
       "min":1
     },
+    "PutResourcePolicyInput":{
+      "type":"structure",
+      "required":[
+        "ResourceARN",
+        "Policy"
+      ],
+      "members":{
+        "ResourceARN":{
+          "shape":"ResourceARN",
+          "contextParam":{"name":"ResourceARN"}
+        },
+        "Policy":{"shape":"Policy"}
+      }
+    },
     "Record":{
       "type":"structure",
       "required":[
@@ -1309,6 +1409,12 @@
           "contextParam":{"name":"StreamARN"}
         }
       }
+    },
+    "ResourceARN":{
+      "type":"string",
+      "max":2048,
+      "min":1,
+      "pattern":"arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+"
     },
     "ResourceInUseException":{
       "type":"structure",

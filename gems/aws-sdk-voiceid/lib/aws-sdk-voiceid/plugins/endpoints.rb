@@ -14,34 +14,48 @@ module Aws::VoiceID
       option(
         :endpoint_provider,
         doc_type: 'Aws::VoiceID::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::VoiceID::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::VoiceID::EndpointParameters`.
+        DOCS
         Aws::VoiceID::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::VoiceID::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,53 +65,6 @@ module Aws::VoiceID
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :create_domain
-            Aws::VoiceID::Endpoints::CreateDomain.build(context)
-          when :delete_domain
-            Aws::VoiceID::Endpoints::DeleteDomain.build(context)
-          when :delete_fraudster
-            Aws::VoiceID::Endpoints::DeleteFraudster.build(context)
-          when :delete_speaker
-            Aws::VoiceID::Endpoints::DeleteSpeaker.build(context)
-          when :describe_domain
-            Aws::VoiceID::Endpoints::DescribeDomain.build(context)
-          when :describe_fraudster
-            Aws::VoiceID::Endpoints::DescribeFraudster.build(context)
-          when :describe_fraudster_registration_job
-            Aws::VoiceID::Endpoints::DescribeFraudsterRegistrationJob.build(context)
-          when :describe_speaker
-            Aws::VoiceID::Endpoints::DescribeSpeaker.build(context)
-          when :describe_speaker_enrollment_job
-            Aws::VoiceID::Endpoints::DescribeSpeakerEnrollmentJob.build(context)
-          when :evaluate_session
-            Aws::VoiceID::Endpoints::EvaluateSession.build(context)
-          when :list_domains
-            Aws::VoiceID::Endpoints::ListDomains.build(context)
-          when :list_fraudster_registration_jobs
-            Aws::VoiceID::Endpoints::ListFraudsterRegistrationJobs.build(context)
-          when :list_speaker_enrollment_jobs
-            Aws::VoiceID::Endpoints::ListSpeakerEnrollmentJobs.build(context)
-          when :list_speakers
-            Aws::VoiceID::Endpoints::ListSpeakers.build(context)
-          when :list_tags_for_resource
-            Aws::VoiceID::Endpoints::ListTagsForResource.build(context)
-          when :opt_out_speaker
-            Aws::VoiceID::Endpoints::OptOutSpeaker.build(context)
-          when :start_fraudster_registration_job
-            Aws::VoiceID::Endpoints::StartFraudsterRegistrationJob.build(context)
-          when :start_speaker_enrollment_job
-            Aws::VoiceID::Endpoints::StartSpeakerEnrollmentJob.build(context)
-          when :tag_resource
-            Aws::VoiceID::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::VoiceID::Endpoints::UntagResource.build(context)
-          when :update_domain
-            Aws::VoiceID::Endpoints::UpdateDomain.build(context)
           end
         end
       end

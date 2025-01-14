@@ -5,13 +5,31 @@
     "endpointPrefix":"appflow",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"Amazon Appflow",
     "serviceId":"Appflow",
     "signatureVersion":"v4",
     "signingName":"appflow",
-    "uid":"appflow-2020-08-23"
+    "uid":"appflow-2020-08-23",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
+    "CancelFlowExecutions":{
+      "name":"CancelFlowExecutions",
+      "http":{
+        "method":"POST",
+        "requestUri":"/cancel-flow-executions"
+      },
+      "input":{"shape":"CancelFlowExecutionsRequest"},
+      "output":{"shape":"CancelFlowExecutionsResponse"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "CreateConnectorProfile":{
       "name":"CreateConnectorProfile",
       "http":{
@@ -43,7 +61,8 @@
         {"shape":"ServiceQuotaExceededException"},
         {"shape":"ConflictException"},
         {"shape":"ConnectorAuthenticationException"},
-        {"shape":"ConnectorServerException"}
+        {"shape":"ConnectorServerException"},
+        {"shape":"AccessDeniedException"}
       ]
     },
     "DeleteConnectorProfile":{
@@ -233,6 +252,21 @@
         {"shape":"ConnectorAuthenticationException"}
       ]
     },
+    "ResetConnectorMetadataCache":{
+      "name":"ResetConnectorMetadataCache",
+      "http":{
+        "method":"POST",
+        "requestUri":"/reset-connector-metadata-cache"
+      },
+      "input":{"shape":"ResetConnectorMetadataCacheRequest"},
+      "output":{"shape":"ResetConnectorMetadataCacheResponse"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "StartFlow":{
       "name":"StartFlow",
       "http":{
@@ -356,7 +390,8 @@
         {"shape":"ConflictException"},
         {"shape":"ConnectorAuthenticationException"},
         {"shape":"ConnectorServerException"},
-        {"shape":"InternalServerException"}
+        {"shape":"InternalServerException"},
+        {"shape":"AccessDeniedException"}
       ]
     }
   },
@@ -489,7 +524,7 @@
     },
     "AuthCode":{
       "type":"string",
-      "max":2048,
+      "max":4096,
       "pattern":"\\S+"
     },
     "AuthCodeUrl":{
@@ -564,6 +599,20 @@
       "max":18,
       "pattern":"\\S+"
     },
+    "CancelFlowExecutionsRequest":{
+      "type":"structure",
+      "required":["flowName"],
+      "members":{
+        "flowName":{"shape":"FlowName"},
+        "executionIds":{"shape":"ExecutionIds"}
+      }
+    },
+    "CancelFlowExecutionsResponse":{
+      "type":"structure",
+      "members":{
+        "invalidExecutions":{"shape":"ExecutionIds"}
+      }
+    },
     "CatalogType":{
       "type":"string",
       "enum":["GLUE"]
@@ -591,6 +640,12 @@
       "max":512,
       "pattern":"\\S+",
       "sensitive":true
+    },
+    "ClientToken":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"[ -~]+"
     },
     "ClusterIdentifier":{
       "type":"string",
@@ -648,7 +703,9 @@
         "connectorProvisioningConfig":{"shape":"ConnectorProvisioningConfig"},
         "logoURL":{"shape":"LogoURL"},
         "registeredAt":{"shape":"Date"},
-        "registeredBy":{"shape":"RegisteredBy"}
+        "registeredBy":{"shape":"RegisteredBy"},
+        "supportedDataTransferTypes":{"shape":"SupportedDataTransferTypeList"},
+        "supportedDataTransferApis":{"shape":"SupportedDataTransferApis"}
       }
     },
     "ConnectorConfigurationsMap":{
@@ -674,7 +731,8 @@
         "registeredAt":{"shape":"Date"},
         "registeredBy":{"shape":"RegisteredBy"},
         "connectorProvisioningType":{"shape":"ConnectorProvisioningType"},
-        "connectorModes":{"shape":"ConnectorModeList"}
+        "connectorModes":{"shape":"ConnectorModeList"},
+        "supportedDataTransferTypes":{"shape":"SupportedDataTransferTypeList"}
       }
     },
     "ConnectorEntity":{
@@ -1002,7 +1060,11 @@
         "connectorType":{"shape":"ConnectorType"},
         "connectorLabel":{"shape":"ConnectorLabel"},
         "connectionMode":{"shape":"ConnectionMode"},
-        "connectorProfileConfig":{"shape":"ConnectorProfileConfig"}
+        "connectorProfileConfig":{"shape":"ConnectorProfileConfig"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "CreateConnectorProfileResponse":{
@@ -1029,7 +1091,11 @@
         "destinationFlowConfigList":{"shape":"DestinationFlowConfigList"},
         "tasks":{"shape":"Tasks"},
         "tags":{"shape":"TagMap"},
-        "metadataCatalogConfig":{"shape":"MetadataCatalogConfig"}
+        "metadataCatalogConfig":{"shape":"MetadataCatalogConfig"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "CreateFlowResponse":{
@@ -1122,7 +1188,8 @@
       "required":["entityName"],
       "members":{
         "entityName":{"shape":"EntityName"},
-        "customProperties":{"shape":"CustomProperties"}
+        "customProperties":{"shape":"CustomProperties"},
+        "dataTransferApi":{"shape":"DataTransferApi"}
       }
     },
     "CustomProperties":{
@@ -1167,6 +1234,26 @@
         "Incremental",
         "Complete"
       ]
+    },
+    "DataTransferApi":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"DataTransferApiTypeName"},
+        "Type":{"shape":"DataTransferApiType"}
+      }
+    },
+    "DataTransferApiType":{
+      "type":"string",
+      "enum":[
+        "SYNC",
+        "ASYNC",
+        "AUTOMATIC"
+      ]
+    },
+    "DataTransferApiTypeName":{
+      "type":"string",
+      "max":64,
+      "pattern":"[\\w/-]+"
     },
     "DatabaseName":{
       "type":"string",
@@ -1540,6 +1627,12 @@
       "max":256,
       "pattern":"\\S+"
     },
+    "ExecutionIds":{
+      "type":"list",
+      "member":{"shape":"ExecutionId"},
+      "max":100,
+      "min":0
+    },
     "ExecutionMessage":{
       "type":"string",
       "max":2048,
@@ -1564,7 +1657,9 @@
         "errorInfo":{"shape":"ErrorInfo"},
         "bytesProcessed":{"shape":"Long"},
         "bytesWritten":{"shape":"Long"},
-        "recordsProcessed":{"shape":"Long"}
+        "recordsProcessed":{"shape":"Long"},
+        "numParallelProcesses":{"shape":"Long"},
+        "maxPageSize":{"shape":"Long"}
       }
     },
     "ExecutionStatus":{
@@ -1572,7 +1667,9 @@
       "enum":[
         "InProgress",
         "Successful",
-        "Error"
+        "Error",
+        "CancelStarted",
+        "Canceled"
       ]
     },
     "FieldType":{"type":"string"},
@@ -1851,6 +1948,12 @@
       "exception":true
     },
     "JavaBoolean":{"type":"boolean"},
+    "JwtToken":{
+      "type":"string",
+      "max":8000,
+      "pattern":"^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_\\-\\+\\/=]*)",
+      "sensitive":true
+    },
     "KMSArn":{
       "type":"string",
       "max":2048,
@@ -2106,7 +2209,8 @@
       "type":"string",
       "enum":[
         "CLIENT_CREDENTIALS",
-        "AUTHORIZATION_CODE"
+        "AUTHORIZATION_CODE",
+        "JWT_BEARER"
       ]
     },
     "OAuth2GrantTypeSupportedList":{
@@ -2457,7 +2561,7 @@
     },
     "RefreshToken":{
       "type":"string",
-      "max":2048,
+      "max":4096,
       "pattern":"\\S+"
     },
     "Region":{
@@ -2475,7 +2579,11 @@
         "connectorLabel":{"shape":"ConnectorLabel"},
         "description":{"shape":"Description"},
         "connectorProvisioningType":{"shape":"ConnectorProvisioningType"},
-        "connectorProvisioningConfig":{"shape":"ConnectorProvisioningConfig"}
+        "connectorProvisioningConfig":{"shape":"ConnectorProvisioningConfig"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "RegisterConnectorResponse":{
@@ -2495,6 +2603,21 @@
         "message":{"shape":"String"},
         "result":{"shape":"String"},
         "status":{"shape":"ExecutionStatus"}
+      }
+    },
+    "ResetConnectorMetadataCacheRequest":{
+      "type":"structure",
+      "members":{
+        "connectorProfileName":{"shape":"ConnectorProfileName"},
+        "connectorType":{"shape":"ConnectorType"},
+        "connectorEntityName":{"shape":"EntityName"},
+        "entitiesPath":{"shape":"EntitiesPath"},
+        "apiVersion":{"shape":"ApiVersion"}
+      }
+    },
+    "ResetConnectorMetadataCacheResponse":{
+      "type":"structure",
+      "members":{
       }
     },
     "ResourceNotFoundException":{
@@ -2631,7 +2754,8 @@
         "clientNumber":{"shape":"ClientNumber"},
         "logonLanguage":{"shape":"LogonLanguage"},
         "privateLinkServiceName":{"shape":"PrivateLinkServiceName"},
-        "oAuthProperties":{"shape":"OAuthProperties"}
+        "oAuthProperties":{"shape":"OAuthProperties"},
+        "disableSSO":{"shape":"Boolean"}
       }
     },
     "SAPODataDestinationProperties":{
@@ -2645,15 +2769,47 @@
         "writeOperationType":{"shape":"WriteOperationType"}
       }
     },
+    "SAPODataMaxPageSize":{
+      "type":"integer",
+      "max":10000,
+      "min":1
+    },
+    "SAPODataMaxParallelism":{
+      "type":"integer",
+      "max":10,
+      "min":1
+    },
     "SAPODataMetadata":{
       "type":"structure",
       "members":{
       }
     },
+    "SAPODataPaginationConfig":{
+      "type":"structure",
+      "required":["maxPageSize"],
+      "members":{
+        "maxPageSize":{
+          "shape":"SAPODataMaxPageSize",
+          "box":true
+        }
+      }
+    },
+    "SAPODataParallelismConfig":{
+      "type":"structure",
+      "required":["maxParallelism"],
+      "members":{
+        "maxParallelism":{
+          "shape":"SAPODataMaxParallelism",
+          "box":true
+        }
+      }
+    },
     "SAPODataSourceProperties":{
       "type":"structure",
       "members":{
-        "objectPath":{"shape":"Object"}
+        "objectPath":{"shape":"Object"},
+        "parallelismConfig":{"shape":"SAPODataParallelismConfig"},
+        "paginationConfig":{"shape":"SAPODataPaginationConfig"}
       }
     },
     "SalesforceConnectorOperator":{
@@ -2688,14 +2844,17 @@
         "accessToken":{"shape":"AccessToken"},
         "refreshToken":{"shape":"RefreshToken"},
         "oAuthRequest":{"shape":"ConnectorOAuthRequest"},
-        "clientCredentialsArn":{"shape":"ClientCredentialsArn"}
+        "clientCredentialsArn":{"shape":"ClientCredentialsArn"},
+        "oAuth2GrantType":{"shape":"OAuth2GrantType"},
+        "jwtToken":{"shape":"JwtToken"}
       }
     },
     "SalesforceConnectorProfileProperties":{
       "type":"structure",
       "members":{
         "instanceUrl":{"shape":"InstanceUrl"},
-        "isSandboxEnvironment":{"shape":"Boolean"}
+        "isSandboxEnvironment":{"shape":"Boolean"},
+        "usePrivateLinkForMetadataAndAuthorization":{"shape":"Boolean"}
       }
     },
     "SalesforceDataTransferApi":{
@@ -2725,7 +2884,8 @@
       "type":"structure",
       "members":{
         "oAuthScopes":{"shape":"OAuthScopeList"},
-        "dataTransferApis":{"shape":"SalesforceDataTransferApiList"}
+        "dataTransferApis":{"shape":"SalesforceDataTransferApiList"},
+        "oauth2GrantTypesSupported":{"shape":"OAuth2GrantTypeSupportedList"}
       }
     },
     "SalesforceSourceProperties":{
@@ -2817,13 +2977,10 @@
     },
     "ServiceNowConnectorProfileCredentials":{
       "type":"structure",
-      "required":[
-        "username",
-        "password"
-      ],
       "members":{
         "username":{"shape":"Username"},
-        "password":{"shape":"Password"}
+        "password":{"shape":"Password"},
+        "oAuth2Credentials":{"shape":"OAuth2Credentials"}
       }
     },
     "ServiceNowConnectorProfileProperties":{
@@ -3057,7 +3214,11 @@
       "type":"structure",
       "required":["flowName"],
       "members":{
-        "flowName":{"shape":"FlowName"}
+        "flowName":{"shape":"FlowName"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "StartFlowResponse":{
@@ -3102,6 +3263,21 @@
     "SupportedApiVersionList":{
       "type":"list",
       "member":{"shape":"SupportedApiVersion"}
+    },
+    "SupportedDataTransferApis":{
+      "type":"list",
+      "member":{"shape":"DataTransferApi"}
+    },
+    "SupportedDataTransferType":{
+      "type":"string",
+      "enum":[
+        "RECORD",
+        "FILE"
+      ]
+    },
+    "SupportedDataTransferTypeList":{
+      "type":"list",
+      "member":{"shape":"SupportedDataTransferType"}
     },
     "SupportedFieldTypeDetails":{
       "type":"structure",
@@ -3357,7 +3533,11 @@
       "members":{
         "connectorProfileName":{"shape":"ConnectorProfileName"},
         "connectionMode":{"shape":"ConnectionMode"},
-        "connectorProfileConfig":{"shape":"ConnectorProfileConfig"}
+        "connectorProfileConfig":{"shape":"ConnectorProfileConfig"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "UpdateConnectorProfileResponse":{
@@ -3372,7 +3552,11 @@
       "members":{
         "connectorLabel":{"shape":"ConnectorLabel"},
         "description":{"shape":"Description"},
-        "connectorProvisioningConfig":{"shape":"ConnectorProvisioningConfig"}
+        "connectorProvisioningConfig":{"shape":"ConnectorProvisioningConfig"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "UpdateConnectorRegistrationResponse":{
@@ -3397,7 +3581,11 @@
         "sourceFlowConfig":{"shape":"SourceFlowConfig"},
         "destinationFlowConfigList":{"shape":"DestinationFlowConfigList"},
         "tasks":{"shape":"Tasks"},
-        "metadataCatalogConfig":{"shape":"MetadataCatalogConfig"}
+        "metadataCatalogConfig":{"shape":"MetadataCatalogConfig"},
+        "clientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        }
       }
     },
     "UpdateFlowResponse":{

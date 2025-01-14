@@ -199,6 +199,35 @@ module Aws::DocDB
       include Aws::Structure
     end
 
+    # Returns the details of the DB instance’s server certificate.
+    #
+    # For more information, see [Updating Your Amazon DocumentDB TLS
+    # Certificates][1] and [ Encrypting Data in Transit][2] in the *Amazon
+    # DocumentDB Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html
+    # [2]: https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html
+    #
+    # @!attribute [rw] ca_identifier
+    #   The CA identifier of the CA certificate used for the DB instance's
+    #   server certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] valid_till
+    #   The expiration date of the DB instance’s server certificate.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/CertificateDetails AWS API Documentation
+    #
+    class CertificateDetails < Struct.new(
+      :ca_identifier,
+      :valid_till)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] certificates
     #   A list of certificates for this Amazon Web Services account.
     #   @return [Array<Types::Certificate>]
@@ -246,6 +275,51 @@ module Aws::DocDB
     class CloudwatchLogsExportConfiguration < Struct.new(
       :enable_log_types,
       :disable_log_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the secret managed by Amazon DocumentDB in Amazon Web
+    # Services Secrets Manager for the master user password.
+    #
+    # @!attribute [rw] secret_arn
+    #   The Amazon Resource Name (ARN) of the secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret_status
+    #   The status of the secret.
+    #
+    #   The possible status values include the following:
+    #
+    #   * creating - The secret is being created.
+    #
+    #   * active - The secret is available for normal use and rotation.
+    #
+    #   * rotating - The secret is being rotated.
+    #
+    #   * impaired - The secret can be used to access database credentials,
+    #     but it can't be rotated. A secret might have this status if, for
+    #     example, permissions are changed so that Amazon DocumentDB can no
+    #     longer access either the secret or the KMS key for the secret.
+    #
+    #     When a secret has this status, you can correct the condition that
+    #     caused the status. Alternatively, modify the instance to turn off
+    #     automatic management of database credentials, and then modify the
+    #     instance again to turn on automatic management of database
+    #     credentials.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The Amazon Web Services KMS key identifier that is used to encrypt
+    #   the secret.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/ClusterMasterUserSecret AWS API Documentation
+    #
+    class ClusterMasterUserSecret < Struct.new(
+      :secret_arn,
+      :secret_status,
+      :kms_key_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -599,7 +673,7 @@ module Aws::DocDB
     #   to encrypt the new cluster, you can use the KMS key alias instead of
     #   the ARN for the KMS encryption key.
     #
-    #   If an encryption key is not specified in `KmsKeyId`\:
+    #   If an encryption key is not specified in `KmsKeyId`:
     #
     #   * If the `StorageEncrypted` parameter is `true`, Amazon DocumentDB
     #     uses your default encryption key.
@@ -639,6 +713,55 @@ module Aws::DocDB
     #   The cluster identifier of the new global cluster.
     #   @return [String]
     #
+    # @!attribute [rw] storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #
+    #   <note markdown="1"> When you create a DocumentDB DB cluster with the storage type set to
+    #   `iopt1`, the storage type is returned in the response. The storage
+    #   type isn't returned when you set it to `standard`.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] manage_master_user_password
+    #   Specifies whether to manage the master user password with Amazon Web
+    #   Services Secrets Manager.
+    #
+    #   Constraint: You can't manage the master user password with Amazon
+    #   Web Services Secrets Manager if `MasterUserPassword` is specified.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] master_user_secret_kms_key_id
+    #   The Amazon Web Services KMS key identifier to encrypt a secret that
+    #   is automatically generated and managed in Amazon Web Services
+    #   Secrets Manager. This setting is valid only if the master user
+    #   password is managed by Amazon DocumentDB in Amazon Web Services
+    #   Secrets Manager for the DB cluster.
+    #
+    #   The Amazon Web Services KMS key identifier is the key ARN, key ID,
+    #   alias ARN, or alias name for the KMS key. To use a KMS key in a
+    #   different Amazon Web Services account, specify the key ARN or alias
+    #   ARN.
+    #
+    #   If you don't specify `MasterUserSecretKmsKeyId`, then the
+    #   `aws/secretsmanager` KMS key is used to encrypt the secret. If the
+    #   secret is in a different Amazon Web Services account, then you
+    #   can't use the `aws/secretsmanager` KMS key to encrypt the secret,
+    #   and you must use a customer managed KMS key.
+    #
+    #   There is a default KMS key for your Amazon Web Services account.
+    #   Your Amazon Web Services account has a different default KMS key for
+    #   each Amazon Web Services Region.
+    #   @return [String]
+    #
     # @!attribute [rw] source_region
     #   The source region of the snapshot. This is only needed when the
     #   shapshot is encrypted and in a different region.
@@ -667,6 +790,9 @@ module Aws::DocDB
       :enable_cloudwatch_logs_exports,
       :deletion_protection,
       :global_cluster_identifier,
+      :storage_type,
+      :manage_master_user_password,
+      :master_user_secret_kms_key_id,
       :source_region)
       SENSITIVE = []
       include Aws::Structure
@@ -898,6 +1024,20 @@ module Aws::DocDB
     #   region.
     #   @return [String]
     #
+    # @!attribute [rw] ca_certificate_identifier
+    #   The CA certificate identifier to use for the DB instance's server
+    #   certificate.
+    #
+    #   For more information, see [Updating Your Amazon DocumentDB TLS
+    #   Certificates][1] and [ Encrypting Data in Transit][2] in the *Amazon
+    #   DocumentDB Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html
+    #   [2]: https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/CreateDBInstanceMessage AWS API Documentation
     #
     class CreateDBInstanceMessage < Struct.new(
@@ -912,7 +1052,8 @@ module Aws::DocDB
       :copy_tags_to_snapshot,
       :promotion_tier,
       :enable_performance_insights,
-      :performance_insights_kms_key_id)
+      :performance_insights_kms_key_id,
+      :ca_certificate_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1296,6 +1437,25 @@ module Aws::DocDB
     #   deleted.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_type
+    #   Storage type associated with your cluster
+    #
+    #   Storage type associated with your cluster
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #   @return [String]
+    #
+    # @!attribute [rw] master_user_secret
+    #   The secret managed by Amazon DocumentDB in Amazon Web Services
+    #   Secrets Manager for the master user password.
+    #   @return [Types::ClusterMasterUserSecret]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DBCluster AWS API Documentation
     #
     class DBCluster < Struct.new(
@@ -1330,7 +1490,9 @@ module Aws::DocDB
       :clone_group_id,
       :cluster_create_time,
       :enabled_cloudwatch_logs_exports,
-      :deletion_protection)
+      :deletion_protection,
+      :storage_type,
+      :master_user_secret)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1625,6 +1787,18 @@ module Aws::DocDB
     #   the ARN for the source cluster snapshot; otherwise, a null value.
     #   @return [String]
     #
+    # @!attribute [rw] storage_type
+    #   Storage type associated with your cluster snapshot
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DBClusterSnapshot AWS API Documentation
     #
     class DBClusterSnapshot < Struct.new(
@@ -1644,7 +1818,8 @@ module Aws::DocDB
       :storage_encrypted,
       :kms_key_id,
       :db_cluster_snapshot_arn,
-      :source_db_cluster_snapshot_arn)
+      :source_db_cluster_snapshot_arn,
+      :storage_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1773,6 +1948,24 @@ module Aws::DocDB
     #   the log types specified by `ExportableLogTypes` to CloudWatch Logs.
     #   @return [Boolean]
     #
+    # @!attribute [rw] supported_ca_certificate_identifiers
+    #   A list of the supported CA certificate identifiers.
+    #
+    #   For more information, see [Updating Your Amazon DocumentDB TLS
+    #   Certificates][1] and [ Encrypting Data in Transit][2] in the *Amazon
+    #   DocumentDB Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html
+    #   [2]: https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] supports_certificate_rotation_without_restart
+    #   Indicates whether the engine version supports rotating the server
+    #   certificate without rebooting the DB instance.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DBEngineVersion AWS API Documentation
     #
     class DBEngineVersion < Struct.new(
@@ -1783,7 +1976,9 @@ module Aws::DocDB
       :db_engine_version_description,
       :valid_upgrade_target,
       :exportable_log_types,
-      :supports_log_exports_to_cloudwatch_logs)
+      :supports_log_exports_to_cloudwatch_logs,
+      :supported_ca_certificate_identifiers,
+      :supports_certificate_rotation_without_restart)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1945,6 +2140,21 @@ module Aws::DocDB
     #   CloudWatch Logs.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] certificate_details
+    #   The details of the DB instance's server certificate.
+    #   @return [Types::CertificateDetails]
+    #
+    # @!attribute [rw] performance_insights_enabled
+    #   Set to `true` if Amazon RDS Performance Insights is enabled for the
+    #   DB instance, and otherwise `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] performance_insights_kms_key_id
+    #   The KMS key identifier for encryption of Performance Insights data.
+    #   The KMS key ID is the Amazon Resource Name (ARN), KMS key
+    #   identifier, or the KMS key alias for the KMS encryption key.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DBInstance AWS API Documentation
     #
     class DBInstance < Struct.new(
@@ -1974,7 +2184,10 @@ module Aws::DocDB
       :copy_tags_to_snapshot,
       :promotion_tier,
       :db_instance_arn,
-      :enabled_cloudwatch_logs_exports)
+      :enabled_cloudwatch_logs_exports,
+      :certificate_details,
+      :performance_insights_enabled,
+      :performance_insights_kms_key_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3567,6 +3780,83 @@ module Aws::DocDB
       include Aws::Structure
     end
 
+    # @!attribute [rw] global_cluster_identifier
+    #   The identifier of the Amazon DocumentDB global cluster to apply this
+    #   operation. The identifier is the unique key assigned by the user
+    #   when the cluster is created. In other words, it's the name of the
+    #   global cluster.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing global cluster.
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #   @return [String]
+    #
+    # @!attribute [rw] target_db_cluster_identifier
+    #   The identifier of the secondary Amazon DocumentDB cluster that you
+    #   want to promote to the primary for the global cluster. Use the
+    #   Amazon Resource Name (ARN) for the identifier so that Amazon
+    #   DocumentDB can locate the cluster in its Amazon Web Services region.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing secondary cluster.
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #   @return [String]
+    #
+    # @!attribute [rw] allow_data_loss
+    #   Specifies whether to allow data loss for this global cluster
+    #   operation. Allowing data loss triggers a global failover operation.
+    #
+    #   If you don't specify `AllowDataLoss`, the global cluster operation
+    #   defaults to a switchover.
+    #
+    #   Constraints:
+    #
+    #   * Can't be specified together with the `Switchover` parameter.
+    #
+    #   ^
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] switchover
+    #   Specifies whether to switch over this global database cluster.
+    #
+    #   Constraints:
+    #
+    #   * Can't be specified together with the `AllowDataLoss` parameter.
+    #
+    #   ^
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/FailoverGlobalClusterMessage AWS API Documentation
+    #
+    class FailoverGlobalClusterMessage < Struct.new(
+      :global_cluster_identifier,
+      :target_db_cluster_identifier,
+      :allow_data_loss,
+      :switchover)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] global_cluster
+    #   A data type representing an Amazon DocumentDB global cluster.
+    #   @return [Types::GlobalCluster]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/FailoverGlobalClusterResult AWS API Documentation
+    #
+    class FailoverGlobalClusterResult < Struct.new(
+      :global_cluster)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A named set of filter values, used to return a more specific list of
     # results. You can use a filter to match a set of resources by specific
     # criteria, such as IDs.
@@ -3599,9 +3889,9 @@ module Aws::DocDB
     #
     # @!attribute [rw] global_cluster_resource_id
     #   The Amazon Web Services Region-unique, immutable identifier for the
-    #   global database cluster. This identifier is found in AWS CloudTrail
-    #   log entries whenever the AWS KMS customer master key (CMK) for the
-    #   cluster is accessed.
+    #   global database cluster. This identifier is found in CloudTrail log
+    #   entries whenever the KMS customer master key (CMK) for the cluster
+    #   is accessed.
     #   @return [String]
     #
     # @!attribute [rw] global_cluster_arn
@@ -3983,9 +4273,24 @@ module Aws::DocDB
     #
     # @!attribute [rw] engine_version
     #   The version number of the database engine to which you want to
-    #   upgrade. Modifying engine version is not supported on Amazon
-    #   DocumentDB.
+    #   upgrade. Changing this parameter results in an outage. The change is
+    #   applied during the next maintenance window unless `ApplyImmediately`
+    #   is enabled.
+    #
+    #   To list all of the available engine versions for Amazon DocumentDB
+    #   use the following command:
+    #
+    #   `aws docdb describe-db-engine-versions --engine docdb --query
+    #   "DBEngineVersions[].EngineVersion"`
     #   @return [String]
+    #
+    # @!attribute [rw] allow_major_version_upgrade
+    #   A value that indicates whether major version upgrades are allowed.
+    #
+    #   Constraints: You must allow major version upgrades when specifying a
+    #   value for the `EngineVersion` parameter that is a different major
+    #   version than the DB cluster's current version.
+    #   @return [Boolean]
     #
     # @!attribute [rw] deletion_protection
     #   Specifies whether this cluster can be deleted. If
@@ -3993,6 +4298,76 @@ module Aws::DocDB
     #   unless it is modified and `DeletionProtection` is disabled.
     #   `DeletionProtection` protects clusters from being accidentally
     #   deleted.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #   @return [String]
+    #
+    # @!attribute [rw] manage_master_user_password
+    #   Specifies whether to manage the master user password with Amazon Web
+    #   Services Secrets Manager. If the cluster doesn't manage the master
+    #   user password with Amazon Web Services Secrets Manager, you can turn
+    #   on this management. In this case, you can't specify
+    #   `MasterUserPassword`. If the cluster already manages the master user
+    #   password with Amazon Web Services Secrets Manager, and you specify
+    #   that the master user password is not managed with Amazon Web
+    #   Services Secrets Manager, then you must specify
+    #   `MasterUserPassword`. In this case, Amazon DocumentDB deletes the
+    #   secret and uses the new password for the master user specified by
+    #   `MasterUserPassword`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] master_user_secret_kms_key_id
+    #   The Amazon Web Services KMS key identifier to encrypt a secret that
+    #   is automatically generated and managed in Amazon Web Services
+    #   Secrets Manager.
+    #
+    #   This setting is valid only if both of the following conditions are
+    #   met:
+    #
+    #   * The cluster doesn't manage the master user password in Amazon Web
+    #     Services Secrets Manager. If the cluster already manages the
+    #     master user password in Amazon Web Services Secrets Manager, you
+    #     can't change the KMS key that is used to encrypt the secret.
+    #
+    #   * You are enabling `ManageMasterUserPassword` to manage the master
+    #     user password in Amazon Web Services Secrets Manager. If you are
+    #     turning on `ManageMasterUserPassword` and don't specify
+    #     `MasterUserSecretKmsKeyId`, then the `aws/secretsmanager` KMS key
+    #     is used to encrypt the secret. If the secret is in a different
+    #     Amazon Web Services account, then you can't use the
+    #     `aws/secretsmanager` KMS key to encrypt the secret, and you must
+    #     use a customer managed KMS key.
+    #
+    #   The Amazon Web Services KMS key identifier is the key ARN, key ID,
+    #   alias ARN, or alias name for the KMS key. To use a KMS key in a
+    #   different Amazon Web Services account, specify the key ARN or alias
+    #   ARN.
+    #
+    #   There is a default KMS key for your Amazon Web Services account.
+    #   Your Amazon Web Services account has a different default KMS key for
+    #   each Amazon Web Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] rotate_master_user_password
+    #   Specifies whether to rotate the secret managed by Amazon Web
+    #   Services Secrets Manager for the master user password.
+    #
+    #   This setting is valid only if the master user password is managed by
+    #   Amazon DocumentDB in Amazon Web Services Secrets Manager for the
+    #   cluster. The secret value contains the updated password.
+    #
+    #   Constraint: You must apply the change immediately when rotating the
+    #   master user password.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/ModifyDBClusterMessage AWS API Documentation
@@ -4010,7 +4385,12 @@ module Aws::DocDB
       :preferred_maintenance_window,
       :cloudwatch_logs_export_configuration,
       :engine_version,
-      :deletion_protection)
+      :allow_major_version_upgrade,
+      :deletion_protection,
+      :storage_type,
+      :manage_master_user_password,
+      :master_user_secret_kms_key_id,
+      :rotate_master_user_password)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4237,6 +4617,28 @@ module Aws::DocDB
     #   region.
     #   @return [String]
     #
+    # @!attribute [rw] certificate_rotation_restart
+    #   Specifies whether the DB instance is restarted when you rotate your
+    #   SSL/TLS certificate.
+    #
+    #   By default, the DB instance is restarted when you rotate your
+    #   SSL/TLS certificate. The certificate is not updated until the DB
+    #   instance is restarted.
+    #
+    #   Set this parameter only if you are *not* using SSL/TLS to connect to
+    #   the DB instance.
+    #
+    #   If you are using SSL/TLS to connect to the DB instance, see
+    #   [Updating Your Amazon DocumentDB TLS Certificates][1] and [
+    #   Encrypting Data in Transit][2] in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html
+    #   [2]: https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/ModifyDBInstanceMessage AWS API Documentation
     #
     class ModifyDBInstanceMessage < Struct.new(
@@ -4250,7 +4652,8 @@ module Aws::DocDB
       :copy_tags_to_snapshot,
       :promotion_tier,
       :enable_performance_insights,
-      :performance_insights_kms_key_id)
+      :performance_insights_kms_key_id,
+      :certificate_rotation_restart)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4444,6 +4847,10 @@ module Aws::DocDB
     #   Indicates whether an instance is in a virtual private cloud (VPC).
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_type
+    #   The storage type to associate with the DB cluster
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/OrderableDBInstanceOption AWS API Documentation
     #
     class OrderableDBInstanceOption < Struct.new(
@@ -4452,7 +4859,8 @@ module Aws::DocDB
       :db_instance_class,
       :license_model,
       :availability_zones,
-      :vpc)
+      :vpc,
+      :storage_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5016,6 +5424,31 @@ module Aws::DocDB
     #   deleted.
     #   @return [Boolean]
     #
+    # @!attribute [rw] db_cluster_parameter_group_name
+    #   The name of the DB cluster parameter group to associate with this DB
+    #   cluster.
+    #
+    #   *Type:* String.       *Required:* No.
+    #
+    #   If this argument is omitted, the default DB cluster parameter group
+    #   is used. If supplied, must match the name of an existing default DB
+    #   cluster parameter group. The string must consist of from 1 to 255
+    #   letters, numbers or hyphens. Its first character must be a letter,
+    #   and it cannot end with a hyphen or contain two consecutive hyphens.
+    #   @return [String]
+    #
+    # @!attribute [rw] storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/RestoreDBClusterFromSnapshotMessage AWS API Documentation
     #
     class RestoreDBClusterFromSnapshotMessage < Struct.new(
@@ -5030,7 +5463,9 @@ module Aws::DocDB
       :tags,
       :kms_key_id,
       :enable_cloudwatch_logs_exports,
-      :deletion_protection)
+      :deletion_protection,
+      :db_cluster_parameter_group_name,
+      :storage_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5070,6 +5505,9 @@ module Aws::DocDB
     #
     #   * `copy-on-write` - The new DB cluster is restored as a clone of the
     #     source DB cluster.
+    #
+    #   Constraints: You can't specify `copy-on-write` if the engine
+    #   version of the source DB cluster is earlier than 1.11.
     #
     #   If you don't specify a `RestoreType` value, then the new DB cluster
     #   is restored as a full copy of the source DB cluster.
@@ -5183,6 +5621,18 @@ module Aws::DocDB
     #   deleted.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/RestoreDBClusterToPointInTimeMessage AWS API Documentation
     #
     class RestoreDBClusterToPointInTimeMessage < Struct.new(
@@ -5197,7 +5647,8 @@ module Aws::DocDB
       :tags,
       :kms_key_id,
       :enable_cloudwatch_logs_exports,
-      :deletion_protection)
+      :deletion_protection,
+      :storage_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5365,6 +5816,58 @@ module Aws::DocDB
     #
     class SubscriptionNotFoundFault < Aws::EmptyStructure; end
 
+    # @!attribute [rw] global_cluster_identifier
+    #   The identifier of the Amazon DocumentDB global database cluster to
+    #   switch over. The identifier is the unique key assigned by the user
+    #   when the cluster is created. In other words, it's the name of the
+    #   global cluster. This parameter isn’t case-sensitive.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing global cluster (Amazon
+    #     DocumentDB global database).
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #   @return [String]
+    #
+    # @!attribute [rw] target_db_cluster_identifier
+    #   The identifier of the secondary Amazon DocumentDB cluster to promote
+    #   to the new primary for the global database cluster. Use the Amazon
+    #   Resource Name (ARN) for the identifier so that Amazon DocumentDB can
+    #   locate the cluster in its Amazon Web Services region.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing secondary cluster.
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/SwitchoverGlobalClusterMessage AWS API Documentation
+    #
+    class SwitchoverGlobalClusterMessage < Struct.new(
+      :global_cluster_identifier,
+      :target_db_cluster_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] global_cluster
+    #   A data type representing an Amazon DocumentDB global cluster.
+    #   @return [Types::GlobalCluster]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/SwitchoverGlobalClusterResult AWS API Documentation
+    #
+    class SwitchoverGlobalClusterResult < Struct.new(
+      :global_cluster)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Metadata assigned to an Amazon DocumentDB resource consisting of a
     # key-value pair.
     #
@@ -5374,7 +5877,7 @@ module Aws::DocDB
     #   or "`rds:`". The string can contain only the set of Unicode
     #   letters, digits, white space, '\_', '.', '/', '=', '+',
     #   '-' (Java regex:
-    #   "^(\[\\\\p\\\{L\\}\\\\p\\\{Z\\}\\\\p\\\{N\\}\_.:/=+\\\\-\]*)$").
+    #   "^(\[\\\\p\{L}\\\\p\{Z}\\\\p\{N}\_.:/=+\\\\-\]*)$").
     #   @return [String]
     #
     # @!attribute [rw] value
@@ -5383,7 +5886,7 @@ module Aws::DocDB
     #   or "`rds:`". The string can contain only the set of Unicode
     #   letters, digits, white space, '\_', '.', '/', '=', '+',
     #   '-' (Java regex:
-    #   "^(\[\\\\p\\\{L\\}\\\\p\\\{Z\\}\\\\p\\\{N\\}\_.:/=+\\\\-\]*)$").
+    #   "^(\[\\\\p\{L}\\\\p\{Z}\\\\p\{N}\_.:/=+\\\\-\]*)$").
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/Tag AWS API Documentation
@@ -5470,3 +5973,4 @@ module Aws::DocDB
 
   end
 end
+

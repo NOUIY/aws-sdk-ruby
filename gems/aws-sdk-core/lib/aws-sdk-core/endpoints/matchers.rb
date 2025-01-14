@@ -28,7 +28,11 @@ module Aws
 
         val = if (index = parts.first[BRACKET_REGEX, 1])
                 # remove brackets and index from part before indexing
-                value[parts.first.gsub(BRACKET_REGEX, '')][index.to_i]
+                if (base = parts.first.gsub(BRACKET_REGEX, '')) && !base.empty?
+                  value[base][index.to_i]
+                else
+                  value[index.to_i]
+                end
               else
                 value[parts.first]
               end
@@ -79,25 +83,18 @@ module Aws
         return false if value.empty?
 
         if allow_sub_domains
-          labels = value.split('.')
+          labels = value.split('.', -1)
           return labels.all? { |l| valid_host_label?(l) }
         end
 
-        value =~ /\A(?!-)[a-zA-Z0-9-]{1,63}(?<!-)\z/
+        !!(value =~ /\A(?!-)[a-zA-Z0-9-]{1,63}(?<!-)\z/)
       end
 
       # AWS
 
       # aws.partition(value: string) Option<Partition>
       def self.aws_partition(value)
-        partition =
-          Aws::Partitions.find { |p| p.region?(value) } ||
-          Aws::Partitions.find { |p| value.match(p.region_regex) } ||
-          Aws::Partitions.find { |p| p.name == 'aws' }
-
-        return nil unless partition
-
-        partition.metadata
+        Aws::Partitions::Metadata.partition(value)
       end
 
       # aws.parseArn(value: string) Option<ARN>
@@ -114,13 +111,17 @@ module Aws
 
       # aws.isVirtualHostableS3Bucket(value: string, allowSubDomains: bool) bool
       def self.aws_virtual_hostable_s3_bucket?(value, allow_sub_domains = false)
-        !!(value.size < 64 &&
-          # regular naming rules
-          value =~ /^[a-z0-9][a-z0-9\-#{'.' if allow_sub_domains}]+[a-z0-9]$/ &&
-          # not IP address
-          value !~ /(\d+\.){3}\d+/ &&
-          # no dash and hyphen together
-          value !~ /[.-]{2}/)
+        return false if value.empty?
+
+        if allow_sub_domains
+          labels = value.split('.', -1)
+          return labels.all? { |l| aws_virtual_hostable_s3_bucket?(l) }
+        end
+
+        # must be between 3 and 63 characters long, no uppercase
+        value =~ /\A(?!-)[a-z0-9-]{3,63}(?<!-)\z/ &&
+          # not an IP address
+          value !~ /(\d+\.){3}\d+/
       end
     end
   end

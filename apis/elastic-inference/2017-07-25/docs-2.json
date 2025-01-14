@@ -1,13 +1,13 @@
 {
   "version": "2.0",
-  "service": "<p> Elastic Inference public APIs. </p>",
+  "service": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Elastic Inference public APIs. </p>",
   "operations": {
-    "DescribeAcceleratorOfferings": "<p> Describes the locations in which a given accelerator type or set of types is present in a given region. </p>",
-    "DescribeAcceleratorTypes": "<p> Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. </p>",
-    "DescribeAccelerators": "<p> Describes information over a provided set of accelerators belonging to an account. </p>",
-    "ListTagsForResource": "<p> Returns all tags of an Elastic Inference Accelerator. </p>",
-    "TagResource": "<p> Adds the specified tags to an Elastic Inference Accelerator. </p>",
-    "UntagResource": "<p> Removes the specified tags from an Elastic Inference Accelerator. </p>"
+    "DescribeAcceleratorOfferings": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Describes the locations in which a given accelerator type or set of types is present in a given region. </p>",
+    "DescribeAcceleratorTypes": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. </p>",
+    "DescribeAccelerators": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Describes information over a provided set of accelerators belonging to an account. </p>",
+    "ListTagsForResource": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Returns all tags of an Elastic Inference Accelerator. </p>",
+    "TagResource": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Adds the specified tags to an Elastic Inference Accelerator. </p>",
+    "UntagResource": "<note> <p>Amazon Elastic Inference is no longer available.</p> </note> <p> Removes the specified tags from an Elastic Inference Accelerator. </p>"
   },
   "shapes": {
     "AcceleratorHealthStatus": {

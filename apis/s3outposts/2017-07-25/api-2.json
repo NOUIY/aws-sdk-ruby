@@ -5,12 +5,14 @@
     "endpointPrefix":"s3-outposts",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"Amazon S3 Outposts",
     "serviceFullName":"Amazon S3 on Outposts",
     "serviceId":"S3Outposts",
     "signatureVersion":"v4",
     "signingName":"s3-outposts",
-    "uid":"s3outposts-2017-07-25"
+    "uid":"s3outposts-2017-07-25",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CreateEndpoint":{
@@ -26,7 +28,9 @@
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"},
         {"shape":"ResourceNotFoundException"},
-        {"shape":"ConflictException"}
+        {"shape":"ConflictException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"OutpostOfflineException"}
       ]
     },
     "DeleteEndpoint":{
@@ -40,7 +44,9 @@
         {"shape":"InternalServerException"},
         {"shape":"AccessDeniedException"},
         {"shape":"ResourceNotFoundException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"OutpostOfflineException"}
       ]
     },
     "ListEndpoints":{
@@ -55,7 +61,23 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"AccessDeniedException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"}
+      ]
+    },
+    "ListOutpostsWithS3":{
+      "name":"ListOutpostsWithS3",
+      "http":{
+        "method":"GET",
+        "requestUri":"/S3Outposts/ListOutpostsWithS3"
+      },
+      "input":{"shape":"ListOutpostsWithS3Request"},
+      "output":{"shape":"ListOutpostsWithS3Result"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "ListSharedEndpoints":{
@@ -70,7 +92,8 @@
         {"shape":"InternalServerException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"AccessDeniedException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"}
       ]
     }
   },
@@ -83,6 +106,11 @@
       "error":{"httpStatusCode":403},
       "exception":true
     },
+    "AwsAccountId":{
+      "type":"string",
+      "pattern":"^\\d{12}$"
+    },
+    "CapacityInBytes":{"type":"long"},
     "CidrBlock":{"type":"string"},
     "ConflictException":{
       "type":"structure",
@@ -150,7 +178,8 @@
         "SubnetId":{"shape":"SubnetId"},
         "SecurityGroupId":{"shape":"SecurityGroupId"},
         "AccessType":{"shape":"EndpointAccessType"},
-        "CustomerOwnedIpv4Pool":{"shape":"CustomerOwnedIpv4Pool"}
+        "CustomerOwnedIpv4Pool":{"shape":"CustomerOwnedIpv4Pool"},
+        "FailedReason":{"shape":"FailedReason"}
       }
     },
     "EndpointAccessType":{
@@ -173,14 +202,24 @@
       "enum":[
         "Pending",
         "Available",
-        "Deleting"
+        "Deleting",
+        "Create_Failed",
+        "Delete_Failed"
       ]
     },
     "Endpoints":{
       "type":"list",
       "member":{"shape":"Endpoint"}
     },
+    "ErrorCode":{"type":"string"},
     "ErrorMessage":{"type":"string"},
+    "FailedReason":{
+      "type":"structure",
+      "members":{
+        "ErrorCode":{"shape":"ErrorCode"},
+        "Message":{"shape":"Message"}
+      }
+    },
     "InternalServerException":{
       "type":"structure",
       "members":{
@@ -209,6 +248,28 @@
       "type":"structure",
       "members":{
         "Endpoints":{"shape":"Endpoints"},
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListOutpostsWithS3Request":{
+      "type":"structure",
+      "members":{
+        "NextToken":{
+          "shape":"NextToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "MaxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListOutpostsWithS3Result":{
+      "type":"structure",
+      "members":{
+        "Outposts":{"shape":"Outposts"},
         "NextToken":{"shape":"NextToken"}
       }
     },
@@ -245,6 +306,7 @@
       "max":100,
       "min":0
     },
+    "Message":{"type":"string"},
     "NetworkInterface":{
       "type":"structure",
       "members":{
@@ -262,9 +324,35 @@
       "min":1,
       "pattern":"^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$"
     },
+    "Outpost":{
+      "type":"structure",
+      "members":{
+        "OutpostArn":{"shape":"OutpostArn"},
+        "S3OutpostArn":{"shape":"S3OutpostArn"},
+        "OutpostId":{"shape":"OutpostId"},
+        "OwnerId":{"shape":"AwsAccountId"},
+        "CapacityInBytes":{"shape":"CapacityInBytes"}
+      }
+    },
+    "OutpostArn":{
+      "type":"string",
+      "pattern":"^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):outposts:[a-z\\-0-9]*:[0-9]{12}:outpost/(op-[a-f0-9]{17}|ec2)$"
+    },
     "OutpostId":{
       "type":"string",
       "pattern":"^(op-[a-f0-9]{17}|\\d{12}|ec2)$"
+    },
+    "OutpostOfflineException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"}
+      },
+      "error":{"httpStatusCode":400},
+      "exception":true
+    },
+    "Outposts":{
+      "type":"list",
+      "member":{"shape":"Outpost"}
     },
     "ResourceNotFoundException":{
       "type":"structure",
@@ -274,6 +362,10 @@
       "error":{"httpStatusCode":404},
       "exception":true
     },
+    "S3OutpostArn":{
+      "type":"string",
+      "pattern":"^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3-outposts:[a-z\\-0-9]*:[0-9]{12}:outpost/(op-[a-f0-9]{17}|\\d{12})/s3$"
+    },
     "SecurityGroupId":{
       "type":"string",
       "pattern":"^sg-([0-9a-f]{8}|[0-9a-f]{17})$"
@@ -281,6 +373,14 @@
     "SubnetId":{
       "type":"string",
       "pattern":"^subnet-([0-9a-f]{8}|[0-9a-f]{17})$"
+    },
+    "ThrottlingException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"}
+      },
+      "error":{"httpStatusCode":429},
+      "exception":true
     },
     "ValidationException":{
       "type":"structure",

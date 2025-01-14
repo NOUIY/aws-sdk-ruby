@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::MarketplaceCommerceAnalytics
   # @api private
   module ClientApi
@@ -70,9 +71,11 @@ module Aws::MarketplaceCommerceAnalytics
 
       api.metadata = {
         "apiVersion" => "2015-07-01",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "marketplacecommerceanalytics",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWS Marketplace Commerce Analytics",
         "serviceId" => "Marketplace Commerce Analytics",
         "signatureVersion" => "v4",
@@ -94,6 +97,7 @@ module Aws::MarketplaceCommerceAnalytics
         o.name = "StartSupportDataExport"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: StartSupportDataExportRequest)
         o.output = Shapes::ShapeRef.new(shape: StartSupportDataExportResult)
         o.errors << Shapes::ShapeRef.new(shape: MarketplaceCommerceAnalyticsException)

@@ -59,6 +59,28 @@ module Aws::ConnectParticipant
       include Aws::Structure
     end
 
+    # @!attribute [rw] session_id
+    #   The `sessionId` provided in the `authenticationInitiated` event.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_token
+    #   The authentication token associated with the participant's
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/CancelParticipantAuthenticationRequest AWS API Documentation
+    #
+    class CancelParticipantAuthenticationRequest < Struct.new(
+      :session_id,
+      :connection_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/CancelParticipantAuthenticationResponse AWS API Documentation
+    #
+    class CancelParticipantAuthenticationResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] attachment_ids
     #   A list of unique identifiers for the attachments.
     #   @return [Array<String>]
@@ -96,7 +118,8 @@ module Aws::ConnectParticipant
     #
     class CompleteAttachmentUploadResponse < Aws::EmptyStructure; end
 
-    # An attachment with that identifier is already being uploaded.
+    # The requested operation conflicts with the current state of a service
+    # resource associated with the request.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -132,8 +155,9 @@ module Aws::ConnectParticipant
     end
 
     # @!attribute [rw] type
-    #   Type of connection information required. This can be omitted if
-    #   `ConnectParticipant` is `true`.
+    #   Type of connection information required. If you need
+    #   `CONNECTION_CREDENTIALS` along with marking participant as
+    #   connected, pass `CONNECTION_CREDENTIALS` in `Type`.
     #   @return [Array<String>]
     #
     # @!attribute [rw] participant_token
@@ -149,7 +173,8 @@ module Aws::ConnectParticipant
     #
     # @!attribute [rw] connect_participant
     #   Amazon Connect Participant is used to mark the participant as
-    #   connected for message streaming.
+    #   connected for customer participant in message streaming, as well as
+    #   for agent or manager participant in non-streaming chats.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/CreateParticipantConnectionRequest AWS API Documentation
@@ -176,6 +201,37 @@ module Aws::ConnectParticipant
     class CreateParticipantConnectionResponse < Struct.new(
       :websocket,
       :connection_credentials)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] view_token
+    #   An encrypted token originating from the interactive message of a
+    #   ShowView block operation. Represents the desired view.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_token
+    #   The connection token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/DescribeViewRequest AWS API Documentation
+    #
+    class DescribeViewRequest < Struct.new(
+      :view_token,
+      :connection_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] view
+    #   A view resource object. Contains metadata and content necessary to
+    #   render the view.
+    #   @return [Types::View]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/DescribeViewResponse AWS API Documentation
+    #
+    class DescribeViewResponse < Struct.new(
+      :view)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -221,11 +277,18 @@ module Aws::ConnectParticipant
     #   connection.
     #   @return [String]
     #
+    # @!attribute [rw] url_expiry_in_seconds
+    #   The expiration time of the URL in ISO timestamp. It's specified in
+    #   ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+    #   2019-11-08T02:41:28.172Z.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/GetAttachmentRequest AWS API Documentation
     #
     class GetAttachmentRequest < Struct.new(
       :attachment_id,
-      :connection_token)
+      :connection_token,
+      :url_expiry_in_seconds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -245,11 +308,54 @@ module Aws::ConnectParticipant
     #   2019-11-08T02:41:28.172Z.
     #   @return [String]
     #
+    # @!attribute [rw] attachment_size_in_bytes
+    #   The size of the attachment in bytes.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/GetAttachmentResponse AWS API Documentation
     #
     class GetAttachmentResponse < Struct.new(
       :url,
-      :url_expiry)
+      :url_expiry,
+      :attachment_size_in_bytes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] session_id
+    #   The sessionId provided in the authenticationInitiated event.
+    #   @return [String]
+    #
+    # @!attribute [rw] redirect_uri
+    #   The URL where the customer will be redirected after Amazon Cognito
+    #   authorizes the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_token
+    #   The authentication token associated with the participant's
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/GetAuthenticationUrlRequest AWS API Documentation
+    #
+    class GetAuthenticationUrlRequest < Struct.new(
+      :session_id,
+      :redirect_uri,
+      :connection_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] authentication_url
+    #   The URL where the customer will sign in to the identity provider.
+    #   This URL contains the authorize endpoint for the Cognito UserPool
+    #   used in the authentication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/GetAuthenticationUrlResponse AWS API Documentation
+    #
+    class GetAuthenticationUrlResponse < Struct.new(
+      :authentication_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -466,12 +572,36 @@ module Aws::ConnectParticipant
       include Aws::Structure
     end
 
+    # The resource was not found.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_id
+    #   The identifier of the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_type
+    #   The type of Amazon Connect resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/ResourceNotFoundException AWS API Documentation
+    #
+    class ResourceNotFoundException < Struct.new(
+      :message,
+      :resource_id,
+      :resource_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] content_type
     #   The content type of the request. Supported types are:
     #
     #   * application/vnd.amazonaws.connect.event.typing
     #
     #   * application/vnd.amazonaws.connect.event.connection.acknowledged
+    #     (will be deprecated on December 31, 2024)
     #
     #   * application/vnd.amazonaws.connect.event.message.delivered
     #
@@ -484,7 +614,7 @@ module Aws::ConnectParticipant
     #   of a JSON string.
     #
     #   Sample Content:
-    #   "\\\{\\"messageId\\":\\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\\"\\}"
+    #   "\{\\"messageId\\":\\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\\"}"
     #   @return [String]
     #
     # @!attribute [rw] client_token
@@ -539,7 +669,8 @@ module Aws::ConnectParticipant
 
     # @!attribute [rw] content_type
     #   The type of the content. Supported types are `text/plain`,
-    #   `text/markdown`, and `application/json`.
+    #   `text/markdown`, `application/json`, and
+    #   `application/vnd.amazonaws.connect.message.interactive.response`.
     #   @return [String]
     #
     # @!attribute [rw] content
@@ -550,6 +681,10 @@ module Aws::ConnectParticipant
     #
     #   * For `application/json`, the Length Constraints are Minimum of 1,
     #     Maximum of 12000.
+    #
+    #   * For
+    #     `application/vnd.amazonaws.connect.message.interactive.response`,
+    #     the Length Constraints are Minimum of 1, Maximum of 12288.
     #   @return [String]
     #
     # @!attribute [rw] client_token
@@ -668,7 +803,7 @@ module Aws::ConnectParticipant
     #   @return [String]
     #
     # @!attribute [rw] upload_metadata
-    #   Fields to be used while uploading the attachment.
+    #   The headers to be provided while uploading the file to the URL.
     #   @return [Types::UploadMetadata]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/StartAttachmentUploadResponse AWS API Documentation
@@ -767,6 +902,68 @@ module Aws::ConnectParticipant
       include Aws::Structure
     end
 
+    # A view resource object. Contains metadata and content necessary to
+    # render the view.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the view.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the view.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the view.
+    #   @return [String]
+    #
+    # @!attribute [rw] version
+    #   The current version of the view.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] content
+    #   View content containing all content necessary to render a view
+    #   except for runtime input data.
+    #   @return [Types::ViewContent]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/View AWS API Documentation
+    #
+    class View < Struct.new(
+      :id,
+      :arn,
+      :name,
+      :version,
+      :content)
+      SENSITIVE = [:name]
+      include Aws::Structure
+    end
+
+    # View content containing all content necessary to render a view except
+    # for runtime input data.
+    #
+    # @!attribute [rw] input_schema
+    #   The schema representing the input data that the view template must
+    #   be supplied to render.
+    #   @return [String]
+    #
+    # @!attribute [rw] template
+    #   The view template representing the structure of the view.
+    #   @return [String]
+    #
+    # @!attribute [rw] actions
+    #   A list of actions possible from the view
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectparticipant-2018-09-07/ViewContent AWS API Documentation
+    #
+    class ViewContent < Struct.new(
+      :input_schema,
+      :template,
+      :actions)
+      SENSITIVE = [:input_schema, :template, :actions]
+      include Aws::Structure
+    end
+
     # The websocket for the participant's connection.
     #
     # @!attribute [rw] url
@@ -791,3 +988,4 @@ module Aws::ConnectParticipant
 
   end
 end
+

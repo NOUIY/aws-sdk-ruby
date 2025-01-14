@@ -304,12 +304,6 @@ module Aws::Comprehend
     #   A list containing the UTF-8 encoded text of the input documents. The
     #   list can contain a maximum of 25 documents. The maximum size of each
     #   document is 5 KB.
-    #
-    #   <note markdown="1"> Amazon Comprehend performs real-time sentiment analysis on the first
-    #   500 characters of the input text and ignores any additional text in
-    #   the input.
-    #
-    #    </note>
     #   @return [Array<String>]
     #
     # @!attribute [rw] language_code
@@ -784,18 +778,32 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] endpoint_arn
-    #   The Amazon Resource Number (ARN) of the endpoint. For information
-    #   about endpoints, see [Managing endpoints][1].
+    #   The Amazon Resource Number (ARN) of the endpoint.
+    #
+    #   For prompt safety classification, Amazon Comprehend provides the
+    #   endpoint ARN. For more information about prompt safety classifiers,
+    #   see [Prompt safety classification][1] in the *Amazon Comprehend
+    #   Developer Guide*
+    #
+    #   For custom classification, you create an endpoint for your custom
+    #   model. For more information, see [Using Amazon Comprehend
+    #   endpoints][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification
+    #   [2]: https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html
     #   @return [String]
     #
     # @!attribute [rw] bytes
     #   Use the `Bytes` parameter to input a text, PDF, Word or image file.
-    #   You can also use the `Bytes` parameter to input an Amazon Textract
+    #
+    #   When you classify a document using a custom model, you can also use
+    #   the `Bytes` parameter to input an Amazon Textract
     #   `DetectDocumentText` or `AnalyzeDocument` output file.
+    #
+    #   To classify a document using the prompt safety classifier, use the
+    #   `Text` parameter for input.
     #
     #   Provide the input document as a sequence of base64-encoded bytes. If
     #   your code uses an Amazon Web Services SDK to classify documents, the
@@ -830,14 +838,19 @@ module Aws::Comprehend
 
     # @!attribute [rw] classes
     #   The classes used by the document being analyzed. These are used for
-    #   multi-class trained models. Individual classes are mutually
+    #   models trained in multi-class mode. Individual classes are mutually
     #   exclusive and each document is expected to have only a single class
     #   assigned to it. For example, an animal can be a dog or a cat, but
     #   not both at the same time.
+    #
+    #   For prompt safety classification, the response includes only two
+    #   classes (SAFE\_PROMPT and UNSAFE\_PROMPT), along with a confidence
+    #   score for each class. The value range of the score is zero to one,
+    #   where one is the highest confidence.
     #   @return [Array<Types::DocumentClass>]
     #
     # @!attribute [rw] labels
-    #   The labels used the document being analyzed. These are used for
+    #   The labels used in the document being analyzed. These are used for
     #   multi-label trained models. Individual labels represent different
     #   categories that are related in some manner and are not mutually
     #   exclusive. For example, a movie can be just an action movie, or it
@@ -862,6 +875,16 @@ module Aws::Comprehend
     #   errors.
     #   @return [Array<Types::ErrorsListItem>]
     #
+    # @!attribute [rw] warnings
+    #   Warnings detected while processing the input document. The response
+    #   includes a warning if there is a mismatch between the input document
+    #   type and the model type associated with the endpoint that you
+    #   specified. The response can also include warnings for individual
+    #   pages that have a mismatch.
+    #
+    #   The field is empty if the system generated no warnings.
+    #   @return [Array<Types::WarningsListItem>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ClassifyDocumentResponse AWS API Documentation
     #
     class ClassifyDocumentResponse < Struct.new(
@@ -869,7 +892,8 @@ module Aws::Comprehend
       :labels,
       :document_metadata,
       :document_type,
-      :errors)
+      :errors,
+      :warnings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -893,8 +917,7 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] language_code
-    #   The language of the input documents. Currently, English is the only
-    #   valid language.
+    #   The language of the input documents.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ContainsPiiEntitiesRequest AWS API Documentation
@@ -919,6 +942,68 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel of the flywheel to
+    #   receive the data.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_name
+    #   Name of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_type
+    #   The dataset type. You can specify that the data in a dataset is for
+    #   training the model or for testing the model.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_data_config
+    #   Information about the input data configuration. The type of input
+    #   data varies based on the format of the input and whether the data is
+    #   for a classifier model or an entity recognition model.
+    #   @return [Types::DatasetInputDataConfig]
+    #
+    # @!attribute [rw] client_request_token
+    #   A unique identifier for the request. If you don't set the client
+    #   request token, Amazon Comprehend generates one.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Tags for the dataset.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateDatasetRequest AWS API Documentation
+    #
+    class CreateDatasetRequest < Struct.new(
+      :flywheel_arn,
+      :dataset_name,
+      :dataset_type,
+      :description,
+      :input_data_config,
+      :client_request_token,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_arn
+    #   The ARN of the dataset.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateDatasetResponse AWS API Documentation
+    #
+    class CreateDatasetResponse < Struct.new(
+      :dataset_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] document_classifier_name
     #   The name of the document classifier.
     #   @return [String]
@@ -928,21 +1013,19 @@ module Aws::Comprehend
     #   names can have a maximum of 256 characters. Alphanumeric characters,
     #   hyphens (-) and underscores (\_) are allowed. The version name must
     #   be unique among all models with the same classifier name in the
-    #   account/AWS Region.
+    #   Amazon Web Services account/Amazon Web Services Region.
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Management
-    #   (IAM) role that grants Amazon Comprehend read access to your input
-    #   data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the document classifier being created. A
-    #   tag is a key-value pair that adds as a metadata to a resource used
-    #   by Amazon Comprehend. For example, a tag with "Sales" as the key
-    #   might be added to a resource to indicate its use by the sales
-    #   department.
+    #   Tags to associate with the document classifier. A tag is a key-value
+    #   pair that adds as a metadata to a resource used by Amazon
+    #   Comprehend. For example, a tag with "Sales" as the key might be
+    #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] input_data_config
@@ -950,8 +1033,9 @@ module Aws::Comprehend
     #   @return [Types::DocumentClassifierInputDataConfig]
     #
     # @!attribute [rw] output_data_config
-    #   Enables the addition of output results configuration parameters for
-    #   custom classifier jobs.
+    #   Specifies the location for the output files from a custom classifier
+    #   job. This parameter is required for a request that creates a native
+    #   document model.
     #   @return [Types::DocumentClassifierOutputDataConfig]
     #
     # @!attribute [rw] client_request_token
@@ -964,17 +1048,15 @@ module Aws::Comprehend
     #
     # @!attribute [rw] language_code
     #   The language of the input documents. You can specify any of the
-    #   following languages supported by Amazon Comprehend: German ("de"),
-    #   English ("en"), Spanish ("es"), French ("fr"), Italian
-    #   ("it"), or Portuguese ("pt"). All documents must be in the same
-    #   language.
+    #   languages supported by Amazon Comprehend. All documents must be in
+    #   the same language.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -994,17 +1076,18 @@ module Aws::Comprehend
     #
     # @!attribute [rw] mode
     #   Indicates the mode in which the classifier will be trained. The
-    #   classifier can be trained in multi-class mode, which identifies one
-    #   and only one class for each document, or multi-label mode, which
-    #   identifies one or more labels for each document. In multi-label
-    #   mode, multiple labels for an individual document are separated by a
-    #   delimiter. The default delimiter between labels is a pipe (\|).
+    #   classifier can be trained in multi-class (single-label) mode or
+    #   multi-label mode. Multi-class mode identifies a single class label
+    #   for each document and multi-label mode identifies one or more class
+    #   labels for each document. Multiple labels for an individual document
+    #   are separated by a delimiter. The default delimiter between labels
+    #   is a pipe (\|).
     #   @return [String]
     #
     # @!attribute [rw] model_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId
-    #   can be either of the following formats:
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -1014,8 +1097,8 @@ module Aws::Comprehend
     #
     # @!attribute [rw] model_policy
     #   The resource-based policy to attach to your custom document
-    #   classifier model. You can use this policy to allow another AWS
-    #   account to import your custom model.
+    #   classifier model. You can use this policy to allow another Amazon
+    #   Web Services account to import your custom model.
     #
     #   Provide your policy as a JSON body that you enter as a UTF-8 encoded
     #   string without line breaks. To provide valid JSON, enclose the
@@ -1023,12 +1106,12 @@ module Aws::Comprehend
     #   also enclosed in double quotes, then you must escape the double
     #   quotes that are inside the policy:
     #
-    #   `"\{"attribute": "value", "attribute": ["value"]\}"`
+    #   `"{"attribute": "value", "attribute": ["value"]}"`
     #
     #   To avoid escaping quotes, you can use single quotes to enclose the
     #   policy and double quotes to enclose the JSON names and values:
     #
-    #   `'\{"attribute": "value", "attribute": ["value"]\}'`
+    #   `'{"attribute": "value", "attribute": ["value"]}'`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateDocumentClassifierRequest AWS API Documentation
@@ -1090,17 +1173,21 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags associated with the endpoint being created. A tag is a
-    #   key-value pair that adds metadata to the endpoint. For example, a
-    #   tag with "Sales" as the key might be added to an endpoint to
-    #   indicate its use by the sales department.
+    #   Tags to associate with the endpoint. A tag is a key-value pair that
+    #   adds metadata to the endpoint. For example, a tag with "Sales" as
+    #   the key might be added to an endpoint to indicate its use by the
+    #   sales department.
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   trained custom models encrypted with a customer managed key
-    #   (ModelKmsKeyId).
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to trained custom models encrypted with a
+    #   customer managed key (ModelKmsKeyId).
+    #   @return [String]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel to which the
+    #   endpoint will be attached.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateEndpointRequest AWS API Documentation
@@ -1111,7 +1198,8 @@ module Aws::Comprehend
       :desired_inference_units,
       :client_request_token,
       :tags,
-      :data_access_role_arn)
+      :data_access_role_arn,
+      :flywheel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1120,10 +1208,16 @@ module Aws::Comprehend
     #   The Amazon Resource Number (ARN) of the endpoint being created.
     #   @return [String]
     #
+    # @!attribute [rw] model_arn
+    #   The Amazon Resource Number (ARN) of the model to which the endpoint
+    #   is attached.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateEndpointResponse AWS API Documentation
     #
     class CreateEndpointResponse < Struct.new(
-      :endpoint_arn)
+      :endpoint_arn,
+      :model_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1132,7 +1226,7 @@ module Aws::Comprehend
     #   The name given to the newly created recognizer. Recognizer names can
     #   be a maximum of 256 characters. Alphanumeric characters, hyphens (-)
     #   and underscores (\_) are allowed. The name must be unique in the
-    #   account/region.
+    #   account/Region.
     #   @return [String]
     #
     # @!attribute [rw] version_name
@@ -1140,26 +1234,24 @@ module Aws::Comprehend
     #   names can be a maximum of 256 characters. Alphanumeric characters,
     #   hyphens (-) and underscores (\_) are allowed. The version name must
     #   be unique among all models with the same recognizer name in the
-    #   account/ AWS Region.
+    #   account/Region.
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Management
-    #   (IAM) role that grants Amazon Comprehend read access to your input
-    #   data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the entity recognizer being created. A
-    #   tag is a key-value pair that adds as a metadata to a resource used
-    #   by Amazon Comprehend. For example, a tag with "Sales" as the key
-    #   might be added to a resource to indicate its use by the sales
-    #   department.
+    #   Tags to associate with the entity recognizer. A tag is a key-value
+    #   pair that adds as a metadata to a resource used by Amazon
+    #   Comprehend. For example, a tag with "Sales" as the key might be
+    #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] input_data_config
     #   Specifies the format and location of the input data. The S3 bucket
-    #   containing the input data must be located in the same region as the
+    #   containing the input data must be located in the same Region as the
     #   entity recognizer being created.
     #   @return [Types::EntityRecognizerInputDataConfig]
     #
@@ -1181,10 +1273,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -1203,9 +1295,9 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] model_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId
-    #   can be either of the following formats
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -1215,8 +1307,8 @@ module Aws::Comprehend
     #
     # @!attribute [rw] model_policy
     #   The JSON resource-based policy to attach to your custom entity
-    #   recognizer model. You can use this policy to allow another AWS
-    #   account to import your custom model.
+    #   recognizer model. You can use this policy to allow another Amazon
+    #   Web Services account to import your custom model.
     #
     #   Provide your JSON as a UTF-8 encoded string without line breaks. To
     #   provide valid JSON for your policy, enclose the attribute names and
@@ -1224,12 +1316,12 @@ module Aws::Comprehend
     #   quotes, then you must escape the double quotes that are inside the
     #   policy:
     #
-    #   `"\{"attribute": "value", "attribute": ["value"]\}"`
+    #   `"{"attribute": "value", "attribute": ["value"]}"`
     #
     #   To avoid escaping quotes, you can use single quotes to enclose the
     #   policy and double quotes to enclose the JSON names and values:
     #
-    #   `'\{"attribute": "value", "attribute": ["value"]\}'`
+    #   `'{"attribute": "value", "attribute": ["value"]}'`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateEntityRecognizerRequest AWS API Documentation
@@ -1259,6 +1351,456 @@ module Aws::Comprehend
     #
     class CreateEntityRecognizerResponse < Struct.new(
       :entity_recognizer_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_name
+    #   Name for the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] active_model_arn
+    #   To associate an existing model with the flywheel, specify the Amazon
+    #   Resource Number (ARN) of the model version. Do not set `TaskConfig`
+    #   or `ModelType` if you specify an `ActiveModelArn`.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend the permissions required to access the flywheel data in
+    #   the data lake.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_config
+    #   Configuration about the model associated with the flywheel. You need
+    #   to set `TaskConfig` if you are creating a flywheel for a new model.
+    #   @return [Types::TaskConfig]
+    #
+    # @!attribute [rw] model_type
+    #   The model type. You need to set `ModelType` if you are creating a
+    #   flywheel for a new model.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_lake_s3_uri
+    #   Enter the S3 location for the data lake. You can specify a new S3
+    #   bucket or a new folder of an existing S3 bucket. The flywheel
+    #   creates the data lake at this location.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_security_config
+    #   Data security configurations.
+    #   @return [Types::DataSecurityConfig]
+    #
+    # @!attribute [rw] client_request_token
+    #   A unique identifier for the request. If you don't set the client
+    #   request token, Amazon Comprehend generates one.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to associate with this flywheel.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateFlywheelRequest AWS API Documentation
+    #
+    class CreateFlywheelRequest < Struct.new(
+      :flywheel_name,
+      :active_model_arn,
+      :data_access_role_arn,
+      :task_config,
+      :model_type,
+      :data_lake_s3_uri,
+      :data_security_config,
+      :client_request_token,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] active_model_arn
+    #   The Amazon Resource Number (ARN) of the active model version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/CreateFlywheelResponse AWS API Documentation
+    #
+    class CreateFlywheelResponse < Struct.new(
+      :flywheel_arn,
+      :active_model_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Data security configuration.
+    #
+    # @!attribute [rw] model_kms_key_id
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
+    #
+    #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+    #
+    #   * Amazon Resource Name (ARN) of a KMS Key:
+    #     `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+    #   @return [String]
+    #
+    # @!attribute [rw] volume_kms_key_id
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt the
+    #   volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_lake_kms_key_id
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt the data
+    #   in the data lake.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_config
+    #   Configuration parameters for an optional private Virtual Private
+    #   Cloud (VPC) containing the resources you are using for the job. For
+    #   more information, see [Amazon VPC][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
+    #   @return [Types::VpcConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DataSecurityConfig AWS API Documentation
+    #
+    class DataSecurityConfig < Struct.new(
+      :model_kms_key_id,
+      :volume_kms_key_id,
+      :data_lake_kms_key_id,
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An augmented manifest file that provides training data for your custom
+    # model. An augmented manifest file is a labeled dataset that is
+    # produced by Amazon SageMaker Ground Truth.
+    #
+    # @!attribute [rw] attribute_names
+    #   The JSON attribute that contains the annotations for your training
+    #   documents. The number of attribute names that you specify depends on
+    #   whether your augmented manifest file is the output of a single
+    #   labeling job or a chained labeling job.
+    #
+    #   If your file is the output of a single labeling job, specify the
+    #   LabelAttributeName key that was used when the job was created in
+    #   Ground Truth.
+    #
+    #   If your file is the output of a chained labeling job, specify the
+    #   LabelAttributeName key for one or more jobs in the chain. Each
+    #   LabelAttributeName key provides the annotations from an individual
+    #   job.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_uri
+    #   The Amazon S3 location of the augmented manifest file.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_data_s3_uri
+    #   The S3 prefix to the annotation files that are referred in the
+    #   augmented manifest file.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_documents_s3_uri
+    #   The S3 prefix to the source files (PDFs) that are referred to in the
+    #   augmented manifest file.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_type
+    #   The type of augmented manifest. If you don't specify, the default
+    #   is PlainTextDocument.
+    #
+    #   `PLAIN_TEXT_DOCUMENT` A document type that represents any unicode
+    #   text that is encoded in UTF-8.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetAugmentedManifestsListItem AWS API Documentation
+    #
+    class DatasetAugmentedManifestsListItem < Struct.new(
+      :attribute_names,
+      :s3_uri,
+      :annotation_data_s3_uri,
+      :source_documents_s3_uri,
+      :document_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the dataset input data configuration for a document
+    # classifier model.
+    #
+    # For more information on how the input file is formatted, see
+    # [Preparing training data][1] in the Comprehend Developer Guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html
+    #
+    # @!attribute [rw] s3_uri
+    #   The Amazon S3 URI for the input data. The S3 bucket must be in the
+    #   same Region as the API endpoint that you are calling. The URI can
+    #   point to a single input file or it can provide the prefix for a
+    #   collection of input files.
+    #
+    #   For example, if you use the URI `S3://bucketName/prefix`, if the
+    #   prefix is a single file, Amazon Comprehend uses that file as input.
+    #   If more than one file begins with the prefix, Amazon Comprehend uses
+    #   all of them as input.
+    #
+    #   This parameter is required if you set `DataFormat` to
+    #   `COMPREHEND_CSV`.
+    #   @return [String]
+    #
+    # @!attribute [rw] label_delimiter
+    #   Indicates the delimiter used to separate each label for training a
+    #   multi-label classifier. The default delimiter between labels is a
+    #   pipe (\|). You can use a different character as a delimiter (if
+    #   it's an allowed character) by specifying it under Delimiter for
+    #   labels. If the training documents use a delimiter other than the
+    #   default or the delimiter you specify, the labels on that line will
+    #   be combined to make a single unique label, such as LABELLABELLABEL.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetDocumentClassifierInputDataConfig AWS API Documentation
+    #
+    class DatasetDocumentClassifierInputDataConfig < Struct.new(
+      :s3_uri,
+      :label_delimiter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the annotations associated with a entity recognizer.
+    #
+    # @!attribute [rw] s3_uri
+    #   Specifies the Amazon S3 location where the training documents for an
+    #   entity recognizer are located. The URI must be in the same Region as
+    #   the API endpoint that you are calling.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetEntityRecognizerAnnotations AWS API Documentation
+    #
+    class DatasetEntityRecognizerAnnotations < Struct.new(
+      :s3_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the documents submitted with a dataset for an entity
+    # recognizer model.
+    #
+    # @!attribute [rw] s3_uri
+    #   Specifies the Amazon S3 location where the documents for the dataset
+    #   are located.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_format
+    #   Specifies how the text in an input file should be processed. This is
+    #   optional, and the default is ONE\_DOC\_PER\_LINE.
+    #   ONE\_DOC\_PER\_FILE - Each file is considered a separate document.
+    #   Use this option when you are processing large documents, such as
+    #   newspaper articles or scientific papers. ONE\_DOC\_PER\_LINE - Each
+    #   line in a file is considered a separate document. Use this option
+    #   when you are processing many short documents, such as text messages.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetEntityRecognizerDocuments AWS API Documentation
+    #
+    class DatasetEntityRecognizerDocuments < Struct.new(
+      :s3_uri,
+      :input_format)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the dataset entity list for an entity recognizer model.
+    #
+    # For more information on how the input file is formatted, see
+    # [Preparing training data][1] in the Comprehend Developer Guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/comprehend/latest/dg/prep-training-data-cer.html
+    #
+    # @!attribute [rw] s3_uri
+    #   Specifies the Amazon S3 location where the entity list is located.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetEntityRecognizerEntityList AWS API Documentation
+    #
+    class DatasetEntityRecognizerEntityList < Struct.new(
+      :s3_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the format and location of the input data. You must provide
+    # either the `Annotations` parameter or the `EntityList` parameter.
+    #
+    # @!attribute [rw] annotations
+    #   The S3 location of the annotation documents for your custom entity
+    #   recognizer.
+    #   @return [Types::DatasetEntityRecognizerAnnotations]
+    #
+    # @!attribute [rw] documents
+    #   The format and location of the training documents for your custom
+    #   entity recognizer.
+    #   @return [Types::DatasetEntityRecognizerDocuments]
+    #
+    # @!attribute [rw] entity_list
+    #   The S3 location of the entity list for your custom entity
+    #   recognizer.
+    #   @return [Types::DatasetEntityRecognizerEntityList]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetEntityRecognizerInputDataConfig AWS API Documentation
+    #
+    class DatasetEntityRecognizerInputDataConfig < Struct.new(
+      :annotations,
+      :documents,
+      :entity_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter the datasets based on creation time or dataset status.
+    #
+    # @!attribute [rw] status
+    #   Filter the datasets based on the dataset status.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_type
+    #   Filter the datasets based on the dataset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time_after
+    #   Filter the datasets to include datasets created after the specified
+    #   time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   Filter the datasets to include datasets created before the specified
+    #   time.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetFilter AWS API Documentation
+    #
+    class DatasetFilter < Struct.new(
+      :status,
+      :dataset_type,
+      :creation_time_after,
+      :creation_time_before)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the format and location of the input data for the dataset.
+    #
+    # @!attribute [rw] augmented_manifests
+    #   A list of augmented manifest files that provide training data for
+    #   your custom model. An augmented manifest file is a labeled dataset
+    #   that is produced by Amazon SageMaker Ground Truth.
+    #   @return [Array<Types::DatasetAugmentedManifestsListItem>]
+    #
+    # @!attribute [rw] data_format
+    #   `COMPREHEND_CSV`: The data format is a two-column CSV file, where
+    #   the first column contains labels and the second column contains
+    #   documents.
+    #
+    #   `AUGMENTED_MANIFEST`: The data format
+    #   @return [String]
+    #
+    # @!attribute [rw] document_classifier_input_data_config
+    #   The input properties for training a document classifier model.
+    #
+    #   For more information on how the input file is formatted, see
+    #   [Preparing training data][1] in the Comprehend Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html
+    #   @return [Types::DatasetDocumentClassifierInputDataConfig]
+    #
+    # @!attribute [rw] entity_recognizer_input_data_config
+    #   The input properties for training an entity recognizer model.
+    #   @return [Types::DatasetEntityRecognizerInputDataConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetInputDataConfig AWS API Documentation
+    #
+    class DatasetInputDataConfig < Struct.new(
+      :augmented_manifests,
+      :data_format,
+      :document_classifier_input_data_config,
+      :entity_recognizer_input_data_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Properties associated with the dataset.
+    #
+    # @!attribute [rw] dataset_arn
+    #   The ARN of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_name
+    #   The name of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_type
+    #   The dataset type (training data or test data).
+    #   @return [String]
+    #
+    # @!attribute [rw] dataset_s3_uri
+    #   The S3 URI where the dataset is stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The dataset status. While the system creates the dataset, the status
+    #   is `CREATING`. When the dataset is ready to use, the status changes
+    #   to `COMPLETED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A description of the status of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] number_of_documents
+    #   The number of documents in the dataset.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] creation_time
+    #   Creation time of the dataset.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   Time when the data from the dataset becomes available in the data
+    #   lake.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DatasetProperties AWS API Documentation
+    #
+    class DatasetProperties < Struct.new(
+      :dataset_arn,
+      :dataset_name,
+      :dataset_type,
+      :dataset_s3_uri,
+      :description,
+      :status,
+      :message,
+      :number_of_documents,
+      :creation_time,
+      :end_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1313,6 +1855,22 @@ module Aws::Comprehend
     #
     class DeleteEntityRecognizerResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DeleteFlywheelRequest AWS API Documentation
+    #
+    class DeleteFlywheelRequest < Struct.new(
+      :flywheel_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DeleteFlywheelResponse AWS API Documentation
+    #
+    class DeleteFlywheelResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the custom model version that has
     #   the policy to delete.
@@ -1335,9 +1893,34 @@ module Aws::Comprehend
     #
     class DeleteResourcePolicyResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] dataset_arn
+    #   The ARN of the dataset.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeDatasetRequest AWS API Documentation
+    #
+    class DescribeDatasetRequest < Struct.new(
+      :dataset_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_properties
+    #   The dataset properties.
+    #   @return [Types::DatasetProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeDatasetResponse AWS API Documentation
+    #
+    class DescribeDatasetResponse < Struct.new(
+      :dataset_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] job_id
     #   The identifier that Amazon Comprehend generated for the job. The
-    #   operation returns this identifier in its response.
+    #   `StartDocumentClassificationJob` operation returns this identifier
+    #   in its response.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeDocumentClassificationJobRequest AWS API Documentation
@@ -1363,7 +1946,8 @@ module Aws::Comprehend
 
     # @!attribute [rw] document_classifier_arn
     #   The Amazon Resource Name (ARN) that identifies the document
-    #   classifier. The operation returns this identifier in its response.
+    #   classifier. The `CreateDocumentClassifier` operation returns this
+    #   identifier in its response.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeDocumentClassifierRequest AWS API Documentation
@@ -1389,7 +1973,8 @@ module Aws::Comprehend
 
     # @!attribute [rw] job_id
     #   The identifier that Amazon Comprehend generated for the job. The
-    #   operation returns this identifier in its response.
+    #   `StartDominantLanguageDetectionJob` operation returns this
+    #   identifier in its response.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeDominantLanguageDetectionJobRequest AWS API Documentation
@@ -1439,7 +2024,8 @@ module Aws::Comprehend
 
     # @!attribute [rw] job_id
     #   The identifier that Amazon Comprehend generated for the job. The
-    #   operation returns this identifier in its response.
+    #   `StartEntitiesDetectionJob` operation returns this identifier in its
+    #   response.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeEntitiesDetectionJobRequest AWS API Documentation
@@ -1513,9 +2099,61 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # @!attribute [rw] flywheel_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] flywheel_iteration_id
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeFlywheelIterationRequest AWS API Documentation
+    #
+    class DescribeFlywheelIterationRequest < Struct.new(
+      :flywheel_arn,
+      :flywheel_iteration_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_iteration_properties
+    #   The configuration properties of a flywheel iteration.
+    #   @return [Types::FlywheelIterationProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeFlywheelIterationResponse AWS API Documentation
+    #
+    class DescribeFlywheelIterationResponse < Struct.new(
+      :flywheel_iteration_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeFlywheelRequest AWS API Documentation
+    #
+    class DescribeFlywheelRequest < Struct.new(
+      :flywheel_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_properties
+    #   The flywheel properties.
+    #   @return [Types::FlywheelProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeFlywheelResponse AWS API Documentation
+    #
+    class DescribeFlywheelResponse < Struct.new(
+      :flywheel_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] job_id
     #   The identifier that Amazon Comprehend generated for the job. The
-    #   operation returns this identifier in its response.
+    #   `StartKeyPhrasesDetectionJob` operation returns this identifier in
+    #   its response.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeKeyPhrasesDetectionJobRequest AWS API Documentation
@@ -1634,7 +2272,8 @@ module Aws::Comprehend
 
     # @!attribute [rw] job_id
     #   The identifier that Amazon Comprehend generated for the job. The
-    #   operation returns this identifier in its response.
+    #   `StartTargetedSentimentDetectionJob` operation returns this
+    #   identifier in its response.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DescribeTargetedSentimentDetectionJobRequest AWS API Documentation
@@ -1696,11 +2335,14 @@ module Aws::Comprehend
     end
 
     # @!attribute [rw] languages
-    #   The languages that Amazon Comprehend detected in the input text. For
-    #   each language, the response returns the RFC 5646 language code and
-    #   the level of confidence that Amazon Comprehend has in the accuracy
-    #   of its inference. For more information about RFC 5646, see [Tags for
-    #   Identifying Languages][1] on the *IETF Tools* web site.
+    #   Array of languages that Amazon Comprehend detected in the input
+    #   text. The array is sorted in descending order of the score (the
+    #   dominant language is always the first element in the array).
+    #
+    #   For each language, the response returns the RFC 5646 language code
+    #   and the level of confidence that Amazon Comprehend has in the
+    #   accuracy of its inference. For more information about RFC 5646, see
+    #   [Tags for Identifying Languages][1] on the *IETF Tools* web site.
     #
     #
     #
@@ -1892,8 +2534,8 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] language_code
-    #   The language of the input documents. Currently, English is the only
-    #   valid language.
+    #   The language of the input text. Enter the language code for English
+    #   (en) or Spanish (es).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DetectPiiEntitiesRequest AWS API Documentation
@@ -1922,12 +2564,6 @@ module Aws::Comprehend
 
     # @!attribute [rw] text
     #   A UTF-8 text string. The maximum string size is 5 KB.
-    #
-    #   <note markdown="1"> Amazon Comprehend performs real-time sentiment analysis on the first
-    #   500 characters of the input text and ignores any additional text in
-    #   the input.
-    #
-    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] language_code
@@ -2035,6 +2671,41 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # @!attribute [rw] text_segments
+    #   A list of up to 10 text strings. Each string has a maximum size of 1
+    #   KB, and the maximum size of the list is 10 KB.
+    #   @return [Array<Types::TextSegment>]
+    #
+    # @!attribute [rw] language_code
+    #   The language of the input text. Currently, English is the only
+    #   supported language.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DetectToxicContentRequest AWS API Documentation
+    #
+    class DetectToxicContentRequest < Struct.new(
+      :text_segments,
+      :language_code)
+      SENSITIVE = [:text_segments]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] result_list
+    #   Results of the content moderation analysis. Each entry in the
+    #   results list contains a list of toxic content types identified in
+    #   the text, along with a confidence score for each content type. The
+    #   results list also includes a toxicity score for each entry in the
+    #   results list.
+    #   @return [Array<Types::ToxicLabels>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DetectToxicContentResponse AWS API Documentation
+    #
+    class DetectToxicContentResponse < Struct.new(
+      :result_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies the class that categorizes the document being analyzed
     #
     # @!attribute [rw] name
@@ -2057,6 +2728,26 @@ module Aws::Comprehend
       :name,
       :score,
       :page)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration required for a document classification model.
+    #
+    # @!attribute [rw] mode
+    #   Classification mode indicates whether the documents are
+    #   `MULTI_CLASS` or `MULTI_LABEL`.
+    #   @return [String]
+    #
+    # @!attribute [rw] labels
+    #   One or more labels to associate with the custom classifier.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DocumentClassificationConfig AWS API Documentation
+    #
+    class DocumentClassificationConfig < Struct.new(
+      :mode,
+      :labels)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2108,8 +2799,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the document classification job.
     #   It is a unique, fully qualified identifier for the job. It includes
-    #   the AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   the Amazon Web Services account, Amazon Web Services Region, and the
+    #   job ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:document-classification-job/<job-id>`
     #
@@ -2156,16 +2847,15 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -2180,8 +2870,12 @@ module Aws::Comprehend
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/vppc/latest/userguide/what-is-amazon-vpc.html
+    #   [1]: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
     #   @return [Types::VpcConfig]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DocumentClassificationJobProperties AWS API Documentation
     #
@@ -2198,14 +2892,38 @@ module Aws::Comprehend
       :output_data_config,
       :data_access_role_arn,
       :volume_kms_key_id,
-      :vpc_config)
+      :vpc_config,
+      :flywheel_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The location of the training documents. This parameter is required in
+    # a request to create a semi-structured document classification model.
+    #
+    # @!attribute [rw] s3_uri
+    #   The S3 URI location of the training documents specified in the S3Uri
+    #   CSV file.
+    #   @return [String]
+    #
+    # @!attribute [rw] test_s3_uri
+    #   The S3 URI location of the test documents included in the TestS3Uri
+    #   CSV file. This field is not required if you do not specify a test
+    #   CSV file.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DocumentClassifierDocuments AWS API Documentation
+    #
+    class DocumentClassifierDocuments < Struct.new(
+      :s3_uri,
+      :test_s3_uri)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Provides information for filtering a list of document classifiers. You
     # can only specify one filtering parameter in a request. For more
-    # information, see the operation.
+    # information, see the `ListDocumentClassifiers` operation.
     #
     # @!attribute [rw] status
     #   Filters the list of classifiers based on status.
@@ -2252,15 +2970,15 @@ module Aws::Comprehend
     # @!attribute [rw] data_format
     #   The format of your training data:
     #
-    #   * `COMPREHEND_CSV`\: A two-column CSV file, where labels are
-    #     provided in the first column, and documents are provided in the
-    #     second. If you use this value, you must provide the `S3Uri`
-    #     parameter in your request.
+    #   * `COMPREHEND_CSV`: A two-column CSV file, where labels are provided
+    #     in the first column, and documents are provided in the second. If
+    #     you use this value, you must provide the `S3Uri` parameter in your
+    #     request.
     #
-    #   * `AUGMENTED_MANIFEST`\: A labeled dataset that is produced by
-    #     Amazon SageMaker Ground Truth. This file is in JSON lines format.
-    #     Each line is a complete JSON object that contains a training
-    #     document and its associated labels.
+    #   * `AUGMENTED_MANIFEST`: A labeled dataset that is produced by Amazon
+    #     SageMaker Ground Truth. This file is in JSON lines format. Each
+    #     line is a complete JSON object that contains a training document
+    #     and its associated labels.
     #
     #     If you use this value, you must provide the `AugmentedManifests`
     #     parameter in your request.
@@ -2271,7 +2989,7 @@ module Aws::Comprehend
     #
     # @!attribute [rw] s3_uri
     #   The Amazon S3 URI for the input data. The S3 bucket must be in the
-    #   same region as the API endpoint that you are calling. The URI can
+    #   same Region as the API endpoint that you are calling. The URI can
     #   point to a single input file or it can provide the prefix for a
     #   collection of input files.
     #
@@ -2285,9 +3003,9 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] test_s3_uri
-    #   This specifies the Amazon S3 location where the test annotations for
-    #   an entity recognizer are located. The URI must be in the same AWS
-    #   Region as the API endpoint that you are calling.
+    #   This specifies the Amazon S3 location that contains the test
+    #   annotations for the document classifier. The URI must be in the same
+    #   Amazon Web Services Region as the API endpoint that you are calling.
     #   @return [String]
     #
     # @!attribute [rw] label_delimiter
@@ -2309,6 +3027,45 @@ module Aws::Comprehend
     #   `AUGMENTED_MANIFEST`.
     #   @return [Array<Types::AugmentedManifestsListItem>]
     #
+    # @!attribute [rw] document_type
+    #   The type of input documents for training the model. Provide
+    #   plain-text documents to create a plain-text model, and provide
+    #   semi-structured documents to create a native document model.
+    #   @return [String]
+    #
+    # @!attribute [rw] documents
+    #   The S3 location of the training documents. This parameter is
+    #   required in a request to create a native document model.
+    #   @return [Types::DocumentClassifierDocuments]
+    #
+    # @!attribute [rw] document_reader_config
+    #   Provides configuration parameters to override the default actions
+    #   for extracting text from PDF documents and image files.
+    #
+    #   By default, Amazon Comprehend performs the following actions to
+    #   extract text from files, based on the input file type:
+    #
+    #   * **Word files** - Amazon Comprehend parser extracts the text.
+    #
+    #   * **Digital PDF files** - Amazon Comprehend parser extracts the
+    #     text.
+    #
+    #   * **Image files and scanned PDF files** - Amazon Comprehend uses the
+    #     Amazon Textract `DetectDocumentText` API to extract the text.
+    #
+    #   `DocumentReaderConfig` does not apply to plain text files or Word
+    #   files.
+    #
+    #   For image files and PDF documents, you can override these default
+    #   actions using the fields listed below. For more information, see [
+    #   Setting text extraction options][1] in the Comprehend Developer
+    #   Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html
+    #   @return [Types::DocumentReaderConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DocumentClassifierInputDataConfig AWS API Documentation
     #
     class DocumentClassifierInputDataConfig < Struct.new(
@@ -2316,20 +3073,24 @@ module Aws::Comprehend
       :s3_uri,
       :test_s3_uri,
       :label_delimiter,
-      :augmented_manifests)
+      :augmented_manifests,
+      :document_type,
+      :documents,
+      :document_reader_config)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Provides output results configuration parameters for custom classifier
-    # jobs.
+    # Provide the location for output data from a custom classifier job.
+    # This field is mandatory if you are training a native document model.
     #
     # @!attribute [rw] s3_uri
     #   When you use the `OutputDataConfig` object while creating a custom
     #   classifier, you specify the Amazon S3 location where you want to
-    #   write the confusion matrix. The URI must be in the same region as
-    #   the API endpoint that you are calling. The location is used as the
-    #   prefix for the actual location of this output file.
+    #   write the confusion matrix and other output files. The URI must be
+    #   in the same Region as the API endpoint that you are calling. The
+    #   location is used as the prefix for the actual location of this
+    #   output file.
     #
     #   When the custom classifier job is finished, the service creates the
     #   output file in a directory specific to the job. The `S3Uri` field
@@ -2338,9 +3099,9 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt the output results from an analysis job.
-    #   The KmsKeyId can be one of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt the output results from an
+    #   analysis job. The KmsKeyId can be one of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -2353,11 +3114,17 @@ module Aws::Comprehend
     #     `"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"`
     #   @return [String]
     #
+    # @!attribute [rw] flywheel_stats_s3_prefix
+    #   The Amazon S3 prefix for the data lake location of the flywheel
+    #   statistics.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DocumentClassifierOutputDataConfig AWS API Documentation
     #
     class DocumentClassifierOutputDataConfig < Struct.new(
       :s3_uri,
-      :kms_key_id)
+      :kms_key_id,
+      :flywheel_stats_s3_prefix)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2376,9 +3143,13 @@ module Aws::Comprehend
     #
     # @!attribute [rw] status
     #   The status of the document classifier. If the status is `TRAINED`
-    #   the classifier is ready to use. If the status is `FAILED` you can
-    #   see additional information about why the classifier wasn't trained
-    #   in the `Message` field.
+    #   the classifier is ready to use. If the status is
+    #   `TRAINED_WITH_WARNINGS` the classifier training succeeded, but you
+    #   should review the warnings returned in the
+    #   `CreateDocumentClassifier` response.
+    #
+    #   If the status is `FAILED` you can see additional information about
+    #   why the classifier wasn't trained in the `Message` field.
     #   @return [String]
     #
     # @!attribute [rw] message
@@ -2423,16 +3194,15 @@ module Aws::Comprehend
     #   @return [Types::ClassifierMetadata]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Management
-    #   (IAM) role that grants Amazon Comprehend read access to your input
-    #   data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -2447,7 +3217,7 @@ module Aws::Comprehend
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/vppc/latest/userguide/what-is-amazon-vpc.html
+    #   [1]: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] mode
@@ -2458,9 +3228,9 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] model_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId
-    #   can be either of the following formats:
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -2474,8 +3244,12 @@ module Aws::Comprehend
     #
     # @!attribute [rw] source_model_arn
     #   The Amazon Resource Name (ARN) of the source model. This model was
-    #   imported from a different AWS account to create the document
-    #   classifier model in your AWS account.
+    #   imported from a different Amazon Web Services account to create the
+    #   document classifier model in your Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/DocumentClassifierProperties AWS API Documentation
@@ -2498,7 +3272,8 @@ module Aws::Comprehend
       :mode,
       :model_kms_key_id,
       :version_name,
-      :source_model_arn)
+      :source_model_arn,
+      :flywheel_arn)
       SENSITIVE = [:classifier_metadata]
       include Aws::Structure
     end
@@ -2604,11 +3379,11 @@ module Aws::Comprehend
     #
     # For image files and PDF documents, you can override these default
     # actions using the fields listed below. For more information, see [
-    # Setting text extraction options][1].
+    # Setting text extraction options][1] in the Comprehend Developer Guide.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/comprehend/latest/dg/detecting-cer.html#detecting-cer-pdf
+    # [1]: https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html
     #
     # @!attribute [rw] document_read_action
     #   This field defines the Amazon Textract API operation that Amazon
@@ -2639,10 +3414,10 @@ module Aws::Comprehend
     #   chose `TEXTRACT_ANALYZE_DOCUMENT` as the read action, you must
     #   specify one or both of the following values:
     #
-    #   * `TABLES` - Returns information about any tables that are detected
-    #     in the input document.
+    #   * `TABLES` - Returns additional information about any tables that
+    #     are detected in the input document.
     #
-    #   * `FORMS` - Returns information and the data from any forms that are
+    #   * `FORMS` - Returns additional information about any forms that are
     #     detected in the input document.
     #   @return [Array<String>]
     #
@@ -2749,8 +3524,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the dominant language detection
     #   job. It is a unique, fully qualified identifier for the job. It
-    #   includes the AWS account, Region, and the job ID. The format of the
-    #   ARN is as follows:
+    #   includes the Amazon Web Services account, Amazon Web Services
+    #   Region, and the job ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:dominant-language-detection-job/<job-id>`
     #
@@ -2793,15 +3568,15 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) that gives Amazon Comprehend read
-    #   access to your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -2925,15 +3700,18 @@ module Aws::Comprehend
     #   @return [Time]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   trained custom models encrypted with a customer managed key
-    #   (ModelKmsKeyId).
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to trained custom models encrypted with a
+    #   customer managed key (ModelKmsKeyId).
     #   @return [String]
     #
     # @!attribute [rw] desired_data_access_role_arn
     #   Data access role ARN to use in case the new model is encrypted with
     #   a customer KMS key.
+    #   @return [String]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/EndpointProperties AWS API Documentation
@@ -2949,7 +3727,8 @@ module Aws::Comprehend
       :creation_time,
       :last_modified_time,
       :data_access_role_arn,
-      :desired_data_access_role_arn)
+      :desired_data_access_role_arn,
+      :flywheel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3000,8 +3779,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the entities detection job. It is
     #   a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:entities-detection-job/<job-id>`
     #
@@ -3052,15 +3831,15 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) that gives Amazon Comprehend read
-    #   access to your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -3078,6 +3857,11 @@ module Aws::Comprehend
     #   [1]: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
     #   @return [Types::VpcConfig]
     #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Name (ARN) of the flywheel associated with this
+    #   job.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/EntitiesDetectionJobProperties AWS API Documentation
     #
     class EntitiesDetectionJobProperties < Struct.new(
@@ -3094,7 +3878,8 @@ module Aws::Comprehend
       :language_code,
       :data_access_role_arn,
       :volume_kms_key_id,
-      :vpc_config)
+      :vpc_config,
+      :flywheel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3171,17 +3956,31 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # Configuration required for an entity recognition model.
+    #
+    # @!attribute [rw] entity_types
+    #   Up to 25 entity types that the model is trained to recognize.
+    #   @return [Array<Types::EntityTypesListItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/EntityRecognitionConfig AWS API Documentation
+    #
+    class EntityRecognitionConfig < Struct.new(
+      :entity_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes the annotations associated with a entity recognizer.
     #
     # @!attribute [rw] s3_uri
     #   Specifies the Amazon S3 location where the annotations for an entity
-    #   recognizer are located. The URI must be in the same region as the
+    #   recognizer are located. The URI must be in the same Region as the
     #   API endpoint that you are calling.
     #   @return [String]
     #
     # @!attribute [rw] test_s3_uri
     #   Specifies the Amazon S3 location where the test annotations for an
-    #   entity recognizer are located. The URI must be in the same region as
+    #   entity recognizer are located. The URI must be in the same Region as
     #   the API endpoint that you are calling.
     #   @return [String]
     #
@@ -3198,14 +3997,14 @@ module Aws::Comprehend
     #
     # @!attribute [rw] s3_uri
     #   Specifies the Amazon S3 location where the training documents for an
-    #   entity recognizer are located. The URI must be in the same region as
+    #   entity recognizer are located. The URI must be in the same Region as
     #   the API endpoint that you are calling.
     #   @return [String]
     #
     # @!attribute [rw] test_s3_uri
     #   Specifies the Amazon S3 location where the test documents for an
-    #   entity recognizer are located. The URI must be in the same AWS
-    #   Region as the API endpoint that you are calling.
+    #   entity recognizer are located. The URI must be in the same Amazon
+    #   Web Services Region as the API endpoint that you are calling.
     #   @return [String]
     #
     # @!attribute [rw] input_format
@@ -3228,11 +4027,11 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
-    # Describes the entity recognizer submitted with an entity recognizer.
+    # Describes the entity list submitted with an entity recognizer.
     #
     # @!attribute [rw] s3_uri
     #   Specifies the Amazon S3 location where the entity list is located.
-    #   The URI must be in the same region as the API endpoint that you are
+    #   The URI must be in the same Region as the API endpoint that you are
     #   calling.
     #   @return [String]
     #
@@ -3279,7 +4078,7 @@ module Aws::Comprehend
 
     # Provides information for filtering a list of entity recognizers. You
     # can only specify one filtering parameter in a request. For more
-    # information, see the operation./&gt;
+    # information, see the `ListEntityRecognizers` operation./&gt;
     #
     # @!attribute [rw] status
     #   The status of an entity recognizer.
@@ -3319,7 +4118,7 @@ module Aws::Comprehend
     # @!attribute [rw] data_format
     #   The format of your training data:
     #
-    #   * `COMPREHEND_CSV`\: A CSV file that supplements your training
+    #   * `COMPREHEND_CSV`: A CSV file that supplements your training
     #     documents. The CSV file contains information about the custom
     #     entities that your trained model will detect. The required format
     #     of the file depends on whether you are providing annotations or an
@@ -3330,11 +4129,11 @@ module Aws::Comprehend
     #     provide your training documents by using the `Documents`
     #     parameter.
     #
-    #   * `AUGMENTED_MANIFEST`\: A labeled dataset that is produced by
-    #     Amazon SageMaker Ground Truth. This file is in JSON lines format.
-    #     Each line is a complete JSON object that contains a training
-    #     document and its labels. Each label annotates a named entity in
-    #     the training document.
+    #   * `AUGMENTED_MANIFEST`: A labeled dataset that is produced by Amazon
+    #     SageMaker Ground Truth. This file is in JSON lines format. Each
+    #     line is a complete JSON object that contains a training document
+    #     and its labels. Each label annotates a named entity in the
+    #     training document.
     #
     #     If you use this value, you must provide the `AugmentedManifests`
     #     parameter in your request.
@@ -3456,6 +4255,21 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # Output data configuration.
+    #
+    # @!attribute [rw] flywheel_stats_s3_prefix
+    #   The Amazon S3 prefix for the data lake location of the flywheel
+    #   statistics.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/EntityRecognizerOutputDataConfig AWS API Documentation
+    #
+    class EntityRecognizerOutputDataConfig < Struct.new(
+      :flywheel_stats_s3_prefix)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes information about an entity recognizer.
     #
     # @!attribute [rw] entity_recognizer_arn
@@ -3501,16 +4315,15 @@ module Aws::Comprehend
     #   @return [Types::EntityRecognizerMetadata]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Management
-    #   (IAM) role that grants Amazon Comprehend read access to your input
-    #   data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -3529,9 +4342,9 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] model_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId
-    #   can be either of the following formats:
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -3545,9 +4358,17 @@ module Aws::Comprehend
     #
     # @!attribute [rw] source_model_arn
     #   The Amazon Resource Name (ARN) of the source model. This model was
-    #   imported from a different AWS account to create the entity
-    #   recognizer model in your AWS account.
+    #   imported from a different Amazon Web Services account to create the
+    #   entity recognizer model in your Amazon Web Services account.
     #   @return [String]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel
+    #   @return [String]
+    #
+    # @!attribute [rw] output_data_config
+    #   Output data configuration.
+    #   @return [Types::EntityRecognizerOutputDataConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/EntityRecognizerProperties AWS API Documentation
     #
@@ -3567,7 +4388,9 @@ module Aws::Comprehend
       :vpc_config,
       :model_kms_key_id,
       :version_name,
-      :source_model_arn)
+      :source_model_arn,
+      :flywheel_arn,
+      :output_data_config)
       SENSITIVE = [:recognizer_metadata]
       include Aws::Structure
     end
@@ -3650,8 +4473,8 @@ module Aws::Comprehend
     #
     #   Entity types must not contain the following invalid characters: \\n
     #   (line break), \\\\n (escaped line break, \\r (carriage return),
-    #   \\\\r (escaped carriage return), \\t (tab), \\\\t (escaped tab),
-    #   space, and , (comma).
+    #   \\\\r (escaped carriage return), \\t (tab), \\\\t (escaped tab), and
+    #   , (comma).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/EntityTypesListItem AWS API Documentation
@@ -3755,9 +4578,9 @@ module Aws::Comprehend
     #
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the events detection job. It is a
-    #   unique, fully qualified identifier for the job. It includes the AWS
-    #   account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   unique, fully qualified identifier for the job. It includes the
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:events-detection-job/<job-id>`
     #
@@ -3801,9 +4624,8 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identify and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] target_event_types
@@ -3844,6 +4666,269 @@ module Aws::Comprehend
     class ExtractedCharactersListItem < Struct.new(
       :page,
       :count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter the flywheels based on creation time or flywheel status.
+    #
+    # @!attribute [rw] status
+    #   Filter the flywheels based on the flywheel status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time_after
+    #   Filter the flywheels to include flywheels created after the
+    #   specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   Filter the flywheels to include flywheels created before the
+    #   specified time.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/FlywheelFilter AWS API Documentation
+    #
+    class FlywheelFilter < Struct.new(
+      :status,
+      :creation_time_after,
+      :creation_time_before)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter the flywheel iterations based on creation time.
+    #
+    # @!attribute [rw] creation_time_after
+    #   Filter the flywheel iterations to include iterations created after
+    #   the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time_before
+    #   Filter the flywheel iterations to include iterations created before
+    #   the specified time.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/FlywheelIterationFilter AWS API Documentation
+    #
+    class FlywheelIterationFilter < Struct.new(
+      :creation_time_after,
+      :creation_time_before)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration properties of a flywheel iteration.
+    #
+    # @!attribute [rw] flywheel_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] flywheel_iteration_id
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The creation start time of the flywheel iteration.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The completion time of this flywheel iteration.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the flywheel iteration.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A description of the status of the flywheel iteration.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluated_model_arn
+    #   The ARN of the evaluated model associated with this flywheel
+    #   iteration.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluated_model_metrics
+    #   The evaluation metrics associated with the evaluated model.
+    #   @return [Types::FlywheelModelEvaluationMetrics]
+    #
+    # @!attribute [rw] trained_model_arn
+    #   The ARN of the trained model associated with this flywheel
+    #   iteration.
+    #   @return [String]
+    #
+    # @!attribute [rw] trained_model_metrics
+    #   The metrics associated with the trained model.
+    #   @return [Types::FlywheelModelEvaluationMetrics]
+    #
+    # @!attribute [rw] evaluation_manifest_s3_prefix
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/FlywheelIterationProperties AWS API Documentation
+    #
+    class FlywheelIterationProperties < Struct.new(
+      :flywheel_arn,
+      :flywheel_iteration_id,
+      :creation_time,
+      :end_time,
+      :status,
+      :message,
+      :evaluated_model_arn,
+      :evaluated_model_metrics,
+      :trained_model_arn,
+      :trained_model_metrics,
+      :evaluation_manifest_s3_prefix)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The evaluation metrics associated with the evaluated model.
+    #
+    # @!attribute [rw] average_f1_score
+    #   The average F1 score from the evaluation metrics.
+    #   @return [Float]
+    #
+    # @!attribute [rw] average_precision
+    #   Average precision metric for the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] average_recall
+    #   Average recall metric for the model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] average_accuracy
+    #   Average accuracy metric for the model.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/FlywheelModelEvaluationMetrics AWS API Documentation
+    #
+    class FlywheelModelEvaluationMetrics < Struct.new(
+      :average_f1_score,
+      :average_precision,
+      :average_recall,
+      :average_accuracy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The flywheel properties.
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] active_model_arn
+    #   The Amazon Resource Number (ARN) of the active model version.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend permission to access the flywheel data.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_config
+    #   Configuration about the model associated with a flywheel.
+    #   @return [Types::TaskConfig]
+    #
+    # @!attribute [rw] data_lake_s3_uri
+    #   Amazon S3 URI of the data lake location.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_security_config
+    #   Data security configuration.
+    #   @return [Types::DataSecurityConfig]
+    #
+    # @!attribute [rw] status
+    #   The status of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_type
+    #   Model type of the flywheel's model.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A description of the status of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   Creation time of the flywheel.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   Last modified time for the flywheel.
+    #   @return [Time]
+    #
+    # @!attribute [rw] latest_flywheel_iteration
+    #   The most recent flywheel iteration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/FlywheelProperties AWS API Documentation
+    #
+    class FlywheelProperties < Struct.new(
+      :flywheel_arn,
+      :active_model_arn,
+      :data_access_role_arn,
+      :task_config,
+      :data_lake_s3_uri,
+      :data_security_config,
+      :status,
+      :model_type,
+      :message,
+      :creation_time,
+      :last_modified_time,
+      :latest_flywheel_iteration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Flywheel summary information.
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel
+    #   @return [String]
+    #
+    # @!attribute [rw] active_model_arn
+    #   ARN of the active model version for the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_lake_s3_uri
+    #   Amazon S3 URI of the data lake location.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_type
+    #   Model type of the flywheel's model.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A description of the status of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   Creation time of the flywheel.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   Last modified time for the flywheel.
+    #   @return [Time]
+    #
+    # @!attribute [rw] latest_flywheel_iteration
+    #   The most recent flywheel iteration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/FlywheelSummary AWS API Documentation
+    #
+    class FlywheelSummary < Struct.new(
+      :flywheel_arn,
+      :active_model_arn,
+      :data_lake_s3_uri,
+      :status,
+      :model_type,
+      :message,
+      :creation_time,
+      :last_modified_time,
+      :latest_flywheel_iteration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3890,13 +4975,13 @@ module Aws::Comprehend
     #   import. Version names can have a maximum of 256 characters.
     #   Alphanumeric characters, hyphens (-) and underscores (\_) are
     #   allowed. The version name must be unique among all models with the
-    #   same classifier name in the account/AWS Region.
+    #   same classifier name in the account/Region.
     #   @return [String]
     #
     # @!attribute [rw] model_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt trained custom models. The ModelKmsKeyId
-    #   can be either of the following formats:
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -3905,13 +4990,13 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Management
-    #   (IAM) role that allows Amazon Comprehend to use Amazon Key
-    #   Management Service (KMS) to encrypt or decrypt the custom model.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend permission to use Amazon Key Management Service (KMS) to
+    #   encrypt or decrypt the custom model.
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the custom model that is created by this
+    #   Tags to associate with the custom model that is created by this
     #   import. A tag is a key-value pair that adds as a metadata to a
     #   resource used by Amazon Comprehend. For example, a tag with
     #   "Sales" as the key might be added to a resource to indicate its
@@ -3947,7 +5032,7 @@ module Aws::Comprehend
     # field applies only to non-text inputs for custom analysis.
     #
     # @!attribute [rw] s3_uri
-    #   The Amazon S3 URI for the input data. The URI must be in same region
+    #   The Amazon S3 URI for the input data. The URI must be in same Region
     #   as the API endpoint that you are calling. The URI can point to a
     #   single input file or it can provide the prefix for a collection of
     #   data files.
@@ -4012,23 +5097,32 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
-    # Provides additional detail about why the request failed:
-    #
-    # * Document size is too large - Check the size of your file and
-    #   resubmit the request.
-    #
-    # * Document type is not supported - Check the file type and resubmit
-    #   the request.
-    #
-    # * Too many pages in the document - Check the number of pages in your
-    #   file and resubmit the request.
-    #
-    # * Access denied to Amazon Textract - Verify that your account has
-    #   permission to use Amazon Textract API operations and resubmit the
-    #   request.
+    # Provides additional detail about why the request failed.
     #
     # @!attribute [rw] reason
-    #   Reason code is `INVALID_DOCUMENT`.
+    #   Reason codes include the following values:
+    #
+    #   * DOCUMENT\_SIZE\_EXCEEDED - Document size is too large. Check the
+    #     size of your file and resubmit the request.
+    #
+    #   * UNSUPPORTED\_DOC\_TYPE - Document type is not supported. Check the
+    #     file type and resubmit the request.
+    #
+    #   * PAGE\_LIMIT\_EXCEEDED - Too many pages in the document. Check the
+    #     number of pages in your file and resubmit the request.
+    #
+    #   * TEXTRACT\_ACCESS\_DENIED - Access denied to Amazon Textract.
+    #     Verify that your account has permission to use Amazon Textract API
+    #     operations and resubmit the request.
+    #
+    #   * NOT\_TEXTRACT\_JSON - Document is not Amazon Textract JSON format.
+    #     Verify the format and resubmit the request.
+    #
+    #   * MISMATCHED\_TOTAL\_PAGE\_COUNT - Check the number of pages in your
+    #     file and resubmit the request.
+    #
+    #   * INVALID\_DOCUMENT - Invalid document. Check the file and resubmit
+    #     the request.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/InvalidRequestDetail AWS API Documentation
@@ -4048,20 +5142,7 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] detail
-    #   Provides additional detail about why the request failed:
-    #
-    #   * Document size is too large - Check the size of your file and
-    #     resubmit the request.
-    #
-    #   * Document type is not supported - Check the file type and resubmit
-    #     the request.
-    #
-    #   * Too many pages in the document - Check the number of pages in your
-    #     file and resubmit the request.
-    #
-    #   * Access denied to Amazon Textract - Verify that your account has
-    #     permission to use Amazon Textract API operations and resubmit the
-    #     request.
+    #   Provides additional detail about why the request failed.
     #   @return [Types::InvalidRequestDetail]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/InvalidRequestException AWS API Documentation
@@ -4165,8 +5246,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the key phrases detection job. It
     #   is a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:key-phrases-detection-job/<job-id>`
     #
@@ -4212,15 +5293,15 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) that gives Amazon Comprehend read
-    #   access to your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt data on
+    #   the storage volume attached to the ML compute instance(s) that
+    #   process the analysis job. The VolumeKmsKeyId can be either of the
+    #   following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -4268,6 +5349,51 @@ module Aws::Comprehend
     #
     class KmsKeyValidationException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter
+    #   Filters the datasets to be returned in the response.
+    #   @return [Types::DatasetFilter]
+    #
+    # @!attribute [rw] next_token
+    #   Identifies the next page of results to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of results to return in a response. The default is
+    #   100.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListDatasetsRequest AWS API Documentation
+    #
+    class ListDatasetsRequest < Struct.new(
+      :flywheel_arn,
+      :filter,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_properties_list
+    #   The dataset properties list.
+    #   @return [Array<Types::DatasetProperties>]
+    #
+    # @!attribute [rw] next_token
+    #   Identifies the next page of results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListDatasetsResponse AWS API Documentation
+    #
+    class ListDatasetsResponse < Struct.new(
+      :dataset_properties_list,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4541,7 +5667,7 @@ module Aws::Comprehend
     #   @return [Array<Types::EntityRecognizerSummary>]
     #
     # @!attribute [rw] next_token
-    #   The list entity recognizer summaries.
+    #   Identifies the next page of results to return.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListEntityRecognizerSummariesResponse AWS API Documentation
@@ -4631,6 +5757,93 @@ module Aws::Comprehend
     #
     class ListEventsDetectionJobsResponse < Struct.new(
       :events_detection_job_properties_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_arn
+    #   The ARN of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter
+    #   Filter the flywheel iteration history based on creation time.
+    #   @return [Types::FlywheelIterationFilter]
+    #
+    # @!attribute [rw] next_token
+    #   Next token
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of iteration history results to return
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListFlywheelIterationHistoryRequest AWS API Documentation
+    #
+    class ListFlywheelIterationHistoryRequest < Struct.new(
+      :flywheel_arn,
+      :filter,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_iteration_properties_list
+    #   List of flywheel iteration properties
+    #   @return [Array<Types::FlywheelIterationProperties>]
+    #
+    # @!attribute [rw] next_token
+    #   Next token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListFlywheelIterationHistoryResponse AWS API Documentation
+    #
+    class ListFlywheelIterationHistoryResponse < Struct.new(
+      :flywheel_iteration_properties_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filter
+    #   Filters the flywheels that are returned. You can filter flywheels on
+    #   their status, or the date and time that they were submitted. You can
+    #   only set one filter at a time.
+    #   @return [Types::FlywheelFilter]
+    #
+    # @!attribute [rw] next_token
+    #   Identifies the next page of results to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of results to return in a response. The default is
+    #   100.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListFlywheelsRequest AWS API Documentation
+    #
+    class ListFlywheelsRequest < Struct.new(
+      :filter,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_summary_list
+    #   A list of flywheel properties retrieved by the service in response
+    #   to the request.
+    #   @return [Array<Types::FlywheelSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   Identifies the next page of results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ListFlywheelsResponse AWS API Documentation
+    #
+    class ListFlywheelsResponse < Struct.new(
+      :flywheel_summary_list,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -4884,7 +6097,7 @@ module Aws::Comprehend
     # entity.
     #
     # For more information about targeted sentiment, see [Targeted
-    # sentiment][1].
+    # sentiment][1] in the *Amazon Comprehend Developer Guide*.
     #
     #
     #
@@ -4913,7 +6126,7 @@ module Aws::Comprehend
     # @!attribute [rw] s3_uri
     #   When you use the `OutputDataConfig` object with asynchronous
     #   operations, you specify the Amazon S3 location where you want to
-    #   write the output data. The URI must be in the same region as the API
+    #   write the output data. The URI must be in the same Region as the API
     #   endpoint that you are calling. The location is used as the prefix
     #   for the actual location of the output file.
     #
@@ -4928,8 +6141,11 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt the output results from an analysis job.
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt the output results from an
+    #   analysis job. Specify the Key Id of a symmetric key, because you
+    #   cannot use an asymmetric key for uploading data to S3.
+    #
     #   The KmsKeyId can be one of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
@@ -5026,8 +6242,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the PII entities detection job. It
     #   is a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:pii-entities-detection-job/<job-id>`
     #
@@ -5076,12 +6292,12 @@ module Aws::Comprehend
     #   @return [Types::RedactionConfig]
     #
     # @!attribute [rw] language_code
-    #   The language code of the input documents
+    #   The language code of the input documents.
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) that gives Amazon Comprehend read
-    #   access to your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] mode
@@ -5155,8 +6371,9 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt the output results from an analysis job.
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt the output results from an
+    #   analysis job.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/PiiOutputDataConfig AWS API Documentation
@@ -5207,12 +6424,12 @@ module Aws::Comprehend
     #   quotes, then you must escape the double quotes that are inside the
     #   policy:
     #
-    #   `"\{"attribute": "value", "attribute": ["value"]\}"`
+    #   `"{"attribute": "value", "attribute": ["value"]}"`
     #
     #   To avoid escaping quotes, you can use single quotes to enclose the
     #   policy and double quotes to enclose the JSON names and values:
     #
-    #   `'\{"attribute": "value", "attribute": ["value"]\}'`
+    #   `'{"attribute": "value", "attribute": ["value"]}'`
     #   @return [String]
     #
     # @!attribute [rw] policy_revision_id
@@ -5393,8 +6610,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the sentiment detection job. It is
     #   a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:sentiment-detection-job/<job-id>`
     #
@@ -5440,15 +6657,15 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) that gives Amazon Comprehend read
-    #   access to your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -5538,9 +6755,8 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
@@ -5552,10 +6768,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -5574,11 +6790,16 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the document classification job. A tag is
-    #   a key-value pair that adds metadata to a resource used by Amazon
+    #   Tags to associate with the document classification job. A tag is a
+    #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel associated with the
+    #   model to use.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartDocumentClassificationJobRequest AWS API Documentation
     #
@@ -5591,21 +6812,23 @@ module Aws::Comprehend
       :client_request_token,
       :volume_kms_key_id,
       :vpc_config,
-      :tags)
+      :tags,
+      :flywheel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] job_id
     #   The identifier generated for the job. To get the status of the job,
-    #   use this identifier with the operation.
+    #   use this identifier with the `DescribeDocumentClassificationJob`
+    #   operation.
     #   @return [String]
     #
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the document classification job.
     #   It is a unique, fully qualified identifier for the job. It includes
-    #   the AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   the Amazon Web Services account, Amazon Web Services Region, and the
+    #   job ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:document-classification-job/<job-id>`
     #
@@ -5624,7 +6847,8 @@ module Aws::Comprehend
     #   * COMPLETED - The job was successfully completed and the output is
     #     available.
     #
-    #   * FAILED - The job did not complete. For details, use the operation.
+    #   * FAILED - The job did not complete. For details, use the
+    #     `DescribeDocumentClassificationJob` operation.
     #
     #   * STOP\_REQUESTED - Amazon Comprehend has received a stop request
     #     for the job and is processing the request.
@@ -5632,12 +6856,17 @@ module Aws::Comprehend
     #   * STOPPED - The job was successfully stopped without completing.
     #   @return [String]
     #
+    # @!attribute [rw] document_classifier_arn
+    #   The ARN of the custom classification model.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartDocumentClassificationJobResponse AWS API Documentation
     #
     class StartDocumentClassificationJobResponse < Struct.new(
       :job_id,
       :job_arn,
-      :job_status)
+      :job_status,
+      :document_classifier_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5651,14 +6880,13 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data. For more information, see
-    #   [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions][1].
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data. For more information, see
+    #   [Role-based permissions][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -5674,10 +6902,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -5696,11 +6924,10 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the dominant language detection job. A
-    #   tag is a key-value pair that adds metadata to a resource used by
-    #   Amazon Comprehend. For example, a tag with "Sales" as the key
-    #   might be added to a resource to indicate its use by the sales
-    #   department.
+    #   Tags to associate with the dominant language detection job. A tag is
+    #   a key-value pair that adds metadata to a resource used by Amazon
+    #   Comprehend. For example, a tag with "Sales" as the key might be
+    #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartDominantLanguageDetectionJobRequest AWS API Documentation
@@ -5726,8 +6953,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the dominant language detection
     #   job. It is a unique, fully qualified identifier for the job. It
-    #   includes the AWS account, Region, and the job ID. The format of the
-    #   ARN is as follows:
+    #   includes the Amazon Web Services account, Amazon Web Services
+    #   Region, and the job ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:dominant-language-detection-job/<job-id>`
     #
@@ -5770,14 +6997,13 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data. For more information, see
-    #   [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions][1].
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data. For more information, see
+    #   [Role-based permissions][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -5807,10 +7033,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -5829,11 +7055,16 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the entities detection job. A tag is a
+    #   Tags to associate with the entities detection job. A tag is a
     #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel associated with the
+    #   model to use.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartEntitiesDetectionJobRequest AWS API Documentation
     #
@@ -5847,7 +7078,8 @@ module Aws::Comprehend
       :client_request_token,
       :volume_kms_key_id,
       :vpc_config,
-      :tags)
+      :tags,
+      :flywheel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5860,8 +7092,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the entities detection job. It is
     #   a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:entities-detection-job/<job-id>`
     #
@@ -5890,12 +7122,17 @@ module Aws::Comprehend
     #   * STOPPED - The job was successfully stopped without completing.
     #   @return [String]
     #
+    # @!attribute [rw] entity_recognizer_arn
+    #   The ARN of the custom entity recognition model.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartEntitiesDetectionJobResponse AWS API Documentation
     #
     class StartEntitiesDetectionJobResponse < Struct.new(
       :job_id,
       :job_arn,
-      :job_status)
+      :job_status,
+      :entity_recognizer_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5909,9 +7146,8 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -5935,7 +7171,7 @@ module Aws::Comprehend
     #   @return [Array<String>]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the events detection job. A tag is a
+    #   Tags to associate with the events detection job. A tag is a
     #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
@@ -5963,9 +7199,9 @@ module Aws::Comprehend
     #
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the events detection job. It is a
-    #   unique, fully qualified identifier for the job. It includes the AWS
-    #   account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   unique, fully qualified identifier for the job. It includes the
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:events-detection-job/<job-id>`
     #
@@ -5988,6 +7224,39 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # @!attribute [rw] flywheel_arn
+    #   The ARN of the flywheel.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_request_token
+    #   A unique identifier for the request. If you don't set the client
+    #   request token, Amazon Comprehend generates one.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartFlywheelIterationRequest AWS API Documentation
+    #
+    class StartFlywheelIterationRequest < Struct.new(
+      :flywheel_arn,
+      :client_request_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] flywheel_iteration_id
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartFlywheelIterationResponse AWS API Documentation
+    #
+    class StartFlywheelIterationResponse < Struct.new(
+      :flywheel_arn,
+      :flywheel_iteration_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] input_data_config
     #   Specifies the format and location of the input data for the job.
     #   @return [Types::InputDataConfig]
@@ -5997,14 +7266,13 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data. For more information, see
-    #   [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions][1].
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data. For more information, see
+    #   [Role-based permissions][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -6026,10 +7294,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -6048,7 +7316,7 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the key phrases detection job. A tag is a
+    #   Tags to associate with the key phrases detection job. A tag is a
     #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
@@ -6078,8 +7346,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the key phrase detection job. It
     #   is a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:key-phrases-detection-job/<job-id>`
     #
@@ -6136,9 +7404,8 @@ module Aws::Comprehend
     #   @return [Types::RedactionConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -6146,8 +7413,8 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] language_code
-    #   The language of the input documents. Currently, English is the only
-    #   valid language.
+    #   The language of the input documents. Enter the language code for
+    #   English (en) or Spanish (es).
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
@@ -6159,8 +7426,8 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the PII entities detection job. A tag is
-    #   a key-value pair that adds metadata to a resource used by Amazon
+    #   Tags to associate with the PII entities detection job. A tag is a
+    #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
@@ -6188,8 +7455,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the PII entity detection job. It
     #   is a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:pii-entities-detection-job/<job-id>`
     #
@@ -6221,14 +7488,13 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data. For more information, see
-    #   [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions][1].
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data. For more information, see
+    #   [Role-based permissions][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -6250,10 +7516,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -6272,7 +7538,7 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the sentiment detection job. A tag is a
+    #   Tags to associate with the sentiment detection job. A tag is a
     #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
@@ -6302,8 +7568,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the sentiment detection job. It is
     #   a unique, fully qualified identifier for the job. It includes the
-    #   AWS account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:sentiment-detection-job/<job-id>`
     #
@@ -6347,14 +7613,13 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data. For more information, see [Role-based
-    #   permissions][1].
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data. For more information, see
+    #   [Role-based permissions][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -6397,11 +7662,10 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the targeted sentiment detection job. A
-    #   tag is a key-value pair that adds metadata to a resource used by
-    #   Amazon Comprehend. For example, a tag with "Sales" as the key
-    #   might be added to a resource to indicate its use by the sales
-    #   department.
+    #   Tags to associate with the targeted sentiment detection job. A tag
+    #   is a key-value pair that adds metadata to a resource used by Amazon
+    #   Comprehend. For example, a tag with "Sales" as the key might be
+    #   added to a resource to indicate its use by the sales department.
     #   @return [Array<Types::Tag>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartTargetedSentimentDetectionJobRequest AWS API Documentation
@@ -6422,14 +7686,15 @@ module Aws::Comprehend
 
     # @!attribute [rw] job_id
     #   The identifier generated for the job. To get the status of a job,
-    #   use this identifier with the operation.
+    #   use this identifier with the `DescribeTargetedSentimentDetectionJob`
+    #   operation.
     #   @return [String]
     #
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the targeted sentiment detection
     #   job. It is a unique, fully qualified identifier for the job. It
-    #   includes the AWS account, Region, and the job ID. The format of the
-    #   ARN is as follows:
+    #   includes the Amazon Web Services account, Amazon Web Services
+    #   Region, and the job ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:targeted-sentiment-detection-job/<job-id>`
     #
@@ -6450,7 +7715,7 @@ module Aws::Comprehend
     #     available.
     #
     #   * FAILED - The job did not complete. To get details, use the
-    #     operation.
+    #     `DescribeTargetedSentimentDetectionJob` operation.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/StartTargetedSentimentDetectionJobResponse AWS API Documentation
@@ -6475,14 +7740,13 @@ module Aws::Comprehend
     #   @return [Types::OutputDataConfig]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
-    #   Management (IAM) role that grants Amazon Comprehend read access to
-    #   your input data. For more information, see
-    #   [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions][1].
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data. For more information, see
+    #   [Role-based permissions][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions
+    #   [1]: https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions
     #   @return [String]
     #
     # @!attribute [rw] job_name
@@ -6502,10 +7766,10 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -6524,7 +7788,7 @@ module Aws::Comprehend
     #   @return [Types::VpcConfig]
     #
     # @!attribute [rw] tags
-    #   Tags to be associated with the topics detection job. A tag is a
+    #   Tags to associate with the topics detection job. A tag is a
     #   key-value pair that adds metadata to a resource used by Amazon
     #   Comprehend. For example, a tag with "Sales" as the key might be
     #   added to a resource to indicate its use by the sales department.
@@ -6553,9 +7817,9 @@ module Aws::Comprehend
     #
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the topics detection job. It is a
-    #   unique, fully qualified identifier for the job. It includes the AWS
-    #   account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   unique, fully qualified identifier for the job. It includes the
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:topics-detection-job/<job-id>`
     #
@@ -6936,7 +8200,8 @@ module Aws::Comprehend
     class TagResourceResponse < Aws::EmptyStructure; end
 
     # Provides information for filtering a list of dominant language
-    # detection jobs. For more information, see the operation.
+    # detection jobs. For more information, see the
+    # `ListTargetedSentimentDetectionJobs` operation.
     #
     # @!attribute [rw] job_name
     #   Filters on the name of the job.
@@ -6981,8 +8246,8 @@ module Aws::Comprehend
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the targeted sentiment detection
     #   job. It is a unique, fully qualified identifier for the job. It
-    #   includes the AWS account, Region, and the job ID. The format of the
-    #   ARN is as follows:
+    #   includes the Amazon Web Services account, Amazon Web Services
+    #   Region, and the job ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:targeted-sentiment-detection-job/<job-id>`
     #
@@ -7028,16 +8293,15 @@ module Aws::Comprehend
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) that gives Amazon Comprehend read
-    #   access to your input data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your input data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the targeted sentiment
-    #   detection job. The VolumeKmsKeyId can be either of the following
-    #   formats:
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt the data
+    #   on the storage volume attached to the ML compute instance(s) that
+    #   process the targeted sentiment detection job. The VolumeKmsKeyId can
+    #   be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -7079,7 +8343,7 @@ module Aws::Comprehend
     # analysis.
     #
     # For more information about targeted sentiment, see [Targeted
-    # sentiment][1].
+    # sentiment][1] in the *Amazon Comprehend Developer Guide*.
     #
     #
     #
@@ -7114,7 +8378,7 @@ module Aws::Comprehend
     # the mention.
     #
     # For more information about targeted sentiment, see [Targeted
-    # sentiment][1].
+    # sentiment][1] in the *Amazon Comprehend Developer Guide*.
     #
     #
     #
@@ -7166,6 +8430,44 @@ module Aws::Comprehend
       :begin_offset,
       :end_offset)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration about the model associated with a flywheel.
+    #
+    # @!attribute [rw] language_code
+    #   Language code for the language that the model supports.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_classification_config
+    #   Configuration required for a document classification model.
+    #   @return [Types::DocumentClassificationConfig]
+    #
+    # @!attribute [rw] entity_recognition_config
+    #   Configuration required for an entity recognition model.
+    #   @return [Types::EntityRecognitionConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/TaskConfig AWS API Documentation
+    #
+    class TaskConfig < Struct.new(
+      :language_code,
+      :document_classification_config,
+      :entity_recognition_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # One of the of text strings. Each string has a size limit of 1KB.
+    #
+    # @!attribute [rw] text
+    #   The text content.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/TextSegment AWS API Documentation
+    #
+    class TextSegment < Struct.new(
+      :text)
+      SENSITIVE = [:text]
       include Aws::Structure
     end
 
@@ -7268,9 +8570,9 @@ module Aws::Comprehend
     #
     # @!attribute [rw] job_arn
     #   The Amazon Resource Name (ARN) of the topics detection job. It is a
-    #   unique, fully qualified identifier for the job. It includes the AWS
-    #   account, Region, and the job ID. The format of the ARN is as
-    #   follows:
+    #   unique, fully qualified identifier for the job. It includes the
+    #   Amazon Web Services account, Amazon Web Services Region, and the job
+    #   ID. The format of the ARN is as follows:
     #
     #   `arn:<partition>:comprehend:<region>:<account-id>:topics-detection-job/<job-id>`
     #
@@ -7317,16 +8619,15 @@ module Aws::Comprehend
     #   @return [Integer]
     #
     # @!attribute [rw] data_access_role_arn
-    #   The Amazon Resource Name (ARN) of the AWS Identity and Management
-    #   (IAM) role that grants Amazon Comprehend read access to your job
-    #   data.
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend read access to your job data.
     #   @return [String]
     #
     # @!attribute [rw] volume_kms_key_id
-    #   ID for the AWS Key Management Service (KMS) key that Amazon
-    #   Comprehend uses to encrypt data on the storage volume attached to
-    #   the ML compute instance(s) that process the analysis job. The
-    #   VolumeKmsKeyId can be either of the following formats:
+    #   ID for the Amazon Web Services Key Management Service (KMS) key that
+    #   Amazon Comprehend uses to encrypt data on the storage volume
+    #   attached to the ML compute instance(s) that process the analysis
+    #   job. The VolumeKmsKeyId can be either of the following formats:
     #
     #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
     #
@@ -7364,10 +8665,61 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
-    # Amazon Comprehend can't process the language of the input text. For
-    # custom entity recognition APIs, only English, Spanish, French,
-    # Italian, German, or Portuguese are accepted. For a list of supported
-    # languages, [Supported languages][1] in the Comprehend Developer Guide.
+    # Toxic content analysis result for one string. For more information
+    # about toxicity detection, see [Toxicity detection][1] in the *Amazon
+    # Comprehend Developer Guide*
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html
+    #
+    # @!attribute [rw] name
+    #   The name of the toxic content type.
+    #   @return [String]
+    #
+    # @!attribute [rw] score
+    #   Model confidence in the detected content type. Value range is zero
+    #   to one, where one is highest confidence.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ToxicContent AWS API Documentation
+    #
+    class ToxicContent < Struct.new(
+      :name,
+      :score)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Toxicity analysis result for one string. For more information about
+    # toxicity detection, see [Toxicity detection][1] in the *Amazon
+    # Comprehend Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html
+    #
+    # @!attribute [rw] labels
+    #   Array of toxic content types identified in the string.
+    #   @return [Array<Types::ToxicContent>]
+    #
+    # @!attribute [rw] toxicity
+    #   Overall toxicity score for the string. Value range is zero to one,
+    #   where one is the highest confidence.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/ToxicLabels AWS API Documentation
+    #
+    class ToxicLabels < Struct.new(
+      :labels,
+      :toxicity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Amazon Comprehend can't process the language of the input text. For a
+    # list of supported languages, [Supported languages][1] in the
+    # Comprehend Developer Guide.
     #
     #
     #
@@ -7410,6 +8762,44 @@ module Aws::Comprehend
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
+    # Data security configuration.
+    #
+    # @!attribute [rw] model_kms_key_id
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt trained
+    #   custom models. The ModelKmsKeyId can be either of the following
+    #   formats:
+    #
+    #   * KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+    #
+    #   * Amazon Resource Name (ARN) of a KMS Key:
+    #     `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+    #   @return [String]
+    #
+    # @!attribute [rw] volume_kms_key_id
+    #   ID for the KMS key that Amazon Comprehend uses to encrypt the
+    #   volume.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_config
+    #   Configuration parameters for an optional private Virtual Private
+    #   Cloud (VPC) containing the resources you are using for the job. For
+    #   more information, see [Amazon VPC][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
+    #   @return [Types::VpcConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/UpdateDataSecurityConfig AWS API Documentation
+    #
+    class UpdateDataSecurityConfig < Struct.new(
+      :model_kms_key_id,
+      :volume_kms_key_id,
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] endpoint_arn
     #   The Amazon Resource Number (ARN) of the endpoint being updated.
     #   @return [String]
@@ -7429,20 +8819,73 @@ module Aws::Comprehend
     #   a customer CMK.
     #   @return [String]
     #
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/UpdateEndpointRequest AWS API Documentation
     #
     class UpdateEndpointRequest < Struct.new(
       :endpoint_arn,
       :desired_model_arn,
       :desired_inference_units,
-      :desired_data_access_role_arn)
+      :desired_data_access_role_arn,
+      :flywheel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] desired_model_arn
+    #   The Amazon Resource Number (ARN) of the new model.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/UpdateEndpointResponse AWS API Documentation
     #
-    class UpdateEndpointResponse < Aws::EmptyStructure; end
+    class UpdateEndpointResponse < Struct.new(
+      :desired_model_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_arn
+    #   The Amazon Resource Number (ARN) of the flywheel to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] active_model_arn
+    #   The Amazon Resource Number (ARN) of the active model version.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+    #   Comprehend permission to access the flywheel data.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_security_config
+    #   Flywheel data security configuration.
+    #   @return [Types::UpdateDataSecurityConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/UpdateFlywheelRequest AWS API Documentation
+    #
+    class UpdateFlywheelRequest < Struct.new(
+      :flywheel_arn,
+      :active_model_arn,
+      :data_access_role_arn,
+      :data_security_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flywheel_properties
+    #   The flywheel properties.
+    #   @return [Types::FlywheelProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/UpdateFlywheelResponse AWS API Documentation
+    #
+    class UpdateFlywheelResponse < Struct.new(
+      :flywheel_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Configuration parameters for an optional private Virtual Private Cloud
     # (VPC) containing the resources you are using for the job. For more
@@ -7469,7 +8912,7 @@ module Aws::Comprehend
     # @!attribute [rw] subnets
     #   The ID for each subnet being used in your private VPC. This subnet
     #   is a subset of the a range of IPv4 addresses used by the VPC and is
-    #   specific to a given availability zone in the VPC’s region. This ID
+    #   specific to a given availability zone in the VPC’s Region. This ID
     #   number is preceded by "subnet-", for instance:
     #   "subnet-04ccf456919e69055". For more information, see [VPCs and
     #   Subnets][1].
@@ -7488,5 +8931,37 @@ module Aws::Comprehend
       include Aws::Structure
     end
 
+    # The system identified one of the following warnings while processing
+    # the input document:
+    #
+    # * The document to classify is plain text, but the classifier is a
+    #   native document model.
+    #
+    # * The document to classify is semi-structured, but the classifier is a
+    #   plain-text model.
+    #
+    # @!attribute [rw] page
+    #   Page number in the input document.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] warn_code
+    #   The type of warning.
+    #   @return [String]
+    #
+    # @!attribute [rw] warn_message
+    #   Text message associated with the warning.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/comprehend-2017-11-27/WarningsListItem AWS API Documentation
+    #
+    class WarningsListItem < Struct.new(
+      :page,
+      :warn_code,
+      :warn_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

@@ -35,6 +35,18 @@ module Aws::EC2
     end
     alias :key_name :name
 
+    # The ID of the key pair.
+    # @return [String]
+    def key_pair_id
+      data[:key_pair_id]
+    end
+
+    # Any tags applied to the key pair.
+    # @return [Array<Types::Tag>]
+    def tags
+      data[:tags]
+    end
+
     # * For RSA key pairs, the key fingerprint is the SHA-1 digest of the
     #   DER encoded private key.
     #
@@ -50,18 +62,6 @@ module Aws::EC2
     # @return [String]
     def key_material
       data[:key_material]
-    end
-
-    # The ID of the key pair.
-    # @return [String]
-    def key_pair_id
-      data[:key_pair_id]
-    end
-
-    # Any tags applied to the key pair.
-    # @return [Array<Types::Tag>]
-    def tags
-      data[:tags]
     end
 
     # @!endgroup
@@ -188,7 +188,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -207,10 +209,12 @@ module Aws::EC2
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @return [EmptyStructure]
+    # @return [Types::DeleteKeyPairResult]
     def delete(options = {})
       options = options.merge(key_name: @name)
-      resp = @client.delete_key_pair(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_key_pair(options)
+      end
       resp.data
     end
 

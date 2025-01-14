@@ -30,7 +30,10 @@ module Aws::CloudFormation
   # * {AlreadyExistsException}
   # * {CFNRegistryException}
   # * {ChangeSetNotFoundException}
+  # * {ConcurrentResourcesLimitExceededException}
   # * {CreatedButModifiedException}
+  # * {GeneratedTemplateNotFoundException}
+  # * {HookResultNotFoundException}
   # * {InsufficientCapabilitiesException}
   # * {InvalidChangeSetStatusException}
   # * {InvalidOperationException}
@@ -41,6 +44,9 @@ module Aws::CloudFormation
   # * {OperationInProgressException}
   # * {OperationNotFoundException}
   # * {OperationStatusCheckFailedException}
+  # * {ResourceScanInProgressException}
+  # * {ResourceScanLimitExceededException}
+  # * {ResourceScanNotFoundException}
   # * {StackInstanceNotFoundException}
   # * {StackNotFoundException}
   # * {StackSetNotEmptyException}
@@ -91,11 +97,41 @@ module Aws::CloudFormation
       end
     end
 
+    class ConcurrentResourcesLimitExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudFormation::Types::ConcurrentResourcesLimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
     class CreatedButModifiedException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CloudFormation::Types::CreatedButModifiedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class GeneratedTemplateNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudFormation::Types::GeneratedTemplateNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class HookResultNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudFormation::Types::HookResultNotFoundException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -196,6 +232,36 @@ module Aws::CloudFormation
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CloudFormation::Types::OperationStatusCheckFailedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class ResourceScanInProgressException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudFormation::Types::ResourceScanInProgressException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class ResourceScanLimitExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudFormation::Types::ResourceScanLimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class ResourceScanNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudFormation::Types::ResourceScanNotFoundException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

@@ -4,13 +4,15 @@
     "apiVersion":"2014-10-31",
     "endpointPrefix":"rds",
     "protocol":"query",
+    "protocols":["query"],
     "serviceAbbreviation":"Amazon Neptune",
     "serviceFullName":"Amazon Neptune",
     "serviceId":"Neptune",
     "signatureVersion":"v4",
     "signingName":"rds",
     "uid":"neptune-2014-10-31",
-    "xmlNamespace":"http://rds.amazonaws.com/doc/2014-10-31/"
+    "xmlNamespace":"http://rds.amazonaws.com/doc/2014-10-31/",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AddRoleToDBCluster":{
@@ -814,7 +816,8 @@
         {"shape":"DBClusterParameterGroupNotFoundFault"},
         {"shape":"InvalidDBSecurityGroupStateFault"},
         {"shape":"InvalidDBInstanceStateFault"},
-        {"shape":"DBClusterAlreadyExistsFault"}
+        {"shape":"DBClusterAlreadyExistsFault"},
+        {"shape":"StorageTypeNotSupportedFault"}
       ]
     },
     "ModifyDBClusterEndpoint":{
@@ -1324,6 +1327,19 @@
         "DisableLogTypes":{"shape":"LogTypeList"}
       }
     },
+    "ClusterPendingModifiedValues":{
+      "type":"structure",
+      "members":{
+        "PendingCloudwatchLogsExports":{"shape":"PendingCloudwatchLogsExports"},
+        "DBClusterIdentifier":{"shape":"String"},
+        "IAMDatabaseAuthenticationEnabled":{"shape":"BooleanOptional"},
+        "EngineVersion":{"shape":"String"},
+        "BackupRetentionPeriod":{"shape":"IntegerOptional"},
+        "StorageType":{"shape":"String"},
+        "AllocatedStorage":{"shape":"IntegerOptional"},
+        "Iops":{"shape":"IntegerOptional"}
+      }
+    },
     "CopyDBClusterParameterGroupMessage":{
       "type":"structure",
       "required":[
@@ -1449,7 +1465,8 @@
         "EnableCloudwatchLogsExports":{"shape":"LogTypeList"},
         "DeletionProtection":{"shape":"BooleanOptional"},
         "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"},
-        "GlobalClusterIdentifier":{"shape":"GlobalClusterIdentifier"}
+        "GlobalClusterIdentifier":{"shape":"GlobalClusterIdentifier"},
+        "StorageType":{"shape":"String"}
       }
     },
     "CreateDBClusterParameterGroupMessage":{
@@ -1501,7 +1518,8 @@
       "required":[
         "DBInstanceIdentifier",
         "DBInstanceClass",
-        "Engine"
+        "Engine",
+        "DBClusterIdentifier"
       ],
       "members":{
         "DBName":{"shape":"String"},
@@ -1535,7 +1553,7 @@
         "DBClusterIdentifier":{"shape":"String"},
         "StorageType":{"shape":"String"},
         "TdeCredentialArn":{"shape":"String"},
-        "TdeCredentialPassword":{"shape":"String"},
+        "TdeCredentialPassword":{"shape":"SensitiveString"},
         "StorageEncrypted":{"shape":"BooleanOptional"},
         "KmsKeyId":{"shape":"String"},
         "Domain":{"shape":"String"},
@@ -1678,10 +1696,14 @@
         "ClusterCreateTime":{"shape":"TStamp"},
         "CopyTagsToSnapshot":{"shape":"BooleanOptional"},
         "EnabledCloudwatchLogsExports":{"shape":"LogTypeList"},
+        "PendingModifiedValues":{"shape":"ClusterPendingModifiedValues"},
         "DeletionProtection":{"shape":"BooleanOptional"},
         "CrossAccountClone":{"shape":"BooleanOptional"},
         "AutomaticRestartTime":{"shape":"TStamp"},
-        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfigurationInfo"}
+        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfigurationInfo"},
+        "GlobalClusterIdentifier":{"shape":"GlobalClusterIdentifier"},
+        "IOOptimizedNextAllowedModificationTime":{"shape":"TStamp"},
+        "StorageType":{"shape":"String"}
       },
       "wrapper":true
     },
@@ -1943,7 +1965,8 @@
         "KmsKeyId":{"shape":"String"},
         "DBClusterSnapshotArn":{"shape":"String"},
         "SourceDBClusterSnapshotArn":{"shape":"String"},
-        "IAMDatabaseAuthenticationEnabled":{"shape":"Boolean"}
+        "IAMDatabaseAuthenticationEnabled":{"shape":"Boolean"},
+        "StorageType":{"shape":"String"}
       },
       "wrapper":true
     },
@@ -3283,7 +3306,8 @@
         "DBInstanceParameterGroupName":{"shape":"String"},
         "DeletionProtection":{"shape":"BooleanOptional"},
         "CopyTagsToSnapshot":{"shape":"BooleanOptional"},
-        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"}
+        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"},
+        "StorageType":{"shape":"String"}
       }
     },
     "ModifyDBClusterParameterGroupMessage":{
@@ -3348,7 +3372,7 @@
         "NewDBInstanceIdentifier":{"shape":"String"},
         "StorageType":{"shape":"String"},
         "TdeCredentialArn":{"shape":"String"},
-        "TdeCredentialPassword":{"shape":"String"},
+        "TdeCredentialPassword":{"shape":"SensitiveString"},
         "CACertificateIdentifier":{"shape":"String"},
         "Domain":{"shape":"String"},
         "CopyTagsToSnapshot":{"shape":"BooleanOptional"},
@@ -3780,7 +3804,8 @@
         "DBClusterParameterGroupName":{"shape":"String"},
         "DeletionProtection":{"shape":"BooleanOptional"},
         "CopyTagsToSnapshot":{"shape":"BooleanOptional"},
-        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"}
+        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"},
+        "StorageType":{"shape":"String"}
       }
     },
     "RestoreDBClusterFromSnapshotResult":{
@@ -3811,7 +3836,8 @@
         "EnableCloudwatchLogsExports":{"shape":"LogTypeList"},
         "DBClusterParameterGroupName":{"shape":"String"},
         "DeletionProtection":{"shape":"BooleanOptional"},
-        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"}
+        "ServerlessV2ScalingConfiguration":{"shape":"ServerlessV2ScalingConfiguration"},
+        "StorageType":{"shape":"String"}
       }
     },
     "RestoreDBClusterToPointInTimeResult":{
@@ -3852,6 +3878,10 @@
         "senderFault":true
       },
       "exception":true
+    },
+    "SensitiveString":{
+      "type":"string",
+      "sensitive":true
     },
     "ServerlessV2ScalingConfiguration":{
       "type":"structure",

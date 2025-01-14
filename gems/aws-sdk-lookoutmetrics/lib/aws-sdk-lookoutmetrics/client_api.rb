@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::LookoutMetrics
   # @api private
   module ClientApi
@@ -951,9 +952,11 @@ module Aws::LookoutMetrics
 
       api.metadata = {
         "apiVersion" => "2017-07-25",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "lookoutmetrics",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "LookoutMetrics",
         "serviceFullName" => "Amazon Lookout for Metrics",
         "serviceId" => "LookoutMetrics",

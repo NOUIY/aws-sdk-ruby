@@ -49,6 +49,28 @@ module Aws
           expect(resp.data.item).to eq('id' => 'guid')
         end
 
+        it 'unmarshals attribute values in errors' do
+          ddb.handle(step: :send) do |context|
+            context.http_response.signal_headers(400, {})
+            context.http_response.signal_data(<<-JSON)
+              {
+                "__type": "com.amazonaws.dynamodb.v20120810#ConditionalCheckFailedException",
+                "Message": "The conditional request failed.",
+                "Item": { "id": { "S": "guid" } }
+              }
+            JSON
+            context.http_response.signal_done
+            Seahorse::Client::Response.new(context: context)
+          end
+          expectation = proc do |error|
+            expect(error).to be_a(Errors::ConditionalCheckFailedException)
+            expect(error.data.item).to eq('id' => 'guid')
+          end
+          expect do
+            ddb.put_item(table_name: 'aws-sdk', item: { 'id' => 'guid' })
+          end.to raise_error(&expectation)
+        end
+
         it 'avoids double-marshaling of structs' do
           batch = {
             "TableName" => [
@@ -137,6 +159,18 @@ module Aws
           expect(resp.item).to eq('id' => 'value')
         end
 
+        it 'observes the :simple_attributes configuration option' do
+          client = Client.new(stub_responses: true, simple_attributes: false)
+          expect {
+            client.stub_responses(:get_item, item: { 'id' => 'value' })
+          }.to raise_error(ArgumentError)
+
+          client.stub_responses(:get_item, item: { 'id' => { s: 'value' }})
+          resp = client.get_item(table_name: 'table', key: { 'id' => { s: 'value' }})
+          expect(resp.item.keys).to eq(['id'])
+          expect(resp.item['id'].s).to eq('value')
+        end
+
       end
 
       describe '#enumerable responses' do
@@ -201,7 +235,7 @@ module Aws
             context.http_response.signal_data(<<-JSON)
               {
                 "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
-                "message": "Requested resource not found: Table: abc not found"
+                "Message": "Requested resource not found: Table: abc not found"
               }
             JSON
             context.http_response.signal_done

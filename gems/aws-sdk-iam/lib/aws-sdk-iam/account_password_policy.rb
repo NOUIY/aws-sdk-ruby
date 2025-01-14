@@ -33,7 +33,7 @@ module Aws::IAM
     # Specifies whether IAM user passwords must contain at least one of the
     # following symbols:
     #
-    # ! @ # $ % ^ &amp; * ( ) \_ + - = \[ \] \\\{ \\} \| '
+    # ! @ # $ % ^ &amp; * ( ) \_ + - = \[ \] \{ } \| '
     # @return [Boolean]
     def require_symbols
       data[:require_symbols]
@@ -116,7 +116,9 @@ module Aws::IAM
     #
     # @return [self]
     def load
-      resp = @client.get_account_password_policy
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_account_password_policy
+      end
       @data = resp.password_policy
       self
     end
@@ -231,7 +233,9 @@ module Aws::IAM
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -242,7 +246,9 @@ module Aws::IAM
     # @param [Hash] options ({})
     # @return [EmptyStructure]
     def delete(options = {})
-      resp = @client.delete_account_password_policy(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_account_password_policy(options)
+      end
       resp.data
     end
 
@@ -269,7 +275,7 @@ module Aws::IAM
     #   Specifies whether IAM user passwords must contain at least one of the
     #   following non-alphanumeric characters:
     #
-    #   ! @ # $ % ^ &amp; * ( ) \_ + - = \[ \] \\\{ \\} \| '
+    #   ! @ # $ % ^ &amp; * ( ) \_ + - = \[ \] \{ } \| '
     #
     #   If you do not specify a value for this parameter, then the operation
     #   uses the default value of `false`. The result is that passwords do not
@@ -345,7 +351,9 @@ module Aws::IAM
     #    </note>
     # @return [EmptyStructure]
     def update(options = {})
-      resp = @client.update_account_password_policy(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.update_account_password_policy(options)
+      end
       resp.data
     end
 

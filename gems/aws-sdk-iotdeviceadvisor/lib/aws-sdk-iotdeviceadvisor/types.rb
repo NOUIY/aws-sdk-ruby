@@ -31,9 +31,19 @@ module Aws::IoTDeviceAdvisor
     #   The tags to be attached to the suite definition.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] client_token
+    #   The client token for the test suite definition creation. This token
+    #   is used for tracking test suite definition creation using retries
+    #   and obtaining its status. This parameter is optional.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     class CreateSuiteDefinitionRequest < Struct.new(
       :suite_definition_configuration,
-      :tags)
+      :tags,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -76,20 +86,25 @@ module Aws::IoTDeviceAdvisor
 
     class DeleteSuiteDefinitionResponse < Aws::EmptyStructure; end
 
-    # Information of a test device. A thing ARN or a certificate ARN is
-    # required.
+    # Information of a test device. A thing ARN, certificate ARN or device
+    # role ARN is required.
     #
     # @!attribute [rw] thing_arn
-    #   Lists devices thing ARN.
+    #   Lists device's thing ARN.
     #   @return [String]
     #
     # @!attribute [rw] certificate_arn
-    #   Lists devices certificate ARN.
+    #   Lists device's certificate ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] device_role_arn
+    #   Lists device's role ARN.
     #   @return [String]
     #
     class DeviceUnderTest < Struct.new(
       :thing_arn,
-      :certificate_arn)
+      :certificate_arn,
+      :device_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -102,9 +117,19 @@ module Aws::IoTDeviceAdvisor
     #   The certificate ARN of the device. This is an optional parameter.
     #   @return [String]
     #
+    # @!attribute [rw] device_role_arn
+    #   The device role ARN of the device. This is an optional parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] authentication_method
+    #   The authentication method used during the device connection.
+    #   @return [String]
+    #
     class GetEndpointRequest < Struct.new(
       :thing_arn,
-      :certificate_arn)
+      :certificate_arn,
+      :device_role_arn,
+      :authentication_method)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -507,7 +532,17 @@ module Aws::IoTDeviceAdvisor
     #   @return [Boolean]
     #
     # @!attribute [rw] root_group
-    #   Gets the test suite root group. This is a required parameter.
+    #   Gets the test suite root group. This is a required parameter. For
+    #   updating or creating the latest qualification suite, if
+    #   `intendedForQualification` is set to true, `rootGroup` can be an
+    #   empty string. If `intendedForQualification` is false, `rootGroup`
+    #   cannot be an empty string. If `rootGroup` is empty, and
+    #   `intendedForQualification` is set to true, all the qualification
+    #   tests are included, and the configuration is default.
+    #
+    #   For a qualification suite, the minimum length is 0, and the maximum
+    #   is 2048. For a non-qualification suite, the minimum length is 1, and
+    #   the maximum is 2048.
     #   @return [String]
     #
     # @!attribute [rw] device_permission_role_arn
@@ -693,23 +728,23 @@ module Aws::IoTDeviceAdvisor
     # @!attribute [rw] status
     #   Provides the test case run status. Status is one of the following:
     #
-    #   * `PASS`\: Test passed.
+    #   * `PASS`: Test passed.
     #
-    #   * `FAIL`\: Test failed.
+    #   * `FAIL`: Test failed.
     #
-    #   * `PENDING`\: Test has not started running but is scheduled.
+    #   * `PENDING`: Test has not started running but is scheduled.
     #
-    #   * `RUNNING`\: Test is running.
+    #   * `RUNNING`: Test is running.
     #
-    #   * `STOPPING`\: Test is performing cleanup steps. You will see this
+    #   * `STOPPING`: Test is performing cleanup steps. You will see this
     #     status only if you stop a suite run.
     #
     #   * `STOPPED` Test is stopped. You will see this status only if you
     #     stop a suite run.
     #
-    #   * `PASS_WITH_WARNINGS`\: Test passed with warnings.
+    #   * `PASS_WITH_WARNINGS`: Test passed with warnings.
     #
-    #   * `ERORR`\: Test faced an error when running due to an internal
+    #   * `ERORR`: Test faced an error when running due to an internal
     #     issue.
     #   @return [String]
     #
@@ -770,23 +805,23 @@ module Aws::IoTDeviceAdvisor
     #   Provides the test case scenario status. Status is one of the
     #   following:
     #
-    #   * `PASS`\: Test passed.
+    #   * `PASS`: Test passed.
     #
-    #   * `FAIL`\: Test failed.
+    #   * `FAIL`: Test failed.
     #
-    #   * `PENDING`\: Test has not started running but is scheduled.
+    #   * `PENDING`: Test has not started running but is scheduled.
     #
-    #   * `RUNNING`\: Test is running.
+    #   * `RUNNING`: Test is running.
     #
-    #   * `STOPPING`\: Test is performing cleanup steps. You will see this
+    #   * `STOPPING`: Test is performing cleanup steps. You will see this
     #     status only if you stop a suite run.
     #
     #   * `STOPPED` Test is stopped. You will see this status only if you
     #     stop a suite run.
     #
-    #   * `PASS_WITH_WARNINGS`\: Test passed with warnings.
+    #   * `PASS_WITH_WARNINGS`: Test passed with warnings.
     #
-    #   * `ERORR`\: Test faced an error when running due to an internal
+    #   * `ERORR`: Test faced an error when running due to an internal
     #     issue.
     #   @return [String]
     #
@@ -795,6 +830,7 @@ module Aws::IoTDeviceAdvisor
     #   @return [String]
     #
     # @!attribute [rw] system_message
+    #   Provides test case scenario system messages if any.
     #   @return [String]
     #
     class TestCaseScenario < Struct.new(
@@ -902,3 +938,4 @@ module Aws::IoTDeviceAdvisor
 
   end
 end
+

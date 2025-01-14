@@ -54,10 +54,12 @@ module Aws::SQS
     #
     # @return [self]
     def load
-      resp = @client.get_queue_attributes(
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_queue_attributes(
         queue_url: @url,
         attribute_names: ["All"]
       )
+      end
       @data = resp.data
       self
     end
@@ -123,7 +125,9 @@ module Aws::SQS
     # @return [EmptyStructure]
     def add_permission(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.add_permission(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.add_permission(options)
+      end
       resp.data
     end
 
@@ -140,12 +144,14 @@ module Aws::SQS
     #   })
     # @param [Hash] options ({})
     # @option options [required, Array<Types::ChangeMessageVisibilityBatchRequestEntry>] :entries
-    #   A list of receipt handles of the messages for which the visibility
+    #   Lists the receipt handles of the messages for which the visibility
     #   timeout must be changed.
     # @return [Types::ChangeMessageVisibilityBatchResult]
     def change_message_visibility_batch(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.change_message_visibility_batch(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.change_message_visibility_batch(options)
+      end
       resp.data
     end
 
@@ -156,7 +162,9 @@ module Aws::SQS
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.delete_queue(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_queue(options)
+      end
       resp.data
     end
 
@@ -172,11 +180,13 @@ module Aws::SQS
     #   })
     # @param [Hash] options ({})
     # @option options [required, Array<Types::DeleteMessageBatchRequestEntry>] :entries
-    #   A list of receipt handles for the messages to be deleted.
+    #   Lists the receipt handles for the messages to be deleted.
     # @return [Types::DeleteMessageBatchResult]
     def delete_messages(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.delete_message_batch(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_message_batch(options)
+      end
       resp.data
     end
 
@@ -187,7 +197,9 @@ module Aws::SQS
     # @return [EmptyStructure]
     def purge(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.purge_queue(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.purge_queue(options)
+      end
       resp.data
     end
 
@@ -195,6 +207,7 @@ module Aws::SQS
     #
     #   message = queue.receive_messages({
     #     attribute_names: ["All"], # accepts All, Policy, VisibilityTimeout, MaximumMessageSize, MessageRetentionPeriod, ApproximateNumberOfMessages, ApproximateNumberOfMessagesNotVisible, CreatedTimestamp, LastModifiedTimestamp, QueueArn, ApproximateNumberOfMessagesDelayed, DelaySeconds, ReceiveMessageWaitTimeSeconds, RedrivePolicy, FifoQueue, ContentBasedDeduplication, KmsMasterKeyId, KmsDataKeyReusePeriodSeconds, DeduplicationScope, FifoThroughputLimit, RedriveAllowPolicy, SqsManagedSseEnabled
+    #     message_system_attribute_names: ["All"], # accepts All, SenderId, SentTimestamp, ApproximateReceiveCount, ApproximateFirstReceiveTimestamp, SequenceNumber, MessageDeduplicationId, MessageGroupId, AWSTraceHeader, DeadLetterQueueSourceArn
     #     message_attribute_names: ["MessageAttributeName"],
     #     max_number_of_messages: 1,
     #     visibility_timeout: 1,
@@ -203,6 +216,10 @@ module Aws::SQS
     #   })
     # @param [Hash] options ({})
     # @option options [Array<String>] :attribute_names
+    #   This parameter has been discontinued but will be supported for
+    #   backward compatibility. To provide attribute names, you are encouraged
+    #   to use `MessageSystemAttributeNames`.
+    #
     #   A list of attributes that need to be returned along with each message.
     #   These attributes include:
     #
@@ -218,18 +235,59 @@ module Aws::SQS
     #
     #   * `SenderId`
     #
-    #     * For an IAM user, returns the IAM user ID, for example
+    #     * For a user, returns the user ID, for example
     #       `ABCDEFGHI1JKLMNOPQ23R`.
     #
     #     * For an IAM role, returns the IAM role ID, for example
     #       `ABCDE1F2GH3I4JK5LMNOP:i-a123b456`.
-    #
     #   * `SentTimestamp` – Returns the time the message was sent to the queue
     #     ([epoch time][1] in milliseconds).
     #
     #   * `SqsManagedSseEnabled` – Enables server-side queue encryption using
     #     SQS owned encryption keys. Only one server-side encryption option is
-    #     supported per queue (e.g. [SSE-KMS][2] or [SSE-SQS][3]).
+    #     supported per queue (for example, [SSE-KMS][2] or [SSE-SQS][3]).
+    #
+    #   * `MessageDeduplicationId` – Returns the value provided by the
+    #     producer that calls the ` SendMessage ` action.
+    #
+    #   * `MessageGroupId` – Returns the value provided by the producer that
+    #     calls the ` SendMessage ` action. Messages with the same
+    #     `MessageGroupId` are returned in sequence.
+    #
+    #   * `SequenceNumber` – Returns the value provided by Amazon SQS.
+    #
+    #
+    #
+    #   [1]: http://en.wikipedia.org/wiki/Unix_time
+    #   [2]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html
+    #   [3]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html
+    # @option options [Array<String>] :message_system_attribute_names
+    #   A list of attributes that need to be returned along with each message.
+    #   These attributes include:
+    #
+    #   * `All` – Returns all values.
+    #
+    #   * `ApproximateFirstReceiveTimestamp` – Returns the time the message
+    #     was first received from the queue ([epoch time][1] in milliseconds).
+    #
+    #   * `ApproximateReceiveCount` – Returns the number of times a message
+    #     has been received across all queues but not deleted.
+    #
+    #   * `AWSTraceHeader` – Returns the X-Ray trace header string.
+    #
+    #   * `SenderId`
+    #
+    #     * For a user, returns the user ID, for example
+    #       `ABCDEFGHI1JKLMNOPQ23R`.
+    #
+    #     * For an IAM role, returns the IAM role ID, for example
+    #       `ABCDE1F2GH3I4JK5LMNOP:i-a123b456`.
+    #   * `SentTimestamp` – Returns the time the message was sent to the queue
+    #     ([epoch time][1] in milliseconds).
+    #
+    #   * `SqsManagedSseEnabled` – Enables server-side queue encryption using
+    #     SQS owned encryption keys. Only one server-side encryption option is
+    #     supported per queue (for example, [SSE-KMS][2] or [SSE-SQS][3]).
     #
     #   * `MessageDeduplicationId` – Returns the value provided by the
     #     producer that calls the ` SendMessage ` action.
@@ -273,13 +331,46 @@ module Aws::SQS
     # @option options [Integer] :visibility_timeout
     #   The duration (in seconds) that the received messages are hidden from
     #   subsequent retrieve requests after being retrieved by a
-    #   `ReceiveMessage` request.
+    #   `ReceiveMessage` request. If not specified, the default visibility
+    #   timeout for the queue is used, which is 30 seconds.
+    #
+    #   Understanding `VisibilityTimeout`:
+    #
+    #   * When a message is received from a queue, it becomes temporarily
+    #     invisible to other consumers for the duration of the visibility
+    #     timeout. This prevents multiple consumers from processing the same
+    #     message simultaneously. If the message is not deleted or its
+    #     visibility timeout is not extended before the timeout expires, it
+    #     becomes visible again and can be retrieved by other consumers.
+    #
+    #   * Setting an appropriate visibility timeout is crucial. If it's too
+    #     short, the message might become visible again before processing is
+    #     complete, leading to duplicate processing. If it's too long, it
+    #     delays the reprocessing of messages if the initial processing fails.
+    #
+    #   * You can adjust the visibility timeout using the
+    #     `--visibility-timeout` parameter in the `receive-message` command to
+    #     match the processing time required by your application.
+    #
+    #   * A message that isn't deleted or a message whose visibility isn't
+    #     extended before the visibility timeout expires counts as a failed
+    #     receive. Depending on the configuration of the queue, the message
+    #     might be sent to the dead-letter queue.
+    #
+    #   For more information, see [Visibility Timeout][1] in the *Amazon SQS
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
     # @option options [Integer] :wait_time_seconds
     #   The duration (in seconds) for which the call waits for a message to
     #   arrive in the queue before returning. If a message is available, the
     #   call returns sooner than `WaitTimeSeconds`. If no messages are
-    #   available and the wait time expires, the call returns successfully
-    #   with an empty list of messages.
+    #   available and the wait time expires, the call does not return a
+    #   message list. If you are using the Java SDK, it returns a
+    #   `ReceiveMessageResponse` object, which has a empty list instead of a
+    #   Null object.
     #
     #   To avoid HTTP errors, ensure that the HTTP response timeout for
     #   `ReceiveMessage` requests is longer than the `WaitTimeSeconds`
@@ -306,10 +397,6 @@ module Aws::SQS
     #
     #   * When you set `FifoQueue`, a caller of the `ReceiveMessage` action
     #     can provide a `ReceiveRequestAttemptId` explicitly.
-    #
-    #   * If a caller of the `ReceiveMessage` action doesn't provide a
-    #     `ReceiveRequestAttemptId`, Amazon SQS generates a
-    #     `ReceiveRequestAttemptId`.
     #
     #   * It is possible to retry the `ReceiveMessage` action with the same
     #     `ReceiveRequestAttemptId` if none of the messages have been modified
@@ -344,7 +431,7 @@ module Aws::SQS
     #
     #   The maximum length of `ReceiveRequestAttemptId` is 128 characters.
     #   `ReceiveRequestAttemptId` can contain alphanumeric characters (`a-z`,
-    #   `A-Z`, `0-9`) and punctuation (`` !"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~
+    #   `A-Z`, `0-9`) and punctuation (`` !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
     #   ``).
     #
     #   For best practices of using `ReceiveRequestAttemptId`, see [Using the
@@ -359,7 +446,9 @@ module Aws::SQS
     def receive_messages(options = {})
       batch = []
       options = options.merge(queue_url: @url)
-      resp = @client.receive_message(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.receive_message(options)
+      end
       resp.data.messages.each do |m|
         batch << Message.new(
           queue_url: @url,
@@ -383,7 +472,9 @@ module Aws::SQS
     # @return [EmptyStructure]
     def remove_permission(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.remove_permission(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.remove_permission(options)
+      end
       resp.data
     end
 
@@ -416,16 +507,20 @@ module Aws::SQS
     # @param [Hash] options ({})
     # @option options [required, String] :message_body
     #   The message to send. The minimum size is one character. The maximum
-    #   size is 256 KB.
+    #   size is 256 KiB.
     #
     #   A message can include only XML, JSON, and unformatted text. The
-    #   following Unicode characters are allowed:
+    #   following Unicode characters are allowed. For more information, see
+    #   the [W3C specification for characters][1].
     #
     #    `#x9` \| `#xA` \| `#xD` \| `#x20` to `#xD7FF` \| `#xE000` to `#xFFFD`
     #   \| `#x10000` to `#x10FFFF`
     #
-    #    Any characters not included in this list will be rejected. For more
-    #   information, see the [W3C specification for characters][1].
+    #    Amazon SQS does not throw an exception or completely reject the
+    #   message if it contains invalid characters. Instead, it replaces those
+    #   invalid characters with `U+FFFD` before storing the message in the
+    #   queue, as long as the message body contains at least one valid
+    #   character.
     #
     #
     #
@@ -484,7 +579,6 @@ module Aws::SQS
     #
     #     * If the queue has `ContentBasedDeduplication` set, your
     #       `MessageDeduplicationId` overrides the generated one.
-    #
     #   * When `ContentBasedDeduplication` is in effect, messages with
     #     identical content sent within the deduplication interval are treated
     #     as duplicates and only one copy of the message is delivered.
@@ -509,7 +603,7 @@ module Aws::SQS
     #
     #   The maximum length of `MessageDeduplicationId` is 128 characters.
     #   `MessageDeduplicationId` can contain alphanumeric characters (`a-z`,
-    #   `A-Z`, `0-9`) and punctuation (`` !"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~
+    #   `A-Z`, `0-9`) and punctuation (`` !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
     #   ``).
     #
     #   For best practices of using `MessageDeduplicationId`, see [Using the
@@ -539,9 +633,9 @@ module Aws::SQS
     #     `MessageGroupId` values. For each `MessageGroupId`, the messages are
     #     sorted by time sent. The caller can't specify a `MessageGroupId`.
     #
-    #   The length of `MessageGroupId` is 128 characters. Valid values:
-    #   alphanumeric characters and punctuation ``
-    #   (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   The maximum length of `MessageGroupId` is 128 characters. Valid
+    #   values: alphanumeric characters and punctuation ``
+    #   (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
     #   For best practices of using `MessageGroupId`, see [Using the
     #   MessageGroupId Property][1] in the *Amazon SQS Developer Guide*.
@@ -555,7 +649,9 @@ module Aws::SQS
     # @return [Types::SendMessageResult]
     def send_message(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.send_message(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.send_message(options)
+      end
       resp.data
     end
 
@@ -596,7 +692,9 @@ module Aws::SQS
     # @return [Types::SendMessageBatchResult]
     def send_messages(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.send_message_batch(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.send_message_batch(options)
+      end
       resp.data
     end
 
@@ -626,7 +724,13 @@ module Aws::SQS
     #   * `MessageRetentionPeriod` – The length of time, in seconds, for which
     #     Amazon SQS retains a message. Valid values: An integer representing
     #     seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600
-    #     (4 days).
+    #     (4 days). When you change a queue's attributes, the change can take
+    #     up to 60 seconds for most of the attributes to propagate throughout
+    #     the Amazon SQS system. Changes made to the `MessageRetentionPeriod`
+    #     attribute can take up to 15 minutes and will impact existing
+    #     messages in the queue potentially causing them to be expired and
+    #     deleted if the `MessageRetentionPeriod` is reduced below the age of
+    #     existing messages.
     #
     #   * `Policy` – The queue's policy. A valid Amazon Web Services policy.
     #     For more information about policy structure, see [Overview of Amazon
@@ -637,33 +741,59 @@ module Aws::SQS
     #     for which a ` ReceiveMessage ` action waits for a message to arrive.
     #     Valid values: An integer from 0 to 20 (seconds). Default: 0.
     #
+    #   * `VisibilityTimeout` – The visibility timeout for the queue, in
+    #     seconds. Valid values: An integer from 0 to 43,200 (12 hours).
+    #     Default: 30. For more information about the visibility timeout, see
+    #     [Visibility Timeout][2] in the *Amazon SQS Developer Guide*.
+    #
+    #   The following attributes apply only to [dead-letter queues:][3]
+    #
     #   * `RedrivePolicy` – The string that includes the parameters for the
     #     dead-letter queue functionality of the source queue as a JSON
-    #     object. For more information about the redrive policy and
-    #     dead-letter queues, see [Using Amazon SQS Dead-Letter Queues][2] in
-    #     the *Amazon SQS Developer Guide*.
+    #     object. The parameters are as follows:
     #
     #     * `deadLetterTargetArn` – The Amazon Resource Name (ARN) of the
     #       dead-letter queue to which Amazon SQS moves messages after the
     #       value of `maxReceiveCount` is exceeded.
     #
     #     * `maxReceiveCount` – The number of times a message is delivered to
-    #       the source queue before being moved to the dead-letter queue. When
-    #       the `ReceiveCount` for a message exceeds the `maxReceiveCount` for
-    #       a queue, Amazon SQS moves the message to the dead-letter-queue.
+    #       the source queue before being moved to the dead-letter queue.
+    #       Default: 10. When the `ReceiveCount` for a message exceeds the
+    #       `maxReceiveCount` for a queue, Amazon SQS moves the message to the
+    #       dead-letter-queue.
+    #   * `RedriveAllowPolicy` – The string that includes the parameters for
+    #     the permissions for the dead-letter queue redrive permission and
+    #     which source queues can specify dead-letter queues as a JSON object.
+    #     The parameters are as follows:
     #
-    #     <note markdown="1"> The dead-letter queue of a FIFO queue must also be a FIFO queue.
-    #     Similarly, the dead-letter queue of a standard queue must also be a
-    #     standard queue.
+    #     * `redrivePermission` – The permission type that defines which
+    #       source queues can specify the current queue as the dead-letter
+    #       queue. Valid values are:
     #
-    #      </note>
+    #       * `allowAll` – (Default) Any source queues in this Amazon Web
+    #         Services account in the same Region can specify this queue as
+    #         the dead-letter queue.
     #
-    #   * `VisibilityTimeout` – The visibility timeout for the queue, in
-    #     seconds. Valid values: An integer from 0 to 43,200 (12 hours).
-    #     Default: 30. For more information about the visibility timeout, see
-    #     [Visibility Timeout][3] in the *Amazon SQS Developer Guide*.
+    #       * `denyAll` – No source queues can specify this queue as the
+    #         dead-letter queue.
     #
-    #   The following attributes apply only to [server-side-encryption][4]\:
+    #       * `byQueue` – Only queues specified by the `sourceQueueArns`
+    #         parameter can specify this queue as the dead-letter queue.
+    #     * `sourceQueueArns` – The Amazon Resource Names (ARN)s of the source
+    #       queues that can specify this queue as the dead-letter queue and
+    #       redrive messages. You can specify this parameter only when the
+    #       `redrivePermission` parameter is set to `byQueue`. You can specify
+    #       up to 10 source queue ARNs. To allow more than 10 source queues to
+    #       specify dead-letter queues, set the `redrivePermission` parameter
+    #       to `allowAll`.
+    #
+    #   <note markdown="1"> The dead-letter queue of a FIFO queue must also be a FIFO queue.
+    #   Similarly, the dead-letter queue of a standard queue must also be a
+    #   standard queue.
+    #
+    #    </note>
+    #
+    #   The following attributes apply only to [server-side-encryption][4]:
     #
     #   * `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer
     #     master key (CMK) for Amazon SQS or a custom CMK. For more
@@ -683,10 +813,10 @@ module Aws::SQS
     #
     #   * `SqsManagedSseEnabled` – Enables server-side queue encryption using
     #     SQS owned encryption keys. Only one server-side encryption option is
-    #     supported per queue (e.g. [SSE-KMS][9] or [SSE-SQS][10]).
+    #     supported per queue (for example, [SSE-KMS][9] or [SSE-SQS][10]).
     #
     #   The following attribute applies only to [FIFO (first-in-first-out)
-    #   queues][11]\:
+    #   queues][11]:
     #
     #   * `ContentBasedDeduplication` – Enables content-based deduplication.
     #     For more information, see [Exactly-once processing][12] in the
@@ -708,7 +838,6 @@ module Aws::SQS
     #
     #       * If the queue has `ContentBasedDeduplication` set, your
     #         `MessageDeduplicationId` overrides the generated one.
-    #
     #     * When `ContentBasedDeduplication` is in effect, messages with
     #       identical content sent within the deduplication interval are
     #       treated as duplicates and only one copy of the message is
@@ -721,7 +850,7 @@ module Aws::SQS
     #       duplicates and only one copy of the message is delivered.
     #
     #   The following attributes apply only to [high throughput for FIFO
-    #   queues][13]\:
+    #   queues][13]:
     #
     #   * `DeduplicationScope` – Specifies whether message deduplication
     #     occurs at the message group or queue level. Valid values are
@@ -749,8 +878,8 @@ module Aws::SQS
     #
     #
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html
-    #   [2]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html
-    #   [3]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
+    #   [2]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
+    #   [3]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html
     #   [4]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html
     #   [5]: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms
     #   [6]: https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters
@@ -765,7 +894,9 @@ module Aws::SQS
     # @return [EmptyStructure]
     def set_attributes(options = {})
       options = options.merge(queue_url: @url)
-      resp = @client.set_queue_attributes(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.set_queue_attributes(options)
+      end
       resp.data
     end
 
@@ -779,7 +910,9 @@ module Aws::SQS
     def dead_letter_source_queues(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(queue_url: @url)
-        resp = @client.list_dead_letter_source_queues(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_dead_letter_source_queues(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.queue_urls.each do |q|

@@ -69,7 +69,9 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_db_parameter_groups(db_parameter_group_name: @name)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_db_parameter_groups(db_parameter_group_name: @name)
+      end
       @data = resp.db_parameter_groups[0]
       self
     end
@@ -184,7 +186,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -226,14 +230,13 @@ module Aws::RDS
     #
     #   The following are the valid DB engine values:
     #
-    #   * `aurora` (for MySQL 5.6-compatible Aurora)
-    #
-    #   * `aurora-mysql` (for MySQL 5.7-compatible and MySQL 8.0-compatible
-    #     Aurora)
+    #   * `aurora-mysql`
     #
     #   * `aurora-postgresql`
     #
-    #   * `mariadb`
+    #   * `db2-ae`
+    #
+    #   * `db2-se`
     #
     #   * `mysql`
     #
@@ -261,7 +264,9 @@ module Aws::RDS
     # @return [DBParameterGroup]
     def create(options = {})
       options = options.merge(db_parameter_group_name: @name)
-      resp = @client.create_db_parameter_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_db_parameter_group(options)
+      end
       DBParameterGroup.new(
         name: resp.data.db_parameter_group.db_parameter_group_name,
         data: resp.data.db_parameter_group,
@@ -299,16 +304,22 @@ module Aws::RDS
     # @option options [required, String] :target_db_parameter_group_description
     #   A description for the copied DB parameter group.
     # @option options [Array<Types::Tag>] :tags
-    #   A list of tags. For more information, see [Tagging Amazon RDS
-    #   Resources][1] in the *Amazon RDS User Guide.*
+    #   A list of tags.
+    #
+    #   For more information, see [Tagging Amazon RDS resources][1] in the
+    #   *Amazon RDS User Guide* or [Tagging Amazon Aurora and Amazon RDS
+    #   resources][2] in the *Amazon Aurora User Guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html
     # @return [DBParameterGroup]
     def copy(options = {})
       options = options.merge(source_db_parameter_group_identifier: @name)
-      resp = @client.copy_db_parameter_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.copy_db_parameter_group(options)
+      end
       DBParameterGroup.new(
         name: resp.data.db_parameter_group.db_parameter_group_name,
         data: resp.data.db_parameter_group,
@@ -323,7 +334,9 @@ module Aws::RDS
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(db_parameter_group_name: @name)
-      resp = @client.delete_db_parameter_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_db_parameter_group(options)
+      end
       resp.data
     end
 
@@ -382,7 +395,9 @@ module Aws::RDS
     # @return [DBParameterGroup]
     def modify(options = {})
       options = options.merge(db_parameter_group_name: @name)
-      resp = @client.modify_db_parameter_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.modify_db_parameter_group(options)
+      end
       DBParameterGroup.new(
         name: resp.data.db_parameter_group_name,
         client: @client
@@ -411,9 +426,9 @@ module Aws::RDS
     #   })
     # @param [Hash] options ({})
     # @option options [Boolean] :reset_all_parameters
-    #   A value that indicates whether to reset all parameters in the DB
-    #   parameter group to default values. By default, all parameters in the
-    #   DB parameter group are reset to default values.
+    #   Specifies whether to reset all parameters in the DB parameter group to
+    #   default values. By default, all parameters in the DB parameter group
+    #   are reset to default values.
     # @option options [Array<Types::Parameter>] :parameters
     #   To reset the entire DB parameter group, specify the `DBParameterGroup`
     #   name and `ResetAllParameters` parameters. To reset specific
@@ -443,7 +458,9 @@ module Aws::RDS
     # @return [DBParameterGroup]
     def reset(options = {})
       options = options.merge(db_parameter_group_name: @name)
-      resp = @client.reset_db_parameter_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.reset_db_parameter_group(options)
+      end
       DBParameterGroup.new(
         name: resp.data.db_parameter_group_name,
         client: @client
@@ -462,7 +479,9 @@ module Aws::RDS
     # @return [EventSubscription]
     def subscribe_to(options = {})
       options = options.merge(source_identifier: @name)
-      resp = @client.add_source_identifier_to_subscription(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.add_source_identifier_to_subscription(options)
+      end
       EventSubscription.new(
         name: resp.data.event_subscription.cust_subscription_id,
         data: resp.data.event_subscription,
@@ -482,7 +501,9 @@ module Aws::RDS
     # @return [EventSubscription]
     def unsubscribe_from(options = {})
       options = options.merge(source_identifier: @name)
-      resp = @client.remove_source_identifier_from_subscription(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.remove_source_identifier_from_subscription(options)
+      end
       EventSubscription.new(
         name: resp.data.event_subscription.cust_subscription_id,
         data: resp.data.event_subscription,
@@ -543,7 +564,9 @@ module Aws::RDS
           source_type: "db-parameter-group",
           source_identifier: @name
         )
-        resp = @client.describe_events(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_events(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.events.each do |e|
@@ -579,12 +602,17 @@ module Aws::RDS
     #
     #   Valid Values: `user | system | engine-default`
     # @option options [Array<Types::Filter>] :filters
-    #   This parameter isn't currently supported.
+    #   A filter that specifies one or more DB parameters to describe.
+    #
+    #   The only supported filter is `parameter-name`. The results list only
+    #   includes information about the DB parameters with these names.
     # @return [Parameter::Collection]
     def parameters(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(db_parameter_group_name: @name)
-        resp = @client.describe_db_parameters(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_db_parameters(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.parameters.each do |p|

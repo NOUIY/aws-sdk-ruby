@@ -80,6 +80,7 @@ module Aws::SSM
   # * {InvalidFilterValue}
   # * {InvalidInstanceId}
   # * {InvalidInstanceInformationFilterValue}
+  # * {InvalidInstancePropertyFilterValue}
   # * {InvalidInventoryGroupException}
   # * {InvalidInventoryItemContextException}
   # * {InvalidInventoryRequestException}
@@ -108,9 +109,11 @@ module Aws::SSM
   # * {InvocationDoesNotExist}
   # * {ItemContentMismatchException}
   # * {ItemSizeLimitExceededException}
+  # * {MalformedResourcePolicyDocumentException}
   # * {MaxDocumentSizeExceeded}
   # * {OpsItemAccessDeniedException}
   # * {OpsItemAlreadyExistsException}
+  # * {OpsItemConflictException}
   # * {OpsItemInvalidParameterException}
   # * {OpsItemLimitExceededException}
   # * {OpsItemNotFoundException}
@@ -137,9 +140,11 @@ module Aws::SSM
   # * {ResourceDataSyncNotFoundException}
   # * {ResourceInUseException}
   # * {ResourceLimitExceededException}
+  # * {ResourceNotFoundException}
   # * {ResourcePolicyConflictException}
   # * {ResourcePolicyInvalidParameterException}
   # * {ResourcePolicyLimitExceededException}
+  # * {ResourcePolicyNotFoundException}
   # * {ServiceSettingNotFound}
   # * {StatusUnchanged}
   # * {SubTypeCountLimitExceededException}
@@ -153,8 +158,10 @@ module Aws::SSM
   # * {UnsupportedInventoryItemContextException}
   # * {UnsupportedInventorySchemaVersionException}
   # * {UnsupportedOperatingSystem}
+  # * {UnsupportedOperationException}
   # * {UnsupportedParameterType}
   # * {UnsupportedPlatformType}
+  # * {ValidationException}
   #
   # Additionally, error classes are dynamically generated for service errors based on the error code
   # if they are not defined above.
@@ -927,6 +934,21 @@ module Aws::SSM
       end
     end
 
+    class InvalidInstancePropertyFilterValue < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::InvalidInstancePropertyFilterValue] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class InvalidInventoryGroupException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -1332,6 +1354,21 @@ module Aws::SSM
       end
     end
 
+    class MalformedResourcePolicyDocumentException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::MalformedResourcePolicyDocumentException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class MaxDocumentSizeExceeded < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -1379,6 +1416,21 @@ module Aws::SSM
       # @return [String]
       def ops_item_id
         @data[:ops_item_id]
+      end
+    end
+
+    class OpsItemConflictException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::OpsItemConflictException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
       end
     end
 
@@ -1812,6 +1864,21 @@ module Aws::SSM
       end
     end
 
+    class ResourceNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::ResourceNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class ResourcePolicyConflictException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -1864,6 +1931,21 @@ module Aws::SSM
       # @return [String]
       def limit_type
         @data[:limit_type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ResourcePolicyNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::ResourcePolicyNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
       end
 
       # @return [String]
@@ -2062,6 +2144,21 @@ module Aws::SSM
       end
     end
 
+    class UnsupportedOperationException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::UnsupportedOperationException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class UnsupportedParameterType < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -2089,6 +2186,26 @@ module Aws::SSM
       # @return [String]
       def message
         @message || @data[:message]
+      end
+    end
+
+    class ValidationException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::SSM::Types::ValidationException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+
+      # @return [String]
+      def reason_code
+        @data[:reason_code]
       end
     end
 

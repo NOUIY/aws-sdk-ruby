@@ -68,10 +68,12 @@ module Aws::IAM
     #
     # @return [self]
     def load
-      resp = @client.get_group_policy(
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_group_policy(
         group_name: @group_name,
         policy_name: @name
       )
+      end
       @data = resp.data
       self
     end
@@ -186,7 +188,9 @@ module Aws::IAM
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -201,7 +205,9 @@ module Aws::IAM
         group_name: @group_name,
         policy_name: @name
       )
-      resp = @client.delete_group_policy(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_group_policy(options)
+      end
       resp.data
     end
 
@@ -217,7 +223,7 @@ module Aws::IAM
     #   You must provide policies in JSON format in IAM. However, for
     #   CloudFormation templates formatted in YAML, you can provide the policy
     #   in JSON or YAML format. CloudFormation always converts a YAML policy
-    #   to JSON format before submitting it to = IAM.
+    #   to JSON format before submitting it to IAM.
     #
     #   The [regex pattern][1] used to validate this parameter is a string of
     #   characters consisting of the following:
@@ -240,7 +246,9 @@ module Aws::IAM
         group_name: @group_name,
         policy_name: @name
       )
-      resp = @client.put_group_policy(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.put_group_policy(options)
+      end
       resp.data
     end
 

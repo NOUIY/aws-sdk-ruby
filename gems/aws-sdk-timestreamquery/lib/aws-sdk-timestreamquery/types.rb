@@ -10,7 +10,8 @@
 module Aws::TimestreamQuery
   module Types
 
-    # You are not authorized to perform this action.
+    # You do not have the necessary permissions to access the account
+    # settings.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -19,6 +20,27 @@ module Aws::TimestreamQuery
     #
     class AccessDeniedException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration settings for notifications related to account settings.
+    #
+    # @!attribute [rw] sns_configuration
+    #   Details on SNS that are required to send the notification.
+    #   @return [Types::SnsConfiguration]
+    #
+    # @!attribute [rw] role_arn
+    #   An Amazon Resource Name (ARN) that grants Timestream permission to
+    #   publish notifications. This field is only visible if SNS Topic is
+    #   provided when updating the account settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/AccountSettingsNotificationConfiguration AWS API Documentation
+    #
+    class AccountSettingsNotificationConfiguration < Struct.new(
+      :sns_configuration,
+      :role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -238,6 +260,50 @@ module Aws::TimestreamQuery
 
     # @api private
     #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/DescribeAccountSettingsRequest AWS API Documentation
+    #
+    class DescribeAccountSettingsRequest < Aws::EmptyStructure; end
+
+    # @!attribute [rw] max_query_tcu
+    #   The maximum number of [Timestream compute units][1] (TCUs) the
+    #   service will use at any point in time to serve your queries. To run
+    #   queries, you must set a minimum capacity of 4 TCU. You can set the
+    #   maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32,
+    #   and so on. This configuration is applicable only for on-demand usage
+    #   of (TCUs).
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html
+    #   @return [Integer]
+    #
+    # @!attribute [rw] query_pricing_model
+    #   The pricing model for queries in your account.
+    #
+    #   <note markdown="1"> The `QueryPricingModel` parameter is used by several Timestream
+    #   operations; however, the `UpdateAccountSettings` API operation
+    #   doesn't recognize any values other than `COMPUTE_UNITS`.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] query_compute
+    #   An object that contains the usage settings for Timestream Compute
+    #   Units (TCUs) in your account for the query workload.
+    #   @return [Types::QueryComputeResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/DescribeAccountSettingsResponse AWS API Documentation
+    #
+    class DescribeAccountSettingsResponse < Struct.new(
+      :max_query_tcu,
+      :query_pricing_model,
+      :query_compute)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @api private
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/DescribeEndpointsRequest AWS API Documentation
     #
     class DescribeEndpointsRequest < Aws::EmptyStructure; end
@@ -364,12 +430,21 @@ module Aws::TimestreamQuery
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] query_insights
+    #   Encapsulates settings for enabling `QueryInsights`.
+    #
+    #   Enabling `QueryInsights` returns insights and metrics as a part of
+    #   the Amazon SNS notification for the query that you executed. You can
+    #   use `QueryInsights` to tune your query performance and cost.
+    #   @return [Types::ScheduledQueryInsights]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/ExecuteScheduledQueryRequest AWS API Documentation
     #
     class ExecuteScheduledQueryRequest < Struct.new(
       :scheduled_query_arn,
       :invocation_time,
-      :client_token)
+      :client_token,
+      :query_insights)
       SENSITIVE = [:client_token]
       include Aws::Structure
     end
@@ -390,6 +465,10 @@ module Aws::TimestreamQuery
     #   Bytes metered for a single scheduled query run.
     #   @return [Integer]
     #
+    # @!attribute [rw] cumulative_bytes_scanned
+    #   Bytes scanned for a single scheduled query run.
+    #   @return [Integer]
+    #
     # @!attribute [rw] records_ingested
     #   The number of records ingested for a single scheduled query run.
     #   @return [Integer]
@@ -405,14 +484,14 @@ module Aws::TimestreamQuery
       :execution_time_in_millis,
       :data_writes,
       :bytes_metered,
+      :cumulative_bytes_scanned,
       :records_ingested,
       :query_result_rows)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Timestream was unable to fully process this request because of an
-    # internal server error.
+    # An internal server error occurred while processing the request.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -425,7 +504,7 @@ module Aws::TimestreamQuery
       include Aws::Structure
     end
 
-    # The requested endpoint was not valid.
+    # The requested endpoint is invalid.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -434,6 +513,34 @@ module Aws::TimestreamQuery
     #
     class InvalidEndpointException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration object that contains the most recent account settings
+    # update, visible only if settings have been updated previously.
+    #
+    # @!attribute [rw] target_query_tcu
+    #   The number of TimeStream Compute Units (TCUs) requested in the last
+    #   account settings update.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status
+    #   The status of the last update. Can be either `PENDING`, `FAILED`, or
+    #   `SUCCEEDED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   Error message describing the last account settings update status,
+    #   visible only if an error occurred.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/LastUpdate AWS API Documentation
+    #
+    class LastUpdate < Struct.new(
+      :target_query_tcu,
+      :status,
+      :status_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -614,7 +721,9 @@ module Aws::TimestreamQuery
     # updated or when it is deleted.
     #
     # @!attribute [rw] sns_configuration
-    #   Details on SNS configuration.
+    #   Details about the Amazon Simple Notification Service (SNS)
+    #   configuration. This field is visible only when SNS Topic is provided
+    #   when updating the account settings.
     #   @return [Types::SnsConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/NotificationConfiguration AWS API Documentation
@@ -691,6 +800,104 @@ module Aws::TimestreamQuery
       include Aws::Structure
     end
 
+    # A request to update the provisioned capacity settings for querying
+    # data.
+    #
+    # @!attribute [rw] target_query_tcu
+    #   The target compute capacity for querying data, specified in
+    #   Timestream Compute Units (TCUs).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] notification_configuration
+    #   Configuration settings for notifications related to the provisioned
+    #   capacity update.
+    #   @return [Types::AccountSettingsNotificationConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/ProvisionedCapacityRequest AWS API Documentation
+    #
+    class ProvisionedCapacityRequest < Struct.new(
+      :target_query_tcu,
+      :notification_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The response to a request to update the provisioned capacity settings
+    # for querying data.
+    #
+    # @!attribute [rw] active_query_tcu
+    #   The number of Timestream Compute Units (TCUs) provisioned in the
+    #   account. This field is only visible when the compute mode is
+    #   `PROVISIONED`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] notification_configuration
+    #   An object that contains settings for notifications that are sent
+    #   whenever the provisioned capacity settings are modified. This field
+    #   is only visible when the compute mode is `PROVISIONED`.
+    #   @return [Types::AccountSettingsNotificationConfiguration]
+    #
+    # @!attribute [rw] last_update
+    #   Information about the last update to the provisioned capacity
+    #   settings.
+    #   @return [Types::LastUpdate]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/ProvisionedCapacityResponse AWS API Documentation
+    #
+    class ProvisionedCapacityResponse < Struct.new(
+      :active_query_tcu,
+      :notification_configuration,
+      :last_update)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A request to retrieve or update the compute capacity settings for
+    # querying data.
+    #
+    # @!attribute [rw] compute_mode
+    #   The mode in which Timestream Compute Units (TCUs) are allocated and
+    #   utilized within an account. Note that in the Asia Pacific (Mumbai)
+    #   region, the API operation only recognizes the value `PROVISIONED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] provisioned_capacity
+    #   Configuration object that contains settings for provisioned
+    #   Timestream Compute Units (TCUs) in your account.
+    #   @return [Types::ProvisionedCapacityRequest]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryComputeRequest AWS API Documentation
+    #
+    class QueryComputeRequest < Struct.new(
+      :compute_mode,
+      :provisioned_capacity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The response to a request to retrieve or update the compute capacity
+    # settings for querying data.
+    #
+    # @!attribute [rw] compute_mode
+    #   The mode in which Timestream Compute Units (TCUs) are allocated and
+    #   utilized within an account. Note that in the Asia Pacific (Mumbai)
+    #   region, the API operation only recognizes the value `PROVISIONED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] provisioned_capacity
+    #   Configuration object that contains settings for provisioned
+    #   Timestream Compute Units (TCUs) in your account.
+    #   @return [Types::ProvisionedCapacityResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryComputeResponse AWS API Documentation
+    #
+    class QueryComputeResponse < Struct.new(
+      :compute_mode,
+      :provisioned_capacity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Timestream was unable to run the query successfully.
     #
     # @!attribute [rw] message
@@ -700,6 +907,130 @@ module Aws::TimestreamQuery
     #
     class QueryExecutionException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # `QueryInsights` is a performance tuning feature that helps you
+    # optimize your queries, reducing costs and improving performance. With
+    # `QueryInsights`, you can assess the pruning efficiency of your queries
+    # and identify areas for improvement to enhance query performance. With
+    # `QueryInsights`, you can also analyze the effectiveness of your
+    # queries in terms of temporal and spatial pruning, and identify
+    # opportunities to improve performance. Specifically, you can evaluate
+    # how well your queries use time-based and partition key-based indexing
+    # strategies to optimize data retrieval. To optimize query performance,
+    # it's essential that you fine-tune both the temporal and spatial
+    # parameters that govern query execution.
+    #
+    # The key metrics provided by `QueryInsights` are `QuerySpatialCoverage`
+    # and `QueryTemporalRange`. `QuerySpatialCoverage` indicates how much of
+    # the spatial axis the query scans, with lower values being more
+    # efficient. `QueryTemporalRange` shows the time range scanned, with
+    # narrower ranges being more performant.
+    #
+    # **Benefits of QueryInsights**
+    #
+    # The following are the key benefits of using `QueryInsights`:
+    #
+    # * **Identifying inefficient queries** – `QueryInsights` provides
+    #   information on the time-based and attribute-based pruning of the
+    #   tables accessed by the query. This information helps you identify
+    #   the tables that are sub-optimally accessed.
+    #
+    # * **Optimizing your data model and partitioning** – You can use the
+    #   `QueryInsights` information to access and fine-tune your data model
+    #   and partitioning strategy.
+    #
+    # * **Tuning queries** – `QueryInsights` highlights opportunities to use
+    #   indexes more effectively.
+    #
+    # <note markdown="1"> The maximum number of `Query` API requests you're allowed to make
+    # with `QueryInsights` enabled is 1 query per second (QPS). If you
+    # exceed this query rate, it might result in throttling.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] mode
+    #   Provides the following modes to enable `QueryInsights`:
+    #
+    #   * `ENABLED_WITH_RATE_CONTROL` – Enables `QueryInsights` for the
+    #     queries being processed. This mode also includes a rate control
+    #     mechanism, which limits the `QueryInsights` feature to 1 query per
+    #     second (QPS).
+    #
+    #   * `DISABLED` – Disables `QueryInsights`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryInsights AWS API Documentation
+    #
+    class QueryInsights < Struct.new(
+      :mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides various insights and metrics related to the query that you
+    # executed.
+    #
+    # @!attribute [rw] query_spatial_coverage
+    #   Provides insights into the spatial coverage of the query, including
+    #   the table with sub-optimal (max) spatial pruning. This information
+    #   can help you identify areas for improvement in your partitioning
+    #   strategy to enhance spatial pruning.
+    #   @return [Types::QuerySpatialCoverage]
+    #
+    # @!attribute [rw] query_temporal_range
+    #   Provides insights into the temporal range of the query, including
+    #   the table with the largest (max) time range. Following are some of
+    #   the potential options for optimizing time-based pruning:
+    #
+    #   * Add missing time-predicates.
+    #
+    #   * Remove functions around the time predicates.
+    #
+    #   * Add time predicates to all the sub-queries.
+    #   @return [Types::QueryTemporalRange]
+    #
+    # @!attribute [rw] query_table_count
+    #   Indicates the number of tables in the query.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_rows
+    #   Indicates the total number of rows returned as part of the query
+    #   result set. You can use this data to validate if the number of rows
+    #   in the result set have changed as part of the query tuning exercise.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_bytes
+    #   Indicates the size of query result set in bytes. You can use this
+    #   data to validate if the result set has changed as part of the query
+    #   tuning exercise.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unload_partition_count
+    #   Indicates the partitions created by the `Unload` operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unload_written_rows
+    #   Indicates the rows written by the `Unload` query.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unload_written_bytes
+    #   Indicates the size, in bytes, written by the `Unload` operation.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryInsightsResponse AWS API Documentation
+    #
+    class QueryInsightsResponse < Struct.new(
+      :query_spatial_coverage,
+      :query_temporal_range,
+      :query_table_count,
+      :output_rows,
+      :output_bytes,
+      :unload_partition_count,
+      :unload_written_rows,
+      :unload_written_bytes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -789,13 +1120,22 @@ module Aws::TimestreamQuery
     #   necessary number of rows to meet the 1 MB limit.
     #   @return [Integer]
     #
+    # @!attribute [rw] query_insights
+    #   Encapsulates settings for enabling `QueryInsights`.
+    #
+    #   Enabling `QueryInsights` returns insights and metrics in addition to
+    #   query results for the query that you executed. You can use
+    #   `QueryInsights` to tune your query performance.
+    #   @return [Types::QueryInsights]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryRequest AWS API Documentation
     #
     class QueryRequest < Struct.new(
       :query_string,
       :client_token,
       :next_token,
-      :max_rows)
+      :max_rows,
+      :query_insights)
       SENSITIVE = [:query_string, :client_token]
       include Aws::Structure
     end
@@ -822,6 +1162,11 @@ module Aws::TimestreamQuery
     #   bytes scanned.
     #   @return [Types::QueryStatus]
     #
+    # @!attribute [rw] query_insights_response
+    #   Encapsulates `QueryInsights` containing insights and metrics related
+    #   to the query that you executed.
+    #   @return [Types::QueryInsightsResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryResponse AWS API Documentation
     #
     class QueryResponse < Struct.new(
@@ -829,7 +1174,78 @@ module Aws::TimestreamQuery
       :next_token,
       :rows,
       :column_info,
-      :query_status)
+      :query_status,
+      :query_insights_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides insights into the spatial coverage of the query, including
+    # the table with sub-optimal (max) spatial pruning. This information can
+    # help you identify areas for improvement in your partitioning strategy
+    # to enhance spatial pruning
+    #
+    # For example, you can do the following with the `QuerySpatialCoverage`
+    # information:
+    #
+    # * Add measure\_name or use [customer-defined partition key][1] (CDPK)
+    #   predicates.
+    #
+    # * If you've already done the preceding action, remove functions
+    #   around them or clauses, such as `LIKE`.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/customer-defined-partition-keys.html
+    #
+    # @!attribute [rw] max
+    #   Provides insights into the spatial coverage of the executed query
+    #   and the table with the most inefficient spatial pruning.
+    #
+    #   * `Value` – The maximum ratio of spatial coverage.
+    #
+    #   * `TableArn` – The Amazon Resource Name (ARN) of the table with
+    #     sub-optimal spatial pruning.
+    #
+    #   * `PartitionKey` – The partition key used for partitioning, which
+    #     can be a default `measure_name` or a CDPK.
+    #   @return [Types::QuerySpatialCoverageMax]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QuerySpatialCoverage AWS API Documentation
+    #
+    class QuerySpatialCoverage < Struct.new(
+      :max)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides insights into the table with the most sub-optimal spatial
+    # range scanned by your query.
+    #
+    # @!attribute [rw] value
+    #   The maximum ratio of spatial coverage.
+    #   @return [Float]
+    #
+    # @!attribute [rw] table_arn
+    #   The Amazon Resource Name (ARN) of the table with the most
+    #   sub-optimal spatial pruning.
+    #   @return [String]
+    #
+    # @!attribute [rw] partition_key
+    #   The partition key used for partitioning, which can be a default
+    #   `measure_name` or a [customer defined partition key][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/customer-defined-partition-keys.html
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QuerySpatialCoverageMax AWS API Documentation
+    #
+    class QuerySpatialCoverageMax < Struct.new(
+      :value,
+      :table_arn,
+      :partition_key)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -861,6 +1277,50 @@ module Aws::TimestreamQuery
       :progress_percentage,
       :cumulative_bytes_scanned,
       :cumulative_bytes_metered)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides insights into the temporal range of the query, including the
+    # table with the largest (max) time range.
+    #
+    # @!attribute [rw] max
+    #   Encapsulates the following properties that provide insights into the
+    #   most sub-optimal performing table on the temporal axis:
+    #
+    #   * `Value` – The maximum duration in nanoseconds between the start
+    #     and end of the query.
+    #
+    #   * `TableArn` – The Amazon Resource Name (ARN) of the table which is
+    #     queried with the largest time range.
+    #   @return [Types::QueryTemporalRangeMax]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryTemporalRange AWS API Documentation
+    #
+    class QueryTemporalRange < Struct.new(
+      :max)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides insights into the table with the most sub-optimal temporal
+    # pruning scanned by your query.
+    #
+    # @!attribute [rw] value
+    #   The maximum duration in nanoseconds between the start and end of the
+    #   query.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] table_arn
+    #   The Amazon Resource Name (ARN) of the table which is queried with
+    #   the largest time range.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/QueryTemporalRangeMax AWS API Documentation
+    #
+    class QueryTemporalRangeMax < Struct.new(
+      :value,
+      :table_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1098,6 +1558,78 @@ module Aws::TimestreamQuery
       include Aws::Structure
     end
 
+    # Encapsulates settings for enabling `QueryInsights` on an
+    # `ExecuteScheduledQueryRequest`.
+    #
+    # @!attribute [rw] mode
+    #   Provides the following modes to enable `ScheduledQueryInsights`:
+    #
+    #   * `ENABLED_WITH_RATE_CONTROL` – Enables `ScheduledQueryInsights` for
+    #     the queries being processed. This mode also includes a rate
+    #     control mechanism, which limits the `QueryInsights` feature to 1
+    #     query per second (QPS).
+    #
+    #   * `DISABLED` – Disables `ScheduledQueryInsights`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/ScheduledQueryInsights AWS API Documentation
+    #
+    class ScheduledQueryInsights < Struct.new(
+      :mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides various insights and metrics related to the
+    # `ExecuteScheduledQueryRequest` that was executed.
+    #
+    # @!attribute [rw] query_spatial_coverage
+    #   Provides insights into the spatial coverage of the query, including
+    #   the table with sub-optimal (max) spatial pruning. This information
+    #   can help you identify areas for improvement in your partitioning
+    #   strategy to enhance spatial pruning.
+    #   @return [Types::QuerySpatialCoverage]
+    #
+    # @!attribute [rw] query_temporal_range
+    #   Provides insights into the temporal range of the query, including
+    #   the table with the largest (max) time range. Following are some of
+    #   the potential options for optimizing time-based pruning:
+    #
+    #   * Add missing time-predicates.
+    #
+    #   * Remove functions around the time predicates.
+    #
+    #   * Add time predicates to all the sub-queries.
+    #   @return [Types::QueryTemporalRange]
+    #
+    # @!attribute [rw] query_table_count
+    #   Indicates the number of tables in the query.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_rows
+    #   Indicates the total number of rows returned as part of the query
+    #   result set. You can use this data to validate if the number of rows
+    #   in the result set have changed as part of the query tuning exercise.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_bytes
+    #   Indicates the size of query result set in bytes. You can use this
+    #   data to validate if the result set has changed as part of the query
+    #   tuning exercise.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/ScheduledQueryInsightsResponse AWS API Documentation
+    #
+    class ScheduledQueryInsightsResponse < Struct.new(
+      :query_spatial_coverage,
+      :query_temporal_range,
+      :query_table_count,
+      :output_rows,
+      :output_bytes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Run summary for the scheduled query
     #
     # @!attribute [rw] invocation_time
@@ -1118,6 +1650,11 @@ module Aws::TimestreamQuery
     #   Runtime statistics for a scheduled run.
     #   @return [Types::ExecutionStats]
     #
+    # @!attribute [rw] query_insights_response
+    #   Provides various insights and metrics related to the run summary of
+    #   the scheduled query.
+    #   @return [Types::ScheduledQueryInsightsResponse]
+    #
     # @!attribute [rw] error_report_location
     #   S3 location for error report.
     #   @return [Types::ErrorReportLocation]
@@ -1134,6 +1671,7 @@ module Aws::TimestreamQuery
       :trigger_time,
       :run_status,
       :execution_stats,
+      :query_insights_response,
       :error_report_location,
       :failure_reason)
       SENSITIVE = []
@@ -1280,7 +1818,7 @@ module Aws::TimestreamQuery
       include Aws::Structure
     end
 
-    # The request was denied due to request throttling.
+    # The request was throttled due to excessive requests.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -1394,7 +1932,12 @@ module Aws::TimestreamQuery
     #
     # @!attribute [rw] scalar_type
     #   Indicates if the column is of type string, integer, Boolean, double,
-    #   timestamp, date, time.
+    #   timestamp, date, time. For more information, see [Supported data
+    #   types][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html
     #   @return [String]
     #
     # @!attribute [rw] array_column_info
@@ -1443,6 +1986,82 @@ module Aws::TimestreamQuery
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] max_query_tcu
+    #   The maximum number of compute units the service will use at any
+    #   point in time to serve your queries. To run queries, you must set a
+    #   minimum capacity of 4 TCU. You can set the maximum number of TCU in
+    #   multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum
+    #   value supported for `MaxQueryTCU` is 1000. To request an increase to
+    #   this soft limit, contact Amazon Web Services Support. For
+    #   information about the default quota for maxQueryTCU, see Default
+    #   quotas. This configuration is applicable only for on-demand usage of
+    #   Timestream Compute Units (TCUs).
+    #
+    #   The maximum value supported for `MaxQueryTCU` is 1000. To request an
+    #   increase to this soft limit, contact Amazon Web Services Support.
+    #   For information about the default quota for `maxQueryTCU`, see
+    #   [Default quotas][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default
+    #   @return [Integer]
+    #
+    # @!attribute [rw] query_pricing_model
+    #   The pricing model for queries in an account.
+    #
+    #   <note markdown="1"> The `QueryPricingModel` parameter is used by several Timestream
+    #   operations; however, the `UpdateAccountSettings` API operation
+    #   doesn't recognize any values other than `COMPUTE_UNITS`.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] query_compute
+    #   Modifies the query compute settings configured in your account,
+    #   including the query pricing model and provisioned Timestream Compute
+    #   Units (TCUs) in your account.
+    #
+    #   <note markdown="1"> This API is idempotent, meaning that making the same request
+    #   multiple times will have the same effect as making the request once.
+    #
+    #    </note>
+    #   @return [Types::QueryComputeRequest]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/UpdateAccountSettingsRequest AWS API Documentation
+    #
+    class UpdateAccountSettingsRequest < Struct.new(
+      :max_query_tcu,
+      :query_pricing_model,
+      :query_compute)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_query_tcu
+    #   The configured maximum number of compute units the service will use
+    #   at any point in time to serve your queries.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] query_pricing_model
+    #   The pricing model for an account.
+    #   @return [String]
+    #
+    # @!attribute [rw] query_compute
+    #   Confirms the updated account settings for querying data in your
+    #   account.
+    #   @return [Types::QueryComputeResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/UpdateAccountSettingsResponse AWS API Documentation
+    #
+    class UpdateAccountSettingsResponse < Struct.new(
+      :max_query_tcu,
+      :query_pricing_model,
+      :query_compute)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] scheduled_query_arn
     #   ARN of the scheuled query.
     #   @return [String]
@@ -1475,3 +2094,4 @@ module Aws::TimestreamQuery
 
   end
 end
+

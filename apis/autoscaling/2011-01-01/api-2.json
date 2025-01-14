@@ -4,11 +4,13 @@
     "apiVersion":"2011-01-01",
     "endpointPrefix":"autoscaling",
     "protocol":"query",
+    "protocols":["query"],
     "serviceFullName":"Auto Scaling",
     "serviceId":"Auto Scaling",
     "signatureVersion":"v4",
     "uid":"autoscaling-2011-01-01",
-    "xmlNamespace":"http://autoscaling.amazonaws.com/doc/2011-01-01/"
+    "xmlNamespace":"http://autoscaling.amazonaws.com/doc/2011-01-01/",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AttachInstances":{
@@ -1091,6 +1093,16 @@
         "AlarmARN":{"shape":"ResourceName"}
       }
     },
+    "AlarmList":{
+      "type":"list",
+      "member":{"shape":"XmlStringMaxLen255"}
+    },
+    "AlarmSpecification":{
+      "type":"structure",
+      "members":{
+        "Alarms":{"shape":"AlarmList"}
+      }
+    },
     "Alarms":{
       "type":"list",
       "member":{"shape":"Alarm"}
@@ -1099,7 +1111,7 @@
       "type":"string",
       "max":30,
       "min":1,
-      "pattern":"[a-zA-Z0-9\\.\\*]+"
+      "pattern":"[a-zA-Z0-9\\.\\*\\-]+"
     },
     "AllowedInstanceTypes":{
       "type":"list",
@@ -1117,6 +1129,12 @@
         "senderFault":true
       },
       "exception":true
+    },
+    "AnyPrintableAsciiStringMaxLen4000":{
+      "type":"string",
+      "max":4000,
+      "min":1,
+      "pattern":"[\\u0009\\u000A\\u000D\\u0020-\\u007e]+"
     },
     "AsciiStringMaxLen255":{
       "type":"string",
@@ -1178,7 +1196,8 @@
       ],
       "members":{
         "AutoScalingGroupName":{"shape":"XmlStringMaxLen255"},
-        "TrafficSources":{"shape":"TrafficSources"}
+        "TrafficSources":{"shape":"TrafficSources"},
+        "SkipZonalShiftValidation":{"shape":"SkipZonalShiftValidation"}
       }
     },
     "AutoRollback":{"type":"boolean"},
@@ -1214,7 +1233,7 @@
         "CreatedTime":{"shape":"TimestampType"},
         "SuspendedProcesses":{"shape":"SuspendedProcesses"},
         "PlacementGroup":{"shape":"XmlStringMaxLen255"},
-        "VPCZoneIdentifier":{"shape":"XmlStringMaxLen2047"},
+        "VPCZoneIdentifier":{"shape":"XmlStringMaxLen5000"},
         "EnabledMetrics":{"shape":"EnabledMetrics"},
         "Status":{"shape":"XmlStringMaxLen255"},
         "Tags":{"shape":"TagDescriptionList"},
@@ -1228,7 +1247,11 @@
         "Context":{"shape":"Context"},
         "DesiredCapacityType":{"shape":"XmlStringMaxLen255"},
         "DefaultInstanceWarmup":{"shape":"DefaultInstanceWarmup"},
-        "TrafficSources":{"shape":"TrafficSources"}
+        "TrafficSources":{"shape":"TrafficSources"},
+        "InstanceMaintenancePolicy":{"shape":"InstanceMaintenancePolicy"},
+        "AvailabilityZoneDistribution":{"shape":"AvailabilityZoneDistribution"},
+        "AvailabilityZoneImpairmentPolicy":{"shape":"AvailabilityZoneImpairmentPolicy"},
+        "CapacityReservationSpecification":{"shape":"CapacityReservationSpecification"}
       }
     },
     "AutoScalingGroupDesiredCapacity":{"type":"integer"},
@@ -1303,9 +1326,27 @@
       "type":"list",
       "member":{"shape":"XmlStringMaxLen255"}
     },
+    "AvailabilityZoneDistribution":{
+      "type":"structure",
+      "members":{
+        "CapacityDistributionStrategy":{"shape":"CapacityDistributionStrategy"}
+      }
+    },
+    "AvailabilityZoneImpairmentPolicy":{
+      "type":"structure",
+      "members":{
+        "ZonalShiftEnabled":{"shape":"ZonalShiftEnabled"},
+        "ImpairedZoneHealthCheckBehavior":{"shape":"ImpairedZoneHealthCheckBehavior"}
+      }
+    },
     "AvailabilityZones":{
       "type":"list",
       "member":{"shape":"XmlStringMaxLen255"}
+    },
+    "BakeTime":{
+      "type":"integer",
+      "max":172800,
+      "min":0
     },
     "BareMetal":{
       "type":"string",
@@ -1320,6 +1361,12 @@
       "members":{
         "Min":{"shape":"NullablePositiveInteger"},
         "Max":{"shape":"NullablePositiveInteger"}
+      }
+    },
+    "BaselinePerformanceFactorsRequest":{
+      "type":"structure",
+      "members":{
+        "Cpu":{"shape":"CpuPerformanceFactorRequest"}
       }
     },
     "BatchDeleteScheduledActionAnswer":{
@@ -1413,6 +1460,13 @@
         "AutoScalingGroupName":{"shape":"XmlStringMaxLen255"}
       }
     },
+    "CapacityDistributionStrategy":{
+      "type":"string",
+      "enum":[
+        "balanced-only",
+        "balanced-best-effort"
+      ]
+    },
     "CapacityForecast":{
       "type":"structure",
       "required":[
@@ -1425,6 +1479,37 @@
       }
     },
     "CapacityRebalanceEnabled":{"type":"boolean"},
+    "CapacityReservationIds":{
+      "type":"list",
+      "member":{"shape":"AsciiStringMaxLen255"}
+    },
+    "CapacityReservationPreference":{
+      "type":"string",
+      "enum":[
+        "capacity-reservations-only",
+        "capacity-reservations-first",
+        "none",
+        "default"
+      ]
+    },
+    "CapacityReservationResourceGroupArns":{
+      "type":"list",
+      "member":{"shape":"ResourceName"}
+    },
+    "CapacityReservationSpecification":{
+      "type":"structure",
+      "members":{
+        "CapacityReservationPreference":{"shape":"CapacityReservationPreference"},
+        "CapacityReservationTarget":{"shape":"CapacityReservationTarget"}
+      }
+    },
+    "CapacityReservationTarget":{
+      "type":"structure",
+      "members":{
+        "CapacityReservationIds":{"shape":"CapacityReservationIds"},
+        "CapacityReservationResourceGroupArns":{"shape":"CapacityReservationResourceGroupArns"}
+      }
+    },
     "CheckpointDelay":{
       "type":"integer",
       "max":172800,
@@ -1472,6 +1557,15 @@
       "type":"list",
       "member":{"shape":"CpuManufacturer"}
     },
+    "CpuPerformanceFactorRequest":{
+      "type":"structure",
+      "members":{
+        "References":{
+          "shape":"PerformanceFactorReferenceSetRequest",
+          "locationName":"Reference"
+        }
+      }
+    },
     "CreateAutoScalingGroupType":{
       "type":"structure",
       "required":[
@@ -1495,7 +1589,7 @@
         "HealthCheckType":{"shape":"XmlStringMaxLen32"},
         "HealthCheckGracePeriod":{"shape":"HealthCheckGracePeriod"},
         "PlacementGroup":{"shape":"XmlStringMaxLen255"},
-        "VPCZoneIdentifier":{"shape":"XmlStringMaxLen2047"},
+        "VPCZoneIdentifier":{"shape":"XmlStringMaxLen5000"},
         "TerminationPolicies":{"shape":"TerminationPolicies"},
         "NewInstancesProtectedFromScaleIn":{"shape":"InstanceProtected"},
         "CapacityRebalance":{"shape":"CapacityRebalanceEnabled"},
@@ -1506,7 +1600,12 @@
         "Context":{"shape":"Context"},
         "DesiredCapacityType":{"shape":"XmlStringMaxLen255"},
         "DefaultInstanceWarmup":{"shape":"DefaultInstanceWarmup"},
-        "TrafficSources":{"shape":"TrafficSources"}
+        "TrafficSources":{"shape":"TrafficSources"},
+        "InstanceMaintenancePolicy":{"shape":"InstanceMaintenancePolicy"},
+        "AvailabilityZoneDistribution":{"shape":"AvailabilityZoneDistribution"},
+        "AvailabilityZoneImpairmentPolicy":{"shape":"AvailabilityZoneImpairmentPolicy"},
+        "SkipZonalShiftValidation":{"shape":"SkipZonalShiftValidation"},
+        "CapacityReservationSpecification":{"shape":"CapacityReservationSpecification"}
       }
     },
     "CreateLaunchConfigurationType":{
@@ -1549,6 +1648,7 @@
         "Dimensions":{"shape":"MetricDimensions"},
         "Statistic":{"shape":"MetricStatistic"},
         "Unit":{"shape":"MetricUnit"},
+        "Period":{"shape":"MetricGranularityInSeconds"},
         "Metrics":{"shape":"TargetTrackingMetricDataQueries"}
       }
     },
@@ -1795,10 +1895,7 @@
     },
     "DescribeTrafficSourcesRequest":{
       "type":"structure",
-      "required":[
-        "AutoScalingGroupName",
-        "TrafficSourceType"
-      ],
+      "required":["AutoScalingGroupName"],
       "members":{
         "AutoScalingGroupName":{"shape":"XmlStringMaxLen255"},
         "TrafficSourceType":{"shape":"XmlStringMaxLen255"},
@@ -1971,7 +2068,7 @@
       "type":"string",
       "max":30,
       "min":1,
-      "pattern":"[a-zA-Z0-9\\.\\*]+"
+      "pattern":"[a-zA-Z0-9\\.\\*\\-]+"
     },
     "ExcludedInstanceTypes":{
       "type":"list",
@@ -2060,6 +2157,13 @@
     "HealthCheckGracePeriod":{"type":"integer"},
     "HeartbeatTimeout":{"type":"integer"},
     "HonorCooldown":{"type":"boolean"},
+    "ImpairedZoneHealthCheckBehavior":{
+      "type":"string",
+      "enum":[
+        "ReplaceUnhealthy",
+        "IgnoreUnhealthy"
+      ]
+    },
     "IncludeDeletedGroups":{"type":"boolean"},
     "Instance":{
       "type":"structure",
@@ -2096,6 +2200,13 @@
     "InstanceIds":{
       "type":"list",
       "member":{"shape":"XmlStringMaxLen19"}
+    },
+    "InstanceMaintenancePolicy":{
+      "type":"structure",
+      "members":{
+        "MinHealthyPercentage":{"shape":"IntPercentResettable"},
+        "MaxHealthyPercentage":{"shape":"IntPercent100To200Resettable"}
+      }
     },
     "InstanceMetadataEndpointState":{
       "type":"string",
@@ -2189,7 +2300,8 @@
         "Cancelled",
         "RollbackInProgress",
         "RollbackFailed",
-        "RollbackSuccessful"
+        "RollbackSuccessful",
+        "Baking"
       ]
     },
     "InstanceRefreshWarmPoolProgress":{
@@ -2217,6 +2329,7 @@
         "ExcludedInstanceTypes":{"shape":"ExcludedInstanceTypes"},
         "InstanceGenerations":{"shape":"InstanceGenerations"},
         "SpotMaxPricePercentageOverLowestPrice":{"shape":"NullablePositiveInteger"},
+        "MaxSpotPriceAsPercentageOfOptimalOnDemandPrice":{"shape":"NullablePositiveInteger"},
         "OnDemandMaxPricePercentageOverLowestPrice":{"shape":"NullablePositiveInteger"},
         "BareMetal":{"shape":"BareMetal"},
         "BurstablePerformance":{"shape":"BurstablePerformance"},
@@ -2232,7 +2345,8 @@
         "AcceleratorNames":{"shape":"AcceleratorNames"},
         "AcceleratorTotalMemoryMiB":{"shape":"AcceleratorTotalMemoryMiBRequest"},
         "NetworkBandwidthGbps":{"shape":"NetworkBandwidthGbpsRequest"},
-        "AllowedInstanceTypes":{"shape":"AllowedInstanceTypes"}
+        "AllowedInstanceTypes":{"shape":"AllowedInstanceTypes"},
+        "BaselinePerformanceFactors":{"shape":"BaselinePerformanceFactorsRequest"}
       }
     },
     "InstanceReusePolicy":{
@@ -2264,6 +2378,21 @@
       "type":"integer",
       "max":100,
       "min":0
+    },
+    "IntPercent100To200":{
+      "type":"integer",
+      "max":200,
+      "min":100
+    },
+    "IntPercent100To200Resettable":{
+      "type":"integer",
+      "max":200,
+      "min":-1
+    },
+    "IntPercentResettable":{
+      "type":"integer",
+      "max":100,
+      "min":-1
     },
     "InvalidNextToken":{
       "type":"structure",
@@ -2395,7 +2524,7 @@
         "LifecycleTransition":{"shape":"LifecycleTransition"},
         "NotificationTargetARN":{"shape":"NotificationTargetResourceName"},
         "RoleARN":{"shape":"XmlStringMaxLen255"},
-        "NotificationMetadata":{"shape":"XmlStringMaxLen1023"},
+        "NotificationMetadata":{"shape":"AnyPrintableAsciiStringMaxLen4000"},
         "HeartbeatTimeout":{"shape":"HeartbeatTimeout"},
         "GlobalTimeout":{"shape":"GlobalTimeout"},
         "DefaultResult":{"shape":"LifecycleActionResult"}
@@ -2415,7 +2544,7 @@
       "members":{
         "LifecycleHookName":{"shape":"AsciiStringMaxLen255"},
         "LifecycleTransition":{"shape":"LifecycleTransition"},
-        "NotificationMetadata":{"shape":"XmlStringMaxLen1023"},
+        "NotificationMetadata":{"shape":"AnyPrintableAsciiStringMaxLen4000"},
         "HeartbeatTimeout":{"shape":"HeartbeatTimeout"},
         "DefaultResult":{"shape":"LifecycleActionResult"},
         "NotificationTargetARN":{"shape":"NotificationTargetResourceName"},
@@ -2610,6 +2739,10 @@
       "type":"list",
       "member":{"shape":"MetricDimension"}
     },
+    "MetricGranularityInSeconds":{
+      "type":"integer",
+      "min":1
+    },
     "MetricGranularityType":{
       "type":"structure",
       "members":{
@@ -2731,6 +2864,19 @@
     "Overrides":{
       "type":"list",
       "member":{"shape":"LaunchTemplateOverrides"}
+    },
+    "PerformanceFactorReferenceRequest":{
+      "type":"structure",
+      "members":{
+        "InstanceFamily":{"shape":"String"}
+      }
+    },
+    "PerformanceFactorReferenceSetRequest":{
+      "type":"list",
+      "member":{
+        "shape":"PerformanceFactorReferenceRequest",
+        "locationName":"item"
+      }
     },
     "PoliciesType":{
       "type":"structure",
@@ -2935,7 +3081,7 @@
         "LifecycleTransition":{"shape":"LifecycleTransition"},
         "RoleARN":{"shape":"XmlStringMaxLen255"},
         "NotificationTargetARN":{"shape":"NotificationTargetResourceName"},
-        "NotificationMetadata":{"shape":"XmlStringMaxLen1023"},
+        "NotificationMetadata":{"shape":"AnyPrintableAsciiStringMaxLen4000"},
         "HeartbeatTimeout":{"shape":"HeartbeatTimeout"},
         "DefaultResult":{"shape":"LifecycleActionResult"}
       }
@@ -3043,7 +3189,10 @@
         "SkipMatching":{"shape":"SkipMatching"},
         "AutoRollback":{"shape":"AutoRollback"},
         "ScaleInProtectedInstances":{"shape":"ScaleInProtectedInstances"},
-        "StandbyInstances":{"shape":"StandbyInstances"}
+        "StandbyInstances":{"shape":"StandbyInstances"},
+        "AlarmSpecification":{"shape":"AlarmSpecification"},
+        "MaxHealthyPercentage":{"shape":"IntPercent100To200"},
+        "BakeTime":{"shape":"BakeTime"}
       }
     },
     "RefreshStrategy":{
@@ -3100,6 +3249,7 @@
     },
     "RollbackInstanceRefreshType":{
       "type":"structure",
+      "required":["AutoScalingGroupName"],
       "members":{
         "AutoScalingGroupName":{"shape":"XmlStringMaxLen255"}
       }
@@ -3138,7 +3288,8 @@
         "WaitingForInstanceWarmup",
         "Successful",
         "Failed",
-        "Cancelled"
+        "Cancelled",
+        "WaitingForConnectionDraining"
       ]
     },
     "ScalingPolicies":{
@@ -3285,6 +3436,7 @@
     "ShouldDecrementDesiredCapacity":{"type":"boolean"},
     "ShouldRespectGracePeriod":{"type":"boolean"},
     "SkipMatching":{"type":"boolean"},
+    "SkipZonalShiftValidation":{"type":"boolean"},
     "SpotInstancePools":{"type":"integer"},
     "SpotPrice":{
       "type":"string",
@@ -3328,6 +3480,7 @@
       "type":"list",
       "member":{"shape":"StepAdjustment"}
     },
+    "String":{"type":"string"},
     "SuspendedProcess":{
       "type":"structure",
       "members":{
@@ -3409,10 +3562,11 @@
       "type":"structure",
       "required":["Id"],
       "members":{
-        "Id":{"shape":"XmlStringMaxLen255"},
+        "Id":{"shape":"XmlStringMaxLen64"},
         "Expression":{"shape":"XmlStringMaxLen2047"},
         "MetricStat":{"shape":"TargetTrackingMetricStat"},
         "Label":{"shape":"XmlStringMetricLabel"},
+        "Period":{"shape":"MetricGranularityInSeconds"},
         "ReturnData":{"shape":"ReturnData"}
       }
     },
@@ -3425,7 +3579,8 @@
       "members":{
         "Metric":{"shape":"Metric"},
         "Stat":{"shape":"XmlStringMetricStat"},
-        "Unit":{"shape":"MetricUnit"}
+        "Unit":{"shape":"MetricUnit"},
+        "Period":{"shape":"MetricGranularityInSeconds"}
       }
     },
     "TerminateInstanceInAutoScalingGroupType":{
@@ -3453,15 +3608,23 @@
     },
     "TrafficSourceIdentifier":{
       "type":"structure",
+      "required":["Identifier"],
       "members":{
-        "Identifier":{"shape":"XmlStringMaxLen511"}
+        "Identifier":{"shape":"XmlStringMaxLen511"},
+        "Type":{"shape":"XmlStringMaxLen511"}
       }
     },
     "TrafficSourceState":{
       "type":"structure",
       "members":{
-        "TrafficSource":{"shape":"XmlStringMaxLen511"},
-        "State":{"shape":"XmlStringMaxLen255"}
+        "TrafficSource":{
+          "shape":"XmlStringMaxLen511",
+          "deprecated":true,
+          "deprecatedMessage":"TrafficSource has been replaced by Identifier"
+        },
+        "State":{"shape":"XmlStringMaxLen255"},
+        "Identifier":{"shape":"XmlStringMaxLen511"},
+        "Type":{"shape":"XmlStringMaxLen511"}
       }
     },
     "TrafficSourceStates":{
@@ -3487,8 +3650,8 @@
         "AvailabilityZones":{"shape":"AvailabilityZones"},
         "HealthCheckType":{"shape":"XmlStringMaxLen32"},
         "HealthCheckGracePeriod":{"shape":"HealthCheckGracePeriod"},
-        "PlacementGroup":{"shape":"XmlStringMaxLen255"},
-        "VPCZoneIdentifier":{"shape":"XmlStringMaxLen2047"},
+        "PlacementGroup":{"shape":"UpdatePlacementGroupParam"},
+        "VPCZoneIdentifier":{"shape":"XmlStringMaxLen5000"},
         "TerminationPolicies":{"shape":"TerminationPolicies"},
         "NewInstancesProtectedFromScaleIn":{"shape":"InstanceProtected"},
         "ServiceLinkedRoleARN":{"shape":"ResourceName"},
@@ -3496,8 +3659,19 @@
         "CapacityRebalance":{"shape":"CapacityRebalanceEnabled"},
         "Context":{"shape":"Context"},
         "DesiredCapacityType":{"shape":"XmlStringMaxLen255"},
-        "DefaultInstanceWarmup":{"shape":"DefaultInstanceWarmup"}
+        "DefaultInstanceWarmup":{"shape":"DefaultInstanceWarmup"},
+        "InstanceMaintenancePolicy":{"shape":"InstanceMaintenancePolicy"},
+        "AvailabilityZoneDistribution":{"shape":"AvailabilityZoneDistribution"},
+        "AvailabilityZoneImpairmentPolicy":{"shape":"AvailabilityZoneImpairmentPolicy"},
+        "SkipZonalShiftValidation":{"shape":"SkipZonalShiftValidation"},
+        "CapacityReservationSpecification":{"shape":"CapacityReservationSpecification"}
       }
+    },
+    "UpdatePlacementGroupParam":{
+      "type":"string",
+      "max":255,
+      "min":0,
+      "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*"
     },
     "VCpuCountRequest":{
       "type":"structure",
@@ -3578,6 +3752,12 @@
       "min":1,
       "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*"
     },
+    "XmlStringMaxLen5000":{
+      "type":"string",
+      "max":5000,
+      "min":1,
+      "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*"
+    },
     "XmlStringMaxLen511":{
       "type":"string",
       "max":511,
@@ -3605,6 +3785,7 @@
       "type":"string",
       "max":21847,
       "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*"
-    }
+    },
+    "ZonalShiftEnabled":{"type":"boolean"}
   }
 }

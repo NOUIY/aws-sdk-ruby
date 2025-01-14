@@ -15,8 +15,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] current_application_version_id
-    #   The version ID of the Kinesis Data Analytics application. You must
-    #   provide the `CurrentApplicationVersionId` or the
+    #   The version ID of the SQL-based Kinesis Data Analytics application.
+    #   You must provide the `CurrentApplicationVersionId` or the
     #   `ConditionalToken`.You can retrieve the application version ID using
     #   DescribeApplication. For better concurrency support, use the
     #   `ConditionalToken` parameter instead of
@@ -53,22 +53,29 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] application_version_id
-    #   The new version ID of the Kinesis Data Analytics application.
-    #   Kinesis Data Analytics updates the `ApplicationVersionId` each time
-    #   you change the CloudWatch logging options.
+    #   The new version ID of the SQL-based Kinesis Data Analytics
+    #   application. Kinesis Data Analytics updates the
+    #   `ApplicationVersionId` each time you change the CloudWatch logging
+    #   options.
     #   @return [Integer]
     #
     # @!attribute [rw] cloud_watch_logging_option_descriptions
     #   The descriptions of the current CloudWatch logging options for the
-    #   Kinesis Data Analytics application.
+    #   SQL-based Kinesis Data Analytics application.
     #   @return [Array<Types::CloudWatchLoggingOptionDescription>]
+    #
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking AddApplicationCloudWatchLoggingOption
+    #   request
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/AddApplicationCloudWatchLoggingOptionResponse AWS API Documentation
     #
     class AddApplicationCloudWatchLoggingOptionResponse < Struct.new(
       :application_arn,
       :application_version_id,
-      :cloud_watch_logging_option_descriptions)
+      :cloud_watch_logging_option_descriptions,
+      :operation_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -340,8 +347,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] application_version_id
-    #   Provides the current application version. Kinesis Data Analytics
-    #   updates the ApplicationVersionId each time you update the
+    #   Provides the current application version. Managed Service for Apache
+    #   Flink updates the ApplicationVersionId each time you update the
     #   application.
     #   @return [Integer]
     #
@@ -349,12 +356,17 @@ module Aws::KinesisAnalyticsV2
     #   The parameters of the new VPC configuration.
     #   @return [Types::VpcConfigurationDescription]
     #
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking AddApplicationVpcConfiguration request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/AddApplicationVpcConfigurationResponse AWS API Documentation
     #
     class AddApplicationVpcConfigurationResponse < Struct.new(
       :application_arn,
       :application_version_id,
-      :vpc_configuration_description)
+      :vpc_configuration_description,
+      :operation_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -399,7 +411,7 @@ module Aws::KinesisAnalyticsV2
     end
 
     # Describes code configuration updates for an application. This is
-    # supported for a Flink-based Kinesis Data Analytics application or a
+    # supported for a Managed Service for Apache Flink application or a
     # SQL-based Kinesis Data Analytics application.
     #
     # @!attribute [rw] code_content_type_update
@@ -419,8 +431,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Specifies the creation parameters for a Kinesis Data Analytics
-    # application.
+    # Specifies the creation parameters for a Managed Service for Apache
+    # Flink application.
     #
     # @!attribute [rw] sql_application_configuration
     #   The creation and update parameters for a SQL-based Kinesis Data
@@ -428,24 +440,29 @@ module Aws::KinesisAnalyticsV2
     #   @return [Types::SqlApplicationConfiguration]
     #
     # @!attribute [rw] flink_application_configuration
-    #   The creation and update parameters for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   The creation and update parameters for a Managed Service for Apache
+    #   Flink application.
     #   @return [Types::FlinkApplicationConfiguration]
     #
     # @!attribute [rw] environment_properties
-    #   Describes execution properties for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   Describes execution properties for a Managed Service for Apache
+    #   Flink application.
     #   @return [Types::EnvironmentProperties]
     #
     # @!attribute [rw] application_code_configuration
-    #   The code location and type parameters for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   The code location and type parameters for a Managed Service for
+    #   Apache Flink application.
     #   @return [Types::ApplicationCodeConfiguration]
     #
     # @!attribute [rw] application_snapshot_configuration
-    #   Describes whether snapshots are enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether snapshots are enabled for a Managed Service for
+    #   Apache Flink application.
     #   @return [Types::ApplicationSnapshotConfiguration]
+    #
+    # @!attribute [rw] application_system_rollback_configuration
+    #   Describes system rollback configuration for a Managed Service for
+    #   Apache Flink application
+    #   @return [Types::ApplicationSystemRollbackConfiguration]
     #
     # @!attribute [rw] vpc_configurations
     #   The array of descriptions of VPC configurations available to the
@@ -453,8 +470,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [Array<Types::VpcConfiguration>]
     #
     # @!attribute [rw] zeppelin_application_configuration
-    #   The configuration parameters for a Kinesis Data Analytics Studio
-    #   notebook.
+    #   The configuration parameters for a Managed Service for Apache Flink
+    #   Studio notebook.
     #   @return [Types::ZeppelinApplicationConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationConfiguration AWS API Documentation
@@ -465,6 +482,7 @@ module Aws::KinesisAnalyticsV2
       :environment_properties,
       :application_code_configuration,
       :application_snapshot_configuration,
+      :application_system_rollback_configuration,
       :vpc_configurations,
       :zeppelin_application_configuration)
       SENSITIVE = []
@@ -472,7 +490,7 @@ module Aws::KinesisAnalyticsV2
     end
 
     # Describes details about the application code and starting parameters
-    # for a Kinesis Data Analytics application.
+    # for a Managed Service for Apache Flink application.
     #
     # @!attribute [rw] sql_application_configuration_description
     #   The details about inputs, outputs, and reference data sources for a
@@ -480,28 +498,33 @@ module Aws::KinesisAnalyticsV2
     #   @return [Types::SqlApplicationConfigurationDescription]
     #
     # @!attribute [rw] application_code_configuration_description
-    #   The details about the application code for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   The details about the application code for a Managed Service for
+    #   Apache Flink application.
     #   @return [Types::ApplicationCodeConfigurationDescription]
     #
     # @!attribute [rw] run_configuration_description
-    #   The details about the starting properties for a Kinesis Data
-    #   Analytics application.
+    #   The details about the starting properties for a Managed Service for
+    #   Apache Flink application.
     #   @return [Types::RunConfigurationDescription]
     #
     # @!attribute [rw] flink_application_configuration_description
-    #   The details about a Flink-based Kinesis Data Analytics application.
+    #   The details about a Managed Service for Apache Flink application.
     #   @return [Types::FlinkApplicationConfigurationDescription]
     #
     # @!attribute [rw] environment_property_descriptions
-    #   Describes execution properties for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   Describes execution properties for a Managed Service for Apache
+    #   Flink application.
     #   @return [Types::EnvironmentPropertyDescriptions]
     #
     # @!attribute [rw] application_snapshot_configuration_description
-    #   Describes whether snapshots are enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether snapshots are enabled for a Managed Service for
+    #   Apache Flink application.
     #   @return [Types::ApplicationSnapshotConfigurationDescription]
+    #
+    # @!attribute [rw] application_system_rollback_configuration_description
+    #   Describes system rollback configuration for a Managed Service for
+    #   Apache Flink application
+    #   @return [Types::ApplicationSystemRollbackConfigurationDescription]
     #
     # @!attribute [rw] vpc_configuration_descriptions
     #   The array of descriptions of VPC configurations available to the
@@ -509,8 +532,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [Array<Types::VpcConfigurationDescription>]
     #
     # @!attribute [rw] zeppelin_application_configuration_description
-    #   The configuration parameters for a Kinesis Data Analytics Studio
-    #   notebook.
+    #   The configuration parameters for a Managed Service for Apache Flink
+    #   Studio notebook.
     #   @return [Types::ZeppelinApplicationConfigurationDescription]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationConfigurationDescription AWS API Documentation
@@ -522,6 +545,7 @@ module Aws::KinesisAnalyticsV2
       :flink_application_configuration_description,
       :environment_property_descriptions,
       :application_snapshot_configuration_description,
+      :application_system_rollback_configuration_description,
       :vpc_configuration_descriptions,
       :zeppelin_application_configuration_description)
       SENSITIVE = []
@@ -540,19 +564,24 @@ module Aws::KinesisAnalyticsV2
     #   @return [Types::ApplicationCodeConfigurationUpdate]
     #
     # @!attribute [rw] flink_application_configuration_update
-    #   Describes updates to a Flink-based Kinesis Data Analytics
+    #   Describes updates to a Managed Service for Apache Flink
     #   application's configuration.
     #   @return [Types::FlinkApplicationConfigurationUpdate]
     #
     # @!attribute [rw] environment_property_updates
-    #   Describes updates to the environment properties for a Flink-based
-    #   Kinesis Data Analytics application.
+    #   Describes updates to the environment properties for a Managed
+    #   Service for Apache Flink application.
     #   @return [Types::EnvironmentPropertyUpdates]
     #
     # @!attribute [rw] application_snapshot_configuration_update
-    #   Describes whether snapshots are enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether snapshots are enabled for a Managed Service for
+    #   Apache Flink application.
     #   @return [Types::ApplicationSnapshotConfigurationUpdate]
+    #
+    # @!attribute [rw] application_system_rollback_configuration_update
+    #   Describes system rollback configuration for a Managed Service for
+    #   Apache Flink application
+    #   @return [Types::ApplicationSystemRollbackConfigurationUpdate]
     #
     # @!attribute [rw] vpc_configuration_updates
     #   Updates to the array of descriptions of VPC configurations available
@@ -560,8 +589,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [Array<Types::VpcConfigurationUpdate>]
     #
     # @!attribute [rw] zeppelin_application_configuration_update
-    #   Updates to the configuration of a Kinesis Data Analytics Studio
-    #   notebook.
+    #   Updates to the configuration of a Managed Service for Apache Flink
+    #   Studio notebook.
     #   @return [Types::ZeppelinApplicationConfigurationUpdate]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationConfigurationUpdate AWS API Documentation
@@ -572,6 +601,7 @@ module Aws::KinesisAnalyticsV2
       :flink_application_configuration_update,
       :environment_property_updates,
       :application_snapshot_configuration_update,
+      :application_system_rollback_configuration_update,
       :vpc_configuration_updates,
       :zeppelin_application_configuration_update)
       SENSITIVE = []
@@ -608,8 +638,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] application_version_id
-    #   Provides the current application version. Kinesis Data Analytics
-    #   updates the `ApplicationVersionId` each time you update the
+    #   Provides the current application version. Managed Service for Apache
+    #   Flink updates the `ApplicationVersionId` each time you update the
     #   application.
     #   @return [Integer]
     #
@@ -623,7 +653,7 @@ module Aws::KinesisAnalyticsV2
     #
     # @!attribute [rw] application_configuration_description
     #   Describes details about the application code and starting parameters
-    #   for a Kinesis Data Analytics application.
+    #   for a Managed Service for Apache Flink application.
     #   @return [Types::ApplicationConfigurationDescription]
     #
     # @!attribute [rw] cloud_watch_logging_option_descriptions
@@ -644,6 +674,10 @@ module Aws::KinesisAnalyticsV2
     #   application version when `RollbackApplication` was called.
     #   @return [Integer]
     #
+    # @!attribute [rw] application_version_create_timestamp
+    #   The current timestamp when the application version was created.
+    #   @return [Time]
+    #
     # @!attribute [rw] conditional_token
     #   A value you use to implement strong concurrency for application
     #   updates.
@@ -654,9 +688,9 @@ module Aws::KinesisAnalyticsV2
     #   @return [Integer]
     #
     # @!attribute [rw] application_mode
-    #   To create a Kinesis Data Analytics Studio notebook, you must set the
-    #   mode to `INTERACTIVE`. However, for a Kinesis Data Analytics for
-    #   Apache Flink application, the mode is optional.
+    #   To create a Managed Service for Apache Flink Studio notebook, you
+    #   must set the mode to `INTERACTIVE`. However, for a Managed Service
+    #   for Apache Flink application, the mode is optional.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationDetail AWS API Documentation
@@ -676,6 +710,7 @@ module Aws::KinesisAnalyticsV2
       :application_maintenance_configuration_description,
       :application_version_updated_from,
       :application_version_rolled_back_from,
+      :application_version_create_timestamp,
       :conditional_token,
       :application_version_rolled_back_to,
       :application_mode)
@@ -716,6 +751,82 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # Provides a description of the operation, such as the type and status
+    # of operation
+    #
+    # @!attribute [rw] operation
+    #   Type of operation performed on an application
+    #   @return [String]
+    #
+    # @!attribute [rw] operation_id
+    #   Identifier of the Operation
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp at which the operation was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp at which the operation finished for the application
+    #   @return [Time]
+    #
+    # @!attribute [rw] operation_status
+    #   Status of the operation performed on an application
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationOperationInfo AWS API Documentation
+    #
+    class ApplicationOperationInfo < Struct.new(
+      :operation,
+      :operation_id,
+      :start_time,
+      :end_time,
+      :operation_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides a description of the operation, such as the operation-type
+    # and status
+    #
+    # @!attribute [rw] operation
+    #   Type of operation performed on an application
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp at which the operation was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp at which the operation finished for the application
+    #   @return [Time]
+    #
+    # @!attribute [rw] operation_status
+    #   Status of the operation performed on an application
+    #   @return [String]
+    #
+    # @!attribute [rw] application_version_change_details
+    #   Contains information about the application version changes due to an
+    #   operation
+    #   @return [Types::ApplicationVersionChangeDetails]
+    #
+    # @!attribute [rw] operation_failure_details
+    #   Provides a description of the operation failure
+    #   @return [Types::OperationFailureDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationOperationInfoDetails AWS API Documentation
+    #
+    class ApplicationOperationInfoDetails < Struct.new(
+      :operation,
+      :start_time,
+      :end_time,
+      :operation_status,
+      :application_version_change_details,
+      :operation_failure_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies the method and snapshot to use when restarting an
     # application using previously saved application state.
     #
@@ -739,12 +850,12 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes whether snapshots are enabled for a Flink-based Kinesis Data
-    # Analytics application.
+    # Describes whether snapshots are enabled for a Managed Service for
+    # Apache Flink application.
     #
     # @!attribute [rw] snapshots_enabled
-    #   Describes whether snapshots are enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether snapshots are enabled for a Managed Service for
+    #   Apache Flink application.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationSnapshotConfiguration AWS API Documentation
@@ -755,12 +866,12 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes whether snapshots are enabled for a Flink-based Kinesis Data
-    # Analytics application.
+    # Describes whether snapshots are enabled for a Managed Service for
+    # Apache Flink application.
     #
     # @!attribute [rw] snapshots_enabled
-    #   Describes whether snapshots are enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether snapshots are enabled for a Managed Service for
+    #   Apache Flink application.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationSnapshotConfigurationDescription AWS API Documentation
@@ -771,8 +882,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes updates to whether snapshots are enabled for a Flink-based
-    # Kinesis Data Analytics application.
+    # Describes updates to whether snapshots are enabled for a Managed
+    # Service for Apache Flink application.
     #
     # @!attribute [rw] snapshots_enabled_update
     #   Describes updates to whether snapshots are enabled for an
@@ -811,9 +922,9 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] application_mode
-    #   For a Kinesis Data Analytics for Apache Flink application, the mode
-    #   is `STREAMING`. For a Kinesis Data Analytics Studio notebook, it is
-    #   `INTERACTIVE`.
+    #   For a Managed Service for Apache Flink application, the mode is
+    #   `STREAMING`. For a Managed Service for Apache Flink Studio notebook,
+    #   it is `INTERACTIVE`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationSummary AWS API Documentation
@@ -829,11 +940,81 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # Describes system rollback configuration for a Managed Service for
+    # Apache Flink application
+    #
+    # @!attribute [rw] rollback_enabled
+    #   Describes whether system rollbacks are enabled for a Managed Service
+    #   for Apache Flink application
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationSystemRollbackConfiguration AWS API Documentation
+    #
+    class ApplicationSystemRollbackConfiguration < Struct.new(
+      :rollback_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes system rollback configuration for a Managed Service for
+    # Apache Flink application
+    #
+    # @!attribute [rw] rollback_enabled
+    #   Describes whether system rollbacks are enabled for a Managed Service
+    #   for Apache Flink application
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationSystemRollbackConfigurationDescription AWS API Documentation
+    #
+    class ApplicationSystemRollbackConfigurationDescription < Struct.new(
+      :rollback_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes system rollback configuration for a Managed Service for
+    # Apache Flink application
+    #
+    # @!attribute [rw] rollback_enabled_update
+    #   Describes whether system rollbacks are enabled for a Managed Service
+    #   for Apache Flink application
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationSystemRollbackConfigurationUpdate AWS API Documentation
+    #
+    class ApplicationSystemRollbackConfigurationUpdate < Struct.new(
+      :rollback_enabled_update)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about the application version changes due to an
+    # operation
+    #
+    # @!attribute [rw] application_version_updated_from
+    #   The operation was performed on this version of the application
+    #   @return [Integer]
+    #
+    # @!attribute [rw] application_version_updated_to
+    #   The operation execution resulted in the transition to the following
+    #   version of the application
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ApplicationVersionChangeDetails AWS API Documentation
+    #
+    class ApplicationVersionChangeDetails < Struct.new(
+      :application_version_updated_from,
+      :application_version_updated_to)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The summary of the application version.
     #
     # @!attribute [rw] application_version_id
-    #   The ID of the application version. Kinesis Data Analytics updates
-    #   the `ApplicationVersionId` each time you update the application.
+    #   The ID of the application version. Managed Service for Apache Flink
+    #   updates the `ApplicationVersionId` each time you update the
+    #   application.
     #   @return [Integer]
     #
     # @!attribute [rw] application_status
@@ -879,14 +1060,14 @@ module Aws::KinesisAnalyticsV2
     end
 
     # The configuration parameters for the default Amazon Glue database. You
-    # use this database for SQL queries that you write in a Kinesis Data
-    # Analytics Studio notebook.
+    # use this database for SQL queries that you write in a Managed Service
+    # for Apache Flink Studio notebook.
     #
     # @!attribute [rw] glue_data_catalog_configuration
     #   The configuration parameters for the default Amazon Glue database.
     #   You use this database for Apache Flink SQL queries and table API
-    #   transforms that you write in a Kinesis Data Analytics Studio
-    #   notebook.
+    #   transforms that you write in a Managed Service for Apache Flink
+    #   Studio notebook.
     #   @return [Types::GlueDataCatalogConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/CatalogConfiguration AWS API Documentation
@@ -899,12 +1080,13 @@ module Aws::KinesisAnalyticsV2
 
     # The configuration parameters for the default Amazon Glue database. You
     # use this database for Apache Flink SQL queries and table API
-    # transforms that you write in a Kinesis Data Analytics Studio notebook.
+    # transforms that you write in a Managed Service for Apache Flink Studio
+    # notebook.
     #
     # @!attribute [rw] glue_data_catalog_configuration_description
     #   The configuration parameters for the default Amazon Glue database.
-    #   You use this database for SQL queries that you write in a Kinesis
-    #   Data Analytics Studio notebook.
+    #   You use this database for SQL queries that you write in a Managed
+    #   Service for Apache Flink Studio notebook.
     #   @return [Types::GlueDataCatalogConfigurationDescription]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/CatalogConfigurationDescription AWS API Documentation
@@ -917,12 +1099,12 @@ module Aws::KinesisAnalyticsV2
 
     # Updates to the configuration parameters for the default Amazon Glue
     # database. You use this database for SQL queries that you write in a
-    # Kinesis Data Analytics Studio notebook.
+    # Managed Service for Apache Flink Studio notebook.
     #
     # @!attribute [rw] glue_data_catalog_configuration_update
     #   Updates to the configuration parameters for the default Amazon Glue
     #   database. You use this database for SQL queries that you write in a
-    #   Kinesis Data Analytics Studio notebook.
+    #   Managed Service for Apache Flink Studio notebook.
     #   @return [Types::GlueDataCatalogConfigurationUpdate]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/CatalogConfigurationUpdate AWS API Documentation
@@ -940,13 +1122,13 @@ module Aws::KinesisAnalyticsV2
     #
     #
     #
-    # [1]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance
-    # [2]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/
+    # [1]: https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing
+    # [2]: https://nightlies.apache.org/flink/flink-docs-release-1.19/
     #
     # @!attribute [rw] configuration_type
-    #   Describes whether the application uses Kinesis Data Analytics'
-    #   default checkpointing behavior. You must set this property to
-    #   `CUSTOM` in order to set the `CheckpointingEnabled`,
+    #   Describes whether the application uses Managed Service for Apache
+    #   Flink' default checkpointing behavior. You must set this property
+    #   to `CUSTOM` in order to set the `CheckpointingEnabled`,
     #   `CheckpointInterval`, or `MinPauseBetweenCheckpoints` parameters.
     #
     #   <note markdown="1"> If this value is set to `DEFAULT`, the application will use the
@@ -963,8 +1145,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] checkpointing_enabled
-    #   Describes whether checkpointing is enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether checkpointing is enabled for a Managed Service for
+    #   Apache Flink application.
     #
     #   <note markdown="1"> If `CheckpointConfiguration.ConfigurationType` is `DEFAULT`, the
     #   application will use a `CheckpointingEnabled` value of `true`, even
@@ -1002,8 +1184,8 @@ module Aws::KinesisAnalyticsV2
     #
     #
     #
-    #   [1]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/large_state_tuning.html#tuning-checkpointing
-    #   [2]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/
+    #   [1]: https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/large_state_tuning/#tuning-checkpointing
+    #   [2]: https://nightlies.apache.org/flink/flink-docs-release-1.19/
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/CheckpointConfiguration AWS API Documentation
@@ -1017,12 +1199,12 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes checkpointing parameters for a Flink-based Kinesis Data
-    # Analytics application.
+    # Describes checkpointing parameters for a Managed Service for Apache
+    # Flink application.
     #
     # @!attribute [rw] configuration_type
     #   Describes whether the application uses the default checkpointing
-    #   behavior in Kinesis Data Analytics.
+    #   behavior in Managed Service for Apache Flink.
     #
     #   <note markdown="1"> If this value is set to `DEFAULT`, the application will use the
     #   following values, even if they are set to other values using APIs or
@@ -1038,8 +1220,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] checkpointing_enabled
-    #   Describes whether checkpointing is enabled for a Flink-based Kinesis
-    #   Data Analytics application.
+    #   Describes whether checkpointing is enabled for a Managed Service for
+    #   Apache Flink application.
     #
     #   <note markdown="1"> If `CheckpointConfiguration.ConfigurationType` is `DEFAULT`, the
     #   application will use a `CheckpointingEnabled` value of `true`, even
@@ -1083,14 +1265,15 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes updates to the checkpointing parameters for a Flink-based
-    # Kinesis Data Analytics application.
+    # Describes updates to the checkpointing parameters for a Managed
+    # Service for Apache Flink application.
     #
     # @!attribute [rw] configuration_type_update
     #   Describes updates to whether the application uses the default
-    #   checkpointing behavior of Kinesis Data Analytics. You must set this
-    #   property to `CUSTOM` in order to set the `CheckpointingEnabled`,
-    #   `CheckpointInterval`, or `MinPauseBetweenCheckpoints` parameters.
+    #   checkpointing behavior of Managed Service for Apache Flink. You must
+    #   set this property to `CUSTOM` in order to set the
+    #   `CheckpointingEnabled`, `CheckpointInterval`, or
+    #   `MinPauseBetweenCheckpoints` parameters.
     #
     #   <note markdown="1"> If this value is set to `DEFAULT`, the application will use the
     #   following values, even if they are set to other values using APIs or
@@ -1219,16 +1402,15 @@ module Aws::KinesisAnalyticsV2
     end
 
     # Specifies either the application code, or the location of the
-    # application code, for a Flink-based Kinesis Data Analytics
-    # application.
+    # application code, for a Managed Service for Apache Flink application.
     #
     # @!attribute [rw] text_content
-    #   The text-format code for a Flink-based Kinesis Data Analytics
+    #   The text-format code for a Managed Service for Apache Flink
     #   application.
     #   @return [String]
     #
     # @!attribute [rw] zip_file_content
-    #   The zip-format code for a Flink-based Kinesis Data Analytics
+    #   The zip-format code for a Managed Service for Apache Flink
     #   application.
     #   @return [String]
     #
@@ -1247,7 +1429,7 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes details about the code of a Kinesis Data Analytics
+    # Describes details about the code of a Managed Service for Apache Flink
     # application.
     #
     # @!attribute [rw] text_content
@@ -1409,9 +1591,9 @@ module Aws::KinesisAnalyticsV2
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] application_mode
-    #   Use the `STREAMING` mode to create a Kinesis Data Analytics For
-    #   Flink application. To create a Kinesis Data Analytics Studio
-    #   notebook, use the `INTERACTIVE` mode.
+    #   Use the `STREAMING` mode to create a Managed Service for Apache
+    #   Flink application. To create a Managed Service for Apache Flink
+    #   Studio notebook, use the `INTERACTIVE` mode.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/CreateApplicationRequest AWS API Documentation
@@ -1430,8 +1612,8 @@ module Aws::KinesisAnalyticsV2
     end
 
     # @!attribute [rw] application_detail
-    #   In response to your `CreateApplication` request, Kinesis Data
-    #   Analytics returns a response with details of the application it
+    #   In response to your `CreateApplication` request, Managed Service for
+    #   Apache Flink returns a response with details of the application it
     #   created.
     #   @return [Types::ApplicationDetail]
     #
@@ -1474,11 +1656,11 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] s3_content_location
-    #   For a Kinesis Data Analytics application provides a description of
-    #   an Amazon S3 object, including the Amazon Resource Name (ARN) of the
-    #   S3 bucket, the name of the Amazon S3 object that contains the data,
-    #   and the version number of the Amazon S3 object that contains the
-    #   data.
+    #   For a Managed Service for Apache Flink application provides a
+    #   description of an Amazon S3 object, including the Amazon Resource
+    #   Name (ARN) of the S3 bucket, the name of the Amazon S3 object that
+    #   contains the data, and the version number of the Amazon S3 object
+    #   that contains the data.
     #   @return [Types::S3ContentLocation]
     #
     # @!attribute [rw] maven_reference
@@ -1504,11 +1686,11 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] s3_content_location_description
-    #   For a Kinesis Data Analytics application provides a description of
-    #   an Amazon S3 object, including the Amazon Resource Name (ARN) of the
-    #   S3 bucket, the name of the Amazon S3 object that contains the data,
-    #   and the version number of the Amazon S3 object that contains the
-    #   data.
+    #   For a Managed Service for Apache Flink application provides a
+    #   description of an Amazon S3 object, including the Amazon Resource
+    #   Name (ARN) of the S3 bucket, the name of the Amazon S3 object that
+    #   contains the data, and the version number of the Amazon S3 object
+    #   that contains the data.
     #   @return [Types::S3ContentLocation]
     #
     # @!attribute [rw] maven_reference_description
@@ -1578,12 +1760,18 @@ module Aws::KinesisAnalyticsV2
     #   application.
     #   @return [Array<Types::CloudWatchLoggingOptionDescription>]
     #
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking DeleteApplicationCloudWatchLoggingOption
+    #   request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/DeleteApplicationCloudWatchLoggingOptionResponse AWS API Documentation
     #
     class DeleteApplicationCloudWatchLoggingOptionResponse < Struct.new(
       :application_arn,
       :application_version_id,
-      :cloud_watch_logging_option_descriptions)
+      :cloud_watch_logging_option_descriptions,
+      :operation_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1811,24 +1999,29 @@ module Aws::KinesisAnalyticsV2
     end
 
     # @!attribute [rw] application_arn
-    #   The ARN of the Kinesis Data Analytics application.
+    #   The ARN of the Managed Service for Apache Flink application.
     #   @return [String]
     #
     # @!attribute [rw] application_version_id
     #   The updated version ID of the application.
     #   @return [Integer]
     #
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking DeleteApplicationVpcConfiguration request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/DeleteApplicationVpcConfigurationResponse AWS API Documentation
     #
     class DeleteApplicationVpcConfigurationResponse < Struct.new(
       :application_arn,
-      :application_version_id)
+      :application_version_id,
+      :operation_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # The information required to deploy a Kinesis Data Analytics Studio
-    # notebook as an application with durable state.
+    # The information required to deploy a Managed Service for Apache Flink
+    # Studio notebook as an application with durable state.
     #
     # @!attribute [rw] s3_content_location
     #   The description of an Amazon S3 object that contains the Amazon Data
@@ -1878,13 +2071,49 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # Request for information about a specific operation performed on a
+    # Managed Service for Apache Flink application
+    #
+    # @!attribute [rw] application_name
+    #   The name of the application
+    #   @return [String]
+    #
+    # @!attribute [rw] operation_id
+    #   Identifier of the Operation
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/DescribeApplicationOperationRequest AWS API Documentation
+    #
+    class DescribeApplicationOperationRequest < Struct.new(
+      :application_name,
+      :operation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides details of the operation corresponding to the operation-ID on
+    # a Managed Service for Apache Flink application
+    #
+    # @!attribute [rw] application_operation_info_details
+    #   Provides a description of the operation, such as the operation-type
+    #   and status
+    #   @return [Types::ApplicationOperationInfoDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/DescribeApplicationOperationResponse AWS API Documentation
+    #
+    class DescribeApplicationOperationResponse < Struct.new(
+      :application_operation_info_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] application_name
     #   The name of the application.
     #   @return [String]
     #
     # @!attribute [rw] include_additional_details
-    #   Displays verbose information about a Kinesis Data Analytics
-    #   application, including the application's job plan.
+    #   Displays verbose information about a Managed Service for Apache
+    #   Flink application, including the application's job plan.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/DescribeApplicationRequest AWS API Documentation
@@ -1998,7 +2227,7 @@ module Aws::KinesisAnalyticsV2
     #
     # @!attribute [rw] input_starting_position_configuration
     #   The point at which you want Kinesis Data Analytics to start reading
-    #   records from the specified streaming source discovery purposes.
+    #   records from the specified streaming source for discovery purposes.
     #   @return [Types::InputStartingPositionConfiguration]
     #
     # @!attribute [rw] s3_configuration
@@ -2055,8 +2284,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes execution properties for a Flink-based Kinesis Data
-    # Analytics application.
+    # Describes execution properties for a Managed Service for Apache Flink
+    # application.
     #
     # @!attribute [rw] property_groups
     #   Describes the execution property groups.
@@ -2084,8 +2313,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes updates to the execution property groups for a Flink-based
-    # Kinesis Data Analytics application or a Studio notebook.
+    # Describes updates to the execution property groups for a Managed
+    # Service for Apache Flink application or a Studio notebook.
     #
     # @!attribute [rw] property_groups
     #   Describes updates to the execution property groups.
@@ -2099,8 +2328,22 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes configuration parameters for a Flink-based Kinesis Data
-    # Analytics application or a Studio notebook.
+    # Provides a description of the operation failure error
+    #
+    # @!attribute [rw] error_string
+    #   Error message resulting in failure of the operation
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ErrorInfo AWS API Documentation
+    #
+    class ErrorInfo < Struct.new(
+      :error_string)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes configuration parameters for a Managed Service for Apache
+    # Flink application or a Studio notebook.
     #
     # @!attribute [rw] checkpoint_configuration
     #   Describes an application's checkpointing configuration.
@@ -2110,8 +2353,8 @@ module Aws::KinesisAnalyticsV2
     #
     #
     #
-    #   [1]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance
-    #   [2]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/
+    #   [1]: https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing
+    #   [2]: https://nightlies.apache.org/flink/flink-docs-release-1.19/
     #   @return [Types::CheckpointConfiguration]
     #
     # @!attribute [rw] monitoring_configuration
@@ -2134,8 +2377,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes configuration parameters for a Flink-based Kinesis Data
-    # Analytics application.
+    # Describes configuration parameters for a Managed Service for Apache
+    # Flink application.
     #
     # @!attribute [rw] checkpoint_configuration_description
     #   Describes an application's checkpointing configuration.
@@ -2162,8 +2405,8 @@ module Aws::KinesisAnalyticsV2
     #
     #
     #
-    #   [1]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/internals/job_scheduling.html
-    #   [2]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/
+    #   [1]: https://nightlies.apache.org/flink/flink-docs-release-1.19/internals/job_scheduling.html
+    #   [2]: https://nightlies.apache.org/flink/flink-docs-release-1.19/
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/FlinkApplicationConfigurationDescription AWS API Documentation
@@ -2177,8 +2420,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes updates to the configuration parameters for a Flink-based
-    # Kinesis Data Analytics application.
+    # Describes updates to the configuration parameters for a Managed
+    # Service for Apache Flink application.
     #
     # @!attribute [rw] checkpoint_configuration_update
     #   Describes updates to an application's checkpointing configuration.
@@ -2206,8 +2449,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes the starting parameters for a Flink-based Kinesis Data
-    # Analytics application.
+    # Describes the starting parameters for a Managed Service for Apache
+    # Flink application.
     #
     # @!attribute [rw] allow_non_restored_state
     #   When restoring from a snapshot, specifies whether the runtime is
@@ -2226,8 +2469,8 @@ module Aws::KinesisAnalyticsV2
     #
     #
     #
-    #   [1]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/savepoints.html#allowing-non-restored-state
-    #   [2]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/
+    #   [1]: https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/savepoints/#allowing-non-restored-state
+    #   [2]: https://nightlies.apache.org/flink/flink-docs-release-1.19/
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/FlinkRunConfiguration AWS API Documentation
@@ -2271,8 +2514,8 @@ module Aws::KinesisAnalyticsV2
     end
 
     # Updates to the configuration of the Glue Data Catalog that you use for
-    # SQL queries that you write in a Kinesis Data Analytics Studio
-    # notebook.
+    # SQL queries that you write in a Managed Service for Apache Flink
+    # Studio notebook.
     #
     # @!attribute [rw] database_arn_update
     #   The updated Amazon Resource Name (ARN) of the database.
@@ -3099,6 +3342,61 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # Request to list operations performed on an application
+    #
+    # @!attribute [rw] application_name
+    #   The name of the application
+    #   @return [String]
+    #
+    # @!attribute [rw] limit
+    #   Limit on the number of records returned in the response
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If a previous command returned a pagination token, pass it into this
+    #   value to retrieve the next set of results
+    #   @return [String]
+    #
+    # @!attribute [rw] operation
+    #   Type of operation performed on an application
+    #   @return [String]
+    #
+    # @!attribute [rw] operation_status
+    #   Status of the operation performed on an application
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ListApplicationOperationsRequest AWS API Documentation
+    #
+    class ListApplicationOperationsRequest < Struct.new(
+      :application_name,
+      :limit,
+      :next_token,
+      :operation,
+      :operation_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response with the list of operations for an application
+    #
+    # @!attribute [rw] application_operation_info_list
+    #   List of ApplicationOperationInfo for an application
+    #   @return [Array<Types::ApplicationOperationInfo>]
+    #
+    # @!attribute [rw] next_token
+    #   If a previous command returned a pagination token, pass it into this
+    #   value to retrieve the next set of results
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ListApplicationOperationsResponse AWS API Documentation
+    #
+    class ListApplicationOperationsResponse < Struct.new(
+      :application_operation_info_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] application_name
     #   The name of an existing application.
     #   @return [String]
@@ -3418,6 +3716,26 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # Provides a description of the operation failure
+    #
+    # @!attribute [rw] rollback_operation_id
+    #   Provides the operation ID of a system-rollback operation executed
+    #   due to failure in the current operation
+    #   @return [String]
+    #
+    # @!attribute [rw] error_info
+    #   Provides a description of the operation failure error
+    #   @return [Types::ErrorInfo]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/OperationFailureDetails AWS API Documentation
+    #
+    class OperationFailureDetails < Struct.new(
+      :rollback_operation_id,
+      :error_info)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes a SQL-based Kinesis Data Analytics application's output
     # configuration, in which you identify an in-application stream and a
     # destination where you want the in-application stream data to be
@@ -3550,32 +3868,32 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes parameters for how a Flink-based Kinesis Data Analytics
+    # Describes parameters for how a Managed Service for Apache Flink
     # application executes multiple tasks simultaneously. For more
     # information about parallelism, see [Parallel Execution][1] in the
     # [Apache Flink Documentation][2].
     #
     #
     #
-    # [1]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/parallel.html
-    # [2]: https://ci.apache.org/projects/flink/flink-docs-release-1.8/
+    # [1]: https://nightlies.apache.org/flink/flink-docs-release-1.19/dev/parallel.html
+    # [2]: https://nightlies.apache.org/flink/flink-docs-release-1.19/
     #
     # @!attribute [rw] configuration_type
     #   Describes whether the application uses the default parallelism for
-    #   the Kinesis Data Analytics service. You must set this property to
-    #   `CUSTOM` in order to change your application's
+    #   the Managed Service for Apache Flink service. You must set this
+    #   property to `CUSTOM` in order to change your application's
     #   `AutoScalingEnabled`, `Parallelism`, or `ParallelismPerKPU`
     #   properties.
     #   @return [String]
     #
     # @!attribute [rw] parallelism
-    #   Describes the initial number of parallel tasks that a Flink-based
-    #   Kinesis Data Analytics application can perform. If
-    #   `AutoScalingEnabled` is set to True, Kinesis Data Analytics
-    #   increases the `CurrentParallelism` value in response to application
-    #   load. The service can increase the `CurrentParallelism` value up to
-    #   the maximum parallelism, which is `ParalellismPerKPU` times the
-    #   maximum KPUs for the application. The maximum KPUs for an
+    #   Describes the initial number of parallel tasks that a Managed
+    #   Service for Apache Flink application can perform. If
+    #   `AutoScalingEnabled` is set to True, Managed Service for Apache
+    #   Flink increases the `CurrentParallelism` value in response to
+    #   application load. The service can increase the `CurrentParallelism`
+    #   value up to the maximum parallelism, which is `ParalellismPerKPU`
+    #   times the maximum KPUs for the application. The maximum KPUs for an
     #   application is 32 by default, and can be increased by requesting a
     #   limit increase. If application load is reduced, the service can
     #   reduce the `CurrentParallelism` value down to the `Parallelism`
@@ -3583,10 +3901,10 @@ module Aws::KinesisAnalyticsV2
     #   @return [Integer]
     #
     # @!attribute [rw] parallelism_per_kpu
-    #   Describes the number of parallel tasks that a Flink-based Kinesis
-    #   Data Analytics application can perform per Kinesis Processing Unit
+    #   Describes the number of parallel tasks that a Managed Service for
+    #   Apache Flink application can perform per Kinesis Processing Unit
     #   (KPU) used by the application. For more information about KPUs, see
-    #   [Amazon Kinesis Data Analytics Pricing][1].
+    #   [Amazon Managed Service for Apache Flink Pricing][1].
     #
     #
     #
@@ -3594,8 +3912,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [Integer]
     #
     # @!attribute [rw] auto_scaling_enabled
-    #   Describes whether the Kinesis Data Analytics service can increase
-    #   the parallelism of the application in response to increased
+    #   Describes whether the Managed Service for Apache Flink service can
+    #   increase the parallelism of the application in response to increased
     #   throughput.
     #   @return [Boolean]
     #
@@ -3610,49 +3928,50 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes parameters for how a Flink-based Kinesis Data Analytics
+    # Describes parameters for how a Managed Service for Apache Flink
     # application executes multiple tasks simultaneously.
     #
     # @!attribute [rw] configuration_type
     #   Describes whether the application uses the default parallelism for
-    #   the Kinesis Data Analytics service.
+    #   the Managed Service for Apache Flink service.
     #   @return [String]
     #
     # @!attribute [rw] parallelism
-    #   Describes the initial number of parallel tasks that a Flink-based
-    #   Kinesis Data Analytics application can perform. If
-    #   `AutoScalingEnabled` is set to True, then Kinesis Data Analytics can
-    #   increase the `CurrentParallelism` value in response to application
-    #   load. The service can increase `CurrentParallelism` up to the
-    #   maximum parallelism, which is `ParalellismPerKPU` times the maximum
-    #   KPUs for the application. The maximum KPUs for an application is 32
-    #   by default, and can be increased by requesting a limit increase. If
-    #   application load is reduced, the service can reduce the
-    #   `CurrentParallelism` value down to the `Parallelism` setting.
+    #   Describes the initial number of parallel tasks that a Managed
+    #   Service for Apache Flink application can perform. If
+    #   `AutoScalingEnabled` is set to True, then Managed Service for Apache
+    #   Flink can increase the `CurrentParallelism` value in response to
+    #   application load. The service can increase `CurrentParallelism` up
+    #   to the maximum parallelism, which is `ParalellismPerKPU` times the
+    #   maximum KPUs for the application. The maximum KPUs for an
+    #   application is 32 by default, and can be increased by requesting a
+    #   limit increase. If application load is reduced, the service can
+    #   reduce the `CurrentParallelism` value down to the `Parallelism`
+    #   setting.
     #   @return [Integer]
     #
     # @!attribute [rw] parallelism_per_kpu
-    #   Describes the number of parallel tasks that a Flink-based Kinesis
-    #   Data Analytics application can perform per Kinesis Processing Unit
+    #   Describes the number of parallel tasks that a Managed Service for
+    #   Apache Flink application can perform per Kinesis Processing Unit
     #   (KPU) used by the application.
     #   @return [Integer]
     #
     # @!attribute [rw] current_parallelism
-    #   Describes the current number of parallel tasks that a Flink-based
-    #   Kinesis Data Analytics application can perform. If
-    #   `AutoScalingEnabled` is set to True, Kinesis Data Analytics can
-    #   increase this value in response to application load. The service can
-    #   increase this value up to the maximum parallelism, which is
-    #   `ParalellismPerKPU` times the maximum KPUs for the application. The
-    #   maximum KPUs for an application is 32 by default, and can be
+    #   Describes the current number of parallel tasks that a Managed
+    #   Service for Apache Flink application can perform. If
+    #   `AutoScalingEnabled` is set to True, Managed Service for Apache
+    #   Flink can increase this value in response to application load. The
+    #   service can increase this value up to the maximum parallelism, which
+    #   is `ParalellismPerKPU` times the maximum KPUs for the application.
+    #   The maximum KPUs for an application is 32 by default, and can be
     #   increased by requesting a limit increase. If application load is
     #   reduced, the service can reduce the `CurrentParallelism` value down
     #   to the `Parallelism` setting.
     #   @return [Integer]
     #
     # @!attribute [rw] auto_scaling_enabled
-    #   Describes whether the Kinesis Data Analytics service can increase
-    #   the parallelism of the application in response to increased
+    #   Describes whether the Managed Service for Apache Flink service can
+    #   increase the parallelism of the application in response to increased
     #   throughput.
     #   @return [Boolean]
     #
@@ -3673,23 +3992,23 @@ module Aws::KinesisAnalyticsV2
     #
     # @!attribute [rw] configuration_type_update
     #   Describes updates to whether the application uses the default
-    #   parallelism for the Kinesis Data Analytics service, or if a custom
-    #   parallelism is used. You must set this property to `CUSTOM` in order
-    #   to change your application's `AutoScalingEnabled`, `Parallelism`,
-    #   or `ParallelismPerKPU` properties.
+    #   parallelism for the Managed Service for Apache Flink service, or if
+    #   a custom parallelism is used. You must set this property to `CUSTOM`
+    #   in order to change your application's `AutoScalingEnabled`,
+    #   `Parallelism`, or `ParallelismPerKPU` properties.
     #   @return [String]
     #
     # @!attribute [rw] parallelism_update
     #   Describes updates to the initial number of parallel tasks an
     #   application can perform. If `AutoScalingEnabled` is set to True,
-    #   then Kinesis Data Analytics can increase the `CurrentParallelism`
-    #   value in response to application load. The service can increase
-    #   `CurrentParallelism` up to the maximum parallelism, which is
-    #   `ParalellismPerKPU` times the maximum KPUs for the application. The
-    #   maximum KPUs for an application is 32 by default, and can be
-    #   increased by requesting a limit increase. If application load is
-    #   reduced, the service will reduce `CurrentParallelism` down to the
-    #   `Parallelism` setting.
+    #   then Managed Service for Apache Flink can increase the
+    #   `CurrentParallelism` value in response to application load. The
+    #   service can increase `CurrentParallelism` up to the maximum
+    #   parallelism, which is `ParalellismPerKPU` times the maximum KPUs for
+    #   the application. The maximum KPUs for an application is 32 by
+    #   default, and can be increased by requesting a limit increase. If
+    #   application load is reduced, the service will reduce
+    #   `CurrentParallelism` down to the `Parallelism` setting.
     #   @return [Integer]
     #
     # @!attribute [rw] parallelism_per_kpu_update
@@ -3698,9 +4017,9 @@ module Aws::KinesisAnalyticsV2
     #   @return [Integer]
     #
     # @!attribute [rw] auto_scaling_enabled_update
-    #   Describes updates to whether the Kinesis Data Analytics service can
-    #   increase the parallelism of a Flink-based Kinesis Data Analytics
-    #   application in response to increased throughput.
+    #   Describes updates to whether the Managed Service for Apache Flink
+    #   service can increase the parallelism of a Managed Service for Apache
+    #   Flink application in response to increased throughput.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ParallelismConfigurationUpdate AWS API Documentation
@@ -3802,9 +4121,9 @@ module Aws::KinesisAnalyticsV2
     #
     # @!attribute [rw] s3_reference_data_source
     #   Identifies the S3 bucket and object that contains the reference
-    #   data. A Kinesis Data Analytics application loads reference data only
-    #   once. If the data changes, you call the UpdateApplication operation
-    #   to trigger reloading of data into your application.
+    #   data. A SQL-based Kinesis Data Analytics application loads reference
+    #   data only once. If the data changes, you call the UpdateApplication
+    #   operation to trigger reloading of data into your application.
     #   @return [Types::S3ReferenceDataSource]
     #
     # @!attribute [rw] reference_schema
@@ -3969,20 +4288,25 @@ module Aws::KinesisAnalyticsV2
     #   configurations.
     #   @return [Types::ApplicationDetail]
     #
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking RollbackApplication request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/RollbackApplicationResponse AWS API Documentation
     #
     class RollbackApplicationResponse < Struct.new(
-      :application_detail)
+      :application_detail,
+      :operation_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Describes the starting parameters for an Kinesis Data Analytics
-    # application.
+    # Describes the starting parameters for an Managed Service for Apache
+    # Flink application.
     #
     # @!attribute [rw] flink_run_configuration
-    #   Describes the starting parameters for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   Describes the starting parameters for a Managed Service for Apache
+    #   Flink application.
     #   @return [Types::FlinkRunConfiguration]
     #
     # @!attribute [rw] sql_run_configurations
@@ -4004,16 +4328,16 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes the starting properties for a Kinesis Data Analytics
-    # application.
+    # Describes the starting properties for a Managed Service for Apache
+    # Flink application.
     #
     # @!attribute [rw] application_restore_configuration_description
     #   Describes the restore behavior of a restarting application.
     #   @return [Types::ApplicationRestoreConfiguration]
     #
     # @!attribute [rw] flink_run_configuration_description
-    #   Describes the starting parameters for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   Describes the starting parameters for a Managed Service for Apache
+    #   Flink application.
     #   @return [Types::FlinkRunConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/RunConfigurationDescription AWS API Documentation
@@ -4025,12 +4349,12 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Describes the updates to the starting parameters for a Kinesis Data
-    # Analytics application.
+    # Describes the updates to the starting parameters for a Managed Service
+    # for Apache Flink application.
     #
     # @!attribute [rw] flink_run_configuration
-    #   Describes the starting parameters for a Flink-based Kinesis Data
-    #   Analytics application.
+    #   Describes the starting parameters for a Managed Service for Apache
+    #   Flink application.
     #   @return [Types::FlinkRunConfiguration]
     #
     # @!attribute [rw] application_restore_configuration
@@ -4153,10 +4477,11 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # For a Kinesis Data Analytics application provides a description of an
-    # Amazon S3 object, including the Amazon Resource Name (ARN) of the S3
-    # bucket, the name of the Amazon S3 object that contains the data, and
-    # the version number of the Amazon S3 object that contains the data.
+    # For a Managed Service for Apache Flink application provides a
+    # description of an Amazon S3 object, including the Amazon Resource Name
+    # (ARN) of the S3 bucket, the name of the Amazon S3 object that contains
+    # the data, and the version number of the Amazon S3 object that contains
+    # the data.
     #
     # @!attribute [rw] bucket_arn
     #   The Amazon Resource Name (ARN) for the S3 bucket containing the
@@ -4210,9 +4535,9 @@ module Aws::KinesisAnalyticsV2
     # For a SQL-based Kinesis Data Analytics application, identifies the
     # Amazon S3 bucket and object that contains the reference data.
     #
-    # A Kinesis Data Analytics application loads reference data only once.
-    # If the data changes, you call the UpdateApplication operation to
-    # trigger reloading of data into your application.
+    # A SQL-based Kinesis Data Analytics application loads reference data
+    # only once. If the data changes, you call the UpdateApplication
+    # operation to trigger reloading of data into your application.
     #
     # @!attribute [rw] bucket_arn
     #   The Amazon Resource Name (ARN) of the S3 bucket.
@@ -4316,13 +4641,18 @@ module Aws::KinesisAnalyticsV2
     #   The timestamp of the application snapshot.
     #   @return [Time]
     #
+    # @!attribute [rw] runtime_environment
+    #   The Flink Runtime for the application snapshot.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/SnapshotDetails AWS API Documentation
     #
     class SnapshotDetails < Struct.new(
       :snapshot_name,
       :snapshot_status,
       :application_version_id,
-      :snapshot_creation_timestamp)
+      :snapshot_creation_timestamp,
+      :runtime_environment)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4466,8 +4796,8 @@ module Aws::KinesisAnalyticsV2
     #   @return [String]
     #
     # @!attribute [rw] run_configuration
-    #   Identifies the run configuration (start parameters) of a Kinesis
-    #   Data Analytics application.
+    #   Identifies the run configuration (start parameters) of a Managed
+    #   Service for Apache Flink application.
     #   @return [Types::RunConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/StartApplicationRequest AWS API Documentation
@@ -4479,9 +4809,17 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking StartApplication request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/StartApplicationResponse AWS API Documentation
     #
-    class StartApplicationResponse < Aws::EmptyStructure; end
+    class StartApplicationResponse < Struct.new(
+      :operation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] application_name
     #   The name of the running application to stop.
@@ -4489,8 +4827,8 @@ module Aws::KinesisAnalyticsV2
     #
     # @!attribute [rw] force
     #   Set to `true` to force the application to stop. If you set `Force`
-    #   to `true`, Kinesis Data Analytics stops the application without
-    #   taking a snapshot.
+    #   to `true`, Managed Service for Apache Flink stops the application
+    #   without taking a snapshot.
     #
     #   <note markdown="1"> Force-stopping your application may lead to data loss or
     #   duplication. To prevent data loss or duplicate processing of data
@@ -4499,7 +4837,7 @@ module Aws::KinesisAnalyticsV2
     #
     #    </note>
     #
-    #   You can only force stop a Flink-based Kinesis Data Analytics
+    #   You can only force stop a Managed Service for Apache Flink
     #   application. You can't force stop a SQL-based Kinesis Data
     #   Analytics application.
     #
@@ -4516,9 +4854,17 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking StopApplication request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/StopApplicationResponse AWS API Documentation
     #
-    class StopApplicationResponse < Aws::EmptyStructure; end
+    class StopApplicationResponse < Struct.new(
+      :operation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # A key-value pair (the value is optional) that you can define and
     # assign to Amazon resources. If you specify a tag that already exists,
@@ -4625,8 +4971,8 @@ module Aws::KinesisAnalyticsV2
     end
 
     # @!attribute [rw] resource_arn
-    #   The ARN of the Kinesis Data Analytics application from which to
-    #   remove the tags.
+    #   The ARN of the Managed Service for Apache Flink application from
+    #   which to remove the tags.
     #   @return [String]
     #
     # @!attribute [rw] tag_keys
@@ -4722,6 +5068,17 @@ module Aws::KinesisAnalyticsV2
     #   `CurrentApplicationVersionId`.
     #   @return [String]
     #
+    # @!attribute [rw] runtime_environment_update
+    #   Updates the Managed Service for Apache Flink runtime environment
+    #   used to run your code. To avoid issues you must:
+    #
+    #   * Ensure your new jar and dependencies are compatible with the new
+    #     runtime selected.
+    #
+    #   * Ensure your new code's state is compatible with the snapshot from
+    #     which your application will start
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/UpdateApplicationRequest AWS API Documentation
     #
     class UpdateApplicationRequest < Struct.new(
@@ -4731,7 +5088,8 @@ module Aws::KinesisAnalyticsV2
       :service_execution_role_update,
       :run_configuration_update,
       :cloud_watch_logging_option_updates,
-      :conditional_token)
+      :conditional_token,
+      :runtime_environment_update)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4740,10 +5098,15 @@ module Aws::KinesisAnalyticsV2
     #   Describes application updates.
     #   @return [Types::ApplicationDetail]
     #
+    # @!attribute [rw] operation_id
+    #   Operation ID for tracking UpdateApplication request
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/UpdateApplicationResponse AWS API Documentation
     #
     class UpdateApplicationResponse < Struct.new(
-      :application_detail)
+      :application_detail,
+      :operation_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4846,21 +5209,22 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # The configuration of a Kinesis Data Analytics Studio notebook.
+    # The configuration of a Managed Service for Apache Flink Studio
+    # notebook.
     #
     # @!attribute [rw] monitoring_configuration
-    #   The monitoring configuration of a Kinesis Data Analytics Studio
-    #   notebook.
+    #   The monitoring configuration of a Managed Service for Apache Flink
+    #   Studio notebook.
     #   @return [Types::ZeppelinMonitoringConfiguration]
     #
     # @!attribute [rw] catalog_configuration
-    #   The Amazon Glue Data Catalog that you use in queries in a Kinesis
-    #   Data Analytics Studio notebook.
+    #   The Amazon Glue Data Catalog that you use in queries in a Managed
+    #   Service for Apache Flink Studio notebook.
     #   @return [Types::CatalogConfiguration]
     #
     # @!attribute [rw] deploy_as_application_configuration
-    #   The information required to deploy a Kinesis Data Analytics Studio
-    #   notebook as an application with durable state.
+    #   The information required to deploy a Managed Service for Apache
+    #   Flink Studio notebook as an application with durable state.
     #   @return [Types::DeployAsApplicationConfiguration]
     #
     # @!attribute [rw] custom_artifacts_configuration
@@ -4879,21 +5243,22 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # The configuration of a Kinesis Data Analytics Studio notebook.
+    # The configuration of a Managed Service for Apache Flink Studio
+    # notebook.
     #
     # @!attribute [rw] monitoring_configuration_description
-    #   The monitoring configuration of a Kinesis Data Analytics Studio
-    #   notebook.
+    #   The monitoring configuration of a Managed Service for Apache Flink
+    #   Studio notebook.
     #   @return [Types::ZeppelinMonitoringConfigurationDescription]
     #
     # @!attribute [rw] catalog_configuration_description
-    #   The Amazon Glue Data Catalog that is associated with the Kinesis
-    #   Data Analytics Studio notebook.
+    #   The Amazon Glue Data Catalog that is associated with the Managed
+    #   Service for Apache Flink Studio notebook.
     #   @return [Types::CatalogConfigurationDescription]
     #
     # @!attribute [rw] deploy_as_application_configuration_description
-    #   The parameters required to deploy a Kinesis Data Analytics Studio
-    #   notebook as an application with durable state.
+    #   The parameters required to deploy a Managed Service for Apache Flink
+    #   Studio notebook as an application with durable state.
     #   @return [Types::DeployAsApplicationConfigurationDescription]
     #
     # @!attribute [rw] custom_artifacts_configuration_description
@@ -4912,17 +5277,18 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # Updates to the configuration of Kinesis Data Analytics Studio
-    # notebook.
+    # Updates to the configuration of Managed Service for Apache Flink
+    # Studio notebook.
     #
     # @!attribute [rw] monitoring_configuration_update
-    #   Updates to the monitoring configuration of a Kinesis Data Analytics
-    #   Studio notebook.
+    #   Updates to the monitoring configuration of a Managed Service for
+    #   Apache Flink Studio notebook.
     #   @return [Types::ZeppelinMonitoringConfigurationUpdate]
     #
     # @!attribute [rw] catalog_configuration_update
     #   Updates to the configuration of the Amazon Glue Data Catalog that is
-    #   associated with the Kinesis Data Analytics Studio notebook.
+    #   associated with the Managed Service for Apache Flink Studio
+    #   notebook.
     #   @return [Types::CatalogConfigurationUpdate]
     #
     # @!attribute [rw] deploy_as_application_configuration_update
@@ -4948,8 +5314,8 @@ module Aws::KinesisAnalyticsV2
     end
 
     # Describes configuration parameters for Amazon CloudWatch logging for a
-    # Kinesis Data Analytics Studio notebook. For more information about
-    # CloudWatch logging, see [Monitoring][1].
+    # Managed Service for Apache Flink Studio notebook. For more information
+    # about CloudWatch logging, see [Monitoring][1].
     #
     #
     #
@@ -4967,8 +5333,8 @@ module Aws::KinesisAnalyticsV2
       include Aws::Structure
     end
 
-    # The monitoring configuration for Apache Zeppelin within a Kinesis Data
-    # Analytics Studio notebook.
+    # The monitoring configuration for Apache Zeppelin within a Managed
+    # Service for Apache Flink Studio notebook.
     #
     # @!attribute [rw] log_level
     #   Describes the verbosity of the CloudWatch Logs for an application.
@@ -4983,11 +5349,11 @@ module Aws::KinesisAnalyticsV2
     end
 
     # Updates to the monitoring configuration for Apache Zeppelin within a
-    # Kinesis Data Analytics Studio notebook.
+    # Managed Service for Apache Flink Studio notebook.
     #
     # @!attribute [rw] log_level_update
-    #   Updates to the logging level for Apache Zeppelin within a Kinesis
-    #   Data Analytics Studio notebook.
+    #   Updates to the logging level for Apache Zeppelin within a Managed
+    #   Service for Apache Flink Studio notebook.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesisanalyticsv2-2018-05-23/ZeppelinMonitoringConfigurationUpdate AWS API Documentation
@@ -5000,3 +5366,4 @@ module Aws::KinesisAnalyticsV2
 
   end
 end
+

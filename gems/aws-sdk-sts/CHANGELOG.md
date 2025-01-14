@@ -1,6 +1,16 @@
 Unreleased Changes
 ------------------
 
+1.11.0 (2023-11-22)
+------------------
+
+* Feature - AWS SDK for Ruby no longer supports Ruby runtime versions 2.3 and 2.4.
+
+1.10.0 (2023-05-08)
+------------------
+
+* Feature - Documentation updates for AWS Security Token Service.
+
 1.9.0 (2023-01-25)
 ------------------
 

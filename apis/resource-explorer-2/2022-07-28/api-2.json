@@ -5,11 +5,13 @@
     "endpointPrefix":"resource-explorer-2",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"AWS Resource Explorer",
     "serviceId":"Resource Explorer 2",
     "signatureVersion":"v4",
     "signingName":"resource-explorer-2",
-    "uid":"resource-explorer-2-2022-07-28"
+    "uid":"resource-explorer-2-2022-07-28",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AssociateDefaultView":{
@@ -129,12 +131,28 @@
         "responseCode":200
       },
       "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ],
       "idempotent":true
+    },
+    "GetAccountLevelServiceConfiguration":{
+      "name":"GetAccountLevelServiceConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/GetAccountLevelServiceConfiguration",
+        "responseCode":200
+      },
+      "output":{"shape":"GetAccountLevelServiceConfigurationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
     },
     "GetDefaultView":{
       "name":"GetDefaultView",
@@ -164,6 +182,24 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetManagedView":{
+      "name":"GetManagedView",
+      "http":{
+        "method":"POST",
+        "requestUri":"/GetManagedView",
+        "responseCode":200
+      },
+      "input":{"shape":"GetManagedViewInput"},
+      "output":{"shape":"GetManagedViewOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"UnauthorizedException"},
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ]
@@ -198,6 +234,57 @@
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListIndexesForMembers":{
+      "name":"ListIndexesForMembers",
+      "http":{
+        "method":"POST",
+        "requestUri":"/ListIndexesForMembers",
+        "responseCode":200
+      },
+      "input":{"shape":"ListIndexesForMembersInput"},
+      "output":{"shape":"ListIndexesForMembersOutput"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListManagedViews":{
+      "name":"ListManagedViews",
+      "http":{
+        "method":"POST",
+        "requestUri":"/ListManagedViews",
+        "responseCode":200
+      },
+      "input":{"shape":"ListManagedViewsInput"},
+      "output":{"shape":"ListManagedViewsOutput"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"UnauthorizedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListResources":{
+      "name":"ListResources",
+      "http":{
+        "method":"POST",
+        "requestUri":"/ListResources",
+        "responseCode":200
+      },
+      "input":{"shape":"ListResourcesInput"},
+      "output":{"shape":"ListResourcesOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"UnauthorizedException"},
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ]
@@ -346,6 +433,13 @@
     }
   },
   "shapes":{
+    "AWSServiceAccessStatus":{
+      "type":"string",
+      "enum":[
+        "ENABLED",
+        "DISABLED"
+      ]
+    },
     "AccessDeniedException":{
       "type":"structure",
       "members":{
@@ -356,6 +450,11 @@
         "senderFault":true
       },
       "exception":true
+    },
+    "AccountId":{
+      "type":"string",
+      "max":2048,
+      "min":1
     },
     "AssociateDefaultViewInput":{
       "type":"structure",
@@ -453,11 +552,17 @@
         },
         "Filters":{"shape":"SearchFilter"},
         "IncludedProperties":{"shape":"IncludedPropertyList"},
+        "Scope":{"shape":"CreateViewInputScopeString"},
         "Tags":{"shape":"TagMap"},
         "ViewName":{"shape":"ViewName"}
       }
     },
     "CreateViewInputClientTokenString":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "CreateViewInputScopeString":{
       "type":"string",
       "max":2048,
       "min":1
@@ -507,6 +612,12 @@
       },
       "document":true
     },
+    "GetAccountLevelServiceConfigurationOutput":{
+      "type":"structure",
+      "members":{
+        "OrgConfiguration":{"shape":"OrgConfiguration"}
+      }
+    },
     "GetDefaultViewOutput":{
       "type":"structure",
       "members":{
@@ -524,6 +635,24 @@
         "State":{"shape":"IndexState"},
         "Tags":{"shape":"TagMap"},
         "Type":{"shape":"IndexType"}
+      }
+    },
+    "GetManagedViewInput":{
+      "type":"structure",
+      "required":["ManagedViewArn"],
+      "members":{
+        "ManagedViewArn":{"shape":"GetManagedViewInputManagedViewArnString"}
+      }
+    },
+    "GetManagedViewInputManagedViewArnString":{
+      "type":"string",
+      "max":1011,
+      "min":1
+    },
+    "GetManagedViewOutput":{
+      "type":"structure",
+      "members":{
+        "ManagedView":{"shape":"ManagedView"}
       }
     },
     "GetViewInput":{
@@ -599,6 +728,39 @@
       "exception":true,
       "fault":true
     },
+    "ListIndexesForMembersInput":{
+      "type":"structure",
+      "required":["AccountIdList"],
+      "members":{
+        "AccountIdList":{"shape":"ListIndexesForMembersInputAccountIdListList"},
+        "MaxResults":{"shape":"ListIndexesForMembersInputMaxResultsInteger"},
+        "NextToken":{"shape":"ListIndexesForMembersInputNextTokenString"}
+      }
+    },
+    "ListIndexesForMembersInputAccountIdListList":{
+      "type":"list",
+      "member":{"shape":"AccountId"},
+      "max":10,
+      "min":1
+    },
+    "ListIndexesForMembersInputMaxResultsInteger":{
+      "type":"integer",
+      "box":true,
+      "max":10,
+      "min":1
+    },
+    "ListIndexesForMembersInputNextTokenString":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "ListIndexesForMembersOutput":{
+      "type":"structure",
+      "members":{
+        "Indexes":{"shape":"MemberIndexList"},
+        "NextToken":{"shape":"String"}
+      }
+    },
     "ListIndexesInput":{
       "type":"structure",
       "members":{
@@ -631,6 +793,80 @@
         "Indexes":{"shape":"IndexList"},
         "NextToken":{"shape":"String"}
       }
+    },
+    "ListManagedViewsInput":{
+      "type":"structure",
+      "members":{
+        "MaxResults":{"shape":"ListManagedViewsInputMaxResultsInteger"},
+        "NextToken":{"shape":"ListManagedViewsInputNextTokenString"},
+        "ServicePrincipal":{"shape":"ListManagedViewsInputServicePrincipalString"}
+      }
+    },
+    "ListManagedViewsInputMaxResultsInteger":{
+      "type":"integer",
+      "box":true,
+      "max":50,
+      "min":1
+    },
+    "ListManagedViewsInputNextTokenString":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "ListManagedViewsInputServicePrincipalString":{
+      "type":"string",
+      "max":1024,
+      "min":1
+    },
+    "ListManagedViewsOutput":{
+      "type":"structure",
+      "members":{
+        "ManagedViews":{"shape":"ManagedViewArnList"},
+        "NextToken":{"shape":"String"}
+      }
+    },
+    "ListResourcesInput":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"SearchFilter"},
+        "MaxResults":{"shape":"ListResourcesInputMaxResultsInteger"},
+        "NextToken":{"shape":"ListResourcesInputNextTokenString"},
+        "ViewArn":{"shape":"ListResourcesInputViewArnString"}
+      }
+    },
+    "ListResourcesInputMaxResultsInteger":{
+      "type":"integer",
+      "box":true,
+      "max":1000,
+      "min":1
+    },
+    "ListResourcesInputNextTokenString":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "ListResourcesInputViewArnString":{
+      "type":"string",
+      "max":1000,
+      "min":0
+    },
+    "ListResourcesOutput":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"ListResourcesOutputNextTokenString"},
+        "Resources":{"shape":"ResourceList"},
+        "ViewArn":{"shape":"ListResourcesOutputViewArnString"}
+      }
+    },
+    "ListResourcesOutputNextTokenString":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "ListResourcesOutputViewArnString":{
+      "type":"string",
+      "max":1011,
+      "min":1
     },
     "ListSupportedResourceTypesInput":{
       "type":"structure",
@@ -679,7 +915,7 @@
     "ListViewsInputMaxResultsInteger":{
       "type":"integer",
       "box":true,
-      "max":20,
+      "max":50,
       "min":1
     },
     "ListViewsOutput":{
@@ -693,9 +929,49 @@
       "type":"long",
       "box":true
     },
+    "ManagedView":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"SearchFilter"},
+        "IncludedProperties":{"shape":"IncludedPropertyList"},
+        "LastUpdatedAt":{"shape":"SyntheticTimestamp_date_time"},
+        "ManagedViewArn":{"shape":"String"},
+        "ManagedViewName":{"shape":"String"},
+        "Owner":{"shape":"String"},
+        "ResourcePolicy":{"shape":"String"},
+        "Scope":{"shape":"String"},
+        "TrustedService":{"shape":"String"},
+        "Version":{"shape":"String"}
+      }
+    },
+    "ManagedViewArnList":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
+    "MemberIndex":{
+      "type":"structure",
+      "members":{
+        "AccountId":{"shape":"String"},
+        "Arn":{"shape":"String"},
+        "Region":{"shape":"String"},
+        "Type":{"shape":"IndexType"}
+      }
+    },
+    "MemberIndexList":{
+      "type":"list",
+      "member":{"shape":"MemberIndex"}
+    },
+    "OrgConfiguration":{
+      "type":"structure",
+      "required":["AWSServiceAccessStatus"],
+      "members":{
+        "AWSServiceAccessStatus":{"shape":"AWSServiceAccessStatus"},
+        "ServiceLinkedRole":{"shape":"String"}
+      }
+    },
     "QueryString":{
       "type":"string",
-      "max":1011,
+      "max":1280,
       "min":0,
       "sensitive":true
     },
@@ -832,7 +1108,8 @@
     "String":{"type":"string"},
     "StringList":{
       "type":"list",
-      "member":{"shape":"String"}
+      "member":{"shape":"String"},
+      "sensitive":true
     },
     "SupportedResourceType":{
       "type":"structure",
@@ -848,7 +1125,8 @@
     "TagMap":{
       "type":"map",
       "key":{"shape":"String"},
-      "value":{"shape":"String"}
+      "value":{"shape":"String"},
+      "sensitive":true
     },
     "TagResourceInput":{
       "type":"structure",

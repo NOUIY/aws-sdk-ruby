@@ -5,12 +5,14 @@
     "endpointPrefix":"sts",
     "globalEndpoint":"sts.amazonaws.com",
     "protocol":"query",
+    "protocols":["query"],
     "serviceAbbreviation":"AWS STS",
     "serviceFullName":"AWS Security Token Service",
     "serviceId":"STS",
     "signatureVersion":"v4",
     "uid":"sts-2011-06-15",
-    "xmlNamespace":"https://sts.amazonaws.com/doc/2011-06-15/"
+    "xmlNamespace":"https://sts.amazonaws.com/doc/2011-06-15/",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AssumeRole":{
@@ -70,6 +72,22 @@
         {"shape":"InvalidIdentityTokenException"},
         {"shape":"ExpiredTokenException"},
         {"shape":"RegionDisabledException"}
+      ]
+    },
+    "AssumeRoot":{
+      "name":"AssumeRoot",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"AssumeRootRequest"},
+      "output":{
+        "shape":"AssumeRootResponse",
+        "resultWrapper":"AssumeRootResult"
+      },
+      "errors":[
+        {"shape":"RegionDisabledException"},
+        {"shape":"ExpiredTokenException"}
       ]
     },
     "DecodeAuthorizationMessage":{
@@ -155,14 +173,15 @@
         "RoleArn":{"shape":"arnType"},
         "RoleSessionName":{"shape":"roleSessionNameType"},
         "PolicyArns":{"shape":"policyDescriptorListType"},
-        "Policy":{"shape":"sessionPolicyDocumentType"},
+        "Policy":{"shape":"unrestrictedSessionPolicyDocumentType"},
         "DurationSeconds":{"shape":"roleDurationSecondsType"},
         "Tags":{"shape":"tagListType"},
         "TransitiveTagKeys":{"shape":"tagKeyListType"},
         "ExternalId":{"shape":"externalIdType"},
         "SerialNumber":{"shape":"serialNumberType"},
         "TokenCode":{"shape":"tokenCodeType"},
-        "SourceIdentity":{"shape":"sourceIdentityType"}
+        "SourceIdentity":{"shape":"sourceIdentityType"},
+        "ProvidedContexts":{"shape":"ProvidedContextsListType"}
       }
     },
     "AssumeRoleResponse":{
@@ -230,6 +249,25 @@
         "PackedPolicySize":{"shape":"nonNegativeIntegerType"},
         "Provider":{"shape":"Issuer"},
         "Audience":{"shape":"Audience"},
+        "SourceIdentity":{"shape":"sourceIdentityType"}
+      }
+    },
+    "AssumeRootRequest":{
+      "type":"structure",
+      "required":[
+        "TargetPrincipal",
+        "TaskPolicyArn"
+      ],
+      "members":{
+        "TargetPrincipal":{"shape":"TargetPrincipalType"},
+        "TaskPolicyArn":{"shape":"PolicyDescriptorType"},
+        "DurationSeconds":{"shape":"RootDurationSecondsType"}
+      }
+    },
+    "AssumeRootResponse":{
+      "type":"structure",
+      "members":{
+        "Credentials":{"shape":"Credentials"},
         "SourceIdentity":{"shape":"sourceIdentityType"}
       }
     },
@@ -435,6 +473,18 @@
         "arn":{"shape":"arnType"}
       }
     },
+    "ProvidedContext":{
+      "type":"structure",
+      "members":{
+        "ProviderArn":{"shape":"arnType"},
+        "ContextAssertion":{"shape":"contextAssertionType"}
+      }
+    },
+    "ProvidedContextsListType":{
+      "type":"list",
+      "member":{"shape":"ProvidedContext"},
+      "max":5
+    },
     "RegionDisabledException":{
       "type":"structure",
       "members":{
@@ -447,10 +497,16 @@
       },
       "exception":true
     },
+    "RootDurationSecondsType":{
+      "type":"integer",
+      "max":900,
+      "min":0
+    },
     "SAMLAssertionType":{
       "type":"string",
       "max":100000,
-      "min":4
+      "min":4,
+      "sensitive":true
     },
     "Subject":{"type":"string"},
     "SubjectType":{"type":"string"},
@@ -465,13 +521,21 @@
         "Value":{"shape":"tagValueType"}
       }
     },
+    "TargetPrincipalType":{
+      "type":"string",
+      "max":2048,
+      "min":12
+    },
     "accessKeyIdType":{
       "type":"string",
       "max":128,
       "min":16,
       "pattern":"[\\w]*"
     },
-    "accessKeySecretType":{"type":"string"},
+    "accessKeySecretType":{
+      "type":"string",
+      "sensitive":true
+    },
     "accountType":{"type":"string"},
     "arnType":{
       "type":"string",
@@ -488,6 +552,12 @@
     "clientTokenType":{
       "type":"string",
       "max":20000,
+      "min":4,
+      "sensitive":true
+    },
+    "contextAssertionType":{
+      "type":"string",
+      "max":2048,
       "min":4
     },
     "dateType":{"type":"timestamp"},
@@ -588,6 +658,11 @@
       "pattern":"[\\d]*"
     },
     "tokenType":{"type":"string"},
+    "unrestrictedSessionPolicyDocumentType":{
+      "type":"string",
+      "min":1,
+      "pattern":"[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+"
+    },
     "urlType":{
       "type":"string",
       "max":2048,

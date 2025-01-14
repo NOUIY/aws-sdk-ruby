@@ -27,6 +27,12 @@ module Seahorse
       class Handler < Client::Handler
 
         def call(context)
+          span_wrapper(context) { _call(context) }
+        end
+
+        private
+
+        def _call(context)
           stream = nil
           begin
             conn = context.client.connection
@@ -80,8 +86,6 @@ module Seahorse
           )
         end
 
-        private
-
         def _register_callbacks(resp, stream, stream_mutex, close_condition, sync_queue)
           stream.on(:headers) do |headers|
             resp.signal_headers(headers)
@@ -126,6 +130,7 @@ module Seahorse
         # https://http2.github.io/http2-spec/#rfc.section.8.1.2.3
         def _h2_headers(req)
           headers = {}
+          headers[':authority'] = req.endpoint.host
           headers[':method'] = req.http_method.upcase
           headers[':scheme'] = req.endpoint.scheme
           headers[':path'] = req.endpoint.path.empty? ? '/' : req.endpoint.path
@@ -145,8 +150,14 @@ module Seahorse
           end
         end
 
+        def span_wrapper(context, &block)
+          context.tracer.in_span(
+            'Handler.H2',
+            attributes: Aws::Telemetry.http_request_attrs(context),
+            &block
+          )
+        end
       end
-
     end
   end
 end

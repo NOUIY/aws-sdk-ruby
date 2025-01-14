@@ -117,7 +117,8 @@ module Aws
 
         def call(context)
           if should_calculate_request_checksum?(context)
-            request_algorithm_input = ChecksumAlgorithm.request_algorithm_selection(context)
+            request_algorithm_input = ChecksumAlgorithm.request_algorithm_selection(context) ||
+                                      context[:default_request_checksum_algorithm]
             context[:checksum_algorithms] = request_algorithm_input
 
             request_checksum_property = {
@@ -140,7 +141,8 @@ module Aws
 
         def should_calculate_request_checksum?(context)
           context.operation.http_checksum &&
-            ChecksumAlgorithm.request_algorithm_selection(context)
+            (ChecksumAlgorithm.request_algorithm_selection(context) ||
+              context[:default_request_checksum_algorithm])
         end
 
         def should_verify_response_checksum?(context)
@@ -236,7 +238,8 @@ module Aws
 
         # determine where (header vs trailer) a request checksum should be added
         def checksum_request_in(context)
-          if context.operation['authtype'].eql?('v4-unsigned-body')
+          if context.operation['unsignedPayload'] ||
+             context.operation['authtype'] == 'v4-unsigned-body'
             'trailer'
           else
             'header'
@@ -314,7 +317,7 @@ module Aws
           @io.rewind
         end
 
-        def read(length, buf)
+        def read(length, buf = nil)
           # account for possible leftover bytes at the end, if we have trailer bytes, send them
           if @trailer_io
             return @trailer_io.read(length, buf)

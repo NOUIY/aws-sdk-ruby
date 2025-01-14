@@ -301,6 +301,7 @@ module Aws
             body: body
           )
           expect(signature.headers['x-amz-content-sha256']).to eq(Digest::SHA256.hexdigest('abc'))
+          body.unlink
         end
 
         it 'reads non-file IO objects into  memory to compute checksusm' do
@@ -313,7 +314,7 @@ module Aws
         end
 
         it 'does not read the body if X-Amz-Content-Sha256 if already present' do
-          body = double('http-payload')
+          body = StringIO.new('body')
           expect(body).to_not receive(:read)
           expect(body).to_not receive(:rewind)
           signature = Signer.new(options).sign_request(
@@ -348,7 +349,7 @@ module Aws
               'Foo' => 'foo',
               'Bar' => 'bar  bar',
               'Bar2' => '"bar bar"',
-              'Content-Length' => 9,
+              'Content-Length' => '9',
               'X-Amz-Date' => '20120101T112233Z',
             },
             body: StringIO.new('http-body')
@@ -357,8 +358,6 @@ module Aws
         end
 
         it 'escapes path for the canonical request by default' do
-          skip("CRT does not provide canonical request") if Signer.use_crt?
-
           signature = Signer.new(options).sign_request(
             http_method: 'GET',
             url: 'https://domain.com/foo%bar'
@@ -367,8 +366,6 @@ module Aws
         end
 
         it 'escapes path for the canonical request if :uri_escape_path is true' do
-          skip("CRT does not provide canonical request") if Signer.use_crt?
-
           options[:uri_escape_path] = true
           signature = Signer.new(options).sign_request(
             http_method: 'GET',
@@ -378,8 +375,6 @@ module Aws
         end
 
         it 'does not escape path for the canonical request if :uri_escape_path is false' do
-          skip("CRT does not provide canonical request") if Signer.use_crt?
-
           options[:uri_escape_path] = false
           signature = Signer.new(options).sign_request(
             http_method: 'GET',
@@ -388,6 +383,19 @@ module Aws
           expect(signature.canonical_request.lines.to_a[1]).to eq "/foo%bar\n"
         end
 
+        it 'can sign with s3session tokens' do
+          options[:signing_algorithm] = 'sigv4-s3express'.to_sym
+          options[:credentials_provider] = StaticCredentialsProvider.new(
+            access_key_id: 's3-akid',
+            secret_access_key: 's3-secret',
+            session_token: 's3-token'
+          )
+          signature = Signer.new(options).sign_request(
+            http_method: 'GET',
+            url: 'https://domain.com',
+          )
+          expect(signature.headers['x-amz-s3session-token']).to eq('s3-token')
+        end
       end
 
       context '#sign_event' do
@@ -414,9 +422,6 @@ module Aws
       end
 
       context ':canonical_request' do
-
-        before { skip("CRT Signer does not expose canonical request") if Signer.use_crt? }
-
         it 'lower-cases and sort all header keys except authorization' do
           signature = Signer.new(options).sign_request(
             http_method: 'PUT',
@@ -602,6 +607,76 @@ CHECKSUM
           EOF
         end
 
+      end
+
+      describe '#presign_url' do
+        let(:now) { Time.now }
+
+        let(:credentials) do
+          {
+            access_key_id: 'akid',
+            secret_access_key: 'secret',
+            session_token: nil,
+            expiration: expiration
+          }
+        end
+
+        let(:signer_options) do
+          {
+            service: 'SERVICE',
+            region: 'REGION',
+            credentials_provider: double(credentials: double(credentials), expiration: expiration),
+          }
+        end
+
+        let(:presign_options) do
+          {
+            http_method: 'GET',
+            url: 'https://example.com',
+            expires_in: expires_in,
+            time: now
+          }
+        end
+
+        let(:expires_in) { 60 }
+
+        let(:signer) { Signer.new(signer_options) }
+
+        context 'expiration is nil' do
+          let(:expiration) { nil }
+
+          it 'creates a presigned url with the provided expires_at' do
+            url = signer.presign_url(presign_options)
+            expect(url.to_s).to include('X-Amz-Expires=60')
+          end
+        end
+
+        context 'expiration is after expires_at' do
+          let(:expiration) { now + 3600 }
+
+          it 'creates a presigned url with the provided expires_at' do
+            url = signer.presign_url(presign_options)
+            expect(url.to_s).to include('X-Amz-Expires=60')
+          end
+        end
+
+        context 'expiration is before expires_at' do
+          let(:expiration) { now + 10 }
+
+          it 'creates a presigned url that expires at the credential expiration time' do
+            url = signer.presign_url(presign_options)
+            expect(url.to_s).to include('X-Amz-Expires=10')
+          end
+        end
+
+        context 'expired credentials (static stability)' do
+          let(:expiration) { now - 10 }
+
+          it 'creates a presigned url with the provided expires_at' do
+            url = signer.presign_url(presign_options)
+            expect(url.to_s).to include('X-Amz-Expires=60')
+          end
+        end
       end
     end
   end

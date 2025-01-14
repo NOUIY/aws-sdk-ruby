@@ -82,7 +82,7 @@ module Aws::ChimeSDKMessaging
     #   @return [Types::Identity]
     #
     # @!attribute [rw] type
-    #   The membership types set for the channel users.
+    #   The membership types set for the channel members.
     #   @return [String]
     #
     # @!attribute [rw] members
@@ -90,7 +90,7 @@ module Aws::ChimeSDKMessaging
     #   @return [Array<Types::Identity>]
     #
     # @!attribute [rw] channel_arn
-    #   The ARN of the channel to which you're adding users.
+    #   The ARN of the channel to which you're adding members.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -135,7 +135,7 @@ module Aws::ChimeSDKMessaging
     end
 
     # @!attribute [rw] channel_arn
-    #   The ARN of the channel to which you're adding users.
+    #   The ARN of the channel to which you're adding users or bots.
     #   @return [String]
     #
     # @!attribute [rw] type
@@ -147,12 +147,14 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] member_arns
-    #   The `AppInstanceUserArn`s of the members you want to add to the
-    #   channel.
+    #   The ARNs of the members you want to add to the channel. Only
+    #   `AppInstanceUsers` and `AppInstanceBots` can be added as a channel
+    #   member.
     #   @return [Array<String>]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -242,6 +244,10 @@ module Aws::ChimeSDKMessaging
     #   An elastic channel can support a maximum of 1-million members.
     #   @return [Types::ElasticChannelConfiguration]
     #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control when a channel expires.
+    #   @return [Types::ExpirationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/Channel AWS API Documentation
     #
     class Channel < Struct.new(
@@ -255,7 +261,8 @@ module Aws::ChimeSDKMessaging
       :last_message_timestamp,
       :last_updated_timestamp,
       :channel_flow_arn,
-      :elastic_channel_configuration)
+      :elastic_channel_configuration,
+      :expiration_settings)
       SENSITIVE = [:name, :metadata]
       include Aws::Structure
     end
@@ -546,7 +553,15 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The message content.
+    #   The content of the channel message. For Amazon Lex V2 bot responses,
+    #   this field holds a list of messages originating from the bot. For
+    #   more information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [String]
     #
     # @!attribute [rw] metadata
@@ -586,13 +601,40 @@ module Aws::ChimeSDKMessaging
     #   @return [Types::ChannelMessageStatusStructure]
     #
     # @!attribute [rw] message_attributes
-    #   The attributes for the message, used for message filtering along
-    #   with a `FilterRule` defined in the `PushNotificationPreferences`.
+    #   The attributes for the channel message. For Amazon Lex V2 bot
+    #   responses, the attributes are mapped to specific fields from the
+    #   bot. For more information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [Hash<String,Types::MessageAttributeValue>]
     #
     # @!attribute [rw] sub_channel_id
     #   The ID of the SubChannel.
     #   @return [String]
+    #
+    # @!attribute [rw] content_type
+    #   The content type of the channel message. For Amazon Lex V2 bot
+    #   responses, the content type is `application/amz-chime-lex-msgs` for
+    #   success responses and `application/amz-chime-lex-error` for failure
+    #   responses. For more information, refer to [Processing responses from
+    #   an AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
+    #   @return [String]
+    #
+    # @!attribute [rw] target
+    #   The target of a message, a sender, a user, or a bot. Only the target
+    #   and the sender can view targeted messages. Only users who can see
+    #   targeted messages can take actions on them. However, administrators
+    #   can delete targeted messages that they can’t see.
+    #   @return [Array<Types::Target>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ChannelMessage AWS API Documentation
     #
@@ -610,8 +652,10 @@ module Aws::ChimeSDKMessaging
       :persistence,
       :status,
       :message_attributes,
-      :sub_channel_id)
-      SENSITIVE = [:content, :metadata]
+      :sub_channel_id,
+      :content_type,
+      :target)
+      SENSITIVE = [:content, :metadata, :message_attributes, :content_type]
       include Aws::Structure
     end
 
@@ -622,7 +666,15 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The message content.
+    #   The message content. For Amazon Lex V2 bot responses, this field
+    #   holds a list of messages originating from the bot. For more
+    #   information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [String]
     #
     # @!attribute [rw] metadata
@@ -634,12 +686,32 @@ module Aws::ChimeSDKMessaging
     #   @return [Types::PushNotificationConfiguration]
     #
     # @!attribute [rw] message_attributes
-    #   The attributes for the message, used for message filtering along
-    #   with a `FilterRule` defined in the `PushNotificationPreferences`.
+    #   The attributes for the channel message. For Amazon Lex V2 bot
+    #   responses, the attributes are mapped to specific fields from the
+    #   bot. For more information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [Hash<String,Types::MessageAttributeValue>]
     #
     # @!attribute [rw] sub_channel_id
     #   The ID of the SubChannel.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_type
+    #   The content type of the call-back message. For Amazon Lex V2 bot
+    #   responses, the content type is `application/amz-chime-lex-msgs` for
+    #   success responses and `application/amz-chime-lex-error` for failure
+    #   responses. For more information, refer to [Processing responses from
+    #   an AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ChannelMessageCallback AWS API Documentation
@@ -650,8 +722,9 @@ module Aws::ChimeSDKMessaging
       :metadata,
       :push_notification,
       :message_attributes,
-      :sub_channel_id)
-      SENSITIVE = [:content, :metadata]
+      :sub_channel_id,
+      :content_type)
+      SENSITIVE = [:content, :metadata, :message_attributes, :content_type]
       include Aws::Structure
     end
 
@@ -662,7 +735,7 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] detail
-    #   Contains more details about the messasge status.
+    #   Contains more details about the message status.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ChannelMessageStatusStructure AWS API Documentation
@@ -681,7 +754,15 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The content of the message.
+    #   The content of the channel message. For Amazon Lex V2 bot responses,
+    #   this field holds a list of messages originating from the bot. For
+    #   more information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [String]
     #
     # @!attribute [rw] metadata
@@ -719,8 +800,37 @@ module Aws::ChimeSDKMessaging
     #   @return [Types::ChannelMessageStatusStructure]
     #
     # @!attribute [rw] message_attributes
-    #   The message attribues listed in a the summary of a channel message.
+    #   The attributes for the channel message. For Amazon Lex V2 bot
+    #   responses, the attributes are mapped to specific fields from the
+    #   bot. For more information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
     #   @return [Hash<String,Types::MessageAttributeValue>]
+    #
+    # @!attribute [rw] content_type
+    #   The content type of the channel message listed in the summary. For
+    #   Amazon Lex V2 bot responses, the content type is
+    #   `application/amz-chime-lex-msgs` for success responses and
+    #   `application/amz-chime-lex-error` for failure responses. For more
+    #   information, refer to [Processing responses from an
+    #   AppInstanceBot][1] in the *Amazon Chime SDK Messaging Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html
+    #   @return [String]
+    #
+    # @!attribute [rw] target
+    #   The target of a message, a sender, a user, or a bot. Only the target
+    #   and the sender can view targeted messages. Only users who can see
+    #   targeted messages can take actions on them. However, administrators
+    #   can delete targeted messages that they can’t see.
+    #   @return [Array<Types::Target>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ChannelMessageSummary AWS API Documentation
     #
@@ -735,8 +845,10 @@ module Aws::ChimeSDKMessaging
       :sender,
       :redacted,
       :status,
-      :message_attributes)
-      SENSITIVE = [:content, :metadata]
+      :message_attributes,
+      :content_type,
+      :target)
+      SENSITIVE = [:content, :metadata, :message_attributes, :content_type]
       include Aws::Structure
     end
 
@@ -820,7 +932,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] last_message_timestamp
-    #   The time at which the last persistent message in a channel was sent.
+    #   The time at which the last persistent message visible to the caller
+    #   in a channel was sent.
     #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ChannelSummary AWS API Documentation
@@ -863,7 +976,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/CreateChannelBanRequest AWS API Documentation
@@ -912,6 +1026,9 @@ module Aws::ChimeSDKMessaging
     #
     # @!attribute [rw] client_request_token
     #   The client token for the request. An Idempotency token.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/CreateChannelFlowRequest AWS API Documentation
@@ -956,7 +1073,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -1011,7 +1129,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/CreateChannelModeratorRequest AWS API Documentation
@@ -1078,7 +1197,8 @@ module Aws::ChimeSDKMessaging
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] channel_id
@@ -1099,6 +1219,11 @@ module Aws::ChimeSDKMessaging
     #   excluding moderators.
     #   @return [Types::ElasticChannelConfiguration]
     #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control the interval after which the channel is
+    #   automatically deleted.
+    #   @return [Types::ExpirationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/CreateChannelRequest AWS API Documentation
     #
     class CreateChannelRequest < Struct.new(
@@ -1113,7 +1238,8 @@ module Aws::ChimeSDKMessaging
       :channel_id,
       :member_arns,
       :moderator_arns,
-      :elastic_channel_configuration)
+      :elastic_channel_configuration,
+      :expiration_settings)
       SENSITIVE = [:name, :metadata, :client_request_token, :channel_id]
       include Aws::Structure
     end
@@ -1139,7 +1265,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DeleteChannelBanRequest AWS API Documentation
@@ -1174,7 +1301,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -1205,7 +1333,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -1237,7 +1366,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DeleteChannelModeratorRequest AWS API Documentation
@@ -1255,19 +1385,27 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
-    #   @return [String]
-    #
-    # @!attribute [rw] sub_channel_id
-    #   The ID of the SubChannel in the request.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DeleteChannelRequest AWS API Documentation
     #
     class DeleteChannelRequest < Struct.new(
       :channel_arn,
-      :chime_bearer,
-      :sub_channel_id)
+      :chime_bearer)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_instance_arn
+    #   The ARN of the streaming configurations being deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DeleteMessagingStreamingConfigurationsRequest AWS API Documentation
+    #
+    class DeleteMessagingStreamingConfigurationsRequest < Struct.new(
+      :app_instance_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1281,7 +1419,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DescribeChannelBanRequest AWS API Documentation
@@ -1335,11 +1474,12 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] app_instance_user_arn
-    #   The ARN of the user in a channel.
+    #   The ARN of the user or bot in a channel.
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DescribeChannelMembershipForAppInstanceUserRequest AWS API Documentation
@@ -1373,7 +1513,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -1413,11 +1554,12 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] app_instance_user_arn
-    #   The ARN of the `AppInstanceUser` in the moderated channel.
+    #   The ARN of the user or bot in the moderated channel.
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DescribeChannelModeratedByAppInstanceUserRequest AWS API Documentation
@@ -1451,7 +1593,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DescribeChannelModeratorRequest AWS API Documentation
@@ -1481,7 +1624,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/DescribeChannelRequest AWS API Documentation
@@ -1555,6 +1699,26 @@ module Aws::ChimeSDKMessaging
       include Aws::Structure
     end
 
+    # Settings that control the interval after which a channel is deleted.
+    #
+    # @!attribute [rw] expiration_days
+    #   The period in days after which the system automatically deletes a
+    #   channel.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] expiration_criterion
+    #   The conditions that must be met for a channel to expire.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ExpirationSettings AWS API Documentation
+    #
+    class ExpirationSettings < Struct.new(
+      :expiration_days,
+      :expiration_criterion)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The client is permanently forbidden from making the request.
     #
     # @!attribute [rw] code
@@ -1581,7 +1745,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserARN` of the user making the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/GetChannelMembershipPreferencesRequest AWS API Documentation
@@ -1625,7 +1790,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -1722,7 +1888,31 @@ module Aws::ChimeSDKMessaging
       include Aws::Structure
     end
 
-    # The details of a user.
+    # @!attribute [rw] app_instance_arn
+    #   The ARN of the streaming configurations.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/GetMessagingStreamingConfigurationsRequest AWS API Documentation
+    #
+    class GetMessagingStreamingConfigurationsRequest < Struct.new(
+      :app_instance_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] streaming_configurations
+    #   The streaming settings.
+    #   @return [Array<Types::StreamingConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/GetMessagingStreamingConfigurationsResponse AWS API Documentation
+    #
+    class GetMessagingStreamingConfigurationsResponse < Struct.new(
+      :streaming_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a user or bot.
     #
     # @!attribute [rw] arn
     #   The ARN in an Identity.
@@ -1774,7 +1964,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ListChannelBansRequest AWS API Documentation
@@ -1853,7 +2044,7 @@ module Aws::ChimeSDKMessaging
     end
 
     # @!attribute [rw] app_instance_user_arn
-    #   The ARN of the `AppInstanceUser`s
+    #   The ARN of the user or bot.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -1866,7 +2057,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ListChannelMembershipsForAppInstanceUserRequest AWS API Documentation
@@ -1919,7 +2111,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -1994,7 +2187,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -2063,7 +2257,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ListChannelModeratorsRequest AWS API Documentation
@@ -2142,7 +2337,7 @@ module Aws::ChimeSDKMessaging
     end
 
     # @!attribute [rw] app_instance_user_arn
-    #   The ARN of the user in the moderated channel.
+    #   The ARN of the user or bot in the moderated channel.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -2155,7 +2350,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ListChannelsModeratedByAppInstanceUserRequest AWS API Documentation
@@ -2207,7 +2403,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/ListChannelsRequest AWS API Documentation
@@ -2325,7 +2522,7 @@ module Aws::ChimeSDKMessaging
     #
     class MessageAttributeValue < Struct.new(
       :string_values)
-      SENSITIVE = []
+      SENSITIVE = [:string_values]
       include Aws::Structure
     end
 
@@ -2426,7 +2623,7 @@ module Aws::ChimeSDKMessaging
     #
     # @!attribute [rw] type
     #   Enum value that indicates the type of the push notification for a
-    #   message. `DEFAULT`\: Normal mobile push notification. `VOIP`\: VOIP
+    #   message. `DEFAULT`: Normal mobile push notification. `VOIP`: VOIP
     #   mobile push notification.
     #   @return [String]
     #
@@ -2467,12 +2664,53 @@ module Aws::ChimeSDKMessaging
     #   The ARN of the channel.
     #   @return [String]
     #
+    # @!attribute [rw] chime_bearer
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
+    #   @return [String]
+    #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control the interval after which a channel is deleted.
+    #   @return [Types::ExpirationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/PutChannelExpirationSettingsRequest AWS API Documentation
+    #
+    class PutChannelExpirationSettingsRequest < Struct.new(
+      :channel_arn,
+      :chime_bearer,
+      :expiration_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] channel_arn
+    #   The channel ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] expiration_settings
+    #   Settings that control the interval after which a channel is deleted.
+    #   @return [Types::ExpirationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/PutChannelExpirationSettingsResponse AWS API Documentation
+    #
+    class PutChannelExpirationSettingsResponse < Struct.new(
+      :channel_arn,
+      :expiration_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] channel_arn
+    #   The ARN of the channel.
+    #   @return [String]
+    #
     # @!attribute [rw] member_arn
-    #   The `AppInstanceUserArn` of the member setting the preferences.
+    #   The ARN of the member setting the preferences.
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserARN` of the user making the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] preferences
@@ -2512,6 +2750,35 @@ module Aws::ChimeSDKMessaging
       include Aws::Structure
     end
 
+    # @!attribute [rw] app_instance_arn
+    #   The ARN of the streaming configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] streaming_configurations
+    #   The streaming configurations.
+    #   @return [Array<Types::StreamingConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/PutMessagingStreamingConfigurationsRequest AWS API Documentation
+    #
+    class PutMessagingStreamingConfigurationsRequest < Struct.new(
+      :app_instance_arn,
+      :streaming_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] streaming_configurations
+    #   The requested streaming configurations.
+    #   @return [Array<Types::StreamingConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/PutMessagingStreamingConfigurationsResponse AWS API Documentation
+    #
+    class PutMessagingStreamingConfigurationsResponse < Struct.new(
+      :streaming_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] channel_arn
     #   The ARN of the channel containing the messages that you want to
     #   redact.
@@ -2522,7 +2789,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -2674,11 +2942,18 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The content of the message.
+    #   The content of the channel message.
     #   @return [String]
     #
     # @!attribute [rw] type
     #   The type of message, `STANDARD` or `CONTROL`.
+    #
+    #   `STANDARD` messages can be up to 4KB in size and contain metadata.
+    #   Metadata is arbitrary, and you can use it in a variety of ways, such
+    #   as containing a link to an attachment.
+    #
+    #   `CONTROL` messages are limited to 30 bytes and do not contain
+    #   metadata.
     #   @return [String]
     #
     # @!attribute [rw] persistence
@@ -2698,7 +2973,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] push_notification
@@ -2714,6 +2990,18 @@ module Aws::ChimeSDKMessaging
     #   The ID of the SubChannel in the request.
     #   @return [String]
     #
+    # @!attribute [rw] content_type
+    #   The content type of the channel message.
+    #   @return [String]
+    #
+    # @!attribute [rw] target
+    #   The target of a message. Must be a member of the channel, such as
+    #   another user, a bot, or the sender. Only the target and the sender
+    #   can view targeted messages. Only users who can see targeted messages
+    #   can take actions on them. However, administrators can delete
+    #   targeted messages that they can’t see.
+    #   @return [Array<Types::Target>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/SendChannelMessageRequest AWS API Documentation
     #
     class SendChannelMessageRequest < Struct.new(
@@ -2726,8 +3014,10 @@ module Aws::ChimeSDKMessaging
       :chime_bearer,
       :push_notification,
       :message_attributes,
-      :sub_channel_id)
-      SENSITIVE = [:content, :metadata, :client_request_token]
+      :sub_channel_id,
+      :content_type,
+      :target)
+      SENSITIVE = [:content, :metadata, :client_request_token, :message_attributes, :content_type]
       include Aws::Structure
     end
 
@@ -2792,6 +3082,25 @@ module Aws::ChimeSDKMessaging
       include Aws::Structure
     end
 
+    # The configuration for connecting a messaging stream to Amazon Kinesis.
+    #
+    # @!attribute [rw] data_type
+    #   The data type of the configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_arn
+    #   The ARN of the resource in the configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/StreamingConfiguration AWS API Documentation
+    #
+    class StreamingConfiguration < Struct.new(
+      :data_type,
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Summary of the sub-channels associated with the elastic channel.
     #
     # @!attribute [rw] sub_channel_id
@@ -2847,6 +3156,23 @@ module Aws::ChimeSDKMessaging
       include Aws::Structure
     end
 
+    # The target of a message, a sender, a user, or a bot. Only the target
+    # and the sender can view targeted messages. Only users who can see
+    # targeted messages can take actions on them. However, administrators
+    # can delete targeted messages that they can’t see.
+    #
+    # @!attribute [rw] member_arn
+    #   The ARN of the target channel member.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/Target AWS API Documentation
+    #
+    class Target < Struct.new(
+      :member_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The client exceeded its request rate limit.
     #
     # @!attribute [rw] code
@@ -2894,7 +3220,7 @@ module Aws::ChimeSDKMessaging
     class UntagResourceRequest < Struct.new(
       :resource_arn,
       :tag_keys)
-      SENSITIVE = []
+      SENSITIVE = [:tag_keys]
       include Aws::Structure
     end
 
@@ -2941,7 +3267,7 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The content of the message being updated.
+    #   The content of the channel message.
     #   @return [String]
     #
     # @!attribute [rw] metadata
@@ -2949,7 +3275,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @!attribute [rw] sub_channel_id
@@ -2961,6 +3288,10 @@ module Aws::ChimeSDKMessaging
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] content_type
+    #   The content type of the channel message.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/UpdateChannelMessageRequest AWS API Documentation
     #
     class UpdateChannelMessageRequest < Struct.new(
@@ -2969,8 +3300,9 @@ module Aws::ChimeSDKMessaging
       :content,
       :metadata,
       :chime_bearer,
-      :sub_channel_id)
-      SENSITIVE = [:content, :metadata]
+      :sub_channel_id,
+      :content_type)
+      SENSITIVE = [:content, :metadata, :content_type]
       include Aws::Structure
     end
 
@@ -3006,19 +3338,15 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
-    #   @return [String]
-    #
-    # @!attribute [rw] sub_channel_id
-    #   The ID of the SubChannel in the request.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/UpdateChannelReadMarkerRequest AWS API Documentation
     #
     class UpdateChannelReadMarkerRequest < Struct.new(
       :channel_arn,
-      :chime_bearer,
-      :sub_channel_id)
+      :chime_bearer)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3027,15 +3355,10 @@ module Aws::ChimeSDKMessaging
     #   The ARN of the channel.
     #   @return [String]
     #
-    # @!attribute [rw] sub_channel_id
-    #   The ID of the SubChannel in the response.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/UpdateChannelReadMarkerResponse AWS API Documentation
     #
     class UpdateChannelReadMarkerResponse < Struct.new(
-      :channel_arn,
-      :sub_channel_id)
+      :channel_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3057,7 +3380,8 @@ module Aws::ChimeSDKMessaging
     #   @return [String]
     #
     # @!attribute [rw] chime_bearer
-    #   The `AppInstanceUserArn` of the user that makes the API call.
+    #   The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
+    #   API call.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-messaging-2021-05-15/UpdateChannelRequest AWS API Documentation
@@ -3086,3 +3410,4 @@ module Aws::ChimeSDKMessaging
 
   end
 end
+

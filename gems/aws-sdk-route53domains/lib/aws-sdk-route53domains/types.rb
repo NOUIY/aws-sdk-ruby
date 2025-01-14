@@ -37,7 +37,7 @@ module Aws::Route53Domains
     class AcceptDomainTransferFromAnotherAwsAccountRequest < Struct.new(
       :domain_name,
       :password)
-      SENSITIVE = []
+      SENSITIVE = [:password]
       include Aws::Structure
     end
 
@@ -115,7 +115,8 @@ module Aws::Route53Domains
     #   @return [String]
     #
     # @!attribute [rw] invoice_id
-    #   The ID of the invoice that is associated with the billing record.
+    #   Deprecated property. This field is retained in report structure for
+    #   backwards compatibility, but will appear blank.
     #   @return [String]
     #
     # @!attribute [rw] bill_date
@@ -250,6 +251,11 @@ module Aws::Route53Domains
     #     response for a variety of reasons, for example, the registry is
     #     performing maintenance. Try again later.
     #
+    #   INVALID\_NAME\_FOR\_TLD
+    #
+    #   : The TLD isn't valid. For example, it can contain characters that
+    #     aren't allowed.
+    #
     #   PENDING
     #
     #   : The TLD registry didn't return a response in the expected amount
@@ -332,10 +338,15 @@ module Aws::Route53Domains
     #   domain can be transferred to Route 53.
     #   @return [Types::DomainTransferability]
     #
+    # @!attribute [rw] message
+    #   Provides an explanation for when a domain can't be transferred.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/CheckDomainTransferabilityResponse AWS API Documentation
     #
     class CheckDomainTransferabilityResponse < Struct.new(
-      :transferability)
+      :transferability,
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -461,7 +472,7 @@ module Aws::Route53Domains
       :email,
       :fax,
       :extra_params)
-      SENSITIVE = []
+      SENSITIVE = [:first_name, :last_name, :organization_name, :address_line_1, :address_line_2, :city, :state, :country_code, :zip_code, :phone_number, :email, :fax]
       include Aws::Structure
     end
 
@@ -937,7 +948,7 @@ module Aws::Route53Domains
     #
     #   DOMAIN\_IN\_ANOTHER\_ACCOUNT
     #
-    #   : the domain exists in another Amazon Web Services account.
+    #   : The domain exists in another Amazon Web Services account.
     #
     #   PREMIUM\_DOMAIN
     #
@@ -954,6 +965,10 @@ module Aws::Route53Domains
 
     # The request is already in progress for the domain.
     #
+    # @!attribute [rw] request_id
+    #   ID of the request operation.
+    #   @return [String]
+    #
     # @!attribute [rw] message
     #   The request is already in progress for the domain.
     #   @return [String]
@@ -961,6 +976,7 @@ module Aws::Route53Domains
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/DuplicateRequest AWS API Documentation
     #
     class DuplicateRequest < Struct.new(
+      :request_id,
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -1086,7 +1102,6 @@ module Aws::Route53Domains
     #       * `TRUST` (Trust)
     #
     #       * `ULC` (Unlimited liability corporation)
-    #
     #     * `CA_LEGAL_TYPE`
     #
     #       When `ContactType` is `PERSON`, valid values include the
@@ -1100,7 +1115,6 @@ module Aws::Route53Domains
     #         Resident)
     #
     #       * `RES` (Permanent resident of Canada)
-    #
     #       When `ContactType` is a value other than `PERSON`, valid values
     #       include the following:
     #
@@ -1141,17 +1155,15 @@ module Aws::Route53Domains
     #       * The value of `ES_LEGAL_FORM`
     #
     #       * The value of `ES_IDENTIFICATION_TYPE`
-    #
-    #       **If `ES_LEGAL_FORM` is any value other than `INDIVIDUAL`\:**
+    #       **If `ES_LEGAL_FORM` is any value other than `INDIVIDUAL`:**
     #
     #       * Specify 1 letter + 8 numbers (CIF \[Certificado de
     #         Identificación Fiscal\])
     #
     #       * Example: B12345678
-    #
     #       **If `ES_LEGAL_FORM` is `INDIVIDUAL`, the value that you specify
     #       for `ES_IDENTIFICATION` depends on the value of
-    #       `ES_IDENTIFICATION_TYPE`\:**
+    #       `ES_IDENTIFICATION_TYPE`:**
     #
     #       * If `ES_IDENTIFICATION_TYPE` is `DNI_AND_NIF` (for Spanish
     #         contacts):
@@ -1160,7 +1172,6 @@ module Aws::Route53Domains
     #           Identidad\], NIF \[Número de Identificación Fiscal\])
     #
     #         * Example: 12345678M
-    #
     #       * If `ES_IDENTIFICATION_TYPE` is `NIE` (for foreigners with
     #         legal residence):
     #
@@ -1168,7 +1179,6 @@ module Aws::Route53Domains
     #           Identidad de Extranjero\])
     #
     #         * Example: Y1234567X
-    #
     #       * If `ES_IDENTIFICATION_TYPE` is `OTHER` (for contacts outside
     #         of Spain):
     #
@@ -1176,7 +1186,6 @@ module Aws::Route53Domains
     #           national identity card number
     #
     #         ^
-    #
     #     * `ES_IDENTIFICATION_TYPE`
     #
     #       Valid values include the following:
@@ -1186,7 +1195,6 @@ module Aws::Route53Domains
     #       * `NIE` (For foreigners with legal residence)
     #
     #       * `OTHER` (For contacts outside of Spain)
-    #
     #     * `ES_LEGAL_FORM`
     #
     #       Valid values include the following:
@@ -1286,7 +1294,6 @@ module Aws::Route53Domains
     #       * `FINNISH`
     #
     #       * `NOT_FINNISH`
-    #
     #     * `FI_ORGANIZATION_TYPE`
     #
     #       Valid values include the following:
@@ -1304,22 +1311,6 @@ module Aws::Route53Domains
     #       * `PUBLIC_COMMUNITY`
     #
     #       * `TOWNSHIP`
-    #
-    #   .fr
-    #   : * `BIRTH_CITY`
-    #
-    #     * `BIRTH_COUNTRY`
-    #
-    #     * `BIRTH_DATE_IN_YYYY_MM_DD`
-    #
-    #     * `BIRTH_DEPARTMENT`\: Specify the INSEE code that corresponds
-    #       with the department where the contact was born. If the contact
-    #       was born somewhere other than France or its overseas
-    #       departments, specify `99`. For more information, including a
-    #       list of departments and the corresponding INSEE numbers, see the
-    #       Wikipedia entry [Departments of France][1].
-    #
-    #     * `BRAND_NUMBER`
     #
     #   .it
     #   : * `IT_NATIONALITY`
@@ -1395,14 +1386,9 @@ module Aws::Route53Domains
     #       * `STAT` (UK Statutory Body)
     #
     #       * `STRA` (UK Sole Trader)
-    #
     #     * `UK_COMPANY_NUMBER`
     #
     #   In addition, many TLDs require a `VAT_NUMBER`.
-    #
-    #
-    #
-    #   [1]: https://en.wikipedia.org/wiki/Departments_of_France
     #   @return [String]
     #
     # @!attribute [rw] value
@@ -1433,11 +1419,11 @@ module Aws::Route53Domains
     # @!attribute [rw] operator
     #   The operator values for filtering domain names. The values can be:
     #
-    #   * `LE`\: Less than, or equal to
+    #   * `LE`: Less than, or equal to
     #
-    #   * `GE`\: Greater than, or equal to
+    #   * `GE`: Greater than, or equal to
     #
-    #   * `BEGINS_WITH`\: Begins with
+    #   * `BEGINS_WITH`: Begins with
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -1545,36 +1531,30 @@ module Aws::Route53Domains
     # @!attribute [rw] admin_privacy
     #   Specifies whether contact information is concealed from WHOIS
     #   queries. If the value is `true`, WHOIS ("who is") queries return
-    #   contact information either for Amazon Registrar (for .com, .net, and
-    #   .org domains) or for our registrar associate, Gandi (for all other
-    #   TLDs). If the value is `false`, WHOIS queries return the information
-    #   that you entered for the admin contact.
+    #   contact information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If the value is `false`, WHOIS queries return the
+    #   information that you entered for the admin contact.
     #   @return [Boolean]
     #
     # @!attribute [rw] registrant_privacy
     #   Specifies whether contact information is concealed from WHOIS
     #   queries. If the value is `true`, WHOIS ("who is") queries return
-    #   contact information either for Amazon Registrar (for .com, .net, and
-    #   .org domains) or for our registrar associate, Gandi (for all other
-    #   TLDs). If the value is `false`, WHOIS queries return the information
-    #   that you entered for the registrant contact (domain owner).
+    #   contact information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If the value is `false`, WHOIS queries return the
+    #   information that you entered for the registrant contact (domain
+    #   owner).
     #   @return [Boolean]
     #
     # @!attribute [rw] tech_privacy
     #   Specifies whether contact information is concealed from WHOIS
     #   queries. If the value is `true`, WHOIS ("who is") queries return
-    #   contact information either for Amazon Registrar (for .com, .net, and
-    #   .org domains) or for our registrar associate, Gandi (for all other
-    #   TLDs). If the value is `false`, WHOIS queries return the information
-    #   that you entered for the technical contact.
+    #   contact information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If the value is `false`, WHOIS queries return the
+    #   information that you entered for the technical contact.
     #   @return [Boolean]
     #
     # @!attribute [rw] registrar_name
     #   Name of the registrar of the domain as identified in the registry.
-    #   Domains with a .com, .net, or .org TLD are registered by Amazon
-    #   Registrar. All other domains are registered by our registrar
-    #   associate, Gandi. The value for domains that are registered by Gandi
-    #   is `"GANDI SAS"`.
     #   @return [String]
     #
     # @!attribute [rw] who_is_server
@@ -1654,6 +1634,18 @@ module Aws::Route53Domains
     #   configuration.
     #   @return [Array<Types::DnssecKey>]
     #
+    # @!attribute [rw] billing_contact
+    #   Provides details about the domain billing contact.
+    #   @return [Types::ContactDetail]
+    #
+    # @!attribute [rw] billing_privacy
+    #   Specifies whether contact information is concealed from WHOIS
+    #   queries. If the value is `true`, WHOIS ("who is") queries return
+    #   contact information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If the value is `false`, WHOIS queries return the
+    #   information that you entered for the billing contact.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/GetDomainDetailResponse AWS API Documentation
     #
     class GetDomainDetailResponse < Struct.new(
@@ -1678,8 +1670,10 @@ module Aws::Route53Domains
       :reseller,
       :dns_sec,
       :status_list,
-      :dnssec_keys)
-      SENSITIVE = [:admin_contact, :registrant_contact, :tech_contact]
+      :dnssec_keys,
+      :billing_contact,
+      :billing_privacy)
+      SENSITIVE = [:admin_contact, :registrant_contact, :tech_contact, :abuse_contact_email, :abuse_contact_phone, :billing_contact]
       include Aws::Structure
     end
 
@@ -1803,20 +1797,20 @@ module Aws::Route53Domains
     #   Lists any outstanding operations that require customer action. Valid
     #   values are:
     #
-    #   * `PENDING_ACCEPTANCE`\: The operation is waiting for acceptance
-    #     from the account that is receiving the domain.
+    #   * `PENDING_ACCEPTANCE`: The operation is waiting for acceptance from
+    #     the account that is receiving the domain.
     #
-    #   * `PENDING_CUSTOMER_ACTION`\: The operation is waiting for customer
+    #   * `PENDING_CUSTOMER_ACTION`: The operation is waiting for customer
     #     action, for example, returning an email.
     #
-    #   * `PENDING_AUTHORIZATION`\: The operation is waiting for the form of
+    #   * `PENDING_AUTHORIZATION`: The operation is waiting for the form of
     #     authorization. For more information, see
     #     [ResendOperationAuthorization][1].
     #
-    #   * `PENDING_PAYMENT_VERIFICATION`\: The operation is waiting for the
+    #   * `PENDING_PAYMENT_VERIFICATION`: The operation is waiting for the
     #     payment method to validate.
     #
-    #   * `PENDING_SUPPORT_CASE`\: The operation includes a support case and
+    #   * `PENDING_SUPPORT_CASE`: The operation includes a support case and
     #     is waiting for its resolution.
     #
     #
@@ -1962,7 +1956,7 @@ module Aws::Route53Domains
     #   @return [String]
     #
     # @!attribute [rw] sort_order
-    #   The sort order ofr returned values, either ascending or descending.
+    #   The sort order for returned values, either ascending or descending.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/ListOperationsRequest AWS API Documentation
@@ -2164,20 +2158,20 @@ module Aws::Route53Domains
     #
     #   Valid values are:
     #
-    #   * `PENDING_ACCEPTANCE`\: The operation is waiting for acceptance
-    #     from the account that is receiving the domain.
+    #   * `PENDING_ACCEPTANCE`: The operation is waiting for acceptance from
+    #     the account that is receiving the domain.
     #
-    #   * `PENDING_CUSTOMER_ACTION`\: The operation is waiting for customer
+    #   * `PENDING_CUSTOMER_ACTION`: The operation is waiting for customer
     #     action, for example, returning an email.
     #
-    #   * `PENDING_AUTHORIZATION`\: The operation is waiting for the form of
+    #   * `PENDING_AUTHORIZATION`: The operation is waiting for the form of
     #     authorization. For more information, see
     #     [ResendOperationAuthorization][1].
     #
-    #   * `PENDING_PAYMENT_VERIFICATION`\: The operation is waiting for the
+    #   * `PENDING_PAYMENT_VERIFICATION`: The operation is waiting for the
     #     payment method to validate.
     #
-    #   * `PENDING_SUPPORT_CASE`\: The operation includes a support case and
+    #   * `PENDING_SUPPORT_CASE`: The operation includes a support case and
     #     is waiting for its resolution.
     #
     #
@@ -2329,13 +2323,12 @@ module Aws::Route53Domains
     # @!attribute [rw] privacy_protect_admin_contact
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the admin contact.
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the admin contact.
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #
@@ -2345,13 +2338,13 @@ module Aws::Route53Domains
     # @!attribute [rw] privacy_protect_registrant_contact
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the registrant contact (the domain owner).
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the registrant contact (the domain
+    #   owner).
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #
@@ -2361,17 +2354,38 @@ module Aws::Route53Domains
     # @!attribute [rw] privacy_protect_tech_contact
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the technical contact.
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the technical contact.
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #
     #   Default: `true`
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] billing_contact
+    #   Provides detailed contact information. For information about the
+    #   values that you specify for each element, see [ContactDetail][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html
+    #   @return [Types::ContactDetail]
+    #
+    # @!attribute [rw] privacy_protect_billing_contact
+    #   Whether you want to conceal contact information from WHOIS queries.
+    #   If you specify `true`, WHOIS ("who is") queries return contact
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the billing contact.
+    #
+    #   <note markdown="1"> You must specify the same privacy setting for the administrative,
+    #   billing, registrant, and technical contacts.
+    #
+    #    </note>
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/RegisterDomainRequest AWS API Documentation
@@ -2386,8 +2400,10 @@ module Aws::Route53Domains
       :tech_contact,
       :privacy_protect_admin_contact,
       :privacy_protect_registrant_contact,
-      :privacy_protect_tech_contact)
-      SENSITIVE = [:admin_contact, :registrant_contact, :tech_contact]
+      :privacy_protect_tech_contact,
+      :billing_contact,
+      :privacy_protect_billing_contact)
+      SENSITIVE = [:admin_contact, :registrant_contact, :tech_contact, :billing_contact]
       include Aws::Structure
     end
 
@@ -2536,7 +2552,7 @@ module Aws::Route53Domains
       :domain_name,
       :email_address,
       :is_already_verified)
-      SENSITIVE = []
+      SENSITIVE = [:email_address]
       include Aws::Structure
     end
 
@@ -2722,13 +2738,11 @@ module Aws::Route53Domains
     # @!attribute [rw] privacy_protect_admin_contact
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the admin contact.
+    #   information for the registrar, the phrase "REDACTED FOR PRIVACY",
+    #   or "On behalf of &lt;domain name&gt; owner.".
     #
-    #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   <note markdown="1"> While some domains may allow different privacy settings per contact,
+    #   we recommend specifying the same privacy setting for all contacts.
     #
     #    </note>
     #
@@ -2738,13 +2752,13 @@ module Aws::Route53Domains
     # @!attribute [rw] privacy_protect_registrant_contact
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the registrant contact (domain owner).
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the registrant contact (domain
+    #   owner).
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #
@@ -2754,17 +2768,33 @@ module Aws::Route53Domains
     # @!attribute [rw] privacy_protect_tech_contact
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the technical contact.
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the technical contact.
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #
     #   Default: `true`
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] billing_contact
+    #   Provides detailed contact information.
+    #   @return [Types::ContactDetail]
+    #
+    # @!attribute [rw] privacy_protect_billing_contact
+    #   Whether you want to conceal contact information from WHOIS queries.
+    #   If you specify `true`, WHOIS ("who is") queries return contact
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the billing contact.
+    #
+    #   <note markdown="1"> You must specify the same privacy setting for the administrative,
+    #   billing, registrant, and technical contacts.
+    #
+    #    </note>
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/TransferDomainRequest AWS API Documentation
@@ -2781,8 +2811,10 @@ module Aws::Route53Domains
       :tech_contact,
       :privacy_protect_admin_contact,
       :privacy_protect_registrant_contact,
-      :privacy_protect_tech_contact)
-      SENSITIVE = [:auth_code, :admin_contact, :registrant_contact, :tech_contact]
+      :privacy_protect_tech_contact,
+      :billing_contact,
+      :privacy_protect_billing_contact)
+      SENSITIVE = [:auth_code, :admin_contact, :registrant_contact, :tech_contact, :billing_contact]
       include Aws::Structure
     end
 
@@ -2856,7 +2888,7 @@ module Aws::Route53Domains
     class TransferDomainToAnotherAwsAccountResponse < Struct.new(
       :operation_id,
       :password)
-      SENSITIVE = []
+      SENSITIVE = [:password]
       include Aws::Structure
     end
 
@@ -2885,13 +2917,12 @@ module Aws::Route53Domains
     # @!attribute [rw] admin_privacy
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the admin contact.
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the admin contact.
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #   @return [Boolean]
@@ -2899,13 +2930,13 @@ module Aws::Route53Domains
     # @!attribute [rw] registrant_privacy
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the registrant contact (domain owner).
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the registrant contact (domain
+    #   owner).
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #   @return [Boolean]
@@ -2913,13 +2944,25 @@ module Aws::Route53Domains
     # @!attribute [rw] tech_privacy
     #   Whether you want to conceal contact information from WHOIS queries.
     #   If you specify `true`, WHOIS ("who is") queries return contact
-    #   information either for Amazon Registrar (for .com, .net, and .org
-    #   domains) or for our registrar associate, Gandi (for all other TLDs).
-    #   If you specify `false`, WHOIS queries return the information that
-    #   you entered for the technical contact.
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the technical contact.
     #
     #   <note markdown="1"> You must specify the same privacy setting for the administrative,
-    #   registrant, and technical contacts.
+    #   billing, registrant, and technical contacts.
+    #
+    #    </note>
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] billing_privacy
+    #   Whether you want to conceal contact information from WHOIS queries.
+    #   If you specify `true`, WHOIS ("who is") queries return contact
+    #   information either for Amazon Registrar or for our registrar
+    #   associate, Gandi. If you specify `false`, WHOIS queries return the
+    #   information that you entered for the billing contact.
+    #
+    #   <note markdown="1"> You must specify the same privacy setting for the administrative,
+    #   billing, registrant, and technical contacts.
     #
     #    </note>
     #   @return [Boolean]
@@ -2930,7 +2973,8 @@ module Aws::Route53Domains
       :domain_name,
       :admin_privacy,
       :registrant_privacy,
-      :tech_privacy)
+      :tech_privacy,
+      :billing_privacy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2971,8 +3015,13 @@ module Aws::Route53Domains
     #   @return [Types::ContactDetail]
     #
     # @!attribute [rw] consent
-    #   Customer's consent for the owner change request.
+    #   Customer's consent for the owner change request. Required if the
+    #   domain is not free (consent price is more than $0.00).
     #   @return [Types::Consent]
+    #
+    # @!attribute [rw] billing_contact
+    #   Provides detailed contact information.
+    #   @return [Types::ContactDetail]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53domains-2014-05-15/UpdateDomainContactRequest AWS API Documentation
     #
@@ -2981,8 +3030,9 @@ module Aws::Route53Domains
       :admin_contact,
       :registrant_contact,
       :tech_contact,
-      :consent)
-      SENSITIVE = [:admin_contact, :registrant_contact, :tech_contact]
+      :consent,
+      :billing_contact)
+      SENSITIVE = [:admin_contact, :registrant_contact, :tech_contact, :billing_contact]
       include Aws::Structure
     end
 
@@ -3149,3 +3199,4 @@ module Aws::Route53Domains
 
   end
 end
+

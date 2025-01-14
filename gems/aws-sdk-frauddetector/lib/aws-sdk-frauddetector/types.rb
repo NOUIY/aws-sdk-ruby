@@ -782,7 +782,7 @@ module Aws::FraudDetector
       :variable_type,
       :description,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:elements]
       include Aws::Structure
     end
 
@@ -956,7 +956,7 @@ module Aws::FraudDetector
     #   @return [String]
     #
     # @!attribute [rw] data_type
-    #   The data type.
+    #   The data type of the variable.
     #   @return [String]
     #
     # @!attribute [rw] data_source
@@ -1125,7 +1125,7 @@ module Aws::FraudDetector
     #
     # @!attribute [rw] delete_audit_history
     #   Specifies whether or not to delete any predictions associated with
-    #   the event.
+    #   the event. If set to `True`,
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/frauddetector-2019-11-15/DeleteEventRequest AWS API Documentation
@@ -1700,6 +1700,21 @@ module Aws::FraudDetector
       :current_label,
       :label_timestamp,
       :entities)
+      SENSITIVE = [:event_variables, :entities]
+      include Aws::Structure
+    end
+
+    # The event orchestration status.
+    #
+    # @!attribute [rw] event_bridge_enabled
+    #   Specifies if event orchestration is enabled through Amazon
+    #   EventBridge.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/frauddetector-2019-11-15/EventOrchestration AWS API Documentation
+    #
+    class EventOrchestration < Struct.new(
+      :event_bridge_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1789,6 +1804,10 @@ module Aws::FraudDetector
     #   The entity type ARN.
     #   @return [String]
     #
+    # @!attribute [rw] event_orchestration
+    #   The event orchestration status.
+    #   @return [Types::EventOrchestration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/frauddetector-2019-11-15/EventType AWS API Documentation
     #
     class EventType < Struct.new(
@@ -1801,7 +1820,8 @@ module Aws::FraudDetector
       :ingested_event_statistics,
       :last_updated_time,
       :created_time,
-      :arn)
+      :arn,
+      :event_orchestration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2489,7 +2509,7 @@ module Aws::FraudDetector
       :event_timestamp,
       :event_variables,
       :external_model_endpoint_data_blobs)
-      SENSITIVE = [:external_model_endpoint_data_blobs]
+      SENSITIVE = [:entities, :event_variables, :external_model_endpoint_data_blobs]
       include Aws::Structure
     end
 
@@ -2584,7 +2604,7 @@ module Aws::FraudDetector
     class GetEventTypesResult < Struct.new(
       :event_types,
       :next_token)
-      SENSITIVE = []
+      SENSITIVE = [:event_types]
       include Aws::Structure
     end
 
@@ -2713,7 +2733,7 @@ module Aws::FraudDetector
     class GetListElementsResult < Struct.new(
       :elements,
       :next_token)
-      SENSITIVE = []
+      SENSITIVE = [:elements]
       include Aws::Structure
     end
 
@@ -3159,12 +3179,12 @@ module Aws::FraudDetector
     #   The label mapper maps the Amazon Fraud Detector supported model
     #   classification labels (`FRAUD`, `LEGIT`) to the appropriate event
     #   type labels. For example, if "`FRAUD`" and "`LEGIT`" are Amazon
-    #   Fraud Detector supported labels, this mapper could be: `\{"FRAUD" =>
-    #   ["0"]`, `"LEGIT" => ["1"]\}` or `\{"FRAUD" => ["false"]`, `"LEGIT"
-    #   => ["true"]\}` or `\{"FRAUD" => ["fraud", "abuse"]`, `"LEGIT" =>
-    #   ["legit", "safe"]\}`. The value part of the mapper is a list,
-    #   because you may have multiple label variants from your event type
-    #   for a single Amazon Fraud Detector label.
+    #   Fraud Detector supported labels, this mapper could be: `{"FRAUD" =>
+    #   ["0"]`, `"LEGIT" => ["1"]}` or `{"FRAUD" => ["false"]`, `"LEGIT" =>
+    #   ["true"]}` or `{"FRAUD" => ["fraud", "abuse"]`, `"LEGIT" =>
+    #   ["legit", "safe"]}`. The value part of the mapper is a list, because
+    #   you may have multiple label variants from your event type for a
+    #   single Amazon Fraud Detector label.
     #   @return [Hash<String,Array<String>>]
     #
     # @!attribute [rw] unlabeled_events_treatment
@@ -3178,7 +3198,7 @@ module Aws::FraudDetector
     #     “Fraud”. This is recommended when most of the events in your
     #     dataset are fraudulent.
     #
-    #   * Use `LEGIT` f you want to categorize all unlabeled events as
+    #   * Use `LEGIT` if you want to categorize all unlabeled events as
     #     “Legit”. This is recommended when most of the events in your
     #     dataset are legitimate.
     #
@@ -3886,12 +3906,18 @@ module Aws::FraudDetector
     #   @return [Array<String>]
     #
     # @!attribute [rw] event_ingestion
-    #   Specifies if ingenstion is enabled or disabled.
+    #   Specifies if ingestion is enabled or disabled.
     #   @return [String]
     #
     # @!attribute [rw] tags
     #   A collection of key and value pairs.
     #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] event_orchestration
+    #   Enables or disables event orchestration. If enabled, you can send
+    #   event predictions to select AWS services for downstream processing
+    #   of the events.
+    #   @return [Types::EventOrchestration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/frauddetector-2019-11-15/PutEventTypeRequest AWS API Documentation
     #
@@ -3902,7 +3928,8 @@ module Aws::FraudDetector
       :labels,
       :entity_types,
       :event_ingestion,
-      :tags)
+      :tags,
+      :event_orchestration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3985,6 +4012,7 @@ module Aws::FraudDetector
     #   @return [String]
     #
     # @!attribute [rw] tags
+    #   A collection of key and value pairs.
     #   @return [Array<Types::Tag>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/frauddetector-2019-11-15/PutLabelRequest AWS API Documentation
@@ -4199,7 +4227,7 @@ module Aws::FraudDetector
       :assigned_label,
       :label_timestamp,
       :entities)
-      SENSITIVE = []
+      SENSITIVE = [:event_variables, :entities]
       include Aws::Structure
     end
 
@@ -4470,7 +4498,7 @@ module Aws::FraudDetector
     #   @return [Float]
     #
     # @!attribute [rw] upper_bound_value
-    #   The lower bound value of the area under curve (auc).
+    #   The upper bound value of the area under curve (auc).
     #   @return [Float]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/frauddetector-2019-11-15/UncertaintyRange AWS API Documentation
@@ -4692,7 +4720,7 @@ module Aws::FraudDetector
       :description,
       :update_mode,
       :variable_type)
-      SENSITIVE = []
+      SENSITIVE = [:elements]
       include Aws::Structure
     end
 
@@ -5116,3 +5144,4 @@ module Aws::FraudDetector
 
   end
 end
+

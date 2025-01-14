@@ -14,34 +14,48 @@ module Aws::MediaConnect
       option(
         :endpoint_provider,
         doc_type: 'Aws::MediaConnect::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::MediaConnect::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::MediaConnect::EndpointParameters`.
+        DOCS
         Aws::MediaConnect::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::MediaConnect::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,71 +65,6 @@ module Aws::MediaConnect
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :add_flow_media_streams
-            Aws::MediaConnect::Endpoints::AddFlowMediaStreams.build(context)
-          when :add_flow_outputs
-            Aws::MediaConnect::Endpoints::AddFlowOutputs.build(context)
-          when :add_flow_sources
-            Aws::MediaConnect::Endpoints::AddFlowSources.build(context)
-          when :add_flow_vpc_interfaces
-            Aws::MediaConnect::Endpoints::AddFlowVpcInterfaces.build(context)
-          when :create_flow
-            Aws::MediaConnect::Endpoints::CreateFlow.build(context)
-          when :delete_flow
-            Aws::MediaConnect::Endpoints::DeleteFlow.build(context)
-          when :describe_flow
-            Aws::MediaConnect::Endpoints::DescribeFlow.build(context)
-          when :describe_offering
-            Aws::MediaConnect::Endpoints::DescribeOffering.build(context)
-          when :describe_reservation
-            Aws::MediaConnect::Endpoints::DescribeReservation.build(context)
-          when :grant_flow_entitlements
-            Aws::MediaConnect::Endpoints::GrantFlowEntitlements.build(context)
-          when :list_entitlements
-            Aws::MediaConnect::Endpoints::ListEntitlements.build(context)
-          when :list_flows
-            Aws::MediaConnect::Endpoints::ListFlows.build(context)
-          when :list_offerings
-            Aws::MediaConnect::Endpoints::ListOfferings.build(context)
-          when :list_reservations
-            Aws::MediaConnect::Endpoints::ListReservations.build(context)
-          when :list_tags_for_resource
-            Aws::MediaConnect::Endpoints::ListTagsForResource.build(context)
-          when :purchase_offering
-            Aws::MediaConnect::Endpoints::PurchaseOffering.build(context)
-          when :remove_flow_media_stream
-            Aws::MediaConnect::Endpoints::RemoveFlowMediaStream.build(context)
-          when :remove_flow_output
-            Aws::MediaConnect::Endpoints::RemoveFlowOutput.build(context)
-          when :remove_flow_source
-            Aws::MediaConnect::Endpoints::RemoveFlowSource.build(context)
-          when :remove_flow_vpc_interface
-            Aws::MediaConnect::Endpoints::RemoveFlowVpcInterface.build(context)
-          when :revoke_flow_entitlement
-            Aws::MediaConnect::Endpoints::RevokeFlowEntitlement.build(context)
-          when :start_flow
-            Aws::MediaConnect::Endpoints::StartFlow.build(context)
-          when :stop_flow
-            Aws::MediaConnect::Endpoints::StopFlow.build(context)
-          when :tag_resource
-            Aws::MediaConnect::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::MediaConnect::Endpoints::UntagResource.build(context)
-          when :update_flow
-            Aws::MediaConnect::Endpoints::UpdateFlow.build(context)
-          when :update_flow_entitlement
-            Aws::MediaConnect::Endpoints::UpdateFlowEntitlement.build(context)
-          when :update_flow_media_stream
-            Aws::MediaConnect::Endpoints::UpdateFlowMediaStream.build(context)
-          when :update_flow_output
-            Aws::MediaConnect::Endpoints::UpdateFlowOutput.build(context)
-          when :update_flow_source
-            Aws::MediaConnect::Endpoints::UpdateFlowSource.build(context)
           end
         end
       end

@@ -5,12 +5,14 @@
     "endpointPrefix":"ec2-instance-connect",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceAbbreviation":"EC2 Instance Connect",
     "serviceFullName":"AWS EC2 Instance Connect",
     "serviceId":"EC2 Instance Connect",
     "signatureVersion":"v4",
     "targetPrefix":"AWSEC2InstanceConnectService",
-    "uid":"ec2-instance-connect-2018-04-02"
+    "uid":"ec2-instance-connect-2018-04-02",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "SendSSHPublicKey":{
@@ -50,7 +52,8 @@
         {"shape":"SerialConsoleSessionLimitExceededException"},
         {"shape":"SerialConsoleSessionUnavailableException"},
         {"shape":"EC2InstanceStateInvalidException"},
-        {"shape":"EC2InstanceUnavailableException"}
+        {"shape":"EC2InstanceUnavailableException"},
+        {"shape":"SerialConsoleSessionUnsupportedException"}
       ]
     }
   },
@@ -106,7 +109,7 @@
       "type":"string",
       "max":32,
       "min":1,
-      "pattern":"^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$"
+      "pattern":"(^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$)|(^(?=.{2,32}$)[0-9]{1,32}[A-Za-z\\@\\._-][A-Za-z0-9\\@\\._-]*[A-Za-z0-9\\$_-]?$)"
     },
     "InvalidArgsException":{
       "type":"structure",
@@ -182,6 +185,13 @@
       },
       "exception":true,
       "fault":true
+    },
+    "SerialConsoleSessionUnsupportedException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "exception":true
     },
     "SerialPort":{
       "type":"integer",

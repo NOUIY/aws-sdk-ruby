@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Polly
   # @api private
   module ClientApi
@@ -310,8 +311,10 @@ module Aws::Polly
 
       api.metadata = {
         "apiVersion" => "2016-06-10",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "polly",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Polly",
         "serviceId" => "Polly",
         "signatureVersion" => "v4",

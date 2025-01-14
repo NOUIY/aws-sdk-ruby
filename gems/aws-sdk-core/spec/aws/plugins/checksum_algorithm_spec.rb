@@ -9,7 +9,6 @@ module Aws
       let(:creds) { Aws::Credentials.new('akid', 'secret') }
       let(:client_opts) { { credentials: creds, stub_responses: true } }
 
-
       # Don't include CRC32C in these definitions - increases complexity of testing
       # with and without CRT
       ChecksumClient = ApiHelper.sample_service(
@@ -28,6 +27,18 @@ module Aws
             }
           },
           'SomeOperationStreaming' => {
+            'http' => { 'method' => 'POST', 'requestUri' => '/' },
+            'unsignedPayload' => true,
+            'input' => { 'shape' => 'SomeOperationRequest' },
+            'output' => { 'shape' => 'StructureShape' },
+            'httpChecksum' => {
+              "requestChecksumRequired" => true,
+              "requestAlgorithmMember" => "ChecksumAlgorithm",
+              "requestValidationModeMember" => "ChecksumMode",
+              "responseAlgorithms" => ["CRC32", "SHA256", "SHA1"]
+            }
+          },
+          'SomeOperationStreamingLegacyAuth' => {
             'http' => { 'method' => 'POST', 'requestUri' => '/' },
             'authtype' => 'v4-unsigned-body',
             'input' => { 'shape' => 'SomeOperationRequest' },
@@ -70,6 +81,18 @@ module Aws
       ).const_get(:Client)
       let(:client) { ChecksumClient.new(client_opts) }
 
+      let(:default_algorithm_plugin) do
+        Class.new(Seahorse::Client::Plugin) do
+          class Handler < Seahorse::Client::Handler
+            def call(context)
+              context[:default_request_checksum_algorithm] = 'CRC32'
+              @handler.call(context)
+            end
+          end
+          handler(Handler)
+        end
+      end
+
       context 'request algorithm selection' do
         it 'uses crc32 in the header' do
           resp = client.some_operation(checksum_algorithm: 'CRC32')
@@ -78,6 +101,11 @@ module Aws
 
         it 'uses crc32 in the trailer' do
           resp = client.some_operation_streaming(checksum_algorithm: 'CRC32')
+          expect(resp.context.http_request.headers['x-amz-trailer']).to eq 'x-amz-checksum-crc32'
+        end
+
+        it 'uses crc32 in the trailer using legacy auth' do
+          resp = client.some_operation_streaming_legacy_auth(checksum_algorithm: 'CRC32')
           expect(resp.context.http_request.headers['x-amz-trailer']).to eq 'x-amz-checksum-crc32'
         end
 
@@ -107,6 +135,13 @@ module Aws
           expect do
             client.some_operation(checksum_algorithm: 'no-such-algorithm')
           end.to raise_error(ArgumentError)
+        end
+
+        it 'will use a default algorithm from the context' do
+          ChecksumClient.add_plugin(default_algorithm_plugin)
+          resp = client.some_operation
+          expect(resp.context.http_request.headers['x-amz-checksum-crc32']).to_not be_nil
+          ChecksumClient.remove_plugin(default_algorithm_plugin)
         end
       end
 
@@ -181,12 +216,8 @@ module Aws
             expect(headers['x-amz-decoded-content-length']).to eq('11')
             # capture the body by reading it into a new IO object
             body = StringIO.new
-            if (defined?(JRUBY_VERSION))
-              body <<  context.http_request.body.read(1000, String.new) + context.http_request.body.read(1000, String.new)
-            else
-              # IO.copy_stream is the same method used by Net::Http to write our body to the socket
-              IO.copy_stream(context.http_request.body, body)
-            end
+            # IO.copy_stream is the same method used by Net::Http to write our body to the socket
+            IO.copy_stream(context.http_request.body, body)
             body.rewind
             expect(body.read).to eq "b\r\nHello World\r\n0\r\nx-amz-checksum-sha256:pZGm1Av0IEBKARczz7exkNYsZb8LzaMrV7J32a2fFG4=\r\n\r\n"
           end)
@@ -195,11 +226,11 @@ module Aws
         end
 
         it 'handles header-based auth with checksum in header' do
-            client.stub_responses(:some_operation, -> (context) do
-              expect(context.http_request.headers['x-amz-checksum-sha256']).to eq('pZGm1Av0IEBKARczz7exkNYsZb8LzaMrV7J32a2fFG4=')
-              expect(context.http_request.body.read).to eq('Hello World')
-            end)
-            client.some_operation(checksum_algorithm: 'sha256', body: 'Hello World')
+          client.stub_responses(:some_operation, -> (context) do
+            expect(context.http_request.headers['x-amz-checksum-sha256']).to eq('pZGm1Av0IEBKARczz7exkNYsZb8LzaMrV7J32a2fFG4=')
+            expect(context.http_request.body.read).to eq('Hello World')
+          end)
+          client.some_operation(checksum_algorithm: 'sha256', body: 'Hello World')
         end
 
         it 'handles sigv4-streaming auth with checksum in trailer' do

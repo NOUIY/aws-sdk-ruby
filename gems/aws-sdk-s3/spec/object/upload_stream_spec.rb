@@ -8,7 +8,7 @@ module Aws
     describe Object do
       let(:client) { S3::Client.new(stub_responses: true) }
 
-      describe '#upload_stream' do
+      describe '#upload_stream', :jruby_flaky do
         let(:object) do
           S3::Object.new(
             bucket_name: 'bucket',
@@ -45,6 +45,14 @@ module Aws
           object.upload_stream(content_type: 'text/plain') do |write_stream|
             write_stream << zero_mb
           end
+        end
+
+        it 'respects the thread_count option' do
+          custom_thread_count = 20
+          expect(Thread).to receive(:new).exactly(custom_thread_count).times.and_return(double(value: nil))
+          client.stub_responses(:create_multipart_upload, upload_id: 'id')
+          client.stub_responses(:complete_multipart_upload)
+          object.upload_stream(thread_count: custom_thread_count) { |_write_stream| }
         end
 
         it 'uses multipart APIs' do
@@ -173,11 +181,14 @@ module Aws
           client.stub_responses(:create_multipart_upload, upload_id: 'id')
           client.stub_responses(:complete_multipart_upload)
           result = []
+          mutex = Mutex.new
           allow(client).to receive(:upload_part) do |part|
-            result << [
-              part[:part_number],
-              part[:body].read.size
-            ]
+            mutex.synchronize do
+              result << [
+                part[:part_number],
+                part[:body].read.size
+              ]
+            end
           end.and_return(double(:upload_part, etag: 'etag'))
           object.upload_stream(part_size: 7 * 1024 * 1024) do |write_stream|
             17.times { write_stream << one_mb }
@@ -195,11 +206,14 @@ module Aws
           client.stub_responses(:create_multipart_upload, upload_id: 'id')
           client.stub_responses(:complete_multipart_upload)
           result = []
+          mutex = Mutex.new
           allow(client).to receive(:upload_part) do |part|
-            result << [
-              part[:part_number],
-              part[:body].read.size
-            ]
+            mutex.synchronize do
+              result << [
+                part[:part_number],
+                part[:body].read.size
+              ]
+            end
           end.and_return(double(:upload_part, etag: 'etag'))
           object.upload_stream do |write_stream|
             17.times { write_stream << one_mb }
@@ -270,7 +284,7 @@ module Aws
             end
           end.to raise_error(
             S3::MultipartUploadError,
-            'failed to abort multipart upload: network-error'
+            /failed to abort multipart upload: network-error/
           )
         end
 
@@ -375,11 +389,14 @@ module Aws
             client.stub_responses(:create_multipart_upload, upload_id: 'id')
             client.stub_responses(:complete_multipart_upload)
             result = []
+            mutex = Mutex.new
             allow(client).to receive(:upload_part) do |part|
-              result << [
-                part[:part_number],
-                part[:body].read.size
-              ]
+              mutex.synchronize do
+                result << [
+                  part[:part_number],
+                  part[:body].read.size
+                ]
+              end
             end.and_return(double(:upload_part, etag: 'etag'))
             object.upload_stream(tempfile: true) do |write_stream|
               17.times { write_stream << one_mb }
@@ -428,7 +445,7 @@ module Aws
               object.upload_stream(tempfile: true) do |_write_stream|
                 raise 'something went wrong'
               end
-            end.to raise_error('multipart upload failed: something went wrong')
+            end.to raise_error(/multipart upload failed/, /something went wrong/)
           end
 
           it 'reports when it is unable to abort a failed multipart upload' do
@@ -451,7 +468,8 @@ module Aws
               end
             end.to raise_error(
               S3::MultipartUploadError,
-              'failed to abort multipart upload: network-error'
+              'failed to abort multipart upload: network-error. '\
+                'Multipart upload failed: part failed'
             )
           end
         end

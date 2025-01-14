@@ -221,6 +221,41 @@ module Aws::Appflow
       include Aws::Structure
     end
 
+    # @!attribute [rw] flow_name
+    #   The name of a flow with active runs that you want to cancel.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_ids
+    #   The ID of each active run to cancel. These runs must belong to the
+    #   flow you specify in your request.
+    #
+    #   If you omit this parameter, your request ends all active runs that
+    #   belong to the flow.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CancelFlowExecutionsRequest AWS API Documentation
+    #
+    class CancelFlowExecutionsRequest < Struct.new(
+      :flow_name,
+      :execution_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] invalid_executions
+    #   The IDs of runs that Amazon AppFlow couldn't cancel. These runs
+    #   might be ineligible for canceling because they haven't started yet
+    #   or have already completed.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CancelFlowExecutionsResponse AWS API Documentation
+    #
+    class CancelFlowExecutionsResponse < Struct.new(
+      :invalid_executions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # There was a conflict when processing the request (for example, a flow
     # with the given name already exists within the account. Check for
     # conflicting resource names and try again.
@@ -356,6 +391,23 @@ module Aws::Appflow
     #   Information about who registered the connector.
     #   @return [String]
     #
+    # @!attribute [rw] supported_data_transfer_types
+    #   The data transfer types that the connector supports.
+    #
+    #   RECORD
+    #
+    #   : Structured records.
+    #
+    #   FILE
+    #
+    #   : Files or binary data.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] supported_data_transfer_apis
+    #   The APIs of the connector application that Amazon AppFlow can use to
+    #   transfer your data.
+    #   @return [Array<Types::DataTransferApi>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ConnectorConfiguration AWS API Documentation
     #
     class ConnectorConfiguration < Struct.new(
@@ -384,7 +436,9 @@ module Aws::Appflow
       :connector_provisioning_config,
       :logo_url,
       :registered_at,
-      :registered_by)
+      :registered_by,
+      :supported_data_transfer_types,
+      :supported_data_transfer_apis)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -435,6 +489,18 @@ module Aws::Appflow
     #   The connection mode that the connector supports.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] supported_data_transfer_types
+    #   The data transfer types that the connector supports.
+    #
+    #   RECORD
+    #
+    #   : Structured records.
+    #
+    #   FILE
+    #
+    #   : Files or binary data.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ConnectorDetail AWS API Documentation
     #
     class ConnectorDetail < Struct.new(
@@ -448,7 +514,8 @@ module Aws::Appflow
       :registered_at,
       :registered_by,
       :connector_provisioning_type,
-      :connector_modes)
+      :connector_modes,
+      :supported_data_transfer_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1212,6 +1279,27 @@ module Aws::Appflow
     #   Defines the connector-specific configuration and credentials.
     #   @return [Types::ConnectorProfileConfig]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `CreateConnectorProfile` request completes only once. You
+    #   choose the value to pass. For example, if you don't receive a
+    #   response from your request, you can safely retry the request with
+    #   the same `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `CreateConnectorProfile`.
+    #   The token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CreateConnectorProfileRequest AWS API Documentation
     #
     class CreateConnectorProfileRequest < Struct.new(
@@ -1220,7 +1308,8 @@ module Aws::Appflow
       :connector_type,
       :connector_label,
       :connection_mode,
-      :connector_profile_config)
+      :connector_profile_config,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1284,6 +1373,27 @@ module Aws::Appflow
     #   a data catalog.
     #   @return [Types::MetadataCatalogConfig]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `CreateFlow` request completes only once. You choose the value
+    #   to pass. For example, if you don't receive a response from your
+    #   request, you can safely retry the request with the same
+    #   `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `CreateFlow`. The token is
+    #   active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CreateFlowRequest AWS API Documentation
     #
     class CreateFlowRequest < Struct.new(
@@ -1295,7 +1405,8 @@ module Aws::Appflow
       :destination_flow_config_list,
       :tasks,
       :tags,
-      :metadata_catalog_config)
+      :metadata_catalog_config,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1352,7 +1463,7 @@ module Aws::Appflow
     class CustomAuthCredentials < Struct.new(
       :custom_authentication_type,
       :credentials_map)
-      SENSITIVE = []
+      SENSITIVE = [:credentials_map]
       include Aws::Structure
     end
 
@@ -1468,11 +1579,17 @@ module Aws::Appflow
     #   source.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] data_transfer_api
+    #   The API of the connector application that Amazon AppFlow uses to
+    #   transfer your data.
+    #   @return [Types::DataTransferApi]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CustomConnectorSourceProperties AWS API Documentation
     #
     class CustomConnectorSourceProperties < Struct.new(
       :entity_name,
-      :custom_properties)
+      :custom_properties,
+      :data_transfer_api)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1503,6 +1620,43 @@ module Aws::Appflow
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CustomerProfilesMetadata AWS API Documentation
     #
     class CustomerProfilesMetadata < Aws::EmptyStructure; end
+
+    # The API of the connector application that Amazon AppFlow uses to
+    # transfer your data.
+    #
+    # @!attribute [rw] name
+    #   The name of the connector application API.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   You can specify one of the following types:
+    #
+    #   AUTOMATIC
+    #
+    #   : The default. Optimizes a flow for datasets that fluctuate in size
+    #     from small to large. For each flow run, Amazon AppFlow chooses to
+    #     use the SYNC or ASYNC API type based on the amount of data that
+    #     the run transfers.
+    #
+    #   SYNC
+    #
+    #   : A synchronous API. This type of API optimizes a flow for small to
+    #     medium-sized datasets.
+    #
+    #   ASYNC
+    #
+    #   : An asynchronous API. This type of API optimizes a flow for large
+    #     datasets.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/DataTransferApi AWS API Documentation
+    #
+    class DataTransferApi < Struct.new(
+      :name,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # The connector-specific credentials required by Datadog.
     #
@@ -2347,13 +2501,25 @@ module Aws::Appflow
     #   The number of records processed in the flow run.
     #   @return [Integer]
     #
+    # @!attribute [rw] num_parallel_processes
+    #   The number of processes that Amazon AppFlow ran at the same time
+    #   when it retrieved your data.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_page_size
+    #   The maximum number of records that Amazon AppFlow receives in each
+    #   page of the response from your SAP application.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ExecutionResult AWS API Documentation
     #
     class ExecutionResult < Struct.new(
       :error_info,
       :bytes_processed,
       :bytes_written,
-      :records_processed)
+      :records_processed,
+      :num_parallel_processes,
+      :max_page_size)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3663,13 +3829,35 @@ module Aws::Appflow
     #   value is LAMBDA.
     #   @return [Types::ConnectorProvisioningConfig]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `RegisterConnector` request completes only once. You choose the
+    #   value to pass. For example, if you don't receive a response from
+    #   your request, you can safely retry the request with the same
+    #   `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `RegisterConnector`. The
+    #   token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/RegisterConnectorRequest AWS API Documentation
     #
     class RegisterConnectorRequest < Struct.new(
       :connector_label,
       :description,
       :connector_provisioning_type,
-      :connector_provisioning_config)
+      :connector_provisioning_config,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3720,6 +3908,84 @@ module Aws::Appflow
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] connector_profile_name
+    #   The name of the connector profile that you want to reset cached
+    #   metadata for.
+    #
+    #   You can omit this parameter if you're resetting the cache for any
+    #   of the following connectors: Amazon Connect, Amazon EventBridge,
+    #   Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're
+    #   resetting the cache for any other connector, you must include this
+    #   parameter in your request.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_type
+    #   The type of connector to reset cached metadata for.
+    #
+    #   You must include this parameter in your request if you're resetting
+    #   the cache for any of the following connectors: Amazon Connect,
+    #   Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or
+    #   Upsolver. If you're resetting the cache for any other connector,
+    #   you can omit this parameter from your request.
+    #   @return [String]
+    #
+    # @!attribute [rw] connector_entity_name
+    #   Use this parameter if you want to reset cached metadata about the
+    #   details for an individual entity.
+    #
+    #   If you don't include this parameter in your request, Amazon AppFlow
+    #   only resets cached metadata about entity names, not entity details.
+    #   @return [String]
+    #
+    # @!attribute [rw] entities_path
+    #   Use this parameter only if you’re resetting the cached metadata
+    #   about a nested entity. Only some connectors support nested entities.
+    #   A nested entity is one that has another entity as a parent. To use
+    #   this parameter, specify the name of the parent entity.
+    #
+    #   To look up the parent-child relationship of entities, you can send a
+    #   ListConnectorEntities request that omits the entitiesPath parameter.
+    #   Amazon AppFlow will return a list of top-level entities. For each
+    #   one, it indicates whether the entity has nested entities. Then, in a
+    #   subsequent ListConnectorEntities request, you can specify a parent
+    #   entity name for the entitiesPath parameter. Amazon AppFlow will
+    #   return a list of the child entities for that parent.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_version
+    #   The API version that you specified in the connector profile that
+    #   you’re resetting cached metadata for. You must use this parameter
+    #   only if the connector supports multiple API versions or if the
+    #   connector type is CustomConnector.
+    #
+    #   To look up how many versions a connector supports, use the
+    #   DescribeConnectors action. In the response, find the value that
+    #   Amazon AppFlow returns for the connectorVersion parameter.
+    #
+    #   To look up the connector type, use the DescribeConnectorProfiles
+    #   action. In the response, find the value that Amazon AppFlow returns
+    #   for the connectorType parameter.
+    #
+    #   To look up the API version that you specified in a connector
+    #   profile, use the DescribeConnectorProfiles action.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ResetConnectorMetadataCacheRequest AWS API Documentation
+    #
+    class ResetConnectorMetadataCacheRequest < Struct.new(
+      :connector_profile_name,
+      :connector_type,
+      :connector_entity_name,
+      :entities_path,
+      :api_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ResetConnectorMetadataCacheResponse AWS API Documentation
+    #
+    class ResetConnectorMetadataCacheResponse < Aws::EmptyStructure; end
 
     # The resource specified in the request (such as the source or
     # destination connector profile) is not found.
@@ -3808,11 +4074,11 @@ module Aws::Appflow
     #   whether Amazon AppFlow preserves the data types in your source data
     #   when it writes the output to Amazon S3.
     #
-    #   * `true`\: Amazon AppFlow preserves the data types when it writes to
+    #   * `true`: Amazon AppFlow preserves the data types when it writes to
     #     Amazon S3. For example, an integer or `1` in your source data is
     #     still an integer in your output.
     #
-    #   * `false`\: Amazon AppFlow converts all of the source data into
+    #   * `false`: Amazon AppFlow converts all of the source data into
     #     strings when it writes to Amazon S3. For example, an integer of
     #     `1` in your source data becomes the string `"1"` in the output.
     #   @return [Boolean]
@@ -3908,6 +4174,20 @@ module Aws::Appflow
     #   authentication.
     #   @return [Types::OAuthProperties]
     #
+    # @!attribute [rw] disable_sso
+    #   If you set this parameter to `true`, Amazon AppFlow bypasses the
+    #   single sign-on (SSO) settings in your SAP account when it accesses
+    #   your SAP OData instance.
+    #
+    #   Whether you need this option depends on the types of credentials
+    #   that you applied to your SAP OData connection profile. If your
+    #   profile uses basic authentication credentials, SAP SSO can prevent
+    #   Amazon AppFlow from connecting to your account with your username
+    #   and password. In this case, bypassing SSO makes it possible for
+    #   Amazon AppFlow to connect successfully. However, if your profile
+    #   uses OAuth credentials, this parameter has no affect.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SAPODataConnectorProfileProperties AWS API Documentation
     #
     class SAPODataConnectorProfileProperties < Struct.new(
@@ -3917,7 +4197,8 @@ module Aws::Appflow
       :client_number,
       :logon_language,
       :private_link_service_name,
-      :o_auth_properties)
+      :o_auth_properties,
+      :disable_sso)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3975,16 +4256,66 @@ module Aws::Appflow
     #
     class SAPODataMetadata < Aws::EmptyStructure; end
 
+    # Sets the page size for each *concurrent process* that transfers OData
+    # records from your SAP instance. A concurrent process is query that
+    # retrieves a batch of records as part of a flow run. Amazon AppFlow can
+    # run multiple concurrent processes in parallel to transfer data faster.
+    #
+    # @!attribute [rw] max_page_size
+    #   The maximum number of records that Amazon AppFlow receives in each
+    #   page of the response from your SAP application. For transfers of
+    #   OData records, the maximum page size is 3,000. For transfers of data
+    #   that comes from an ODP provider, the maximum page size is 10,000.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SAPODataPaginationConfig AWS API Documentation
+    #
+    class SAPODataPaginationConfig < Struct.new(
+      :max_page_size)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Sets the number of *concurrent processes* that transfer OData records
+    # from your SAP instance. A concurrent process is query that retrieves a
+    # batch of records as part of a flow run. Amazon AppFlow can run
+    # multiple concurrent processes in parallel to transfer data faster.
+    #
+    # @!attribute [rw] max_parallelism
+    #   The maximum number of processes that Amazon AppFlow runs at the same
+    #   time when it retrieves your data from your SAP application.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SAPODataParallelismConfig AWS API Documentation
+    #
+    class SAPODataParallelismConfig < Struct.new(
+      :max_parallelism)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The properties that are applied when using SAPOData as a flow source.
     #
     # @!attribute [rw] object_path
     #   The object path specified in the SAPOData flow source.
     #   @return [String]
     #
+    # @!attribute [rw] parallelism_config
+    #   Sets the number of concurrent processes that transfers OData records
+    #   from your SAP instance.
+    #   @return [Types::SAPODataParallelismConfig]
+    #
+    # @!attribute [rw] pagination_config
+    #   Sets the page size for each concurrent process that transfers OData
+    #   records from your SAP instance.
+    #   @return [Types::SAPODataPaginationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SAPODataSourceProperties AWS API Documentation
     #
     class SAPODataSourceProperties < Struct.new(
-      :object_path)
+      :object_path,
+      :parallelism_config,
+      :pagination_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4010,14 +4341,51 @@ module Aws::Appflow
     #   secret of the connected app.
     #   @return [String]
     #
+    # @!attribute [rw] o_auth_2_grant_type
+    #   Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it
+    #   requests an access token from Salesforce. Amazon AppFlow requires an
+    #   access token each time it attempts to access your Salesforce
+    #   records.
+    #
+    #   You can specify one of the following values:
+    #
+    #   AUTHORIZATION\_CODE
+    #
+    #   : Amazon AppFlow passes an authorization code when it requests the
+    #     access token from Salesforce. Amazon AppFlow receives the
+    #     authorization code from Salesforce after you log in to your
+    #     Salesforce account and authorize Amazon AppFlow to access your
+    #     records.
+    #
+    #   JWT\_BEARER
+    #
+    #   : Amazon AppFlow passes a JSON web token (JWT) when it requests the
+    #     access token from Salesforce. You provide the JWT to Amazon
+    #     AppFlow when you define the connection to your Salesforce account.
+    #     When you use this grant type, you don't need to log in to your
+    #     Salesforce account to authorize Amazon AppFlow to access your
+    #     records.
+    #
+    #   <note markdown="1"> The CLIENT\_CREDENTIALS value is not supported for Salesforce.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] jwt_token
+    #   A JSON web token (JWT) that authorizes Amazon AppFlow to access your
+    #   Salesforce records.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SalesforceConnectorProfileCredentials AWS API Documentation
     #
     class SalesforceConnectorProfileCredentials < Struct.new(
       :access_token,
       :refresh_token,
       :o_auth_request,
-      :client_credentials_arn)
-      SENSITIVE = [:access_token, :client_credentials_arn]
+      :client_credentials_arn,
+      :o_auth_2_grant_type,
+      :jwt_token)
+      SENSITIVE = [:access_token, :client_credentials_arn, :jwt_token]
       include Aws::Structure
     end
 
@@ -4033,11 +4401,55 @@ module Aws::Appflow
     #   production environment.
     #   @return [Boolean]
     #
+    # @!attribute [rw] use_private_link_for_metadata_and_authorization
+    #   If the connection mode for the connector profile is private, this
+    #   parameter sets whether Amazon AppFlow uses the private network to
+    #   send metadata and authorization calls to Salesforce. Amazon AppFlow
+    #   sends private calls through Amazon Web Services PrivateLink. These
+    #   calls travel through Amazon Web Services infrastructure without
+    #   being exposed to the public internet.
+    #
+    #   Set either of the following values:
+    #
+    #   true
+    #
+    #   : Amazon AppFlow sends all calls to Salesforce over the private
+    #     network.
+    #
+    #     These private calls are:
+    #
+    #     * Calls to get metadata about your Salesforce records. This
+    #       metadata describes your Salesforce objects and their fields.
+    #
+    #     * Calls to get or refresh access tokens that allow Amazon AppFlow
+    #       to access your Salesforce records.
+    #
+    #     * Calls to transfer your Salesforce records as part of a flow run.
+    #
+    #   false
+    #
+    #   : The default value. Amazon AppFlow sends some calls to Salesforce
+    #     privately and other calls over the public internet.
+    #
+    #     The public calls are:
+    #
+    #     * Calls to get metadata about your Salesforce records.
+    #
+    #     * Calls to get or refresh access tokens.
+    #
+    #     The private calls are:
+    #
+    #     * Calls to transfer your Salesforce records as part of a flow run.
+    #
+    #     ^
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SalesforceConnectorProfileProperties AWS API Documentation
     #
     class SalesforceConnectorProfileProperties < Struct.new(
       :instance_url,
-      :is_sandbox_environment)
+      :is_sandbox_environment,
+      :use_private_link_for_metadata_and_authorization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4140,11 +4552,40 @@ module Aws::Appflow
     #   flows transfers data to or from Salesforce.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] oauth2_grant_types_supported
+    #   The OAuth 2.0 grant types that Amazon AppFlow can use when it
+    #   requests an access token from Salesforce. Amazon AppFlow requires an
+    #   access token each time it attempts to access your Salesforce
+    #   records.
+    #
+    #   AUTHORIZATION\_CODE
+    #
+    #   : Amazon AppFlow passes an authorization code when it requests the
+    #     access token from Salesforce. Amazon AppFlow receives the
+    #     authorization code from Salesforce after you log in to your
+    #     Salesforce account and authorize Amazon AppFlow to access your
+    #     records.
+    #
+    #   JWT\_BEARER
+    #
+    #   : Amazon AppFlow passes a JSON web token (JWT) when it requests the
+    #     access token from Salesforce. You provide the JWT to Amazon
+    #     AppFlow when you define the connection to your Salesforce account.
+    #     When you use this grant type, you don't need to log in to your
+    #     Salesforce account to authorize Amazon AppFlow to access your
+    #     records.
+    #
+    #   <note markdown="1"> The CLIENT\_CREDENTIALS value is not supported for Salesforce.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/SalesforceMetadata AWS API Documentation
     #
     class SalesforceMetadata < Struct.new(
       :o_auth_scopes,
-      :data_transfer_apis)
+      :data_transfer_apis,
+      :oauth2_grant_types_supported)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4304,11 +4745,16 @@ module Aws::Appflow
     #   The password that corresponds to the user name.
     #   @return [String]
     #
+    # @!attribute [rw] o_auth_2_credentials
+    #   The OAuth 2.0 credentials required to authenticate the user.
+    #   @return [Types::OAuth2Credentials]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ServiceNowConnectorProfileCredentials AWS API Documentation
     #
     class ServiceNowConnectorProfileCredentials < Struct.new(
       :username,
-      :password)
+      :password,
+      :o_auth_2_credentials)
       SENSITIVE = [:password]
       include Aws::Structure
     end
@@ -4774,10 +5220,37 @@ module Aws::Appflow
     #   underscores (\_) or hyphens (-) only.
     #   @return [String]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `StartFlow` request completes only once. You choose the value
+    #   to pass. For example, if you don't receive a response from your
+    #   request, you can safely retry the request with the same
+    #   `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs for flows that run on a schedule or based on an
+    #   event. However, the error doesn't occur for flows that run on
+    #   demand. You set the conditions that initiate your flow for the
+    #   `triggerConfig` parameter.
+    #
+    #   If you use a different value for `clientToken`, Amazon AppFlow
+    #   considers it a new call to `StartFlow`. The token is active for 8
+    #   hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/StartFlowRequest AWS API Documentation
     #
     class StartFlowRequest < Struct.new(
-      :flow_name)
+      :flow_name,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5106,12 +5579,34 @@ module Aws::Appflow
     #   credentials.
     #   @return [Types::ConnectorProfileConfig]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `UpdateConnectorProfile` request completes only once. You
+    #   choose the value to pass. For example, if you don't receive a
+    #   response from your request, you can safely retry the request with
+    #   the same `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `UpdateConnectorProfile`.
+    #   The token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/UpdateConnectorProfileRequest AWS API Documentation
     #
     class UpdateConnectorProfileRequest < Struct.new(
       :connector_profile_name,
       :connection_mode,
-      :connector_profile_config)
+      :connector_profile_config,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5143,12 +5638,34 @@ module Aws::Appflow
     #   registered.
     #   @return [Types::ConnectorProvisioningConfig]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `UpdateConnectorRegistration` request completes only once. You
+    #   choose the value to pass. For example, if you don't receive a
+    #   response from your request, you can safely retry the request with
+    #   the same `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to
+    #   `UpdateConnectorRegistration`. The token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/UpdateConnectorRegistrationRequest AWS API Documentation
     #
     class UpdateConnectorRegistrationRequest < Struct.new(
       :connector_label,
       :description,
-      :connector_provisioning_config)
+      :connector_provisioning_config,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5200,6 +5717,27 @@ module Aws::Appflow
     #   a data catalog.
     #   @return [Types::MetadataCatalogConfig]
     #
+    # @!attribute [rw] client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `UpdateFlow` request completes only once. You choose the value
+    #   to pass. For example, if you don't receive a response from your
+    #   request, you can safely retry the request with the same
+    #   `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must
+    #   provide your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `UpdateFlow`. The token is
+    #   active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/UpdateFlowRequest AWS API Documentation
     #
     class UpdateFlowRequest < Struct.new(
@@ -5209,7 +5747,8 @@ module Aws::Appflow
       :source_flow_config,
       :destination_flow_config_list,
       :tasks,
-      :metadata_catalog_config)
+      :metadata_catalog_config,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5489,3 +6028,4 @@ module Aws::Appflow
 
   end
 end
+

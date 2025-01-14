@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Route53Domains
   # @api private
   module ClientApi
@@ -104,10 +105,12 @@ module Aws::Route53Domains
     ListOperationsRequest = Shapes::StructureShape.new(name: 'ListOperationsRequest')
     ListOperationsResponse = Shapes::StructureShape.new(name: 'ListOperationsResponse')
     ListOperationsSortAttributeName = Shapes::StringShape.new(name: 'ListOperationsSortAttributeName')
+    ListPricesPageMaxItems = Shapes::IntegerShape.new(name: 'ListPricesPageMaxItems')
     ListPricesRequest = Shapes::StructureShape.new(name: 'ListPricesRequest')
     ListPricesResponse = Shapes::StructureShape.new(name: 'ListPricesResponse')
     ListTagsForDomainRequest = Shapes::StructureShape.new(name: 'ListTagsForDomainRequest')
     ListTagsForDomainResponse = Shapes::StructureShape.new(name: 'ListTagsForDomainResponse')
+    Message = Shapes::StringShape.new(name: 'Message')
     Nameserver = Shapes::StructureShape.new(name: 'Nameserver')
     NameserverList = Shapes::ListShape.new(name: 'NameserverList')
     NullableInteger = Shapes::IntegerShape.new(name: 'NullableInteger')
@@ -122,6 +125,7 @@ module Aws::Route53Domains
     Operator = Shapes::StringShape.new(name: 'Operator')
     PageMarker = Shapes::StringShape.new(name: 'PageMarker')
     PageMaxItems = Shapes::IntegerShape.new(name: 'PageMaxItems')
+    Password = Shapes::StringShape.new(name: 'Password')
     Price = Shapes::FloatShape.new(name: 'Price')
     PriceWithCurrency = Shapes::StructureShape.new(name: 'PriceWithCurrency')
     PushDomainRequest = Shapes::StructureShape.new(name: 'PushDomainRequest')
@@ -136,6 +140,7 @@ module Aws::Route53Domains
     RejectDomainTransferFromAnotherAwsAccountResponse = Shapes::StructureShape.new(name: 'RejectDomainTransferFromAnotherAwsAccountResponse')
     RenewDomainRequest = Shapes::StructureShape.new(name: 'RenewDomainRequest')
     RenewDomainResponse = Shapes::StructureShape.new(name: 'RenewDomainResponse')
+    RequestId = Shapes::StringShape.new(name: 'RequestId')
     Reseller = Shapes::StringShape.new(name: 'Reseller')
     ResendContactReachabilityEmailRequest = Shapes::StructureShape.new(name: 'ResendContactReachabilityEmailRequest')
     ResendContactReachabilityEmailResponse = Shapes::StructureShape.new(name: 'ResendContactReachabilityEmailResponse')
@@ -176,7 +181,7 @@ module Aws::Route53Domains
     ZipCode = Shapes::StringShape.new(name: 'ZipCode')
 
     AcceptDomainTransferFromAnotherAwsAccountRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "DomainName"))
-    AcceptDomainTransferFromAnotherAwsAccountRequest.add_member(:password, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Password"))
+    AcceptDomainTransferFromAnotherAwsAccountRequest.add_member(:password, Shapes::ShapeRef.new(shape: Password, required: true, location_name: "Password"))
     AcceptDomainTransferFromAnotherAwsAccountRequest.struct_class = Types::AcceptDomainTransferFromAnotherAwsAccountRequest
 
     AcceptDomainTransferFromAnotherAwsAccountResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
@@ -216,6 +221,7 @@ module Aws::Route53Domains
     CheckDomainTransferabilityRequest.struct_class = Types::CheckDomainTransferabilityRequest
 
     CheckDomainTransferabilityResponse.add_member(:transferability, Shapes::ShapeRef.new(shape: DomainTransferability, location_name: "Transferability"))
+    CheckDomainTransferabilityResponse.add_member(:message, Shapes::ShapeRef.new(shape: Message, location_name: "Message"))
     CheckDomainTransferabilityResponse.struct_class = Types::CheckDomainTransferabilityResponse
 
     Consent.add_member(:max_price, Shapes::ShapeRef.new(shape: Price, required: true, location_name: "MaxPrice"))
@@ -319,6 +325,7 @@ module Aws::Route53Domains
     DomainTransferability.add_member(:transferable, Shapes::ShapeRef.new(shape: Transferable, location_name: "Transferable"))
     DomainTransferability.struct_class = Types::DomainTransferability
 
+    DuplicateRequest.add_member(:request_id, Shapes::ShapeRef.new(shape: RequestId, location_name: "requestId"))
     DuplicateRequest.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     DuplicateRequest.struct_class = Types::DuplicateRequest
 
@@ -378,6 +385,8 @@ module Aws::Route53Domains
     GetDomainDetailResponse.add_member(:dns_sec, Shapes::ShapeRef.new(shape: DNSSec, location_name: "DnsSec"))
     GetDomainDetailResponse.add_member(:status_list, Shapes::ShapeRef.new(shape: DomainStatusList, location_name: "StatusList"))
     GetDomainDetailResponse.add_member(:dnssec_keys, Shapes::ShapeRef.new(shape: DnssecKeyList, location_name: "DnssecKeys"))
+    GetDomainDetailResponse.add_member(:billing_contact, Shapes::ShapeRef.new(shape: ContactDetail, location_name: "BillingContact"))
+    GetDomainDetailResponse.add_member(:billing_privacy, Shapes::ShapeRef.new(shape: Boolean, location_name: "BillingPrivacy"))
     GetDomainDetailResponse.struct_class = Types::GetDomainDetailResponse
 
     GetDomainSuggestionsRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "DomainName"))
@@ -431,7 +440,7 @@ module Aws::Route53Domains
 
     ListPricesRequest.add_member(:tld, Shapes::ShapeRef.new(shape: TldName, location_name: "Tld"))
     ListPricesRequest.add_member(:marker, Shapes::ShapeRef.new(shape: PageMarker, location_name: "Marker"))
-    ListPricesRequest.add_member(:max_items, Shapes::ShapeRef.new(shape: PageMaxItems, location_name: "MaxItems"))
+    ListPricesRequest.add_member(:max_items, Shapes::ShapeRef.new(shape: ListPricesPageMaxItems, location_name: "MaxItems"))
     ListPricesRequest.struct_class = Types::ListPricesRequest
 
     ListPricesResponse.add_member(:prices, Shapes::ShapeRef.new(shape: DomainPriceList, location_name: "Prices"))
@@ -487,6 +496,8 @@ module Aws::Route53Domains
     RegisterDomainRequest.add_member(:privacy_protect_admin_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectAdminContact"))
     RegisterDomainRequest.add_member(:privacy_protect_registrant_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectRegistrantContact"))
     RegisterDomainRequest.add_member(:privacy_protect_tech_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectTechContact"))
+    RegisterDomainRequest.add_member(:billing_contact, Shapes::ShapeRef.new(shape: ContactDetail, location_name: "BillingContact"))
+    RegisterDomainRequest.add_member(:privacy_protect_billing_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectBillingContact"))
     RegisterDomainRequest.struct_class = Types::RegisterDomainRequest
 
     RegisterDomainResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
@@ -550,6 +561,8 @@ module Aws::Route53Domains
     TransferDomainRequest.add_member(:privacy_protect_admin_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectAdminContact"))
     TransferDomainRequest.add_member(:privacy_protect_registrant_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectRegistrantContact"))
     TransferDomainRequest.add_member(:privacy_protect_tech_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectTechContact"))
+    TransferDomainRequest.add_member(:billing_contact, Shapes::ShapeRef.new(shape: ContactDetail, location_name: "BillingContact"))
+    TransferDomainRequest.add_member(:privacy_protect_billing_contact, Shapes::ShapeRef.new(shape: Boolean, location_name: "PrivacyProtectBillingContact"))
     TransferDomainRequest.struct_class = Types::TransferDomainRequest
 
     TransferDomainResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
@@ -560,7 +573,7 @@ module Aws::Route53Domains
     TransferDomainToAnotherAwsAccountRequest.struct_class = Types::TransferDomainToAnotherAwsAccountRequest
 
     TransferDomainToAnotherAwsAccountResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
-    TransferDomainToAnotherAwsAccountResponse.add_member(:password, Shapes::ShapeRef.new(shape: String, location_name: "Password"))
+    TransferDomainToAnotherAwsAccountResponse.add_member(:password, Shapes::ShapeRef.new(shape: Password, location_name: "Password"))
     TransferDomainToAnotherAwsAccountResponse.struct_class = Types::TransferDomainToAnotherAwsAccountResponse
 
     UnsupportedTLD.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
@@ -570,6 +583,7 @@ module Aws::Route53Domains
     UpdateDomainContactPrivacyRequest.add_member(:admin_privacy, Shapes::ShapeRef.new(shape: Boolean, location_name: "AdminPrivacy"))
     UpdateDomainContactPrivacyRequest.add_member(:registrant_privacy, Shapes::ShapeRef.new(shape: Boolean, location_name: "RegistrantPrivacy"))
     UpdateDomainContactPrivacyRequest.add_member(:tech_privacy, Shapes::ShapeRef.new(shape: Boolean, location_name: "TechPrivacy"))
+    UpdateDomainContactPrivacyRequest.add_member(:billing_privacy, Shapes::ShapeRef.new(shape: Boolean, location_name: "BillingPrivacy"))
     UpdateDomainContactPrivacyRequest.struct_class = Types::UpdateDomainContactPrivacyRequest
 
     UpdateDomainContactPrivacyResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
@@ -580,6 +594,7 @@ module Aws::Route53Domains
     UpdateDomainContactRequest.add_member(:registrant_contact, Shapes::ShapeRef.new(shape: ContactDetail, location_name: "RegistrantContact"))
     UpdateDomainContactRequest.add_member(:tech_contact, Shapes::ShapeRef.new(shape: ContactDetail, location_name: "TechContact"))
     UpdateDomainContactRequest.add_member(:consent, Shapes::ShapeRef.new(shape: Consent, location_name: "Consent"))
+    UpdateDomainContactRequest.add_member(:billing_contact, Shapes::ShapeRef.new(shape: ContactDetail, location_name: "BillingContact"))
     UpdateDomainContactRequest.struct_class = Types::UpdateDomainContactRequest
 
     UpdateDomainContactResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
@@ -619,9 +634,11 @@ module Aws::Route53Domains
 
       api.metadata = {
         "apiVersion" => "2014-05-15",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "route53domains",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Amazon Route 53 Domains",
         "serviceId" => "Route 53 Domains",
         "signatureVersion" => "v4",

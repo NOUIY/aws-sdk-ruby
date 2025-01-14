@@ -118,8 +118,8 @@ module Aws::RDS
       data[:exportable_log_types]
     end
 
-    # A value that indicates whether the engine version supports exporting
-    # the log types specified by ExportableLogTypes to CloudWatch Logs.
+    # Indicates whether the engine version supports exporting the log types
+    # specified by ExportableLogTypes to CloudWatch Logs.
     # @return [Boolean]
     def supports_log_exports_to_cloudwatch_logs
       data[:supports_log_exports_to_cloudwatch_logs]
@@ -167,15 +167,15 @@ module Aws::RDS
       data[:status]
     end
 
-    # A value that indicates whether you can use Aurora parallel query with
-    # a specific DB engine version.
+    # Indicates whether you can use Aurora parallel query with a specific DB
+    # engine version.
     # @return [Boolean]
     def supports_parallel_query
       data[:supports_parallel_query]
     end
 
-    # A value that indicates whether you can use Aurora global databases
-    # with a specific DB engine version.
+    # Indicates whether you can use Aurora global databases with a specific
+    # DB engine version.
     # @return [Boolean]
     def supports_global_databases
       data[:supports_global_databases]
@@ -220,19 +220,23 @@ module Aws::RDS
       data[:create_time]
     end
 
-    # A list of tags. For more information, see [Tagging Amazon RDS
-    # Resources][1] in the *Amazon RDS User Guide.*
+    # A list of tags.
+    #
+    # For more information, see [Tagging Amazon RDS resources][1] in the
+    # *Amazon RDS User Guide* or [Tagging Amazon Aurora and Amazon RDS
+    # resources][2] in the *Amazon Aurora User Guide*.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html
+    # [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html
     # @return [Array<Types::Tag>]
     def tag_list
       data[:tag_list]
     end
 
-    # A value that indicates whether the engine version supports Babelfish
-    # for Aurora PostgreSQL.
+    # Indicates whether the engine version supports Babelfish for Aurora
+    # PostgreSQL.
     # @return [Boolean]
     def supports_babelfish
       data[:supports_babelfish]
@@ -254,8 +258,15 @@ module Aws::RDS
       data[:custom_db_engine_version_manifest]
     end
 
-    # A value that indicates whether the engine version supports rotating
-    # the server certificate without rebooting the DB instance.
+    # Indicates whether the DB engine version supports Aurora Limitless
+    # Database.
+    # @return [Boolean]
+    def supports_limitless_database
+      data[:supports_limitless_database]
+    end
+
+    # Indicates whether the engine version supports rotating the server
+    # certificate without rebooting the DB instance.
     # @return [Boolean]
     def supports_certificate_rotation_without_restart
       data[:supports_certificate_rotation_without_restart]
@@ -277,6 +288,35 @@ module Aws::RDS
       data[:supported_ca_certificate_identifiers]
     end
 
+    # Indicates whether the DB engine version supports forwarding write
+    # operations from reader DB instances to the writer DB instance in the
+    # DB cluster. By default, write operations aren't allowed on reader DB
+    # instances.
+    #
+    # Valid for: Aurora DB clusters only
+    # @return [Boolean]
+    def supports_local_write_forwarding
+      data[:supports_local_write_forwarding]
+    end
+
+    # Indicates whether the DB engine version supports zero-ETL integrations
+    # with Amazon Redshift.
+    # @return [Boolean]
+    def supports_integrations
+      data[:supports_integrations]
+    end
+
+    # Specifies any Aurora Serverless v2 properties or limits that differ
+    # between Aurora engine versions. You can test the values of this
+    # attribute when deciding which Aurora version to use in a new or
+    # upgraded DB cluster. You can also retrieve the version of an existing
+    # DB cluster and check whether that version supports certain Aurora
+    # Serverless v2 features before you attempt to use those features.
+    # @return [Types::ServerlessV2FeaturesSupport]
+    def serverless_v2_features_support
+      data[:serverless_v2_features_support]
+    end
+
     # @!endgroup
 
     # @return [Client]
@@ -291,10 +331,12 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_db_engine_versions(
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_db_engine_versions(
         engine: @engine_name,
         engine_version: @version
       )
+      end
       @data = resp.db_engine_versions[0]
       self
     end
@@ -409,7 +451,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Associations
@@ -442,7 +486,9 @@ module Aws::RDS
           engine_name: @engine,
           major_engine_version: @version
         )
-        resp = @client.describe_option_group_options(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_option_group_options(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.option_group_options.each do |o|
@@ -482,7 +528,9 @@ module Aws::RDS
           engine_name: @engine,
           major_engine_version: @version
         )
-        resp = @client.describe_option_groups(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_option_groups(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.option_groups_list.each do |o|

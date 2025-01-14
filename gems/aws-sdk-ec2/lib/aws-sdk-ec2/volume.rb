@@ -35,59 +35,10 @@ module Aws::EC2
     end
     alias :volume_id :id
 
-    # Information about the volume attachments.
-    # @return [Array<Types::VolumeAttachment>]
-    def attachments
-      data[:attachments]
-    end
-
-    # The Availability Zone for the volume.
-    # @return [String]
-    def availability_zone
-      data[:availability_zone]
-    end
-
-    # The time stamp when volume creation was initiated.
-    # @return [Time]
-    def create_time
-      data[:create_time]
-    end
-
-    # Indicates whether the volume is encrypted.
-    # @return [Boolean]
-    def encrypted
-      data[:encrypted]
-    end
-
-    # The Amazon Resource Name (ARN) of the Key Management Service (KMS) KMS
-    # key that was used to protect the volume encryption key for the volume.
-    # @return [String]
-    def kms_key_id
-      data[:kms_key_id]
-    end
-
     # The Amazon Resource Name (ARN) of the Outpost.
     # @return [String]
     def outpost_arn
       data[:outpost_arn]
-    end
-
-    # The size of the volume, in GiBs.
-    # @return [Integer]
-    def size
-      data[:size]
-    end
-
-    # The snapshot from which the volume was created, if applicable.
-    # @return [String]
-    def snapshot_id
-      data[:snapshot_id]
-    end
-
-    # The volume state.
-    # @return [String]
-    def state
-      data[:state]
     end
 
     # The number of I/O operations per second (IOPS). For `gp3`, `io1`, and
@@ -112,6 +63,10 @@ module Aws::EC2
       data[:volume_type]
     end
 
+    # <note markdown="1"> This parameter is not returned by CreateVolume.
+    #
+    #  </note>
+    #
     # Indicates whether the volume was created using fast snapshot restore.
     # @return [Boolean]
     def fast_restored
@@ -130,6 +85,75 @@ module Aws::EC2
       data[:throughput]
     end
 
+    # <note markdown="1"> This parameter is not returned by CreateVolume.
+    #
+    #  </note>
+    #
+    # Reserved for future use.
+    # @return [String]
+    def sse_type
+      data[:sse_type]
+    end
+
+    # The service provider that manages the volume.
+    # @return [Types::OperatorResponse]
+    def operator
+      data[:operator]
+    end
+
+    # The size of the volume, in GiBs.
+    # @return [Integer]
+    def size
+      data[:size]
+    end
+
+    # The snapshot from which the volume was created, if applicable.
+    # @return [String]
+    def snapshot_id
+      data[:snapshot_id]
+    end
+
+    # The Availability Zone for the volume.
+    # @return [String]
+    def availability_zone
+      data[:availability_zone]
+    end
+
+    # The volume state.
+    # @return [String]
+    def state
+      data[:state]
+    end
+
+    # The time stamp when volume creation was initiated.
+    # @return [Time]
+    def create_time
+      data[:create_time]
+    end
+
+    # <note markdown="1"> This parameter is not returned by CreateVolume.
+    #
+    #  </note>
+    #
+    # Information about the volume attachments.
+    # @return [Array<Types::VolumeAttachment>]
+    def attachments
+      data[:attachments]
+    end
+
+    # Indicates whether the volume is encrypted.
+    # @return [Boolean]
+    def encrypted
+      data[:encrypted]
+    end
+
+    # The Amazon Resource Name (ARN) of the KMS key that was used to protect
+    # the volume encryption key for the volume.
+    # @return [String]
+    def kms_key_id
+      data[:kms_key_id]
+    end
+
     # @!endgroup
 
     # @return [Client]
@@ -144,7 +168,9 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_volumes(volume_ids: [@id])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_volumes(volume_ids: [@id])
+      end
       @data = resp.volumes[0]
       self
     end
@@ -259,7 +285,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -284,7 +312,9 @@ module Aws::EC2
     # @return [Types::VolumeAttachment]
     def attach_to_instance(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.attach_volume(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.attach_volume(options)
+      end
       resp.data
     end
 
@@ -295,7 +325,7 @@ module Aws::EC2
     #     outpost_arn: "String",
     #     tag_specifications: [
     #       {
-    #         resource_type: "capacity-reservation", # accepts capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, ipam-resource-discovery, ipam-resource-discovery-association
+    #         resource_type: "capacity-reservation", # accepts capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token
     #         tags: [
     #           {
     #             key: "String",
@@ -304,34 +334,46 @@ module Aws::EC2
     #         ],
     #       },
     #     ],
+    #     location: "regional", # accepts regional, local
     #     dry_run: false,
     #   })
     # @param [Hash] options ({})
     # @option options [String] :description
     #   A description for the snapshot.
     # @option options [String] :outpost_arn
-    #   The Amazon Resource Name (ARN) of the Outpost on which to create a
-    #   local snapshot.
+    #   <note markdown="1"> Only supported for volumes on Outposts. If the source volume is not on
+    #   an Outpost, omit this parameter.
     #
-    #   * To create a snapshot of a volume in a Region, omit this parameter.
-    #     The snapshot is created in the same Region as the volume.
+    #    </note>
     #
-    #   * To create a snapshot of a volume on an Outpost and store the
-    #     snapshot in the Region, omit this parameter. The snapshot is created
-    #     in the Region for the Outpost.
+    #   * To create the snapshot on the same Outpost as the source volume,
+    #     specify the ARN of that Outpost. The snapshot must be created on the
+    #     same Outpost as the volume.
     #
-    #   * To create a snapshot of a volume on an Outpost and store the
-    #     snapshot on an Outpost, specify the ARN of the destination Outpost.
-    #     The snapshot must be created on the same Outpost as the volume.
+    #   * To create the snapshot in the parent Region of the Outpost, omit
+    #     this parameter.
     #
     #   For more information, see [Create local snapshots from volumes on an
-    #   Outpost][1] in the *Amazon Elastic Compute Cloud User Guide*.
+    #   Outpost][1] in the *Amazon EBS User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#create-snapshot
+    #   [1]: https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#create-snapshot
     # @option options [Array<Types::TagSpecification>] :tag_specifications
     #   The tags to apply to the snapshot during creation.
+    # @option options [String] :location
+    #   <note markdown="1"> Only supported for volumes in Local Zones. If the source volume is not
+    #   in a Local Zone, omit this parameter.
+    #
+    #    </note>
+    #
+    #   * To create a local snapshot in the same Local Zone as the source
+    #     volume, specify `local`.
+    #
+    #   * To create a regional snapshot in the parent Region of the Local
+    #     Zone, specify `regional` or omit this parameter.
+    #
+    #   Default value: `regional`
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -340,7 +382,9 @@ module Aws::EC2
     # @return [Snapshot]
     def create_snapshot(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.create_snapshot(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_snapshot(options)
+      end
       Snapshot.new(
         id: resp.data.snapshot_id,
         data: resp.data,
@@ -373,7 +417,9 @@ module Aws::EC2
     def create_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.create_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -418,7 +464,9 @@ module Aws::EC2
     def delete_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.delete_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -444,7 +492,9 @@ module Aws::EC2
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.delete_volume(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_volume(options)
+      end
       resp.data
     end
 
@@ -465,24 +515,42 @@ module Aws::EC2
     # @return [Types::DescribeVolumeAttributeResult]
     def describe_attribute(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.describe_volume_attribute(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_volume_attribute(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   volume.describe_status({
+    #     max_results: 1,
+    #     next_token: "String",
+    #     dry_run: false,
     #     filters: [
     #       {
     #         name: "String",
     #         values: ["String"],
     #       },
     #     ],
-    #     max_results: 1,
-    #     next_token: "String",
-    #     dry_run: false,
     #   })
     # @param [Hash] options ({})
+    # @option options [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output. For more information, see [Pagination][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
+    # @option options [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    # @option options [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @option options [Array<Types::Filter>] :filters
     #   The filters.
     #
@@ -499,8 +567,8 @@ module Aws::EC2
     #
     #   * `event.event-id` - The event ID.
     #
-    #   * `event.event-type` - The event type (for `io-enabled`\: `passed` \|
-    #     `failed`; for `io-performance`\: `io-performance:degraded` \|
+    #   * `event.event-type` - The event type (for `io-enabled`: `passed` \|
+    #     `failed`; for `io-performance`: `io-performance:degraded` \|
     #     `io-performance:severely-degraded` \| `io-performance:stalled`).
     #
     #   * `event.not-after` - The latest end time for the event.
@@ -511,36 +579,18 @@ module Aws::EC2
     #     (`io-enabled` \| `io-performance`).
     #
     #   * `volume-status.details-status` - The status of
-    #     `volume-status.details-name` (for `io-enabled`\: `passed` \|
-    #     `failed`; for `io-performance`\: `normal` \| `degraded` \|
+    #     `volume-status.details-name` (for `io-enabled`: `passed` \|
+    #     `failed`; for `io-performance`: `normal` \| `degraded` \|
     #     `severely-degraded` \| `stalled`).
     #
     #   * `volume-status.status` - The status of the volume (`ok` \|
     #     `impaired` \| `warning` \| `insufficient-data`).
-    # @option options [Integer] :max_results
-    #   The maximum number of items to return for this request. To get the
-    #   next page of items, make another request with the token returned in
-    #   the output. This value can be between 5 and 1,000; if the value is
-    #   larger than 1,000, only 1,000 results are returned. If this parameter
-    #   is not used, then all items are returned. You cannot specify this
-    #   parameter and the volume IDs parameter in the same request. For more
-    #   information, see [Pagination][1].
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
-    # @option options [String] :next_token
-    #   The token returned from a previous paginated request. Pagination
-    #   continues from the end of the items returned by the previous request.
-    # @option options [Boolean] :dry_run
-    #   Checks whether you have the required permissions for the action,
-    #   without actually making the request, and provides an error response.
-    #   If you have the required permissions, the error response is
-    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @return [Types::DescribeVolumeStatusResult]
     def describe_status(options = {})
       options = Aws::Util.deep_merge(options, volume_ids: [@id])
-      resp = @client.describe_volume_status(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_volume_status(options)
+      end
       resp.data
     end
 
@@ -575,7 +625,9 @@ module Aws::EC2
     # @return [Types::VolumeAttachment]
     def detach_from_instance(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.detach_volume(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.detach_volume(options)
+      end
       resp.data
     end
 
@@ -593,7 +645,9 @@ module Aws::EC2
     # @return [EmptyStructure]
     def enable_io(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.enable_volume_io(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.enable_volume_io(options)
+      end
       resp.data
     end
 
@@ -617,7 +671,9 @@ module Aws::EC2
     # @return [EmptyStructure]
     def modify_attribute(options = {})
       options = options.merge(volume_id: @id)
-      resp = @client.modify_volume_attribute(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.modify_volume_attribute(options)
+      end
       resp.data
     end
 
@@ -626,18 +682,35 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   snapshots = volume.snapshots({
+    #     owner_ids: ["String"],
+    #     restorable_by_user_ids: ["String"],
+    #     snapshot_ids: ["SnapshotId"],
+    #     dry_run: false,
     #     filters: [
     #       {
     #         name: "String",
     #         values: ["String"],
     #       },
     #     ],
-    #     owner_ids: ["String"],
-    #     restorable_by_user_ids: ["String"],
-    #     snapshot_ids: ["SnapshotId"],
-    #     dry_run: false,
     #   })
     # @param [Hash] options ({})
+    # @option options [Array<String>] :owner_ids
+    #   Scopes the results to snapshots with the specified owners. You can
+    #   specify a combination of Amazon Web Services account IDs, `self`, and
+    #   `amazon`.
+    # @option options [Array<String>] :restorable_by_user_ids
+    #   The IDs of the Amazon Web Services accounts that can create volumes
+    #   from the snapshot.
+    # @option options [Array<String>] :snapshot_ids
+    #   The snapshot IDs.
+    #
+    #   Default: Describes the snapshots for which you have create volume
+    #   permissions.
+    # @option options [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @option options [Array<Types::Filter>] :filters
     #   The filters.
     #
@@ -667,7 +740,10 @@ module Aws::EC2
     #   * `storage-tier` - The storage tier of the snapshot (`archive` \|
     #     `standard`).
     #
-    #   * `tag`\:&lt;key&gt; - The key/value combination of a tag assigned to
+    #   * `transfer-type` - The type of operation used to create the snapshot
+    #     (`time-based` \| `standard`).
+    #
+    #   * `tag`:&lt;key&gt; - The key/value combination of a tag assigned to
     #     the resource. Use the tag key in the filter name and the tag value
     #     as the filter value. For example, to find all resources that have a
     #     tag with the key `Owner` and the value `TeamA`, specify `tag:Owner`
@@ -680,23 +756,6 @@ module Aws::EC2
     #   * `volume-id` - The ID of the volume the snapshot is for.
     #
     #   * `volume-size` - The size of the volume, in GiB.
-    # @option options [Array<String>] :owner_ids
-    #   Scopes the results to snapshots with the specified owners. You can
-    #   specify a combination of Amazon Web Services account IDs, `self`, and
-    #   `amazon`.
-    # @option options [Array<String>] :restorable_by_user_ids
-    #   The IDs of the Amazon Web Services accounts that can create volumes
-    #   from the snapshot.
-    # @option options [Array<String>] :snapshot_ids
-    #   The snapshot IDs.
-    #
-    #   Default: Describes the snapshots for which you have create volume
-    #   permissions.
-    # @option options [Boolean] :dry_run
-    #   Checks whether you have the required permissions for the action,
-    #   without actually making the request, and provides an error response.
-    #   If you have the required permissions, the error response is
-    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @return [Snapshot::Collection]
     def snapshots(options = {})
       batches = Enumerator.new do |y|
@@ -704,7 +763,9 @@ module Aws::EC2
           name: "volume-id",
           values: [@id]
         }])
-        resp = @client.describe_snapshots(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_snapshots(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.snapshots.each do |s|

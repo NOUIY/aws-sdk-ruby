@@ -27,17 +27,35 @@ module Aws::Pricing
   # See {Seahorse::Client::RequestContext} for more information.
   #
   # ## Error Classes
+  # * {AccessDeniedException}
   # * {ExpiredNextTokenException}
   # * {InternalErrorException}
   # * {InvalidNextTokenException}
   # * {InvalidParameterException}
   # * {NotFoundException}
+  # * {ResourceNotFoundException}
+  # * {ThrottlingException}
   #
   # Additionally, error classes are dynamically generated for service errors based on the error code
   # if they are not defined above.
   module Errors
 
     extend Aws::Errors::DynamicErrors
+
+    class AccessDeniedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Pricing::Types::AccessDeniedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
 
     class ExpiredNextTokenException < ServiceError
 
@@ -66,6 +84,10 @@ module Aws::Pricing
       # @return [String]
       def message
         @message || @data[:message]
+      end
+
+      def retryable?
+        true
       end
     end
 
@@ -111,6 +133,44 @@ module Aws::Pricing
       # @return [String]
       def message
         @message || @data[:message]
+      end
+    end
+
+    class ResourceNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Pricing::Types::ResourceNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ThrottlingException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Pricing::Types::ThrottlingException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+
+      def retryable?
+        true
+      end
+
+      def throttling?
+        true
       end
     end
 

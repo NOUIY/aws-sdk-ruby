@@ -436,7 +436,114 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # The detailed configuration of a specified resource.
+    # An object to filter the configuration recorders based on the resource
+    # types in scope for recording.
+    #
+    # @!attribute [rw] type
+    #   The type of resource type filter to apply. `INCLUDE` specifies that
+    #   the list of resource types in the `Value` field will be aggregated
+    #   and no other resource types will be filtered.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   Comma-separate list of resource types to filter your aggregated
+    #   configuration recorders.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/AggregatorFilterResourceType AWS API Documentation
+    #
+    class AggregatorFilterResourceType < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object to filter service-linked configuration recorders in an
+    # aggregator based on the linked Amazon Web Services service.
+    #
+    # @!attribute [rw] type
+    #   The type of service principal filter to apply. `INCLUDE` specifies
+    #   that the list of service principals in the `Value` field will be
+    #   aggregated and no other service principals will be filtered.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   Comma-separated list of service principals for the linked Amazon Web
+    #   Services services to filter your aggregated service-linked
+    #   configuration recorders.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/AggregatorFilterServicePrincipal AWS API Documentation
+    #
+    class AggregatorFilterServicePrincipal < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object to filter the data you specify for an aggregator.
+    #
+    # @!attribute [rw] resource_type
+    #   An object to filter the configuration recorders based on the
+    #   resource types in scope for recording.
+    #   @return [Types::AggregatorFilterResourceType]
+    #
+    # @!attribute [rw] service_principal
+    #   An object to filter service-linked configuration recorders in an
+    #   aggregator based on the linked Amazon Web Services service.
+    #   @return [Types::AggregatorFilterServicePrincipal]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/AggregatorFilters AWS API Documentation
+    #
+    class AggregatorFilters < Struct.new(
+      :resource_type,
+      :service_principal)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] configuration_recorder_arn
+    #   The Amazon Resource Name (ARN) of the specified configuration
+    #   recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_types
+    #   The list of resource types you want to add to the recording group of
+    #   the specified configuration recorder.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/AssociateResourceTypesRequest AWS API Documentation
+    #
+    class AssociateResourceTypesRequest < Struct.new(
+      :configuration_recorder_arn,
+      :resource_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] configuration_recorder
+    #   Records configuration changes to the resource types in scope.
+    #
+    #   For more information about the configuration recorder, see [
+    #   **Working with the Configuration Recorder** ][1] in the *Config
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html
+    #   @return [Types::ConfigurationRecorder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/AssociateResourceTypesResponse AWS API Documentation
+    #
+    class AssociateResourceTypesResponse < Struct.new(
+      :configuration_recorder)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The detailed configurations of a specified resource.
     #
     # @!attribute [rw] version
     #   The version number of the resource configuration.
@@ -448,29 +555,26 @@ module Aws::ConfigService
     #   @return [String]
     #
     # @!attribute [rw] configuration_item_capture_time
-    #   The time when the configuration recording was initiated.
+    #   The time when the recording of configuration changes was initiated
+    #   for the resource.
     #   @return [Time]
     #
     # @!attribute [rw] configuration_item_status
-    #   The configuration item status. The valid values are:
+    #   The configuration item status. Valid values include:
     #
-    #   * OK – The resource configuration has been updated
+    #   * OK – The resource configuration has been updated.
     #
-    #   * ResourceDiscovered – The resource was newly discovered
+    #   * ResourceDiscovered – The resource was newly discovered.
     #
-    #   * ResourceNotRecorded – The resource was discovered but its
-    #     configuration was not recorded since the recorder excludes the
-    #     recording of resources of this type
+    #   * ResourceNotRecorded – The resource was discovered, but its
+    #     configuration was not recorded since the recorder doesn't record
+    #     resources of this type.
     #
     #   * ResourceDeleted – The resource was deleted
     #
-    #   * ResourceDeletedNotRecorded – The resource was deleted but its
-    #     configuration was not recorded since the recorder excludes the
-    #     recording of resources of this type
-    #
-    #   <note markdown="1"> The CIs do not incur any cost.
-    #
-    #    </note>
+    #   * ResourceDeletedNotRecorded – The resource was deleted, but its
+    #     configuration was not recorded since the recorder doesn't record
+    #     resources of this type.
     #   @return [String]
     #
     # @!attribute [rw] configuration_state_id
@@ -516,6 +620,29 @@ module Aws::ConfigService
     #   parameter.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] recording_frequency
+    #   The recording frequency that Config uses to record configuration
+    #   changes for the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration_item_delivery_time
+    #   The time when configuration changes for the resource were delivered.
+    #
+    #   <note markdown="1"> This field is optional and is not guaranteed to be present in a
+    #   configuration item (CI). If you are using daily recording, this
+    #   field will be populated. However, if you are using continuous
+    #   recording, this field will be omitted since the delivery time is
+    #   instantaneous as the CI is available right away. For more
+    #   information on daily recording and continuous recording, see
+    #   [Recording Frequency][1] in the *Config Developer Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/BaseConfigurationItem AWS API Documentation
     #
     class BaseConfigurationItem < Struct.new(
@@ -532,7 +659,9 @@ module Aws::ConfigService
       :availability_zone,
       :resource_creation_time,
       :configuration,
-      :supplementary_configuration)
+      :supplementary_configuration,
+      :recording_frequency,
+      :configuration_item_delivery_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -815,21 +944,23 @@ module Aws::ConfigService
     # Services resources. A rule can run when Config detects a configuration
     # change to an Amazon Web Services resource or at a periodic frequency
     # that you choose (for example, every 24 hours). There are two types of
-    # rules: Config Managed Rules and Config Custom Rules. Managed rules are
-    # predefined, customizable rules created by Config. For a list of
-    # managed rules, see [List of Config Managed Rules][1].
+    # rules: *Config Managed Rules* and *Config Custom Rules*.
     #
-    # Custom rules are rules that you can create using either Guard or
-    # Lambda functions. Guard ([Guard GitHub Repository][2]) is a
-    # policy-as-code language that allows you to write policies that are
-    # enforced by Config Custom Policy rules. Lambda uses custom code that
-    # you upload to evaluate a custom rule. It is invoked by events that are
-    # published to it by an event source, which Config invokes when the
-    # custom rule is initiated.
+    # Config Managed Rules are predefined, customizable rules created by
+    # Config. For a list of managed rules, see [List of Config Managed
+    # Rules][1].
+    #
+    # Config Custom Rules are rules that you create from scratch. There are
+    # two ways to create Config custom rules: with Lambda functions ([
+    # Lambda Developer Guide][2]) and with Guard ([Guard GitHub
+    # Repository][3]), a policy-as-code language. Config custom rules
+    # created with Lambda are called *Config Custom Lambda Rules* and Config
+    # custom rules created with Guard are called *Config Custom Policy
+    # Rules*.
     #
     # For more information about developing and using Config rules, see
-    # [Evaluating Amazon Web Services resource Configurations with
-    # Config][3] in the *Config Developer Guide*.
+    # [Evaluating Resource with Config Rules][4] in the *Config Developer
+    # Guide*.
     #
     # <note markdown="1"> You can use the Amazon Web Services CLI and Amazon Web Services SDKs
     # if you want to create a rule that triggers evaluations for your
@@ -841,8 +972,9 @@ module Aws::ConfigService
     #
     #
     # [1]: https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
-    # [2]: https://github.com/aws-cloudformation/cloudformation-guard
-    # [3]: https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html
+    # [2]: https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function
+    # [3]: https://github.com/aws-cloudformation/cloudformation-guard
+    # [4]: https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html
     #
     # @!attribute [rw] config_rule_name
     #   The name that you assign to the Config rule. The name is required if
@@ -1016,7 +1148,7 @@ module Aws::ConfigService
     # the rule ran, the last time it failed, and the related error for the
     # last failure.
     #
-    # This action does not return status information about Config Custom
+    # This operation does not return status information about Config Custom
     # Lambda rules.
     #
     # @!attribute [rw] config_rule_name
@@ -1238,6 +1370,10 @@ module Aws::ConfigService
     #   aggregator.
     #   @return [String]
     #
+    # @!attribute [rw] aggregator_filters
+    #   An object to filter the data you specify for an aggregator.
+    #   @return [Types::AggregatorFilters]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigurationAggregator AWS API Documentation
     #
     class ConfigurationAggregator < Struct.new(
@@ -1247,7 +1383,8 @@ module Aws::ConfigService
       :organization_aggregation_source,
       :creation_time,
       :last_updated_time,
-      :created_by)
+      :created_by,
+      :aggregator_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1264,29 +1401,26 @@ module Aws::ConfigService
     #   @return [String]
     #
     # @!attribute [rw] configuration_item_capture_time
-    #   The time when the configuration recording was initiated.
+    #   The time when the recording of configuration changes was initiated
+    #   for the resource.
     #   @return [Time]
     #
     # @!attribute [rw] configuration_item_status
-    #   The configuration item status. The valid values are:
+    #   The configuration item status. Valid values include:
     #
     #   * OK – The resource configuration has been updated
     #
     #   * ResourceDiscovered – The resource was newly discovered
     #
     #   * ResourceNotRecorded – The resource was discovered but its
-    #     configuration was not recorded since the recorder excludes the
-    #     recording of resources of this type
+    #     configuration was not recorded since the recorder doesn't record
+    #     resources of this type
     #
     #   * ResourceDeleted – The resource was deleted
     #
     #   * ResourceDeletedNotRecorded – The resource was deleted but its
-    #     configuration was not recorded since the recorder excludes the
-    #     recording of resources of this type
-    #
-    #   <note markdown="1"> The CIs do not incur any cost.
-    #
-    #    </note>
+    #     configuration was not recorded since the recorder doesn't record
+    #     resources of this type
     #   @return [String]
     #
     # @!attribute [rw] configuration_state_id
@@ -1365,6 +1499,29 @@ module Aws::ConfigService
     #   parameter.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] recording_frequency
+    #   The recording frequency that Config uses to record configuration
+    #   changes for the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] configuration_item_delivery_time
+    #   The time when configuration changes for the resource were delivered.
+    #
+    #   <note markdown="1"> This field is optional and is not guaranteed to be present in a
+    #   configuration item (CI). If you are using daily recording, this
+    #   field will be populated. However, if you are using continuous
+    #   recording, this field will be omitted since the delivery time is
+    #   instantaneous as the CI is available right away. For more
+    #   information on daily recording and continuous recording, see
+    #   [Recording Frequency][1] in the *Config Developer Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigurationItem AWS API Documentation
     #
     class ConfigurationItem < Struct.new(
@@ -1385,47 +1542,221 @@ module Aws::ConfigService
       :related_events,
       :relationships,
       :configuration,
-      :supplementary_configuration)
+      :supplementary_configuration,
+      :recording_frequency,
+      :configuration_item_delivery_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # An object that represents the recording of configuration changes of an
-    # Amazon Web Services resource.
+    # Records configuration changes to the resource types in scope.
     #
-    # @!attribute [rw] name
-    #   The name of the recorder. By default, Config automatically assigns
-    #   the name "default" when creating the configuration recorder. You
-    #   cannot change the assigned name.
+    # For more information about the configuration recorder, see [ **Working
+    # with the Configuration Recorder** ][1] in the *Config Developer
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the specified configuration
+    #   recorder.
     #   @return [String]
     #
-    # @!attribute [rw] role_arn
-    #   Amazon Resource Name (ARN) of the IAM role used to describe the
-    #   Amazon Web Services resources associated with the account.
+    # @!attribute [rw] name
+    #   The name of the configuration recorder.
     #
-    #   <note markdown="1"> While the API model does not require this field, the server will
-    #   reject a request without a defined roleARN for the configuration
+    #   For customer managed configuration recorders, Config automatically
+    #   assigns the name of "default" when creating a configuration
+    #   recorder if you do not specify a name at creation time.
+    #
+    #   For service-linked configuration recorders, Config automatically
+    #   assigns a name that has the prefix "`AWS`" to a new service-linked
+    #   configuration recorder.
+    #
+    #   <note markdown="1"> **Changing the name of a configuration recorder**
+    #
+    #    To change the name of the customer managed configuration recorder,
+    #   you must delete it and create a new customer managed configuration
+    #   recorder with a new name.
+    #
+    #    You cannot change the name of a service-linked configuration
     #   recorder.
     #
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role assumed by Config and
+    #   used by the specified configuration recorder.
+    #
+    #   <note markdown="1"> **The server will reject a request without a defined `roleARN` for
+    #   the configuration recorder**
+    #
+    #    While the API model does not require this field, the server will
+    #   reject a request without a defined `roleARN` for the configuration
+    #   recorder.
+    #
+    #    **Policies and compliance results**
+    #
+    #    [IAM policies][1] and [other policies managed in Organizations][2]
+    #   can impact whether Config has permissions to record configuration
+    #   changes for your resources. Additionally, rules directly evaluate
+    #   the configuration of a resource and rules don't take into account
+    #   these policies when running evaluations. Make sure that the policies
+    #   in effect align with how you intend to use Config.
+    #
+    #    **Keep Minimum Permisions When Reusing an IAM role**
+    #
+    #    If you use an Amazon Web Services service that uses Config, such as
+    #   Security Hub or Control Tower, and an IAM role has already been
+    #   created, make sure that the IAM role that you use when setting up
+    #   Config keeps the same minimum permissions as the pre-existing IAM
+    #   role. You must do this to ensure that the other Amazon Web Services
+    #   service continues to run as expected.
+    #
+    #    For example, if Control Tower has an IAM role that allows Config to
+    #   read S3 objects, make sure that the same permissions are granted to
+    #   the IAM role you use when setting up Config. Otherwise, it may
+    #   interfere with how Control Tower operates.
+    #
+    #    **The service-linked IAM role for Config must be used for
+    #   service-linked configuration recorders**
+    #
+    #    For service-linked configuration recorders, you must use the
+    #   service-linked IAM role for Config: [AWSServiceRoleForConfig][3].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html
+    #   [3]: https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html
+    #   @return [String]
+    #
     # @!attribute [rw] recording_group
-    #   Specifies the types of Amazon Web Services resources for which
-    #   Config records configuration changes.
+    #   Specifies which resource types are in scope for the configuration
+    #   recorder to record.
+    #
+    #   <note markdown="1"> <b> High Number of Config Evaluations</b>
+    #
+    #    You might notice increased activity in your account during your
+    #   initial month recording with Config when compared to subsequent
+    #   months. During the initial bootstrapping process, Config runs
+    #   evaluations on all the resources in your account that you have
+    #   selected for Config to record.
+    #
+    #    If you are running ephemeral workloads, you may see increased
+    #   activity from Config as it records configuration changes associated
+    #   with creating and deleting these temporary resources. An *ephemeral
+    #   workload* is a temporary use of computing resources that are loaded
+    #   and run when needed. Examples include Amazon Elastic Compute Cloud
+    #   (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling.
+    #
+    #    If you want to avoid the increased activity from running ephemeral
+    #   workloads, you can set up the configuration recorder to exclude
+    #   these resource types from being recorded, or run these types of
+    #   workloads in a separate account with Config turned off to avoid
+    #   increased configuration recording and rule evaluations.
+    #
+    #    </note>
     #   @return [Types::RecordingGroup]
+    #
+    # @!attribute [rw] recording_mode
+    #   Specifies the default recording frequency for the configuration
+    #   recorder. Config supports *Continuous recording* and *Daily
+    #   recording*.
+    #
+    #   * Continuous recording allows you to record configuration changes
+    #     continuously whenever a change occurs.
+    #
+    #   * Daily recording allows you to receive a configuration item (CI)
+    #     representing the most recent state of your resources over the last
+    #     24-hour period, only if it’s different from the previous CI
+    #     recorded.
+    #
+    #   <note markdown="1"> **Some resource types require continuous recording**
+    #
+    #    Firewall Manager depends on continuous recording to monitor your
+    #   resources. If you are using Firewall Manager, it is recommended that
+    #   you set the recording frequency to Continuous.
+    #
+    #    </note>
+    #
+    #   You can also override the recording frequency for specific resource
+    #   types.
+    #   @return [Types::RecordingMode]
+    #
+    # @!attribute [rw] recording_scope
+    #   Specifies whether the [ConfigurationItems][1] in scope for the
+    #   specified configuration recorder are recorded for free (`INTERNAL`)
+    #   or if it impacts the costs to your bill (`PAID`).
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html
+    #   @return [String]
+    #
+    # @!attribute [rw] service_principal
+    #   For service-linked configuration recorders, specifies the linked
+    #   Amazon Web Services service for the configuration recorder.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigurationRecorder AWS API Documentation
     #
     class ConfigurationRecorder < Struct.new(
+      :arn,
       :name,
       :role_arn,
-      :recording_group)
+      :recording_group,
+      :recording_mode,
+      :recording_scope,
+      :service_principal)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filters configuration recorders by recording scope.
+    #
+    # @!attribute [rw] filter_name
+    #   The name of the type of filter. Currently, only `recordingScope` is
+    #   supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter_value
+    #   The value of the filter. For `recordingScope`, valid values include:
+    #   `INTERNAL` and `PAID`.
+    #
+    #   `INTERNAL` indicates that the [ConfigurationItems][1] in scope for
+    #   the configuration recorder are recorded for free.
+    #
+    #   `PAID` indicates that the [ConfigurationItems][1] in scope for the
+    #   configuration recorder impact the costs to your bill.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigurationRecorderFilter AWS API Documentation
+    #
+    class ConfigurationRecorderFilter < Struct.new(
+      :filter_name,
+      :filter_value)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The current status of the configuration recorder.
+    #
+    # For a detailed status of recording events over time, add your Config
+    # events to CloudWatch metrics and use CloudWatch metrics.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the configuration recorder.
+    #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of the configuration recorder.
@@ -1444,24 +1775,31 @@ module Aws::ConfigService
     #   @return [Boolean]
     #
     # @!attribute [rw] last_status
-    #   The last (previous) status of the recorder.
+    #   The status of the latest recording event processed by the recorder.
     #   @return [String]
     #
     # @!attribute [rw] last_error_code
-    #   The error code indicating that the recording failed.
+    #   The latest error code from when the recorder last failed.
     #   @return [String]
     #
     # @!attribute [rw] last_error_message
-    #   The message indicating that the recording failed due to an error.
+    #   The latest error message from when the recorder last failed.
     #   @return [String]
     #
     # @!attribute [rw] last_status_change_time
-    #   The time when the status was last changed.
+    #   The time of the latest change in status of an recording event
+    #   processed by the recorder.
     #   @return [Time]
+    #
+    # @!attribute [rw] service_principal
+    #   For service-linked configuration recorders, the service principal of
+    #   the linked Amazon Web Services service.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigurationRecorderStatus AWS API Documentation
     #
     class ConfigurationRecorderStatus < Struct.new(
+      :arn,
       :name,
       :last_start_time,
       :last_stop_time,
@@ -1469,10 +1807,85 @@ module Aws::ConfigService
       :last_status,
       :last_error_code,
       :last_error_message,
-      :last_status_change_time)
+      :last_status_change_time,
+      :service_principal)
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # A summary of a configuration recorder, including the `arn`, `name`,
+    # `servicePrincipal`, and `recordingScope`.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the configuration recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the configuration recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_principal
+    #   For service-linked configuration recorders, indicates which Amazon
+    #   Web Services service the configuration recorder is linked to.
+    #   @return [String]
+    #
+    # @!attribute [rw] recording_scope
+    #   Indicates whether the [ConfigurationItems][1] in scope for the
+    #   configuration recorder are recorded for free (`INTERNAL`) or if you
+    #   are charged a service fee for recording (`PAID`).
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConfigurationRecorderSummary AWS API Documentation
+    #
+    class ConfigurationRecorderSummary < Struct.new(
+      :arn,
+      :name,
+      :service_principal,
+      :recording_scope)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # For [PutServiceLinkedConfigurationRecorder][1], you cannot create a
+    # service-linked recorder because a service-linked recorder already
+    # exists for the specified service.
+    #
+    # For [DeleteServiceLinkedConfigurationRecorder][2], you cannot delete
+    # the service-linked recorder because it is currently in use by the
+    # linked Amazon Web Services service.
+    #
+    # For [DeleteDeliveryChannel][3], you cannot delete the specified
+    # delivery channel because the customer managed configuration recorder
+    # is running. Use the [StopConfigurationRecorder][4] operation to stop
+    # the customer managed configuration recorder.
+    #
+    # For [AssociateResourceTypes][5] and [DisassociateResourceTypes][6],
+    # one of the following errors:
+    #
+    # * For service-linked configuration recorders, the configuration
+    #   recorder is not in use by the service. No association or
+    #   dissociation of resource types is permitted.
+    #
+    # * For service-linked configuration recorders, your requested change to
+    #   the configuration recorder has been denied by its linked Amazon Web
+    #   Services service.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html
+    # [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html
+    # [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html
+    # [4]: https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html
+    # [5]: https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html
+    # [6]: https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConflictException AWS API Documentation
+    #
+    class ConflictException < Aws::EmptyStructure; end
 
     # Filters the conformance pack by compliance types and Config rule
     # names.
@@ -1556,8 +1969,7 @@ module Aws::ConfigService
     #   @return [String]
     #
     # @!attribute [rw] conformance_pack_compliance_status
-    #   The status of the conformance pack. The allowed values are
-    #   `COMPLIANT`, `NON_COMPLIANT` and `INSUFFICIENT_DATA`.
+    #   The status of the conformance pack.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConformancePackComplianceSummary AWS API Documentation
@@ -1747,9 +2159,6 @@ module Aws::ConfigService
     #
     # @!attribute [rw] compliance_type
     #   Compliance of the Config rule.
-    #
-    #   The allowed values are `COMPLIANT`, `NON_COMPLIANT`, and
-    #   `INSUFFICIENT_DATA`.
     #   @return [String]
     #
     # @!attribute [rw] controls
@@ -1835,7 +2244,7 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # You have specified a template that is invalid or supported.
+    # You have specified a template that is not valid or supported.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ConformancePackTemplateValidationException AWS API Documentation
     #
@@ -1917,12 +2326,17 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # The request object for the `DeleteConfigurationRecorder` action.
+    # The request object for the `DeleteConfigurationRecorder` operation.
     #
     # @!attribute [rw] configuration_recorder_name
-    #   The name of the configuration recorder to be deleted. You can
-    #   retrieve the name of your configuration recorder by using the
-    #   `DescribeConfigurationRecorders` action.
+    #   The name of the customer managed configuration recorder that you
+    #   want to delete. You can retrieve the name of your configuration
+    #   recorders by using the [DescribeConfigurationRecorders][1]
+    #   operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteConfigurationRecorderRequest AWS API Documentation
@@ -1949,7 +2363,7 @@ module Aws::ConfigService
     # following data, in JSON format.
     #
     # @!attribute [rw] delivery_channel_name
-    #   The name of the delivery channel to delete.
+    #   The name of the delivery channel that you want to delete.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteDeliveryChannelRequest AWS API Documentation
@@ -2102,6 +2516,37 @@ module Aws::ConfigService
     #
     class DeleteRetentionConfigurationRequest < Struct.new(
       :retention_configuration_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_principal
+    #   The service principal of the Amazon Web Services service for the
+    #   service-linked configuration recorder that you want to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteServiceLinkedConfigurationRecorderRequest AWS API Documentation
+    #
+    class DeleteServiceLinkedConfigurationRecorderRequest < Struct.new(
+      :service_principal)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the specified configuration
+    #   recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the specified configuration recorder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteServiceLinkedConfigurationRecorderResponse AWS API Documentation
+    #
+    class DeleteServiceLinkedConfigurationRecorderResponse < Struct.new(
+      :arn,
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2394,8 +2839,6 @@ module Aws::ConfigService
     #
     # @!attribute [rw] compliance_types
     #   Filters the results by compliance.
-    #
-    #   The allowed values are `COMPLIANT` and `NON_COMPLIANT`.
     #   @return [Array<String>]
     #
     # @!attribute [rw] next_token
@@ -2434,7 +2877,7 @@ module Aws::ConfigService
     # @!attribute [rw] resource_type
     #   The types of Amazon Web Services resources for which you want
     #   compliance information (for example, `AWS::EC2::Instance`). For this
-    #   action, you can specify that the resource type is an Amazon Web
+    #   operation, you can specify that the resource type is an Amazon Web
     #   Services account by specifying `AWS::::Account`.
     #   @return [String]
     #
@@ -2447,9 +2890,6 @@ module Aws::ConfigService
     #
     # @!attribute [rw] compliance_types
     #   Filters the results by compliance.
-    #
-    #   The allowed values are `COMPLIANT`, `NON_COMPLIANT`, and
-    #   `INSUFFICIENT_DATA`.
     #   @return [Array<String>]
     #
     # @!attribute [rw] limit
@@ -2509,7 +2949,7 @@ module Aws::ConfigService
     #   The number of rule evaluation results that you want returned.
     #
     #   This parameter is required if the rule limit for your account is
-    #   more than the default of 150 rules.
+    #   more than the default of 1000 rules.
     #
     #   For information about requesting a rule limit increase, see [Config
     #   Limits][1] in the *Amazon Web Services General Reference Guide*.
@@ -2549,7 +2989,12 @@ module Aws::ConfigService
 
     # Returns a filtered list of Detective or Proactive Config rules. By
     # default, if the filter is not defined, this API returns an unfiltered
-    # list.
+    # list. For more information on Detective or Proactive Config rules, see
+    # [ **Evaluation Mode** ][1] in the *Config Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html
     #
     # @!attribute [rw] evaluation_mode
     #   The mode of an evaluation. The valid values are Detective or
@@ -2575,8 +3020,14 @@ module Aws::ConfigService
     #   @return [String]
     #
     # @!attribute [rw] filters
-    #   Returns a list of Detecive or Proactive Config rules. By default,
-    #   this API returns an unfiltered list.
+    #   Returns a list of Detective or Proactive Config rules. By default,
+    #   this API returns an unfiltered list. For more information on
+    #   Detective or Proactive Config rules, see [ **Evaluation Mode** ][1]
+    #   in the *Config Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html
     #   @return [Types::DescribeConfigRulesFilters]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConfigRulesRequest AWS API Documentation
@@ -2706,15 +3157,34 @@ module Aws::ConfigService
     # The input for the DescribeConfigurationRecorderStatus action.
     #
     # @!attribute [rw] configuration_recorder_names
-    #   The name(s) of the configuration recorder. If the name is not
-    #   specified, the action returns the current status of all the
-    #   configuration recorders associated with the account.
+    #   The name of the configuration recorder. If the name is not
+    #   specified, the opertation returns the status for the customer
+    #   managed configuration recorder configured for the account, if
+    #   applicable.
+    #
+    #   <note markdown="1"> When making a request to this operation, you can only specify one
+    #   configuration recorder.
+    #
+    #    </note>
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] service_principal
+    #   For service-linked configuration recorders, you can use the service
+    #   principal of the linked Amazon Web Services service to specify the
+    #   configuration recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the configuration recorder that
+    #   you want to specify.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConfigurationRecorderStatusRequest AWS API Documentation
     #
     class DescribeConfigurationRecorderStatusRequest < Struct.new(
-      :configuration_recorder_names)
+      :configuration_recorder_names,
+      :service_principal,
+      :arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2737,13 +3207,27 @@ module Aws::ConfigService
     # The input for the DescribeConfigurationRecorders action.
     #
     # @!attribute [rw] configuration_recorder_names
-    #   A list of configuration recorder names.
+    #   A list of names of the configuration recorders that you want to
+    #   specify.
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] service_principal
+    #   For service-linked configuration recorders, you can use the service
+    #   principal of the linked Amazon Web Services service to specify the
+    #   configuration recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the configuration recorder that
+    #   you want to specify.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConfigurationRecordersRequest AWS API Documentation
     #
     class DescribeConfigurationRecordersRequest < Struct.new(
-      :configuration_recorder_names)
+      :configuration_recorder_names,
+      :service_principal,
+      :arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3248,7 +3732,7 @@ module Aws::ConfigService
     end
 
     # @!attribute [rw] config_rule_name
-    #   A list of Config rule names.
+    #   The name of the Config rule.
     #   @return [String]
     #
     # @!attribute [rw] resource_keys
@@ -3340,6 +3824,45 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
+    # @!attribute [rw] configuration_recorder_arn
+    #   The Amazon Resource Name (ARN) of the specified configuration
+    #   recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_types
+    #   The list of resource types you want to remove from the recording
+    #   group of the specified configuration recorder.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DisassociateResourceTypesRequest AWS API Documentation
+    #
+    class DisassociateResourceTypesRequest < Struct.new(
+      :configuration_recorder_arn,
+      :resource_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] configuration_recorder
+    #   Records configuration changes to the resource types in scope.
+    #
+    #   For more information about the configuration recorder, see [
+    #   **Working with the Configuration Recorder** ][1] in the *Config
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html
+    #   @return [Types::ConfigurationRecorder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DisassociateResourceTypesResponse AWS API Documentation
+    #
+    class DisassociateResourceTypesResponse < Struct.new(
+      :configuration_recorder)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Identifies an Amazon Web Services resource and indicates whether it
     # complies with the Config rule that it was evaluated against.
     #
@@ -3408,7 +3931,7 @@ module Aws::ConfigService
     end
 
     # The configuration object for Config rule evaluation mode. The
-    # Supported valid values are Detective or Proactive.
+    # supported valid values are Detective or Proactive.
     #
     # @!attribute [rw] mode
     #   The mode of an evaluation. The valid values are Detective or
@@ -3552,6 +4075,58 @@ module Aws::ConfigService
     class EvaluationStatus < Struct.new(
       :status,
       :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies whether the configuration recorder excludes certain resource
+    # types from being recorded. Use the `resourceTypes` field to enter a
+    # comma-separated list of resource types you want to exclude from
+    # recording.
+    #
+    # By default, when Config adds support for a new resource type in the
+    # Region where you set up the configuration recorder, including global
+    # resource types, Config starts recording resources of that type
+    # automatically.
+    #
+    # <note markdown="1"> <b>How to use the exclusion recording strategy </b>
+    #
+    #  To use this option, you must set the `useOnly` field of
+    # [RecordingStrategy][1] to `EXCLUSION_BY_RESOURCE_TYPES`.
+    #
+    #  Config will then record configuration changes for all supported
+    # resource types, except the resource types that you specify to exclude
+    # from being recorded.
+    #
+    #  <b>Global resource types and the exclusion recording strategy </b>
+    #
+    #  Unless specifically listed as exclusions, `AWS::RDS::GlobalCluster`
+    # will be recorded automatically in all supported Config Regions were
+    # the configuration recorder is enabled.
+    #
+    #  IAM users, groups, roles, and customer managed policies will be
+    # recorded in the Region where you set up the configuration recorder if
+    # that is a Region where Config was available before February 2022. You
+    # cannot be record the global IAM resouce types in Regions supported by
+    # Config after February 2022. For a list of those Regions, see
+    # [Recording Amazon Web Services Resources \| Global Resources][2].
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html
+    # [2]: https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all
+    #
+    # @!attribute [rw] resource_types
+    #   A comma-separated list of resource types to exclude from recording
+    #   by the configuration recorder.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ExclusionByResourceTypes AWS API Documentation
+    #
+    class ExclusionByResourceTypes < Struct.new(
+      :resource_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3980,8 +4555,10 @@ module Aws::ConfigService
     # @!attribute [rw] compliance_types
     #   Filters the results by compliance.
     #
-    #   The allowed values are `COMPLIANT`, `NON_COMPLIANT`, and
-    #   `NOT_APPLICABLE`.
+    #   `INSUFFICIENT_DATA` is a valid `ComplianceType` that is returned
+    #   when an Config rule cannot be evaluated. However,
+    #   `INSUFFICIENT_DATA` cannot be used as a `ComplianceType` for
+    #   filtering results.
     #   @return [Array<String>]
     #
     # @!attribute [rw] limit
@@ -4038,8 +4615,10 @@ module Aws::ConfigService
     # @!attribute [rw] compliance_types
     #   Filters the results by compliance.
     #
-    #   The allowed values are `COMPLIANT`, `NON_COMPLIANT`, and
-    #   `NOT_APPLICABLE`.
+    #   `INSUFFICIENT_DATA` is a valid `ComplianceType` that is returned
+    #   when an Config rule cannot be evaluated. However,
+    #   `INSUFFICIENT_DATA` cannot be used as a `ComplianceType` for
+    #   filtering results.
     #   @return [Array<String>]
     #
     # @!attribute [rw] next_token
@@ -4465,14 +5044,15 @@ module Aws::ConfigService
     #   @return [String]
     #
     # @!attribute [rw] later_time
-    #   The time stamp that indicates a later time. If not specified,
-    #   current time is taken.
+    #   The chronologically latest time in the time range for which the
+    #   history requested. If not specified, current time is taken.
     #   @return [Time]
     #
     # @!attribute [rw] earlier_time
-    #   The time stamp that indicates an earlier time. If not specified, the
-    #   action returns paginated results that contain configuration items
-    #   that start when the first configuration item was recorded.
+    #   The chronologically earliest time in the time range for which the
+    #   history requested. If not specified, the action returns paginated
+    #   results that contain configuration items that start when the first
+    #   configuration item was recorded.
     #   @return [Time]
     #
     # @!attribute [rw] chronological_order
@@ -4644,7 +5224,7 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # Your Amazon S3 bucket policy does not permit Config to write to it.
+    # Your Amazon S3 bucket policy does not allow Config to write to it.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InsufficientDeliveryPolicyException AWS API Documentation
     #
@@ -4652,19 +5232,19 @@ module Aws::ConfigService
 
     # Indicates one of the following errors:
     #
-    # * For PutConfigRule, the rule cannot be created because the IAM role
-    #   assigned to Config lacks permissions to perform the config:Put*
-    #   action.
+    # * For [PutConfigRule][1], the rule cannot be created because the IAM
+    #   role assigned to Config lacks permissions to perform the
+    #   config:Put* action.
     #
-    # * For PutConfigRule, the Lambda function cannot be invoked. Check the
-    #   function ARN, and check the function's permissions.
+    # * For [PutConfigRule][1], the Lambda function cannot be invoked. Check
+    #   the function ARN, and check the function's permissions.
     #
-    # * For PutOrganizationConfigRule, organization Config rule cannot be
-    #   created because you do not have permissions to call IAM `GetRole`
+    # * For [PutOrganizationConfigRule][2], organization Config rule cannot
+    #   be created because you do not have permissions to call IAM `GetRole`
     #   action or create a service-linked role.
     #
-    # * For PutConformancePack and PutOrganizationConformancePack, a
-    #   conformance pack cannot be created because you do not have the
+    # * For [PutConformancePack][3] and [PutOrganizationConformancePack][4],
+    #   a conformance pack cannot be created because you do not have the
     #   following permissions:
     #
     #   * You do not have permission to call IAM `GetRole` action or create
@@ -4672,18 +5252,30 @@ module Aws::ConfigService
     #
     #   * You do not have permission to read Amazon S3 bucket or call
     #     SSM:GetDocument.
+    # * For [PutServiceLinkedConfigurationRecorder][5], a service-linked
+    #   configuration recorder cannot be created because you do not have the
+    #   following permissions: IAM `CreateServiceLinkedRole`.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html
+    # [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html
+    # [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html
+    # [4]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html
+    # [5]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InsufficientPermissionsException AWS API Documentation
     #
     class InsufficientPermissionsException < Aws::EmptyStructure; end
 
-    # You have provided a configuration recorder name that is not valid.
+    # You have provided a name for the customer managed configuration
+    # recorder that is not valid.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidConfigurationRecorderNameException AWS API Documentation
     #
     class InvalidConfigurationRecorderNameException < Aws::EmptyStructure; end
 
-    # The specified delivery channel name is invalid.
+    # The specified delivery channel name is not valid.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidDeliveryChannelNameException AWS API Documentation
     #
@@ -4701,7 +5293,7 @@ module Aws::ConfigService
     #
     class InvalidLimitException < Aws::EmptyStructure; end
 
-    # The specified next token is invalid. Specify the `nextToken` string
+    # The specified next token is not valid. Specify the `nextToken` string
     # that was returned in the previous response to get the next page of
     # results.
     #
@@ -4709,40 +5301,63 @@ module Aws::ConfigService
     #
     class InvalidNextTokenException < Aws::EmptyStructure; end
 
-    # One or more of the specified parameters are invalid. Verify that your
-    # parameters are valid and try again.
+    # One or more of the specified parameters are not valid. Verify that
+    # your parameters are valid and try again.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidParameterValueException AWS API Documentation
     #
     class InvalidParameterValueException < Aws::EmptyStructure; end
 
-    # Config throws an exception if the recording group does not contain a
-    # valid list of resource types. Invalid values might also be incorrectly
-    # formatted.
+    # One of the following errors:
+    #
+    # * You have provided a combination of parameter values that is not
+    #   valid. For example:
+    #
+    #   * Setting the `allSupported` field of [RecordingGroup][1] to `true`,
+    #     but providing a non-empty list for the `resourceTypes`field of
+    #     [RecordingGroup][1].
+    #
+    #   * Setting the `allSupported` field of [RecordingGroup][1] to `true`,
+    #     but also setting the `useOnly` field of [RecordingStrategy][2] to
+    #     `EXCLUSION_BY_RESOURCE_TYPES`.
+    # * Every parameter is either null, false, or empty.
+    #
+    # * You have reached the limit of the number of resource types you can
+    #   provide for the recording group.
+    #
+    # * You have provided resource types or a recording strategy that are
+    #   not valid.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html
+    # [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidRecordingGroupException AWS API Documentation
     #
     class InvalidRecordingGroupException < Aws::EmptyStructure; end
 
-    # The specified `ResultToken` is invalid.
+    # The specified `ResultToken` is not valid.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidResultTokenException AWS API Documentation
     #
     class InvalidResultTokenException < Aws::EmptyStructure; end
 
-    # You have provided a null or empty role ARN.
+    # You have provided a null or empty Amazon Resource Name (ARN) for the
+    # IAM role assumed by Config and used by the customer managed
+    # configuration recorder.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidRoleException AWS API Documentation
     #
     class InvalidRoleException < Aws::EmptyStructure; end
 
-    # The specified Amazon S3 key prefix is invalid.
+    # The specified Amazon S3 key prefix is not valid.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidS3KeyPrefixException AWS API Documentation
     #
     class InvalidS3KeyPrefixException < Aws::EmptyStructure; end
 
-    # The specified Amazon KMS Key ARN is invalid.
+    # The specified Amazon KMS Key ARN is not valid.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidS3KmsKeyArnException AWS API Documentation
     #
@@ -4754,7 +5369,7 @@ module Aws::ConfigService
     #
     class InvalidSNSTopicARNException < Aws::EmptyStructure; end
 
-    # The specified time range is invalid. The earlier time is not
+    # The specified time range is not valid. The earlier time is not
     # chronologically before the later time.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/InvalidTimeRangeException AWS API Documentation
@@ -4762,12 +5377,16 @@ module Aws::ConfigService
     class InvalidTimeRangeException < Aws::EmptyStructure; end
 
     # You cannot delete the delivery channel you specified because the
-    # configuration recorder is running.
+    # customer managed configuration recorder is running.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/LastDeliveryChannelDeleteFailedException AWS API Documentation
     #
     class LastDeliveryChannelDeleteFailedException < Aws::EmptyStructure; end
 
+    # For `PutServiceLinkedConfigurationRecorder` API, this exception is
+    # thrown if the number of service-linked roles in the account exceeds
+    # the limit.
+    #
     # For `StartConfigRulesEvaluation` API, this exception is thrown if an
     # evaluation is in progress or if you call the
     # StartConfigRulesEvaluation API more than once per minute.
@@ -4833,6 +5452,48 @@ module Aws::ConfigService
     end
 
     # @!attribute [rw] filters
+    #   Filters the results based on a list of `ConfigurationRecorderFilter`
+    #   objects that you specify.
+    #   @return [Array<Types::ConfigurationRecorderFilter>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to include in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The `NextToken` string returned on a previous page that you use to
+    #   get the next page of results in a paginated response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListConfigurationRecordersRequest AWS API Documentation
+    #
+    class ListConfigurationRecordersRequest < Struct.new(
+      :filters,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] configuration_recorder_summaries
+    #   A list of `ConfigurationRecorderSummary` objects that includes.
+    #   @return [Array<Types::ConfigurationRecorderSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The `NextToken` string returned on a previous page that you use to
+    #   get the next page of results in a paginated response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListConfigurationRecordersResponse AWS API Documentation
+    #
+    class ListConfigurationRecordersResponse < Struct.new(
+      :configuration_recorder_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
     #   Filters the results based on the
     #   `ConformancePackComplianceScoresFilters`.
     #   @return [Types::ConformancePackComplianceScoresFilters]
@@ -4871,8 +5532,8 @@ module Aws::ConfigService
     #
     # @!attribute [rw] next_token
     #   The `nextToken` string in a prior request that you can use to get
-    #   the paginated response for next set of conformance pack compliance
-    #   scores.
+    #   the paginated response for the next set of conformance pack
+    #   compliance scores.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListConformancePackComplianceScoresRequest AWS API Documentation
@@ -4912,7 +5573,8 @@ module Aws::ConfigService
     # @!attribute [rw] resource_ids
     #   The IDs of only those resources that you want Config to list in the
     #   response. If you do not specify this parameter, Config lists all
-    #   resources of the specified type that it has discovered.
+    #   resources of the specified type that it has discovered. You can list
+    #   a minimum of 1 resourceID and a maximum of 20 resourceIds.
     #   @return [Array<String>]
     #
     # @!attribute [rw] resource_name
@@ -5039,7 +5701,7 @@ module Aws::ConfigService
     #   If the previous paginated request didn't return all of the
     #   remaining results, the response object's `NextToken` parameter
     #   value is set to a token. To retrieve the next set of results, call
-    #   this action again and assign that token to the request object's
+    #   this operation again and assign that token to the request object's
     #   `NextToken` parameter. If there are no remaining results, the
     #   previous response object's `NextToken` parameter is set to `null`.
     #   @return [String]
@@ -5055,9 +5717,23 @@ module Aws::ConfigService
 
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) that identifies the resource for
-    #   which to list the tags. Currently, the supported resources are
-    #   `ConfigRule`, `ConfigurationAggregator` and
-    #   `AggregatorAuthorization`.
+    #   which to list the tags. The following resources are supported:
+    #
+    #   * `ConfigurationRecorder`
+    #
+    #   * `ConfigRule`
+    #
+    #   * `OrganizationConfigRule`
+    #
+    #   * `ConformancePack`
+    #
+    #   * `OrganizationConformancePack`
+    #
+    #   * `ConfigurationAggregator`
+    #
+    #   * `AggregationAuthorization`
+    #
+    #   * `StoredQuery`
     #   @return [String]
     #
     # @!attribute [rw] limit
@@ -5112,14 +5788,15 @@ module Aws::ConfigService
     class MaxActiveResourcesExceededException < Aws::EmptyStructure; end
 
     # Failed to add the Config rule because the account already contains the
-    # maximum number of 150 rules. Consider deleting any deactivated rules
+    # maximum number of 1000 rules. Consider deleting any deactivated rules
     # before you add new rules.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/MaxNumberOfConfigRulesExceededException AWS API Documentation
     #
     class MaxNumberOfConfigRulesExceededException < Aws::EmptyStructure; end
 
-    # You have reached the limit of the number of recorders you can create.
+    # You have reached the limit of the number of configuration recorders
+    # you can create.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/MaxNumberOfConfigurationRecordersExceededException AWS API Documentation
     #
@@ -5127,7 +5804,7 @@ module Aws::ConfigService
 
     # You have reached the limit of the number of conformance packs you can
     # create in an account. For more information, see [ **Service Limits**
-    # ][1] in the Config Developer Guide.
+    # ][1] in the *Config Developer Guide*.
     #
     #
     #
@@ -5146,7 +5823,7 @@ module Aws::ConfigService
 
     # You have reached the limit of the number of organization Config rules
     # you can create. For more information, see see [ **Service Limits**
-    # ][1] in the Config Developer Guide.
+    # ][1] in the *Config Developer Guide*.
     #
     #
     #
@@ -5158,7 +5835,7 @@ module Aws::ConfigService
 
     # You have reached the limit of the number of organization conformance
     # packs you can create in an account. For more information, see [
-    # **Service Limits** ][1] in the Config Developer Guide.
+    # **Service Limits** ][1] in the *Config Developer Guide*.
     #
     #
     #
@@ -5254,8 +5931,13 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # There are no configuration recorders available to provide the role
-    # needed to describe your resources. Create a configuration recorder.
+    # There are no customer managed configuration recorders available to
+    # record your resources. Use the [PutConfigurationRecorder][1] operation
+    # to create the customer managed configuration recorder.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/NoAvailableConfigurationRecorderException AWS API Documentation
     #
@@ -5285,8 +5967,8 @@ module Aws::ConfigService
     #
     class NoSuchBucketException < Aws::EmptyStructure; end
 
-    # The Config rule in the request is invalid. Verify that the rule is an
-    # Config Custom Policy rule, that the rule name is correct, and that
+    # The Config rule in the request is not valid. Verify that the rule is
+    # an Config Process Check rule, that the rule name is correct, and that
     # valid Amazon Resouce Names (ARNs) are used before trying again.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/NoSuchConfigRuleException AWS API Documentation
@@ -5323,10 +6005,10 @@ module Aws::ConfigService
     #
     class NoSuchDeliveryChannelException < Aws::EmptyStructure; end
 
-    # The Config rule in the request is invalid. Verify that the rule is an
-    # organization Config Custom Policy rule, that the rule name is correct,
-    # and that valid Amazon Resouce Names (ARNs) are used before trying
-    # again.
+    # The Config rule in the request is not valid. Verify that the rule is
+    # an organization Config Process Check rule, that the rule name is
+    # correct, and that valid Amazon Resouce Names (ARNs) are used before
+    # trying again.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/NoSuchOrganizationConfigRuleException AWS API Documentation
     #
@@ -5378,7 +6060,7 @@ module Aws::ConfigService
     # * You are not a registered delegated administrator for Config with
     #   permissions to call `ListDelegatedAdministrators` API. Ensure that
     #   the management account registers delagated administrator for Config
-    #   service principle name before the delegated administrator creates an
+    #   service principal name before the delegated administrator creates an
     #   aggregator.
     #
     # For all `OrganizationConfigRule` and `OrganizationConformancePack`
@@ -5760,7 +6442,7 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # You have specified a template that is invalid or supported.
+    # You have specified a template that is not valid or supported.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/OrganizationConformancePackTemplateValidationException AWS API Documentation
     #
@@ -5864,12 +6546,12 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # An object that specifies metadata for your organization Config Custom
-    # Policy rule including the runtime system in use, which accounts have
-    # debug logging enabled, and other custom rule metadata such as resource
-    # type, resource ID of Amazon Web Services resource, and organization
-    # trigger types that trigger Config to evaluate Amazon Web Services
-    # resources against a rule.
+    # metadata for your organization Config Custom Policy rule including the
+    # runtime system in use, which accounts have debug logging enabled, and
+    # other custom rule metadata such as resource type, resource ID of
+    # Amazon Web Services resource, and organization trigger types that
+    # trigger Config to evaluate Amazon Web Services resources against a
+    # rule.
     #
     # @!attribute [rw] description
     #   The description that you provide for your organization Config Custom
@@ -6262,13 +6944,19 @@ module Aws::ConfigService
     #   An array of tag object.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] aggregator_filters
+    #   An object to filter configuration recorders in an aggregator. Either
+    #   `ResourceType` or `ServicePrincipal` is required.
+    #   @return [Types::AggregatorFilters]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConfigurationAggregatorRequest AWS API Documentation
     #
     class PutConfigurationAggregatorRequest < Struct.new(
       :configuration_aggregator_name,
       :account_aggregation_sources,
       :organization_aggregation_source,
-      :tags)
+      :tags,
+      :aggregator_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6288,14 +6976,20 @@ module Aws::ConfigService
     # The input for the PutConfigurationRecorder action.
     #
     # @!attribute [rw] configuration_recorder
-    #   The configuration recorder object that records each configuration
-    #   change made to the resources.
+    #   An object for the configuration recorder. A configuration recorder
+    #   records configuration changes for the resource types in scope.
     #   @return [Types::ConfigurationRecorder]
+    #
+    # @!attribute [rw] tags
+    #   The tags for the customer managed configuration recorder. Each tag
+    #   consists of a key and an optional value, both of which you define.
+    #   @return [Array<Types::Tag>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConfigurationRecorderRequest AWS API Documentation
     #
     class PutConfigurationRecorderRequest < Struct.new(
-      :configuration_recorder)
+      :configuration_recorder,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6310,9 +7004,15 @@ module Aws::ConfigService
     #   template (max size: 300 KB) that is located in an Amazon S3 bucket
     #   in the same Region as the conformance pack.
     #
-    #   <note markdown="1"> You must have access to read Amazon S3 bucket.
+    #   <note markdown="1"> You must have access to read Amazon S3 bucket. In addition, in order
+    #   to ensure a successful deployment, the template object must not be
+    #   in an [archived storage class][1] if this parameter is passed.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
     #   @return [String]
     #
     # @!attribute [rw] template_body
@@ -6384,9 +7084,8 @@ module Aws::ConfigService
     # The input for the PutDeliveryChannel action.
     #
     # @!attribute [rw] delivery_channel
-    #   The configuration delivery channel object that delivers the
-    #   configuration information to an Amazon S3 bucket and to an Amazon
-    #   SNS topic.
+    #   An object for the delivery channel. A delivery channel sends
+    #   notifications and updated configuration states.
     #   @return [Types::DeliveryChannel]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutDeliveryChannelRequest AWS API Documentation
@@ -6534,9 +7233,15 @@ module Aws::ConfigService
     #   Location of file containing the template body. The uri must point to
     #   the conformance pack template (max size: 300 KB).
     #
-    #   <note markdown="1"> You must have access to read Amazon S3 bucket.
+    #   <note markdown="1"> You must have access to read Amazon S3 bucket. In addition, in order
+    #   to ensure a successful deployment, the template object must not be
+    #   in an [archived storage class][1] if this parameter is passed.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
     #   @return [String]
     #
     # @!attribute [rw] template_body
@@ -6751,6 +7456,47 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
+    # @!attribute [rw] service_principal
+    #   The service principal of the Amazon Web Services service for the
+    #   service-linked configuration recorder that you want to create.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags for a service-linked configuration recorder. Each tag
+    #   consists of a key and an optional value, both of which you define.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutServiceLinkedConfigurationRecorderRequest AWS API Documentation
+    #
+    class PutServiceLinkedConfigurationRecorderRequest < Struct.new(
+      :service_principal,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the specified configuration
+    #   recorder.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the specified configuration recorder.
+    #
+    #   For service-linked configuration recorders, Config automatically
+    #   assigns a name that has the prefix "`AWS`" to the new
+    #   service-linked configuration recorder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutServiceLinkedConfigurationRecorderResponse AWS API Documentation
+    #
+    class PutServiceLinkedConfigurationRecorderResponse < Struct.new(
+      :arn,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] stored_query
     #   A list of `StoredQuery` objects. The mandatory fields are
     #   `QueryName` and `Expression`.
@@ -6802,113 +7548,515 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # Specifies which Amazon Web Services resource types Config records for
-    # configuration changes. In the recording group, you specify whether you
-    # want to record all supported resource types or only specific types of
-    # resources.
+    # Specifies which resource types Config records for configuration
+    # changes. By default, Config records configuration changes for all
+    # current and future supported resource types in the Amazon Web Services
+    # Region where you have enabled Config, excluding the global IAM
+    # resource types: IAM users, groups, roles, and customer managed
+    # policies.
     #
-    # By default, Config records the configuration changes for all supported
-    # types of *regional resources* that Config discovers in the region in
-    # which it is running. Regional resources are tied to a region and can
-    # be used only in that region. Examples of regional resources are EC2
-    # instances and EBS volumes.
+    # In the recording group, you specify whether you want to record all
+    # supported current and future supported resource types or to include or
+    # exclude specific resources types. For a list of supported resource
+    # types, see [Supported Resource Types][1] in the *Config developer
+    # guide*.
     #
-    # You can also have Config record supported types of *global resources*.
-    # Global resources are not tied to a specific region and can be used in
-    # all regions. The global resource types that Config supports include
-    # IAM users, groups, roles, and customer managed policies.
+    # If you don't want Config to record all current and future supported
+    # resource types (excluding the global IAM resource types), use one of
+    # the following recording strategies:
     #
-    # Global resource types onboarded to Config recording after February
-    # 2022 will only be recorded in the service's home region for the
-    # commercial partition and Amazon Web Services GovCloud (US) West for
-    # the GovCloud partition. You can view the Configuration Items for these
-    # new global resource types only in their home region and Amazon Web
-    # Services GovCloud (US) West.
+    # 1.  **Record all current and future resource types with exclusions**
+    #     (`EXCLUSION_BY_RESOURCE_TYPES`), or
     #
-    #  Supported global resource types onboarded before February 2022 such
-    # as
-    # `AWS::IAM::Group`, `AWS::IAM::Policy`, `AWS::IAM::Role`,
-    # `AWS::IAM::User` remain unchanged, and they will continue to deliver
-    # Configuration Items in all supported regions in Config. The change
-    # will only affect new global resource types onboarded after February
-    # 2022.
+    # 2.  **Record specific resource types**
+    #     (`INCLUSION_BY_RESOURCE_TYPES`).
     #
-    #  To record global resource types onboarded after February 2022, enable
-    # All Supported Resource Types in the home region of the global resource
-    # type you want to record.
+    # If you use the recording strategy to **Record all current and future
+    # resource types** (`ALL_SUPPORTED_RESOURCE_TYPES`), you can use the
+    # flag `includeGlobalResourceTypes` to include the global IAM resource
+    # types in your recording.
     #
-    # If you don't want Config to record all resources, you can specify
-    # which types of resources it will record with the `resourceTypes`
-    # parameter.
+    # **Aurora global clusters are recorded in all enabled Regions**
     #
-    # For a list of supported resource types, see [Supported Resource
-    # Types][1].
+    #  The `AWS::RDS::GlobalCluster` resource type will be recorded in all
+    # supported Config Regions where the configuration recorder is enabled.
     #
-    # For more information and a table of the Home Regions for Global
-    # Resource Types Onboarded after February 2022, see [Selecting Which
-    # Resources Config Records][2].
+    #  If you do not want to record `AWS::RDS::GlobalCluster` in all enabled
+    # Regions, use the `EXCLUSION_BY_RESOURCE_TYPES` or
+    # `INCLUSION_BY_RESOURCE_TYPES` recording strategy.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources
-    # [2]: https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html
     #
     # @!attribute [rw] all_supported
-    #   Specifies whether Config records configuration changes for every
-    #   supported type of regional resource.
+    #   Specifies whether Config records configuration changes for all
+    #   supported resource types, excluding the global IAM resource types.
     #
-    #   If you set this option to `true`, when Config adds support for a new
-    #   type of regional resource, it starts recording resources of that
-    #   type automatically.
+    #   If you set this field to `true`, when Config adds support for a new
+    #   resource type, Config starts recording resources of that type
+    #   automatically.
     #
-    #   If you set this option to `true`, you cannot enumerate a list of
-    #   `resourceTypes`.
+    #   If you set this field to `true`, you cannot enumerate specific
+    #   resource types to record in the `resourceTypes` field of
+    #   [RecordingGroup][1], or to exclude in the `resourceTypes` field of
+    #   [ExclusionByResourceTypes][2].
+    #
+    #   <note markdown="1"> **Region availability**
+    #
+    #    Check [Resource Coverage by Region Availability][3] to see if a
+    #   resource type is supported in the Amazon Web Services Region where
+    #   you set up Config.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html
+    #   [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html
+    #   [3]: https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html
     #   @return [Boolean]
     #
     # @!attribute [rw] include_global_resource_types
-    #   Specifies whether Config includes all supported types of global
-    #   resources (for example, IAM resources) with the resources that it
-    #   records.
+    #   This option is a bundle which only applies to the global IAM
+    #   resource types: IAM users, groups, roles, and customer managed
+    #   policies. These global IAM resource types can only be recorded by
+    #   Config in Regions where Config was available before February 2022.
+    #   You cannot be record the global IAM resouce types in Regions
+    #   supported by Config after February 2022. For a list of those
+    #   Regions, see [Recording Amazon Web Services Resources \| Global
+    #   Resources][1].
     #
-    #   Before you can set this option to `true`, you must set the
-    #   `allSupported` option to `true`.
+    #   **Aurora global clusters are recorded in all enabled Regions**
     #
-    #   If you set this option to `true`, when Config adds support for a new
-    #   type of global resource, it starts recording resources of that type
-    #   automatically.
+    #    The `AWS::RDS::GlobalCluster` resource type will be recorded in all
+    #   supported Config Regions where the configuration recorder is
+    #   enabled, even if `includeGlobalResourceTypes` is set`false`. The
+    #   `includeGlobalResourceTypes` option is a bundle which only applies
+    #   to IAM users, groups, roles, and customer managed policies.
     #
-    #   The configuration details for any global resource are the same in
-    #   all regions. To prevent duplicate configuration items, you should
-    #   consider customizing Config in only one region to record global
-    #   resources.
+    #    If you do not want to record `AWS::RDS::GlobalCluster` in all
+    #   enabled Regions, use one of the following recording strategies:
+    #
+    #    1.  **Record all current and future resource types with
+    #   exclusions**
+    #       (`EXCLUSION_BY_RESOURCE_TYPES`), or
+    #
+    #   2.  **Record specific resource types**
+    #       (`INCLUSION_BY_RESOURCE_TYPES`).
+    #
+    #    For more information, see [Selecting Which Resources are
+    #   Recorded][1] in the *Config developer guide*.
+    #
+    #   **includeGlobalResourceTypes and the exclusion recording strategy**
+    #
+    #    The `includeGlobalResourceTypes` field has no impact on the
+    #   `EXCLUSION_BY_RESOURCE_TYPES` recording strategy. This means that
+    #   the global IAM resource types (IAM users, groups, roles, and
+    #   customer managed policies) will not be automatically added as
+    #   exclusions for `exclusionByResourceTypes` when
+    #   `includeGlobalResourceTypes` is set to `false`.
+    #
+    #    The `includeGlobalResourceTypes` field should only be used to
+    #   modify
+    #   the `AllSupported` field, as the default for the `AllSupported`
+    #   field is to record configuration changes for all supported resource
+    #   types excluding the global IAM resource types. To include the global
+    #   IAM resource types when `AllSupported` is set to `true`, make sure
+    #   to set `includeGlobalResourceTypes` to `true`.
+    #
+    #    To exclude the global IAM resource types for the
+    #   `EXCLUSION_BY_RESOURCE_TYPES` recording strategy, you need to
+    #   manually add them to the `resourceTypes` field of
+    #   `exclusionByResourceTypes`.
+    #
+    #   <note markdown="1"> **Required and optional fields**
+    #
+    #    Before you set this field to `true`, set the `allSupported` field of
+    #   [RecordingGroup][2] to `true`. Optionally, you can set the `useOnly`
+    #   field of [RecordingStrategy][3] to `ALL_SUPPORTED_RESOURCE_TYPES`.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> **Overriding fields**
+    #
+    #    If you set this field to `false` but list global IAM resource types
+    #   in the `resourceTypes` field of [RecordingGroup][2], Config will
+    #   still record configuration changes for those specified resource
+    #   types *regardless* of if you set the `includeGlobalResourceTypes`
+    #   field to false.
+    #
+    #    If you do not want to record configuration changes to the global IAM
+    #   resource types (IAM users, groups, roles, and customer managed
+    #   policies), make sure to not list them in the `resourceTypes` field
+    #   in addition to setting the `includeGlobalResourceTypes` field to
+    #   false.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all
+    #   [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html
+    #   [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html
     #   @return [Boolean]
     #
     # @!attribute [rw] resource_types
-    #   A comma-separated list that specifies the types of Amazon Web
-    #   Services resources for which Config records configuration changes
-    #   (for example, `AWS::EC2::Instance` or `AWS::CloudTrail::Trail`).
+    #   A comma-separated list that specifies which resource types Config
+    #   records.
     #
-    #   To record all configuration changes, you must set the `allSupported`
-    #   option to `true`.
+    #   For a list of valid `resourceTypes` values, see the **Resource Type
+    #   Value** column in [Supported Amazon Web Services resource Types][1]
+    #   in the *Config developer guide*.
     #
-    #   If you set this option to `false`, when Config adds support for a
-    #   new type of resource, it will not record resources of that type
-    #   unless you manually add that type to your recording group.
+    #   <note markdown="1"> **Required and optional fields**
     #
-    #   For a list of valid `resourceTypes` values, see the **resourceType
-    #   Value** column in [Supported Amazon Web Services resource Types][1].
+    #    Optionally, you can set the `useOnly` field of
+    #   [RecordingStrategy][2] to `INCLUSION_BY_RESOURCE_TYPES`.
+    #
+    #    To record all configuration changes, set the `allSupported` field of
+    #   [RecordingGroup][3] to `true`, and either omit this field or don't
+    #   specify any resource types in this field. If you set the
+    #   `allSupported` field to `false` and specify values for
+    #   `resourceTypes`, when Config adds support for a new type of
+    #   resource, it will not record resources of that type unless you
+    #   manually add that type to your recording group.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> **Region availability**
+    #
+    #    Before specifying a resource type for Config to track, check
+    #   [Resource Coverage by Region Availability][4] to see if the resource
+    #   type is supported in the Amazon Web Services Region where you set up
+    #   Config. If a resource type is supported by Config in at least one
+    #   Region, you can enable the recording of that resource type in all
+    #   Regions supported by Config, even if the specified resource type is
+    #   not supported in the Amazon Web Services Region where you set up
+    #   Config.
+    #
+    #    </note>
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources
+    #   [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html
+    #   [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html
+    #   [4]: https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] exclusion_by_resource_types
+    #   An object that specifies how Config excludes resource types from
+    #   being recorded by the configuration recorder.
+    #
+    #   <note markdown="1"> **Required fields**
+    #
+    #    To use this option, you must set the `useOnly` field of
+    #   [RecordingStrategy][1] to `EXCLUSION_BY_RESOURCE_TYPES`.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html
+    #   @return [Types::ExclusionByResourceTypes]
+    #
+    # @!attribute [rw] recording_strategy
+    #   An object that specifies the recording strategy for the
+    #   configuration recorder.
+    #
+    #   * If you set the `useOnly` field of [RecordingStrategy][1] to
+    #     `ALL_SUPPORTED_RESOURCE_TYPES`, Config records configuration
+    #     changes for all supported resource types, excluding the global IAM
+    #     resource types. You also must set the `allSupported` field of
+    #     [RecordingGroup][2] to `true`. When Config adds support for a new
+    #     resource type, Config automatically starts recording resources of
+    #     that type.
+    #
+    #   * If you set the `useOnly` field of [RecordingStrategy][1] to
+    #     `INCLUSION_BY_RESOURCE_TYPES`, Config records configuration
+    #     changes for only the resource types you specify in the
+    #     `resourceTypes` field of [RecordingGroup][2].
+    #
+    #   * If you set the `useOnly` field of [RecordingStrategy][1] to
+    #     `EXCLUSION_BY_RESOURCE_TYPES`, Config records configuration
+    #     changes for all supported resource types except the resource types
+    #     that you specify to exclude from being recorded in the
+    #     `resourceTypes` field of [ExclusionByResourceTypes][3].
+    #
+    #   <note markdown="1"> **Required and optional fields**
+    #
+    #    The `recordingStrategy` field is optional when you set the
+    #   `allSupported` field of [RecordingGroup][2] to `true`.
+    #
+    #    The `recordingStrategy` field is optional when you list resource
+    #   types in the `resourceTypes` field of [RecordingGroup][2].
+    #
+    #    The `recordingStrategy` field is required if you list resource types
+    #   to exclude from recording in the `resourceTypes` field of
+    #   [ExclusionByResourceTypes][3].
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> **Overriding fields**
+    #
+    #    If you choose `EXCLUSION_BY_RESOURCE_TYPES` for the recording
+    #   strategy, the `exclusionByResourceTypes` field will override other
+    #   properties in the request.
+    #
+    #    For example, even if you set `includeGlobalResourceTypes` to false,
+    #   global IAM resource types will still be automatically recorded in
+    #   this option unless those resource types are specifically listed as
+    #   exclusions in the `resourceTypes` field of
+    #   `exclusionByResourceTypes`.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> **Global resources types and the resource exclusion recording
+    #   strategy**
+    #
+    #    By default, if you choose the `EXCLUSION_BY_RESOURCE_TYPES`
+    #   recording strategy, when Config adds support for a new resource type
+    #   in the Region where you set up the configuration recorder, including
+    #   global resource types, Config starts recording resources of that
+    #   type automatically.
+    #
+    #    Unless specifically listed as exclusions, `AWS::RDS::GlobalCluster`
+    #   will be recorded automatically in all supported Config Regions were
+    #   the configuration recorder is enabled.
+    #
+    #    IAM users, groups, roles, and customer managed policies will be
+    #   recorded in the Region where you set up the configuration recorder
+    #   if that is a Region where Config was available before February 2022.
+    #   You cannot be record the global IAM resouce types in Regions
+    #   supported by Config after February 2022. For a list of those
+    #   Regions, see [Recording Amazon Web Services Resources \| Global
+    #   Resources][4].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html
+    #   [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html
+    #   [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html
+    #   [4]: https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all
+    #   @return [Types::RecordingStrategy]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/RecordingGroup AWS API Documentation
     #
     class RecordingGroup < Struct.new(
       :all_supported,
       :include_global_resource_types,
-      :resource_types)
+      :resource_types,
+      :exclusion_by_resource_types,
+      :recording_strategy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the default recording frequency that Config uses to record
+    # configuration changes. Config supports *Continuous recording* and
+    # *Daily recording*.
+    #
+    # * Continuous recording allows you to record configuration changes
+    #   continuously whenever a change occurs.
+    #
+    # * Daily recording allows you to receive a configuration item (CI)
+    #   representing the most recent state of your resources over the last
+    #   24-hour period, only if it’s different from the previous CI
+    #   recorded.
+    #
+    # <note markdown="1"> Firewall Manager depends on continuous recording to monitor your
+    # resources. If you are using Firewall Manager, it is recommended that
+    # you set the recording frequency to Continuous.
+    #
+    #  </note>
+    #
+    # You can also override the recording frequency for specific resource
+    # types.
+    #
+    # @!attribute [rw] recording_frequency
+    #   The default recording frequency that Config uses to record
+    #   configuration changes.
+    #
+    #   Daily recording cannot be specified for the following resource
+    #   types:
+    #
+    #    * `AWS::Config::ResourceCompliance`
+    #
+    #   * `AWS::Config::ConformancePackCompliance`
+    #
+    #   * `AWS::Config::ConfigurationRecorder`
+    #
+    #    For the **allSupported** (`ALL_SUPPORTED_RESOURCE_TYPES`) recording
+    #   strategy, these resource types will be set to Continuous recording.
+    #   @return [String]
+    #
+    # @!attribute [rw] recording_mode_overrides
+    #   An array of `recordingModeOverride` objects for you to specify your
+    #   overrides for the recording mode. The `recordingModeOverride` object
+    #   in the `recordingModeOverrides` array consists of three fields: a
+    #   `description`, the new `recordingFrequency`, and an array of
+    #   `resourceTypes` to override.
+    #   @return [Array<Types::RecordingModeOverride>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/RecordingMode AWS API Documentation
+    #
+    class RecordingMode < Struct.new(
+      :recording_frequency,
+      :recording_mode_overrides)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object for you to specify your overrides for the recording mode.
+    #
+    # @!attribute [rw] description
+    #   A description that you provide for the override.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_types
+    #   A comma-separated list that specifies which resource types Config
+    #   includes in the override.
+    #
+    #   Daily recording cannot be specified for the following resource
+    #   types:
+    #
+    #    * `AWS::Config::ResourceCompliance`
+    #
+    #   * `AWS::Config::ConformancePackCompliance`
+    #
+    #   * `AWS::Config::ConfigurationRecorder`
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] recording_frequency
+    #   The recording frequency that will be applied to all the resource
+    #   types specified in the override.
+    #
+    #   * Continuous recording allows you to record configuration changes
+    #     continuously whenever a change occurs.
+    #
+    #   * Daily recording allows you to receive a configuration item (CI)
+    #     representing the most recent state of your resources over the last
+    #     24-hour period, only if it’s different from the previous CI
+    #     recorded.
+    #
+    #   <note markdown="1"> Firewall Manager depends on continuous recording to monitor your
+    #   resources. If you are using Firewall Manager, it is recommended that
+    #   you set the recording frequency to Continuous.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/RecordingModeOverride AWS API Documentation
+    #
+    class RecordingModeOverride < Struct.new(
+      :description,
+      :resource_types,
+      :recording_frequency)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the recording strategy of the configuration recorder.
+    #
+    # @!attribute [rw] use_only
+    #   The recording strategy for the configuration recorder.
+    #
+    #   * If you set this option to `ALL_SUPPORTED_RESOURCE_TYPES`, Config
+    #     records configuration changes for all supported resource types,
+    #     excluding the global IAM resource types. You also must set the
+    #     `allSupported` field of [RecordingGroup][1] to `true`. When Config
+    #     adds support for a new resource type, Config automatically starts
+    #     recording resources of that type. For a list of supported resource
+    #     types, see [Supported Resource Types][2] in the *Config developer
+    #     guide*.
+    #
+    #   * If you set this option to `INCLUSION_BY_RESOURCE_TYPES`, Config
+    #     records configuration changes for only the resource types that you
+    #     specify in the `resourceTypes` field of [RecordingGroup][1].
+    #
+    #   * If you set this option to `EXCLUSION_BY_RESOURCE_TYPES`, Config
+    #     records configuration changes for all supported resource types,
+    #     except the resource types that you specify to exclude from being
+    #     recorded in the `resourceTypes` field of
+    #     [ExclusionByResourceTypes][3].
+    #
+    #   <note markdown="1"> **Required and optional fields**
+    #
+    #    The `recordingStrategy` field is optional when you set the
+    #   `allSupported` field of [RecordingGroup][1] to `true`.
+    #
+    #    The `recordingStrategy` field is optional when you list resource
+    #   types in the `resourceTypes` field of [RecordingGroup][1].
+    #
+    #    The `recordingStrategy` field is required if you list resource types
+    #   to exclude from recording in the `resourceTypes` field of
+    #   [ExclusionByResourceTypes][3].
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> **Overriding fields**
+    #
+    #    If you choose `EXCLUSION_BY_RESOURCE_TYPES` for the recording
+    #   strategy, the `exclusionByResourceTypes` field will override other
+    #   properties in the request.
+    #
+    #    For example, even if you set `includeGlobalResourceTypes` to false,
+    #   global IAM resource types will still be automatically recorded in
+    #   this option unless those resource types are specifically listed as
+    #   exclusions in the `resourceTypes` field of
+    #   `exclusionByResourceTypes`.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> **Global resource types and the exclusion recording strategy**
+    #
+    #    By default, if you choose the `EXCLUSION_BY_RESOURCE_TYPES`
+    #   recording strategy, when Config adds support for a new resource type
+    #   in the Region where you set up the configuration recorder, including
+    #   global resource types, Config starts recording resources of that
+    #   type automatically.
+    #
+    #    Unless specifically listed as exclusions, `AWS::RDS::GlobalCluster`
+    #   will be recorded automatically in all supported Config Regions were
+    #   the configuration recorder is enabled.
+    #
+    #    IAM users, groups, roles, and customer managed policies will be
+    #   recorded in the Region where you set up the configuration recorder
+    #   if that is a Region where Config was available before February 2022.
+    #   You cannot be record the global IAM resouce types in Regions
+    #   supported by Config after February 2022. This list where you cannot
+    #   record the global IAM resource types includes the following Regions:
+    #
+    #    * Asia Pacific (Hyderabad)
+    #
+    #   * Asia Pacific (Melbourne)
+    #
+    #   * Canada West (Calgary)
+    #
+    #   * Europe (Spain)
+    #
+    #   * Europe (Zurich)
+    #
+    #   * Israel (Tel Aviv)
+    #
+    #   * Middle East (UAE)
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html
+    #   [2]: https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources
+    #   [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/RecordingStrategy AWS API Documentation
+    #
+    class RecordingStrategy < Struct.new(
+      :use_only)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6956,7 +8104,7 @@ module Aws::ConfigService
     #   @return [String]
     #
     # @!attribute [rw] target_id
-    #   Target ID is the name of the public document.
+    #   Target ID is the name of the SSM document.
     #   @return [String]
     #
     # @!attribute [rw] target_version
@@ -6996,12 +8144,16 @@ module Aws::ConfigService
     #   @return [Integer]
     #
     # @!attribute [rw] retry_attempt_seconds
-    #   Maximum time in seconds that Config runs auto-remediation. If you do
-    #   not select a number, the default is 60 seconds.
+    #   Time window to determine whether or not to add a remediation
+    #   exception to prevent infinite remediation attempts. If
+    #   `MaximumAutomaticAttempts` remediation attempts have been made under
+    #   `RetryAttemptSeconds`, a remediation exception will be added to the
+    #   resource. If you do not select a number, the default is 60 seconds.
     #
-    #   For example, if you specify RetryAttemptSeconds as 50 seconds and
-    #   MaximumAutomaticAttempts as 5, Config will run auto-remediations 5
-    #   times within 50 seconds before throwing an exception.
+    #   For example, if you specify `RetryAttemptSeconds` as 50 seconds and
+    #   `MaximumAutomaticAttempts` as 5, Config will run auto-remediations 5
+    #   times within 50 seconds before adding a remediation exception to the
+    #   resource.
     #   @return [Integer]
     #
     # @!attribute [rw] arn
@@ -7261,6 +8413,24 @@ module Aws::ConfigService
     #
     # @!attribute [rw] resource_configuration_schema_type
     #   The schema type of the resource configuration.
+    #
+    #   <note markdown="1"> You can find the [Resource type schema][1], or
+    #   `CFN_RESOURCE_SCHEMA`, in "*Amazon Web Services public
+    #   extensions*" within the CloudFormation registry or with the
+    #   following CLI commmand: `aws cloudformation describe-type
+    #   --type-name "AWS::S3::Bucket" --type RESOURCE`.
+    #
+    #    For more information, see [Managing extensions through the
+    #   CloudFormation registry][2] and [Amazon Web Services resource and
+    #   property types reference][3] in the CloudFormation User Guide.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html
+    #   [2]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view
+    #   [3]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ResourceDetails AWS API Documentation
@@ -7303,7 +8473,10 @@ module Aws::ConfigService
     #
     # @!attribute [rw] evaluation_mode
     #   Filters all resource evaluations results based on an evaluation
-    #   mode. the valid value for this API is `Proactive`.
+    #   mode.
+    #
+    #   Currently, `DECTECTIVE` is not supported as a valid value. Ignore
+    #   other documentation stating otherwise.
     #   @return [String]
     #
     # @!attribute [rw] time_window
@@ -7813,11 +8986,11 @@ module Aws::ConfigService
     #
     class StartConfigRulesEvaluationResponse < Aws::EmptyStructure; end
 
-    # The input for the StartConfigurationRecorder action.
+    # The input for the StartConfigurationRecorder operation.
     #
     # @!attribute [rw] configuration_recorder_name
-    #   The name of the recorder object that records each configuration
-    #   change made to the resources.
+    #   The name of the customer managed configuration recorder that you
+    #   want to start.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StartConfigurationRecorderRequest AWS API Documentation
@@ -7876,8 +9049,8 @@ module Aws::ConfigService
     #   @return [Types::EvaluationContext]
     #
     # @!attribute [rw] evaluation_mode
-    #   The mode of an evaluation. The valid value for this API is
-    #   `Proactive`.
+    #   The mode of an evaluation. The valid values for this API are
+    #   `DETECTIVE` and `PROACTIVE`.
     #   @return [String]
     #
     # @!attribute [rw] evaluation_timeout
@@ -7998,11 +9171,11 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # The input for the StopConfigurationRecorder action.
+    # The input for the StopConfigurationRecorder operation.
     #
     # @!attribute [rw] configuration_recorder_name
-    #   The name of the recorder object that records each configuration
-    #   change made to the resources.
+    #   The name of the customer managed configuration recorder that you
+    #   want to stop.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StopConfigurationRecorderRequest AWS API Documentation
@@ -8110,9 +9283,23 @@ module Aws::ConfigService
 
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) that identifies the resource for
-    #   which to list the tags. Currently, the supported resources are
-    #   `ConfigRule`, `ConfigurationAggregator` and
-    #   `AggregatorAuthorization`.
+    #   which to list the tags. The following resources are supported:
+    #
+    #   * `ConfigurationRecorder`
+    #
+    #   * `ConfigRule`
+    #
+    #   * `OrganizationConfigRule`
+    #
+    #   * `ConformancePack`
+    #
+    #   * `OrganizationConformancePack`
+    #
+    #   * `ConfigurationAggregator`
+    #
+    #   * `AggregationAuthorization`
+    #
+    #   * `StoredQuery`
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -8146,8 +9333,7 @@ module Aws::ConfigService
     #   The name or Amazon Resource Name (ARN) of the SSM document to use to
     #   create a conformance pack. If you use the document name, Config
     #   checks only your account and Amazon Web Services Region for the SSM
-    #   document. If you want to use an SSM document from another Region or
-    #   account, you must provide the ARN.
+    #   document.
     #   @return [String]
     #
     # @!attribute [rw] document_version
@@ -8189,8 +9375,8 @@ module Aws::ConfigService
     end
 
     # You have reached the limit of the number of tags you can use. For more
-    # information, see [ **Service Limits** ][1] in the Config Developer
-    # Guide.
+    # information, see [ **Service Limits** ][1] in the *Config Developer
+    # Guide*.
     #
     #
     #
@@ -8200,11 +9386,59 @@ module Aws::ConfigService
     #
     class TooManyTagsException < Aws::EmptyStructure; end
 
+    # The requested operation is not valid.
+    #
+    # For [PutConfigurationRecorder][1], you will see this exception because
+    # you cannot use this operation to create a service-linked configuration
+    # recorder. Use the [PutServiceLinkedConfigurationRecorder][2] operation
+    # to create a service-linked configuration recorder.
+    #
+    # For [DeleteConfigurationRecorder][3], you will see this exception
+    # because you cannot use this operation to delete a service-linked
+    # configuration recorder. Use the
+    # [DeleteServiceLinkedConfigurationRecorder][4] operation to delete a
+    # service-linked configuration recorder.
+    #
+    # For [StartConfigurationRecorder][5] and
+    # [StopConfigurationRecorder][6], you will see this exception because
+    # these operations do not affect service-linked configuration recorders.
+    # Service-linked configuration recorders are always recording. To stop
+    # recording, you must delete the service-linked configuration recorder.
+    # Use the [DeleteServiceLinkedConfigurationRecorder][4] operation to
+    # delete a service-linked configuration recorder.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html
+    # [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html
+    # [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html
+    # [4]: https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html
+    # [5]: https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html
+    # [6]: https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/UnmodifiableEntityException AWS API Documentation
+    #
+    class UnmodifiableEntityException < Aws::EmptyStructure; end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) that identifies the resource for
-    #   which to list the tags. Currently, the supported resources are
-    #   `ConfigRule`, `ConfigurationAggregator` and
-    #   `AggregatorAuthorization`.
+    #   which to list the tags. The following resources are supported:
+    #
+    #   * `ConfigurationRecorder`
+    #
+    #   * `ConfigRule`
+    #
+    #   * `OrganizationConfigRule`
+    #
+    #   * `ConformancePack`
+    #
+    #   * `OrganizationConformancePack`
+    #
+    #   * `ConfigurationAggregator`
+    #
+    #   * `AggregationAuthorization`
+    #
+    #   * `StoredQuery`
     #   @return [String]
     #
     # @!attribute [rw] tag_keys
@@ -8220,15 +9454,46 @@ module Aws::ConfigService
       include Aws::Structure
     end
 
-    # The requested action is invalid.
+    # The requested operation is not valid. You will see this exception if
+    # there are missing required fields or if the input value fails the
+    # validation.
     #
-    # For PutStoredQuery, you will see this exception if there are missing
-    # required fields or if the input value fails the validation, or if you
-    # are trying to create more than 300 queries.
+    # For [PutStoredQuery][1], one of the following errors:
     #
-    # For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will
-    # see this exception if there are missing required fields or if the
-    # input value fails the validation.
+    # * There are missing required fields.
+    #
+    # * The input value fails the validation.
+    #
+    # * You are trying to create more than 300 queries.
+    #
+    # For [DescribeConfigurationRecorders][2] and
+    # [DescribeConfigurationRecorderStatus][3], one of the following errors:
+    #
+    # * You have specified more than one configuration recorder.
+    #
+    # * You have provided a service principal for service-linked
+    #   configuration recorder that is not valid.
+    #
+    # For [AssociateResourceTypes][4] and [DisassociateResourceTypes][5],
+    # one of the following errors:
+    #
+    # * Your configuraiton recorder has a recording strategy that does not
+    #   allow the association or disassociation of resource types.
+    #
+    # * One or more of the specified resource types are already associated
+    #   or disassociated with the configuration recorder.
+    #
+    # * For service-linked configuration recorders, the configuration
+    #   recorder does not record one or more of the specified resource
+    #   types.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html
+    # [2]: https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html
+    # [3]: https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html
+    # [4]: https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html
+    # [5]: https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ValidationException AWS API Documentation
     #
@@ -8236,3 +9501,4 @@ module Aws::ConfigService
 
   end
 end
+

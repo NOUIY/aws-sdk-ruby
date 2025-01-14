@@ -35,13 +35,13 @@ module Aws::EC2
     end
     alias :network_acl_id :id
 
-    # Any associations between the network ACL and one or more subnets
+    # Any associations between the network ACL and your subnets
     # @return [Array<Types::NetworkAclAssociation>]
     def associations
       data[:associations]
     end
 
-    # One or more entries (rules) in the network ACL.
+    # The entries (rules) in the network ACL.
     # @return [Array<Types::NetworkAclEntry>]
     def entries
       data[:entries]
@@ -85,7 +85,9 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_network_acls(network_acl_ids: [@id])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_network_acls(network_acl_ids: [@id])
+      end
       @data = resp.network_acls[0]
       self
     end
@@ -200,7 +202,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -208,46 +212,34 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   network_acl.create_entry({
-    #     cidr_block: "String",
     #     dry_run: false,
+    #     rule_number: 1, # required
+    #     protocol: "String", # required
+    #     rule_action: "allow", # required, accepts allow, deny
     #     egress: false, # required
+    #     cidr_block: "String",
+    #     ipv_6_cidr_block: "String",
     #     icmp_type_code: {
     #       code: 1,
     #       type: 1,
     #     },
-    #     ipv_6_cidr_block: "String",
     #     port_range: {
     #       from: 1,
     #       to: 1,
     #     },
-    #     protocol: "String", # required
-    #     rule_action: "allow", # required, accepts allow, deny
-    #     rule_number: 1, # required
     #   })
     # @param [Hash] options ({})
-    # @option options [String] :cidr_block
-    #   The IPv4 network range to allow or deny, in CIDR notation (for example
-    #   `172.16.0.0/24`). We modify the specified CIDR block to its canonical
-    #   form; for example, if you specify `100.68.0.18/18`, we modify it to
-    #   `100.68.0.0/18`.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @option options [required, Boolean] :egress
-    #   Indicates whether this is an egress rule (rule is applied to traffic
-    #   leaving the subnet).
-    # @option options [Types::IcmpTypeCode] :icmp_type_code
-    #   ICMP protocol: The ICMP or ICMPv6 type and code. Required if
-    #   specifying protocol 1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR
-    #   block.
-    # @option options [String] :ipv_6_cidr_block
-    #   The IPv6 network range to allow or deny, in CIDR notation (for example
-    #   `2001:db8:1234:1a00::/64`).
-    # @option options [Types::PortRange] :port_range
-    #   TCP or UDP protocols: The range of ports the rule applies to. Required
-    #   if specifying protocol 6 (TCP) or 17 (UDP).
+    # @option options [required, Integer] :rule_number
+    #   The rule number for the entry (for example, 100). ACL entries are
+    #   processed in ascending order by rule number.
+    #
+    #   Constraints: Positive integer from 1 to 32766. The range 32767 to
+    #   65535 is reserved for internal use.
     # @option options [required, String] :protocol
     #   The protocol number. A value of "-1" means all protocols. If you
     #   specify "-1" or a protocol number other than "6" (TCP), "17"
@@ -259,16 +251,30 @@ module Aws::EC2
     #   block, you must specify an ICMP type and code.
     # @option options [required, String] :rule_action
     #   Indicates whether to allow or deny the traffic that matches the rule.
-    # @option options [required, Integer] :rule_number
-    #   The rule number for the entry (for example, 100). ACL entries are
-    #   processed in ascending order by rule number.
-    #
-    #   Constraints: Positive integer from 1 to 32766. The range 32767 to
-    #   65535 is reserved for internal use.
+    # @option options [required, Boolean] :egress
+    #   Indicates whether this is an egress rule (rule is applied to traffic
+    #   leaving the subnet).
+    # @option options [String] :cidr_block
+    #   The IPv4 network range to allow or deny, in CIDR notation (for example
+    #   `172.16.0.0/24`). We modify the specified CIDR block to its canonical
+    #   form; for example, if you specify `100.68.0.18/18`, we modify it to
+    #   `100.68.0.0/18`.
+    # @option options [String] :ipv_6_cidr_block
+    #   The IPv6 network range to allow or deny, in CIDR notation (for example
+    #   `2001:db8:1234:1a00::/64`).
+    # @option options [Types::IcmpTypeCode] :icmp_type_code
+    #   ICMP protocol: The ICMP or ICMPv6 type and code. Required if
+    #   specifying protocol 1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR
+    #   block.
+    # @option options [Types::PortRange] :port_range
+    #   TCP or UDP protocols: The range of ports the rule applies to. Required
+    #   if specifying protocol 6 (TCP) or 17 (UDP).
     # @return [EmptyStructure]
     def create_entry(options = {})
       options = options.merge(network_acl_id: @id)
-      resp = @client.create_network_acl_entry(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_network_acl_entry(options)
+      end
       resp.data
     end
 
@@ -297,7 +303,9 @@ module Aws::EC2
     def create_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.create_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -342,7 +350,9 @@ module Aws::EC2
     def delete_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.delete_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -368,7 +378,9 @@ module Aws::EC2
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(network_acl_id: @id)
-      resp = @client.delete_network_acl(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_network_acl(options)
+      end
       resp.data
     end
 
@@ -376,8 +388,8 @@ module Aws::EC2
     #
     #   network_acl.delete_entry({
     #     dry_run: false,
-    #     egress: false, # required
     #     rule_number: 1, # required
+    #     egress: false, # required
     #   })
     # @param [Hash] options ({})
     # @option options [Boolean] :dry_run
@@ -385,81 +397,70 @@ module Aws::EC2
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @option options [required, Boolean] :egress
-    #   Indicates whether the rule is an egress rule.
     # @option options [required, Integer] :rule_number
     #   The rule number of the entry to delete.
+    # @option options [required, Boolean] :egress
+    #   Indicates whether the rule is an egress rule.
     # @return [EmptyStructure]
     def delete_entry(options = {})
       options = options.merge(network_acl_id: @id)
-      resp = @client.delete_network_acl_entry(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_network_acl_entry(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   network_acl.replace_association({
-    #     association_id: "NetworkAclAssociationId", # required
     #     dry_run: false,
+    #     association_id: "NetworkAclAssociationId", # required
     #   })
     # @param [Hash] options ({})
-    # @option options [required, String] :association_id
-    #   The ID of the current association between the original network ACL and
-    #   the subnet.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    # @option options [required, String] :association_id
+    #   The ID of the current association between the original network ACL and
+    #   the subnet.
     # @return [Types::ReplaceNetworkAclAssociationResult]
     def replace_association(options = {})
       options = options.merge(network_acl_id: @id)
-      resp = @client.replace_network_acl_association(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.replace_network_acl_association(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   network_acl.replace_entry({
-    #     cidr_block: "String",
     #     dry_run: false,
+    #     rule_number: 1, # required
+    #     protocol: "String", # required
+    #     rule_action: "allow", # required, accepts allow, deny
     #     egress: false, # required
+    #     cidr_block: "String",
+    #     ipv_6_cidr_block: "String",
     #     icmp_type_code: {
     #       code: 1,
     #       type: 1,
     #     },
-    #     ipv_6_cidr_block: "String",
     #     port_range: {
     #       from: 1,
     #       to: 1,
     #     },
-    #     protocol: "String", # required
-    #     rule_action: "allow", # required, accepts allow, deny
-    #     rule_number: 1, # required
     #   })
     # @param [Hash] options ({})
-    # @option options [String] :cidr_block
-    #   The IPv4 network range to allow or deny, in CIDR notation (for example
-    #   `172.16.0.0/24`).
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @option options [required, Boolean] :egress
-    #   Indicates whether to replace the egress rule.
-    #
-    #   Default: If no value is specified, we replace the ingress rule.
-    # @option options [Types::IcmpTypeCode] :icmp_type_code
-    #   ICMP protocol: The ICMP or ICMPv6 type and code. Required if
-    #   specifying protocol 1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR
-    #   block.
-    # @option options [String] :ipv_6_cidr_block
-    #   The IPv6 network range to allow or deny, in CIDR notation (for example
-    #   `2001:bd8:1234:1a00::/64`).
-    # @option options [Types::PortRange] :port_range
-    #   TCP or UDP protocols: The range of ports the rule applies to. Required
-    #   if specifying protocol 6 (TCP) or 17 (UDP).
+    # @option options [required, Integer] :rule_number
+    #   The rule number of the entry to replace.
     # @option options [required, String] :protocol
     #   The protocol number. A value of "-1" means all protocols. If you
     #   specify "-1" or a protocol number other than "6" (TCP), "17"
@@ -471,12 +472,29 @@ module Aws::EC2
     #   block, you must specify an ICMP type and code.
     # @option options [required, String] :rule_action
     #   Indicates whether to allow or deny the traffic that matches the rule.
-    # @option options [required, Integer] :rule_number
-    #   The rule number of the entry to replace.
+    # @option options [required, Boolean] :egress
+    #   Indicates whether to replace the egress rule.
+    #
+    #   Default: If no value is specified, we replace the ingress rule.
+    # @option options [String] :cidr_block
+    #   The IPv4 network range to allow or deny, in CIDR notation (for example
+    #   `172.16.0.0/24`).
+    # @option options [String] :ipv_6_cidr_block
+    #   The IPv6 network range to allow or deny, in CIDR notation (for example
+    #   `2001:bd8:1234:1a00::/64`).
+    # @option options [Types::IcmpTypeCode] :icmp_type_code
+    #   ICMP protocol: The ICMP or ICMPv6 type and code. Required if
+    #   specifying protocol 1 (ICMP) or protocol 58 (ICMPv6) with an IPv6 CIDR
+    #   block.
+    # @option options [Types::PortRange] :port_range
+    #   TCP or UDP protocols: The range of ports the rule applies to. Required
+    #   if specifying protocol 6 (TCP) or 17 (UDP).
     # @return [EmptyStructure]
     def replace_entry(options = {})
       options = options.merge(network_acl_id: @id)
-      resp = @client.replace_network_acl_entry(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.replace_network_acl_entry(options)
+      end
       resp.data
     end
 

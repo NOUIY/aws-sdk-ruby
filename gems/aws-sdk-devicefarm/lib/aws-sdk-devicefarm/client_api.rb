@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::DeviceFarm
   # @api private
   module ClientApi
@@ -1502,9 +1503,11 @@ module Aws::DeviceFarm
 
       api.metadata = {
         "apiVersion" => "2015-06-23",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "devicefarm",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWS Device Farm",
         "serviceId" => "Device Farm",
         "signatureVersion" => "v4",

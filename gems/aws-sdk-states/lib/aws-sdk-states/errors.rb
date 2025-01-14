@@ -27,22 +27,30 @@ module Aws::States
   # See {Seahorse::Client::RequestContext} for more information.
   #
   # ## Error Classes
+  # * {ActivityAlreadyExists}
   # * {ActivityDoesNotExist}
   # * {ActivityLimitExceeded}
   # * {ActivityWorkerLimitExceeded}
+  # * {ConflictException}
   # * {ExecutionAlreadyExists}
   # * {ExecutionDoesNotExist}
   # * {ExecutionLimitExceeded}
+  # * {ExecutionNotRedrivable}
   # * {InvalidArn}
   # * {InvalidDefinition}
+  # * {InvalidEncryptionConfiguration}
   # * {InvalidExecutionInput}
   # * {InvalidLoggingConfiguration}
   # * {InvalidName}
   # * {InvalidOutput}
   # * {InvalidToken}
   # * {InvalidTracingConfiguration}
+  # * {KmsAccessDeniedException}
+  # * {KmsInvalidStateException}
+  # * {KmsThrottlingException}
   # * {MissingRequiredParameter}
   # * {ResourceNotFound}
+  # * {ServiceQuotaExceededException}
   # * {StateMachineAlreadyExists}
   # * {StateMachineDeleting}
   # * {StateMachineDoesNotExist}
@@ -58,6 +66,21 @@ module Aws::States
   module Errors
 
     extend Aws::Errors::DynamicErrors
+
+    class ActivityAlreadyExists < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::ActivityAlreadyExists] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
 
     class ActivityDoesNotExist < ServiceError
 
@@ -94,6 +117,21 @@ module Aws::States
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::States::Types::ActivityWorkerLimitExceeded] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ConflictException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::ConflictException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -149,6 +187,21 @@ module Aws::States
       end
     end
 
+    class ExecutionNotRedrivable < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::ExecutionNotRedrivable] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class InvalidArn < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -169,6 +222,21 @@ module Aws::States
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::States::Types::InvalidDefinition] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class InvalidEncryptionConfiguration < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::InvalidEncryptionConfiguration] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -269,6 +337,56 @@ module Aws::States
       end
     end
 
+    class KmsAccessDeniedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::KmsAccessDeniedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class KmsInvalidStateException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::KmsInvalidStateException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def kms_key_state
+        @data[:kms_key_state]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class KmsThrottlingException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::KmsThrottlingException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class MissingRequiredParameter < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -301,6 +419,21 @@ module Aws::States
       # @return [String]
       def resource_name
         @data[:resource_name]
+      end
+    end
+
+    class ServiceQuotaExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::States::Types::ServiceQuotaExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
       end
     end
 

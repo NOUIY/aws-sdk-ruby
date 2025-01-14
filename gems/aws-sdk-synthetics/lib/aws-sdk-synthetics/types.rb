@@ -209,6 +209,21 @@ module Aws::Synthetics
     #   screen to ignore during the visual monitoring comparison.
     #   @return [Types::VisualReferenceOutput]
     #
+    # @!attribute [rw] provisioned_resource_cleanup
+    #   Specifies whether to also delete the Lambda functions and layers
+    #   used by this canary when the canary is deleted. If it is
+    #   `AUTOMATIC`, the Lambda functions and layers will be deleted when
+    #   the canary is deleted.
+    #
+    #   If the value of this parameter is `OFF`, then the value of the
+    #   `DeleteLambda` parameter of the [DeleteCanary][1] operation
+    #   determines whether the Lambda functions and layers will be deleted.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   The list of key-value pairs that are associated with the canary.
     #   @return [Hash<String,String>]
@@ -237,6 +252,7 @@ module Aws::Synthetics
       :runtime_version,
       :vpc_config,
       :visual_reference,
+      :provisioned_resource_cleanup,
       :tags,
       :artifact_config)
       SENSITIVE = []
@@ -249,6 +265,23 @@ module Aws::Synthetics
     # S3 bucket, the bucket name, key, and version are also included. If the
     # script was passed into the canary directly, the script code is
     # contained in the value of `Zipfile`.
+    #
+    # If you are uploading your canary scripts with an Amazon S3 bucket,
+    # your zip file should include your script in a certain folder
+    # structure.
+    #
+    # * For Node.js canaries, the folder structure must be
+    #   `nodejs/node_modules/myCanaryFilename.js ` For more information, see
+    #   [Packaging your Node.js canary files][1]
+    #
+    # * For Python canaries, the folder structure must be
+    #   `python/myCanaryFilename.p ` or `python/myFolder/myCanaryFilename.py
+    #   ` For more information, see [Packaging your Python canary files][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package
     #
     # @!attribute [rw] s3_bucket
     #   If your canary script is located in S3, specify the bucket name
@@ -413,7 +446,7 @@ module Aws::Synthetics
     #   Specifies the keys and values to use for any environment variables
     #   used in the canary script. Use the following format:
     #
-    #   \\\{ "key1" : "value1", "key2" : "value2", ...\\}
+    #   \{ "key1" : "value1", "key2" : "value2", ...}
     #
     #   Keys must start with a letter and be at least two characters. The
     #   total size of your environment variables cannot exceed 4 KB. You
@@ -761,6 +794,31 @@ module Aws::Synthetics
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html
     #   @return [Types::VpcConfigInput]
     #
+    # @!attribute [rw] resources_to_replicate_tags
+    #   To have the tags that you apply to this canary also be applied to
+    #   the Lambda function that the canary uses, specify this parameter
+    #   with the value `lambda-function`.
+    #
+    #   If you specify this parameter and don't specify any tags in the
+    #   `Tags` parameter, the canary creation fails.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] provisioned_resource_cleanup
+    #   Specifies whether to also delete the Lambda functions and layers
+    #   used by this canary when the canary is deleted. If you omit this
+    #   parameter, the default of `AUTOMATIC` is used, which means that the
+    #   Lambda functions and layers will be deleted when the canary is
+    #   deleted.
+    #
+    #   If the value of this parameter is `OFF`, then the value of the
+    #   `DeleteLambda` parameter of the [DeleteCanary][1] operation
+    #   determines whether the Lambda functions and layers will be deleted.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   A list of key-value pairs to associate with the canary. You can
     #   associate as many as 50 tags with a canary.
@@ -769,6 +827,10 @@ module Aws::Synthetics
     #   also use them to scope user permissions, by granting a user
     #   permission to access or change only the resources that have certain
     #   tag values.
+    #
+    #   To have the tags that you apply to this canary also be applied to
+    #   the Lambda function that the canary uses, specify this parameter
+    #   with the value `lambda-function`.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] artifact_config
@@ -790,6 +852,8 @@ module Aws::Synthetics
       :failure_retention_period_in_days,
       :runtime_version,
       :vpc_config,
+      :resources_to_replicate_tags,
+      :provisioned_resource_cleanup,
       :tags,
       :artifact_config)
       SENSITIVE = []
@@ -858,7 +922,12 @@ module Aws::Synthetics
     #
     # @!attribute [rw] delete_lambda
     #   Specifies whether to also delete the Lambda functions and layers
-    #   used by this canary. The default is false.
+    #   used by this canary. The default is `false`.
+    #
+    #   Your setting for this parameter is used only if the canary doesn't
+    #   have `AUTOMATIC` for its `ProvisionedResourceCleanup` field. If that
+    #   field is set to `AUTOMATIC`, then the Lambda functions and layers
+    #   will be deleted when this canary is deleted.
     #
     #   Type: Boolean
     #   @return [Boolean]
@@ -963,7 +1032,7 @@ module Aws::Synthetics
     # @!attribute [rw] max_results
     #   Specify this parameter to limit how many canaries are returned each
     #   time you use the `DescribeCanaries` operation. If you omit this
-    #   parameter, the default of 100 is used.
+    #   parameter, the default of 20 is used.
     #   @return [Integer]
     #
     # @!attribute [rw] names
@@ -1773,6 +1842,19 @@ module Aws::Synthetics
     #   canary uploads to Amazon S3.
     #   @return [Types::ArtifactConfigInput]
     #
+    # @!attribute [rw] provisioned_resource_cleanup
+    #   Specifies whether to also delete the Lambda functions and layers
+    #   used by this canary when the canary is deleted.
+    #
+    #   If the value of this parameter is `OFF`, then the value of the
+    #   `DeleteLambda` parameter of the [DeleteCanary][1] operation
+    #   determines whether the Lambda functions and layers will be deleted.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/UpdateCanaryRequest AWS API Documentation
     #
     class UpdateCanaryRequest < Struct.new(
@@ -1787,7 +1869,8 @@ module Aws::Synthetics
       :vpc_config,
       :visual_reference,
       :artifact_s3_location,
-      :artifact_config)
+      :artifact_config,
+      :provisioned_resource_cleanup)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1835,7 +1918,9 @@ module Aws::Synthetics
     #   are `nextrun` to use the screenshots from the next run after this
     #   update is made, `lastrun` to use the screenshots from the most
     #   recent run before this update was made, or the value of `Id` in the
-    #   [ CanaryRun][1] from any past run of this canary.
+    #   [ CanaryRun][1] from a run of this a canary in the past 31 days. If
+    #   you specify the `Id` of a canary run older than 31 days, the
+    #   operation returns a 400 validation exception error..
     #
     #
     #
@@ -1894,11 +1979,17 @@ module Aws::Synthetics
     #   The IDs of the security groups for this canary.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ipv_6_allowed_for_dual_stack
+    #   Set this to `true` to allow outbound IPv6 traffic on VPC canaries
+    #   that are connected to dual-stack subnets. The default is `false`
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/VpcConfigInput AWS API Documentation
     #
     class VpcConfigInput < Struct.new(
       :subnet_ids,
-      :security_group_ids)
+      :security_group_ids,
+      :ipv_6_allowed_for_dual_stack)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1923,15 +2014,22 @@ module Aws::Synthetics
     #   The IDs of the security groups for this canary.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ipv_6_allowed_for_dual_stack
+    #   Indicates whether this canary allows outbound IPv6 traffic if it is
+    #   connected to dual-stack subnets.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/VpcConfigOutput AWS API Documentation
     #
     class VpcConfigOutput < Struct.new(
       :vpc_id,
       :subnet_ids,
-      :security_group_ids)
+      :security_group_ids,
+      :ipv_6_allowed_for_dual_stack)
       SENSITIVE = []
       include Aws::Structure
     end
 
   end
 end
+

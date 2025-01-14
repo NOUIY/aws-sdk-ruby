@@ -2,9 +2,10 @@
   "version":"2.0",
   "metadata":{
     "apiVersion":"2022-02-17",
+    "auth":["aws.auth#sigv4"],
     "endpointPrefix":"cleanrooms",
-    "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"AWS Clean Rooms Service",
     "serviceId":"CleanRooms",
     "signatureVersion":"v4",
@@ -12,6 +13,23 @@
     "uid":"cleanrooms-2022-02-17"
   },
   "operations":{
+    "BatchGetCollaborationAnalysisTemplate":{
+      "name":"BatchGetCollaborationAnalysisTemplate",
+      "http":{
+        "method":"POST",
+        "requestUri":"/collaborations/{collaborationIdentifier}/batch-analysistemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"BatchGetCollaborationAnalysisTemplateInput"},
+      "output":{"shape":"BatchGetCollaborationAnalysisTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "BatchGetSchema":{
       "name":"BatchGetSchema",
       "http":{
@@ -22,6 +40,42 @@
       "input":{"shape":"BatchGetSchemaInput"},
       "output":{"shape":"BatchGetSchemaOutput"},
       "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "BatchGetSchemaAnalysisRule":{
+      "name":"BatchGetSchemaAnalysisRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/collaborations/{collaborationIdentifier}/batch-schema-analysis-rule",
+        "responseCode":200
+      },
+      "input":{"shape":"BatchGetSchemaAnalysisRuleInput"},
+      "output":{"shape":"BatchGetSchemaAnalysisRuleOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "CreateAnalysisTemplate":{
+      "name":"CreateAnalysisTemplate",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/analysistemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateAnalysisTemplateInput"},
+      "output":{"shape":"CreateAnalysisTemplateOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
@@ -40,6 +94,25 @@
       "output":{"shape":"CreateCollaborationOutput"},
       "errors":[
         {"shape":"ServiceQuotaExceededException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "CreateConfiguredAudienceModelAssociation":{
+      "name":"CreateConfiguredAudienceModelAssociation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredaudiencemodelassociations",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateConfiguredAudienceModelAssociationInput"},
+      "output":{"shape":"CreateConfiguredAudienceModelAssociationOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -104,6 +177,63 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "CreateConfiguredTableAssociationAnalysisRule":{
+      "name":"CreateConfiguredTableAssociationAnalysisRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateConfiguredTableAssociationAnalysisRuleInput"},
+      "output":{"shape":"CreateConfiguredTableAssociationAnalysisRuleOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
+    "CreateIdMappingTable":{
+      "name":"CreateIdMappingTable",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/idmappingtables",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateIdMappingTableInput"},
+      "output":{"shape":"CreateIdMappingTableOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "CreateIdNamespaceAssociation":{
+      "name":"CreateIdNamespaceAssociation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/idnamespaceassociations",
+        "responseCode":200
+      },
+      "input":{"shape":"CreateIdNamespaceAssociationInput"},
+      "output":{"shape":"CreateIdNamespaceAssociationOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "CreateMembership":{
       "name":"CreateMembership",
       "http":{
@@ -123,6 +253,42 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "CreatePrivacyBudgetTemplate":{
+      "name":"CreatePrivacyBudgetTemplate",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/privacybudgettemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"CreatePrivacyBudgetTemplateInput"},
+      "output":{"shape":"CreatePrivacyBudgetTemplateOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DeleteAnalysisTemplate":{
+      "name":"DeleteAnalysisTemplate",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/memberships/{membershipIdentifier}/analysistemplates/{analysisTemplateIdentifier}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeleteAnalysisTemplateInput"},
+      "output":{"shape":"DeleteAnalysisTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
     "DeleteCollaboration":{
       "name":"DeleteCollaboration",
       "http":{
@@ -133,6 +299,24 @@
       "input":{"shape":"DeleteCollaborationInput"},
       "output":{"shape":"DeleteCollaborationOutput"},
       "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
+    "DeleteConfiguredAudienceModelAssociation":{
+      "name":"DeleteConfiguredAudienceModelAssociation",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeleteConfiguredAudienceModelAssociationInput"},
+      "output":{"shape":"DeleteConfiguredAudienceModelAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -197,6 +381,61 @@
       ],
       "idempotent":true
     },
+    "DeleteConfiguredTableAssociationAnalysisRule":{
+      "name":"DeleteConfiguredTableAssociationAnalysisRule",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeleteConfiguredTableAssociationAnalysisRuleInput"},
+      "output":{"shape":"DeleteConfiguredTableAssociationAnalysisRuleOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
+    "DeleteIdMappingTable":{
+      "name":"DeleteIdMappingTable",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeleteIdMappingTableInput"},
+      "output":{"shape":"DeleteIdMappingTableOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
+    "DeleteIdNamespaceAssociation":{
+      "name":"DeleteIdNamespaceAssociation",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/memberships/{membershipIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeleteIdNamespaceAssociationInput"},
+      "output":{"shape":"DeleteIdNamespaceAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
     "DeleteMember":{
       "name":"DeleteMember",
       "http":{
@@ -235,6 +474,41 @@
       ],
       "idempotent":true
     },
+    "DeletePrivacyBudgetTemplate":{
+      "name":"DeletePrivacyBudgetTemplate",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/memberships/{membershipIdentifier}/privacybudgettemplates/{privacyBudgetTemplateIdentifier}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeletePrivacyBudgetTemplateInput"},
+      "output":{"shape":"DeletePrivacyBudgetTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ],
+      "idempotent":true
+    },
+    "GetAnalysisTemplate":{
+      "name":"GetAnalysisTemplate",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/analysistemplates/{analysisTemplateIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetAnalysisTemplateInput"},
+      "output":{"shape":"GetAnalysisTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "GetCollaboration":{
       "name":"GetCollaboration",
       "http":{
@@ -245,6 +519,91 @@
       "input":{"shape":"GetCollaborationInput"},
       "output":{"shape":"GetCollaborationOutput"},
       "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetCollaborationAnalysisTemplate":{
+      "name":"GetCollaborationAnalysisTemplate",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/analysistemplates/{analysisTemplateArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetCollaborationAnalysisTemplateInput"},
+      "output":{"shape":"GetCollaborationAnalysisTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetCollaborationConfiguredAudienceModelAssociation":{
+      "name":"GetCollaborationConfiguredAudienceModelAssociation",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetCollaborationConfiguredAudienceModelAssociationInput"},
+      "output":{"shape":"GetCollaborationConfiguredAudienceModelAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetCollaborationIdNamespaceAssociation":{
+      "name":"GetCollaborationIdNamespaceAssociation",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetCollaborationIdNamespaceAssociationInput"},
+      "output":{"shape":"GetCollaborationIdNamespaceAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetCollaborationPrivacyBudgetTemplate":{
+      "name":"GetCollaborationPrivacyBudgetTemplate",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/privacybudgettemplates/{privacyBudgetTemplateIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetCollaborationPrivacyBudgetTemplateInput"},
+      "output":{"shape":"GetCollaborationPrivacyBudgetTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetConfiguredAudienceModelAssociation":{
+      "name":"GetConfiguredAudienceModelAssociation",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetConfiguredAudienceModelAssociationInput"},
+      "output":{"shape":"GetConfiguredAudienceModelAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -302,6 +661,57 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "GetConfiguredTableAssociationAnalysisRule":{
+      "name":"GetConfiguredTableAssociationAnalysisRule",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetConfiguredTableAssociationAnalysisRuleInput"},
+      "output":{"shape":"GetConfiguredTableAssociationAnalysisRuleOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetIdMappingTable":{
+      "name":"GetIdMappingTable",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetIdMappingTableInput"},
+      "output":{"shape":"GetIdMappingTableOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetIdNamespaceAssociation":{
+      "name":"GetIdNamespaceAssociation",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetIdNamespaceAssociationInput"},
+      "output":{"shape":"GetIdNamespaceAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "GetMembership":{
       "name":"GetMembership",
       "http":{
@@ -311,6 +721,23 @@
       },
       "input":{"shape":"GetMembershipInput"},
       "output":{"shape":"GetMembershipOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "GetPrivacyBudgetTemplate":{
+      "name":"GetPrivacyBudgetTemplate",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/privacybudgettemplates/{privacyBudgetTemplateIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetPrivacyBudgetTemplateInput"},
+      "output":{"shape":"GetPrivacyBudgetTemplateOutput"},
       "errors":[
         {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
@@ -370,6 +797,108 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "ListAnalysisTemplates":{
+      "name":"ListAnalysisTemplates",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/analysistemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"ListAnalysisTemplatesInput"},
+      "output":{"shape":"ListAnalysisTemplatesOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListCollaborationAnalysisTemplates":{
+      "name":"ListCollaborationAnalysisTemplates",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/analysistemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"ListCollaborationAnalysisTemplatesInput"},
+      "output":{"shape":"ListCollaborationAnalysisTemplatesOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListCollaborationConfiguredAudienceModelAssociations":{
+      "name":"ListCollaborationConfiguredAudienceModelAssociations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/configuredaudiencemodelassociations",
+        "responseCode":200
+      },
+      "input":{"shape":"ListCollaborationConfiguredAudienceModelAssociationsInput"},
+      "output":{"shape":"ListCollaborationConfiguredAudienceModelAssociationsOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListCollaborationIdNamespaceAssociations":{
+      "name":"ListCollaborationIdNamespaceAssociations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/idnamespaceassociations",
+        "responseCode":200
+      },
+      "input":{"shape":"ListCollaborationIdNamespaceAssociationsInput"},
+      "output":{"shape":"ListCollaborationIdNamespaceAssociationsOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListCollaborationPrivacyBudgetTemplates":{
+      "name":"ListCollaborationPrivacyBudgetTemplates",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/privacybudgettemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"ListCollaborationPrivacyBudgetTemplatesInput"},
+      "output":{"shape":"ListCollaborationPrivacyBudgetTemplatesOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListCollaborationPrivacyBudgets":{
+      "name":"ListCollaborationPrivacyBudgets",
+      "http":{
+        "method":"GET",
+        "requestUri":"/collaborations/{collaborationIdentifier}/privacybudgets",
+        "responseCode":200
+      },
+      "input":{"shape":"ListCollaborationPrivacyBudgetsInput"},
+      "output":{"shape":"ListCollaborationPrivacyBudgetsOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "ListCollaborations":{
       "name":"ListCollaborations",
       "http":{
@@ -386,6 +915,23 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "ListConfiguredAudienceModelAssociations":{
+      "name":"ListConfiguredAudienceModelAssociations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredaudiencemodelassociations",
+        "responseCode":200
+      },
+      "input":{"shape":"ListConfiguredAudienceModelAssociationsInput"},
+      "output":{"shape":"ListConfiguredAudienceModelAssociationsOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "ListConfiguredTableAssociations":{
       "name":"ListConfiguredTableAssociations",
       "http":{
@@ -396,6 +942,7 @@
       "input":{"shape":"ListConfiguredTableAssociationsInput"},
       "output":{"shape":"ListConfiguredTableAssociationsOutput"},
       "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -412,6 +959,40 @@
       "input":{"shape":"ListConfiguredTablesInput"},
       "output":{"shape":"ListConfiguredTablesOutput"},
       "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListIdMappingTables":{
+      "name":"ListIdMappingTables",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/idmappingtables",
+        "responseCode":200
+      },
+      "input":{"shape":"ListIdMappingTablesInput"},
+      "output":{"shape":"ListIdMappingTablesOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListIdNamespaceAssociations":{
+      "name":"ListIdNamespaceAssociations",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/idnamespaceassociations",
+        "responseCode":200
+      },
+      "input":{"shape":"ListIdNamespaceAssociationsInput"},
+      "output":{"shape":"ListIdNamespaceAssociationsOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -451,6 +1032,40 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "ListPrivacyBudgetTemplates":{
+      "name":"ListPrivacyBudgetTemplates",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/privacybudgettemplates",
+        "responseCode":200
+      },
+      "input":{"shape":"ListPrivacyBudgetTemplatesInput"},
+      "output":{"shape":"ListPrivacyBudgetTemplatesOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListPrivacyBudgets":{
+      "name":"ListPrivacyBudgets",
+      "http":{
+        "method":"GET",
+        "requestUri":"/memberships/{membershipIdentifier}/privacybudgets",
+        "responseCode":200
+      },
+      "input":{"shape":"ListPrivacyBudgetsInput"},
+      "output":{"shape":"ListPrivacyBudgetsOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "ListProtectedQueries":{
       "name":"ListProtectedQueries",
       "http":{
@@ -461,6 +1076,7 @@
       "input":{"shape":"ListProtectedQueriesInput"},
       "output":{"shape":"ListProtectedQueriesOutput"},
       "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -476,6 +1092,56 @@
       },
       "input":{"shape":"ListSchemasInput"},
       "output":{"shape":"ListSchemasOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ListTagsForResource":{
+      "name":"ListTagsForResource",
+      "http":{
+        "method":"GET",
+        "requestUri":"/tags/{resourceArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"ListTagsForResourceInput"},
+      "output":{"shape":"ListTagsForResourceOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ValidationException"}
+      ]
+    },
+    "PopulateIdMappingTable":{
+      "name":"PopulateIdMappingTable",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}/populate",
+        "responseCode":200
+      },
+      "input":{"shape":"PopulateIdMappingTableInput"},
+      "output":{"shape":"PopulateIdMappingTableOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "PreviewPrivacyImpact":{
+      "name":"PreviewPrivacyImpact",
+      "http":{
+        "method":"POST",
+        "requestUri":"/memberships/{membershipIdentifier}/previewprivacyimpact",
+        "responseCode":200
+      },
+      "input":{"shape":"PreviewPrivacyImpactInput"},
+      "output":{"shape":"PreviewPrivacyImpactOutput"},
       "errors":[
         {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
@@ -502,6 +1168,51 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "TagResource":{
+      "name":"TagResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/tags/{resourceArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"TagResourceInput"},
+      "output":{"shape":"TagResourceOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ValidationException"}
+      ]
+    },
+    "UntagResource":{
+      "name":"UntagResource",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/tags/{resourceArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"UntagResourceInput"},
+      "output":{"shape":"UntagResourceOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ValidationException"}
+      ]
+    },
+    "UpdateAnalysisTemplate":{
+      "name":"UpdateAnalysisTemplate",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/memberships/{membershipIdentifier}/analysistemplates/{analysisTemplateIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateAnalysisTemplateInput"},
+      "output":{"shape":"UpdateAnalysisTemplateOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "UpdateCollaboration":{
       "name":"UpdateCollaboration",
       "http":{
@@ -512,6 +1223,23 @@
       "input":{"shape":"UpdateCollaborationInput"},
       "output":{"shape":"UpdateCollaborationOutput"},
       "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "UpdateConfiguredAudienceModelAssociation":{
+      "name":"UpdateConfiguredAudienceModelAssociation",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateConfiguredAudienceModelAssociationInput"},
+      "output":{"shape":"UpdateConfiguredAudienceModelAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"ThrottlingException"},
@@ -572,6 +1300,58 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "UpdateConfiguredTableAssociationAnalysisRule":{
+      "name":"UpdateConfiguredTableAssociationAnalysisRule",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateConfiguredTableAssociationAnalysisRuleInput"},
+      "output":{"shape":"UpdateConfiguredTableAssociationAnalysisRuleOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "UpdateIdMappingTable":{
+      "name":"UpdateIdMappingTable",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateIdMappingTableInput"},
+      "output":{"shape":"UpdateIdMappingTableOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "UpdateIdNamespaceAssociation":{
+      "name":"UpdateIdNamespaceAssociation",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/memberships/{membershipIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdateIdNamespaceAssociationInput"},
+      "output":{"shape":"UpdateIdNamespaceAssociationOutput"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "UpdateMembership":{
       "name":"UpdateMembership",
       "http":{
@@ -581,6 +1361,24 @@
       },
       "input":{"shape":"UpdateMembershipInput"},
       "output":{"shape":"UpdateMembershipOutput"},
+      "errors":[
+        {"shape":"ConflictException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "UpdatePrivacyBudgetTemplate":{
+      "name":"UpdatePrivacyBudgetTemplate",
+      "http":{
+        "method":"PATCH",
+        "requestUri":"/memberships/{membershipIdentifier}/privacybudgettemplates/{privacyBudgetTemplateIdentifier}",
+        "responseCode":200
+      },
+      "input":{"shape":"UpdatePrivacyBudgetTemplateInput"},
+      "output":{"shape":"UpdatePrivacyBudgetTemplateOutput"},
       "errors":[
         {"shape":"ConflictException"},
         {"shape":"ResourceNotFoundException"},
@@ -633,6 +1431,20 @@
       "min":12,
       "pattern":"\\d+"
     },
+    "AdditionalAnalyses":{
+      "type":"string",
+      "enum":[
+        "ALLOWED",
+        "REQUIRED",
+        "NOT_ALLOWED"
+      ]
+    },
+    "AdditionalAnalysesResourceArn":{
+      "type":"string",
+      "max":256,
+      "min":0,
+      "pattern":"arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configuredaudiencemodelassociation\\/[\\*\\d\\w-]+$|^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:([0-9]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configured-model-algorithm-association\\/([-a-zA-Z0-9_\\/.]+|\\*)"
+    },
     "AggregateColumn":{
       "type":"structure",
       "required":[
@@ -675,6 +1487,7 @@
     "AggregationConstraintMinimumInteger":{
       "type":"integer",
       "box":true,
+      "max":100000,
       "min":2
     },
     "AggregationConstraints":{
@@ -686,15 +1499,48 @@
       "type":"string",
       "enum":["COUNT_DISTINCT"]
     },
+    "AllowedAdditionalAnalyses":{
+      "type":"list",
+      "member":{"shape":"AdditionalAnalysesResourceArn"},
+      "max":25,
+      "min":0
+    },
     "AllowedColumnList":{
       "type":"list",
       "member":{"shape":"ColumnName"},
-      "max":250,
+      "max":225,
       "min":1
+    },
+    "AllowedResultReceivers":{
+      "type":"list",
+      "member":{"shape":"AccountId"}
+    },
+    "AnalysisFormat":{
+      "type":"string",
+      "enum":["SQL"]
     },
     "AnalysisMethod":{
       "type":"string",
       "enum":["DIRECT_QUERY"]
+    },
+    "AnalysisParameter":{
+      "type":"structure",
+      "required":[
+        "name",
+        "type"
+      ],
+      "members":{
+        "name":{"shape":"ParameterName"},
+        "type":{"shape":"ParameterType"},
+        "defaultValue":{"shape":"ParameterValue"}
+      },
+      "sensitive":true
+    },
+    "AnalysisParameterList":{
+      "type":"list",
+      "member":{"shape":"AnalysisParameter"},
+      "max":10,
+      "min":0
     },
     "AnalysisRule":{
       "type":"structure",
@@ -728,9 +1574,11 @@
         "aggregateColumns":{"shape":"AnalysisRuleAggregationAggregateColumnsList"},
         "joinColumns":{"shape":"AnalysisRuleColumnList"},
         "joinRequired":{"shape":"JoinRequiredOption"},
+        "allowedJoinOperators":{"shape":"JoinOperatorsList"},
         "dimensionColumns":{"shape":"AnalysisRuleColumnList"},
         "scalarFunctions":{"shape":"ScalarFunctionsList"},
-        "outputConstraints":{"shape":"AggregationConstraints"}
+        "outputConstraints":{"shape":"AggregationConstraints"},
+        "additionalAnalyses":{"shape":"AdditionalAnalyses"}
       }
     },
     "AnalysisRuleAggregationAggregateColumnsList":{
@@ -748,6 +1596,45 @@
       "min":1,
       "pattern":"[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?"
     },
+    "AnalysisRuleCustom":{
+      "type":"structure",
+      "required":["allowedAnalyses"],
+      "members":{
+        "allowedAnalyses":{"shape":"AnalysisRuleCustomAllowedAnalysesList"},
+        "allowedAnalysisProviders":{"shape":"AnalysisRuleCustomAllowedAnalysisProvidersList"},
+        "additionalAnalyses":{"shape":"AdditionalAnalyses"},
+        "disallowedOutputColumns":{"shape":"AnalysisRuleColumnList"},
+        "differentialPrivacy":{"shape":"DifferentialPrivacyConfiguration"}
+      }
+    },
+    "AnalysisRuleCustomAllowedAnalysesList":{
+      "type":"list",
+      "member":{"shape":"AnalysisTemplateArnOrQueryWildcard"},
+      "min":0
+    },
+    "AnalysisRuleCustomAllowedAnalysisProvidersList":{
+      "type":"list",
+      "member":{"shape":"AccountId"},
+      "min":0
+    },
+    "AnalysisRuleIdMappingTable":{
+      "type":"structure",
+      "required":[
+        "joinColumns",
+        "queryConstraints"
+      ],
+      "members":{
+        "joinColumns":{"shape":"AnalysisRuleIdMappingTableJoinColumnsList"},
+        "queryConstraints":{"shape":"QueryConstraintList"},
+        "dimensionColumns":{"shape":"AnalysisRuleColumnList"}
+      }
+    },
+    "AnalysisRuleIdMappingTableJoinColumnsList":{
+      "type":"list",
+      "member":{"shape":"AnalysisRuleColumnName"},
+      "max":2,
+      "min":2
+    },
     "AnalysisRuleList":{
       "type":"structure",
       "required":[
@@ -756,7 +1643,9 @@
       ],
       "members":{
         "joinColumns":{"shape":"AnalysisRuleListJoinColumnsList"},
-        "listColumns":{"shape":"AnalysisRuleColumnList"}
+        "allowedJoinOperators":{"shape":"JoinOperatorsList"},
+        "listColumns":{"shape":"AnalysisRuleColumnList"},
+        "additionalAnalyses":{"shape":"AdditionalAnalyses"}
       }
     },
     "AnalysisRuleListJoinColumnsList":{
@@ -775,7 +1664,9 @@
       "type":"structure",
       "members":{
         "list":{"shape":"AnalysisRuleList"},
-        "aggregation":{"shape":"AnalysisRuleAggregation"}
+        "aggregation":{"shape":"AnalysisRuleAggregation"},
+        "custom":{"shape":"AnalysisRuleCustom"},
+        "idMappingTable":{"shape":"AnalysisRuleIdMappingTable"}
       },
       "union":true
     },
@@ -783,12 +1674,304 @@
       "type":"string",
       "enum":[
         "AGGREGATION",
-        "LIST"
+        "LIST",
+        "CUSTOM",
+        "ID_MAPPING_TABLE"
       ]
     },
     "AnalysisRuleTypeList":{
       "type":"list",
       "member":{"shape":"AnalysisRuleType"}
+    },
+    "AnalysisSchema":{
+      "type":"structure",
+      "members":{
+        "referencedTables":{"shape":"QueryTables"}
+      }
+    },
+    "AnalysisSource":{
+      "type":"structure",
+      "members":{
+        "text":{"shape":"AnalysisTemplateText"}
+      },
+      "sensitive":true,
+      "union":true
+    },
+    "AnalysisTemplate":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "collaborationId",
+        "collaborationArn",
+        "membershipId",
+        "membershipArn",
+        "name",
+        "createTime",
+        "updateTime",
+        "schema",
+        "format",
+        "source"
+      ],
+      "members":{
+        "id":{"shape":"AnalysisTemplateIdentifier"},
+        "arn":{"shape":"AnalysisTemplateArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "membershipId":{"shape":"UUID"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "description":{"shape":"ResourceDescription"},
+        "name":{"shape":"ResourceAlias"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "schema":{"shape":"AnalysisSchema"},
+        "format":{"shape":"AnalysisFormat"},
+        "source":{"shape":"AnalysisSource"},
+        "analysisParameters":{"shape":"AnalysisParameterList"},
+        "validations":{"shape":"AnalysisTemplateValidationStatusDetailList"}
+      }
+    },
+    "AnalysisTemplateArn":{
+      "type":"string",
+      "max":200,
+      "min":0,
+      "pattern":"arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+"
+    },
+    "AnalysisTemplateArnList":{
+      "type":"list",
+      "member":{"shape":"AnalysisTemplateArn"},
+      "max":10,
+      "min":1
+    },
+    "AnalysisTemplateArnOrQueryWildcard":{
+      "type":"string",
+      "max":200,
+      "min":0,
+      "pattern":"(ANY_QUERY|ANY_JOB|arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+)"
+    },
+    "AnalysisTemplateIdentifier":{
+      "type":"string",
+      "max":36,
+      "min":36,
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "AnalysisTemplateSummary":{
+      "type":"structure",
+      "required":[
+        "arn",
+        "createTime",
+        "id",
+        "name",
+        "updateTime",
+        "membershipArn",
+        "membershipId",
+        "collaborationArn",
+        "collaborationId"
+      ],
+      "members":{
+        "arn":{"shape":"AnalysisTemplateArn"},
+        "createTime":{"shape":"Timestamp"},
+        "id":{"shape":"AnalysisTemplateIdentifier"},
+        "name":{"shape":"ResourceAlias"},
+        "updateTime":{"shape":"Timestamp"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "membershipId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "description":{"shape":"ResourceDescription"}
+      }
+    },
+    "AnalysisTemplateSummaryList":{
+      "type":"list",
+      "member":{"shape":"AnalysisTemplateSummary"}
+    },
+    "AnalysisTemplateText":{
+      "type":"string",
+      "max":90000,
+      "min":0
+    },
+    "AnalysisTemplateValidationStatus":{
+      "type":"string",
+      "enum":[
+        "VALID",
+        "INVALID",
+        "UNABLE_TO_VALIDATE"
+      ]
+    },
+    "AnalysisTemplateValidationStatusDetail":{
+      "type":"structure",
+      "required":[
+        "type",
+        "status"
+      ],
+      "members":{
+        "type":{"shape":"AnalysisTemplateValidationType"},
+        "status":{"shape":"AnalysisTemplateValidationStatus"},
+        "reasons":{"shape":"AnalysisTemplateValidationStatusReasonList"}
+      }
+    },
+    "AnalysisTemplateValidationStatusDetailList":{
+      "type":"list",
+      "member":{"shape":"AnalysisTemplateValidationStatusDetail"}
+    },
+    "AnalysisTemplateValidationStatusReason":{
+      "type":"structure",
+      "required":["message"],
+      "members":{
+        "message":{"shape":"String"}
+      }
+    },
+    "AnalysisTemplateValidationStatusReasonList":{
+      "type":"list",
+      "member":{"shape":"AnalysisTemplateValidationStatusReason"}
+    },
+    "AnalysisTemplateValidationType":{
+      "type":"string",
+      "enum":["DIFFERENTIAL_PRIVACY"]
+    },
+    "AnalysisType":{
+      "type":"string",
+      "enum":[
+        "DIRECT_ANALYSIS",
+        "ADDITIONAL_ANALYSIS"
+      ]
+    },
+    "AnalyticsEngine":{
+      "type":"string",
+      "enum":[
+        "SPARK",
+        "CLEAN_ROOMS_SQL"
+      ]
+    },
+    "AthenaDatabaseName":{
+      "type":"string",
+      "max":128,
+      "min":0,
+      "pattern":"[a-zA-Z0-9_](([a-zA-Z0-9_]+-)*([a-zA-Z0-9_]+))?"
+    },
+    "AthenaOutputLocation":{
+      "type":"string",
+      "max":1024,
+      "min":8,
+      "pattern":"s3://[a-z0-9.-]{3,63}(.*)"
+    },
+    "AthenaTableName":{
+      "type":"string",
+      "max":128,
+      "min":0,
+      "pattern":"[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?"
+    },
+    "AthenaTableReference":{
+      "type":"structure",
+      "required":[
+        "workGroup",
+        "databaseName",
+        "tableName"
+      ],
+      "members":{
+        "workGroup":{"shape":"AthenaWorkGroup"},
+        "outputLocation":{"shape":"AthenaOutputLocation"},
+        "databaseName":{"shape":"AthenaDatabaseName"},
+        "tableName":{"shape":"AthenaTableName"}
+      }
+    },
+    "AthenaWorkGroup":{
+      "type":"string",
+      "max":128,
+      "min":1,
+      "pattern":"([a-zA-Z0-9._-])*"
+    },
+    "BatchGetCollaborationAnalysisTemplateError":{
+      "type":"structure",
+      "required":[
+        "arn",
+        "code",
+        "message"
+      ],
+      "members":{
+        "arn":{"shape":"AnalysisTemplateArn"},
+        "code":{"shape":"String"},
+        "message":{"shape":"String"}
+      }
+    },
+    "BatchGetCollaborationAnalysisTemplateErrorList":{
+      "type":"list",
+      "member":{"shape":"BatchGetCollaborationAnalysisTemplateError"},
+      "max":10,
+      "min":0
+    },
+    "BatchGetCollaborationAnalysisTemplateInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "analysisTemplateArns"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "analysisTemplateArns":{"shape":"AnalysisTemplateArnList"}
+      }
+    },
+    "BatchGetCollaborationAnalysisTemplateOutput":{
+      "type":"structure",
+      "required":[
+        "collaborationAnalysisTemplates",
+        "errors"
+      ],
+      "members":{
+        "collaborationAnalysisTemplates":{"shape":"CollaborationAnalysisTemplateList"},
+        "errors":{"shape":"BatchGetCollaborationAnalysisTemplateErrorList"}
+      }
+    },
+    "BatchGetSchemaAnalysisRuleError":{
+      "type":"structure",
+      "required":[
+        "name",
+        "type",
+        "code",
+        "message"
+      ],
+      "members":{
+        "name":{"shape":"TableAlias"},
+        "type":{"shape":"AnalysisRuleType"},
+        "code":{"shape":"String"},
+        "message":{"shape":"String"}
+      }
+    },
+    "BatchGetSchemaAnalysisRuleErrorList":{
+      "type":"list",
+      "member":{"shape":"BatchGetSchemaAnalysisRuleError"},
+      "max":25,
+      "min":0
+    },
+    "BatchGetSchemaAnalysisRuleInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "schemaAnalysisRuleRequests"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "schemaAnalysisRuleRequests":{"shape":"SchemaAnalysisRuleRequestList"}
+      }
+    },
+    "BatchGetSchemaAnalysisRuleOutput":{
+      "type":"structure",
+      "required":[
+        "analysisRules",
+        "errors"
+      ],
+      "members":{
+        "analysisRules":{"shape":"SchemaAnalysisRuleList"},
+        "errors":{"shape":"BatchGetSchemaAnalysisRuleErrorList"}
+      }
     },
     "BatchGetSchemaError":{
       "type":"structure",
@@ -835,9 +2018,22 @@
         "errors":{"shape":"BatchGetSchemaErrorList"}
       }
     },
+    "BilledResourceUtilization":{
+      "type":"structure",
+      "required":["units"],
+      "members":{
+        "units":{"shape":"Double"}
+      }
+    },
     "Boolean":{
       "type":"boolean",
       "box":true
+    },
+    "CleanroomsArn":{
+      "type":"string",
+      "max":100,
+      "min":0,
+      "pattern":"arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:[\\d\\w/-]+"
     },
     "Collaboration":{
       "type":"structure",
@@ -865,8 +2061,75 @@
         "membershipId":{"shape":"UUID"},
         "membershipArn":{"shape":"MembershipArn"},
         "dataEncryptionMetadata":{"shape":"DataEncryptionMetadata"},
-        "queryLogStatus":{"shape":"CollaborationQueryLogStatus"}
+        "queryLogStatus":{"shape":"CollaborationQueryLogStatus"},
+        "analyticsEngine":{"shape":"AnalyticsEngine"}
       }
+    },
+    "CollaborationAnalysisTemplate":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "collaborationId",
+        "collaborationArn",
+        "creatorAccountId",
+        "name",
+        "createTime",
+        "updateTime",
+        "schema",
+        "format",
+        "source"
+      ],
+      "members":{
+        "id":{"shape":"AnalysisTemplateIdentifier"},
+        "arn":{"shape":"AnalysisTemplateArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "description":{"shape":"ResourceDescription"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "name":{"shape":"ResourceAlias"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "schema":{"shape":"AnalysisSchema"},
+        "format":{"shape":"AnalysisFormat"},
+        "source":{"shape":"AnalysisSource"},
+        "analysisParameters":{"shape":"AnalysisParameterList"},
+        "validations":{"shape":"AnalysisTemplateValidationStatusDetailList"}
+      }
+    },
+    "CollaborationAnalysisTemplateList":{
+      "type":"list",
+      "member":{"shape":"CollaborationAnalysisTemplate"},
+      "max":10,
+      "min":0
+    },
+    "CollaborationAnalysisTemplateSummary":{
+      "type":"structure",
+      "required":[
+        "arn",
+        "createTime",
+        "id",
+        "name",
+        "updateTime",
+        "collaborationArn",
+        "collaborationId",
+        "creatorAccountId"
+      ],
+      "members":{
+        "arn":{"shape":"AnalysisTemplateArn"},
+        "createTime":{"shape":"Timestamp"},
+        "id":{"shape":"AnalysisTemplateIdentifier"},
+        "name":{"shape":"ResourceAlias"},
+        "updateTime":{"shape":"Timestamp"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "description":{"shape":"ResourceDescription"}
+      }
+    },
+    "CollaborationAnalysisTemplateSummaryList":{
+      "type":"list",
+      "member":{"shape":"CollaborationAnalysisTemplateSummary"}
     },
     "CollaborationArn":{
       "type":"string",
@@ -874,23 +2137,223 @@
       "min":0,
       "pattern":"arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:collaboration/[\\d\\w-]+"
     },
+    "CollaborationConfiguredAudienceModelAssociation":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "collaborationId",
+        "collaborationArn",
+        "configuredAudienceModelArn",
+        "name",
+        "creatorAccountId",
+        "createTime",
+        "updateTime"
+      ],
+      "members":{
+        "id":{"shape":"ConfiguredAudienceModelAssociationIdentifier"},
+        "arn":{"shape":"ConfiguredAudienceModelAssociationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "configuredAudienceModelArn":{"shape":"ConfiguredAudienceModelArn"},
+        "name":{"shape":"ConfiguredAudienceModelAssociationName"},
+        "description":{"shape":"ResourceDescription"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"}
+      }
+    },
+    "CollaborationConfiguredAudienceModelAssociationSummary":{
+      "type":"structure",
+      "required":[
+        "arn",
+        "createTime",
+        "id",
+        "name",
+        "updateTime",
+        "collaborationArn",
+        "collaborationId",
+        "creatorAccountId"
+      ],
+      "members":{
+        "arn":{"shape":"ConfiguredAudienceModelAssociationArn"},
+        "createTime":{"shape":"Timestamp"},
+        "id":{"shape":"ConfiguredAudienceModelAssociationIdentifier"},
+        "name":{"shape":"ConfiguredAudienceModelAssociationName"},
+        "updateTime":{"shape":"Timestamp"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "description":{"shape":"ResourceDescription"}
+      }
+    },
+    "CollaborationConfiguredAudienceModelAssociationSummaryList":{
+      "type":"list",
+      "member":{"shape":"CollaborationConfiguredAudienceModelAssociationSummary"}
+    },
     "CollaborationDescription":{
       "type":"string",
       "max":255,
       "min":1,
       "pattern":"(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*"
     },
+    "CollaborationIdNamespaceAssociation":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "collaborationId",
+        "collaborationArn",
+        "name",
+        "creatorAccountId",
+        "createTime",
+        "updateTime",
+        "inputReferenceConfig",
+        "inputReferenceProperties"
+      ],
+      "members":{
+        "id":{"shape":"IdNamespaceAssociationIdentifier"},
+        "arn":{"shape":"IdNamespaceAssociationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "name":{"shape":"GenericResourceName"},
+        "description":{"shape":"ResourceDescription"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "inputReferenceConfig":{"shape":"IdNamespaceAssociationInputReferenceConfig"},
+        "inputReferenceProperties":{"shape":"IdNamespaceAssociationInputReferenceProperties"},
+        "idMappingConfig":{"shape":"IdMappingConfig"}
+      }
+    },
+    "CollaborationIdNamespaceAssociationSummary":{
+      "type":"structure",
+      "required":[
+        "arn",
+        "createTime",
+        "id",
+        "updateTime",
+        "collaborationArn",
+        "collaborationId",
+        "creatorAccountId",
+        "inputReferenceConfig",
+        "name",
+        "inputReferenceProperties"
+      ],
+      "members":{
+        "arn":{"shape":"IdNamespaceAssociationArn"},
+        "createTime":{"shape":"Timestamp"},
+        "id":{"shape":"IdNamespaceAssociationIdentifier"},
+        "updateTime":{"shape":"Timestamp"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "inputReferenceConfig":{"shape":"IdNamespaceAssociationInputReferenceConfig"},
+        "name":{"shape":"GenericResourceName"},
+        "description":{"shape":"ResourceDescription"},
+        "inputReferenceProperties":{"shape":"IdNamespaceAssociationInputReferencePropertiesSummary"}
+      }
+    },
+    "CollaborationIdNamespaceAssociationSummaryList":{
+      "type":"list",
+      "member":{"shape":"CollaborationIdNamespaceAssociationSummary"}
+    },
     "CollaborationIdentifier":{
       "type":"string",
       "max":36,
       "min":36,
-      "pattern":".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*"
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     },
     "CollaborationName":{
       "type":"string",
       "max":100,
       "min":1,
       "pattern":"(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*"
+    },
+    "CollaborationPrivacyBudgetSummary":{
+      "type":"structure",
+      "required":[
+        "id",
+        "privacyBudgetTemplateId",
+        "privacyBudgetTemplateArn",
+        "collaborationId",
+        "collaborationArn",
+        "creatorAccountId",
+        "type",
+        "createTime",
+        "updateTime",
+        "budget"
+      ],
+      "members":{
+        "id":{"shape":"UUID"},
+        "privacyBudgetTemplateId":{"shape":"PrivacyBudgetTemplateIdentifier"},
+        "privacyBudgetTemplateArn":{"shape":"PrivacyBudgetTemplateArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "type":{"shape":"PrivacyBudgetType"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "budget":{"shape":"PrivacyBudget"}
+      }
+    },
+    "CollaborationPrivacyBudgetSummaryList":{
+      "type":"list",
+      "member":{"shape":"CollaborationPrivacyBudgetSummary"}
+    },
+    "CollaborationPrivacyBudgetTemplate":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "collaborationId",
+        "collaborationArn",
+        "creatorAccountId",
+        "createTime",
+        "updateTime",
+        "privacyBudgetType",
+        "autoRefresh",
+        "parameters"
+      ],
+      "members":{
+        "id":{"shape":"PrivacyBudgetTemplateIdentifier"},
+        "arn":{"shape":"PrivacyBudgetTemplateArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "privacyBudgetType":{"shape":"PrivacyBudgetType"},
+        "autoRefresh":{"shape":"PrivacyBudgetTemplateAutoRefresh"},
+        "parameters":{"shape":"PrivacyBudgetTemplateParametersOutput"}
+      }
+    },
+    "CollaborationPrivacyBudgetTemplateSummary":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "collaborationId",
+        "collaborationArn",
+        "creatorAccountId",
+        "privacyBudgetType",
+        "createTime",
+        "updateTime"
+      ],
+      "members":{
+        "id":{"shape":"PrivacyBudgetTemplateIdentifier"},
+        "arn":{"shape":"PrivacyBudgetTemplateArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "creatorAccountId":{"shape":"AccountId"},
+        "privacyBudgetType":{"shape":"PrivacyBudgetType"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"}
+      }
+    },
+    "CollaborationPrivacyBudgetTemplateSummaryList":{
+      "type":"list",
+      "member":{"shape":"CollaborationPrivacyBudgetTemplateSummary"}
     },
     "CollaborationQueryLogStatus":{
       "type":"string",
@@ -921,7 +2384,8 @@
         "updateTime":{"shape":"Timestamp"},
         "memberStatus":{"shape":"MemberStatus"},
         "membershipId":{"shape":"UUID"},
-        "membershipArn":{"shape":"MembershipArn"}
+        "membershipArn":{"shape":"MembershipArn"},
+        "analyticsEngine":{"shape":"AnalyticsEngine"}
       }
     },
     "CollaborationSummaryList":{
@@ -954,6 +2418,106 @@
       "max":255,
       "min":0,
       "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*"
+    },
+    "ComputeConfiguration":{
+      "type":"structure",
+      "members":{
+        "worker":{"shape":"WorkerComputeConfiguration"}
+      },
+      "union":true
+    },
+    "ConfigurationDetails":{
+      "type":"structure",
+      "members":{
+        "directAnalysisConfigurationDetails":{"shape":"DirectAnalysisConfigurationDetails"}
+      },
+      "union":true
+    },
+    "ConfiguredAudienceModelArn":{
+      "type":"string",
+      "max":2048,
+      "min":20,
+      "pattern":"arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+"
+    },
+    "ConfiguredAudienceModelAssociation":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "configuredAudienceModelArn",
+        "membershipId",
+        "membershipArn",
+        "collaborationId",
+        "collaborationArn",
+        "name",
+        "manageResourcePolicies",
+        "createTime",
+        "updateTime"
+      ],
+      "members":{
+        "id":{"shape":"ConfiguredAudienceModelAssociationIdentifier"},
+        "arn":{"shape":"ConfiguredAudienceModelAssociationArn"},
+        "configuredAudienceModelArn":{"shape":"ConfiguredAudienceModelArn"},
+        "membershipId":{"shape":"UUID"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "name":{"shape":"ConfiguredAudienceModelAssociationName"},
+        "manageResourcePolicies":{"shape":"Boolean"},
+        "description":{"shape":"ResourceDescription"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"}
+      }
+    },
+    "ConfiguredAudienceModelAssociationArn":{
+      "type":"string",
+      "max":256,
+      "min":0,
+      "pattern":"arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/configuredaudiencemodelassociation/[\\d\\w-]+"
+    },
+    "ConfiguredAudienceModelAssociationIdentifier":{
+      "type":"string",
+      "max":36,
+      "min":36,
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "ConfiguredAudienceModelAssociationName":{
+      "type":"string",
+      "max":100,
+      "min":1,
+      "pattern":"(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*"
+    },
+    "ConfiguredAudienceModelAssociationSummary":{
+      "type":"structure",
+      "required":[
+        "membershipId",
+        "membershipArn",
+        "collaborationArn",
+        "collaborationId",
+        "createTime",
+        "updateTime",
+        "id",
+        "arn",
+        "name",
+        "configuredAudienceModelArn"
+      ],
+      "members":{
+        "membershipId":{"shape":"MembershipIdentifier"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "id":{"shape":"UUID"},
+        "arn":{"shape":"ConfiguredAudienceModelAssociationArn"},
+        "name":{"shape":"ConfiguredAudienceModelAssociationName"},
+        "configuredAudienceModelArn":{"shape":"ConfiguredAudienceModelArn"},
+        "description":{"shape":"ResourceDescription"}
+      }
+    },
+    "ConfiguredAudienceModelAssociationSummaryList":{
+      "type":"list",
+      "member":{"shape":"ConfiguredAudienceModelAssociationSummary"}
     },
     "ConfiguredTable":{
       "type":"structure",
@@ -1011,7 +2575,8 @@
       "type":"structure",
       "members":{
         "list":{"shape":"AnalysisRuleList"},
-        "aggregation":{"shape":"AnalysisRuleAggregation"}
+        "aggregation":{"shape":"AnalysisRuleAggregation"},
+        "custom":{"shape":"AnalysisRuleCustom"}
       },
       "union":true
     },
@@ -1019,7 +2584,8 @@
       "type":"string",
       "enum":[
         "AGGREGATION",
-        "LIST"
+        "LIST",
+        "CUSTOM"
       ]
     },
     "ConfiguredTableAnalysisRuleTypeList":{
@@ -1030,7 +2596,7 @@
       "type":"string",
       "max":100,
       "min":0,
-      "pattern":"arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:configuredTable/[\\d\\w-]+"
+      "pattern":"arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:configuredtable/[\\d\\w-]+"
     },
     "ConfiguredTableAssociation":{
       "type":"structure",
@@ -1056,21 +2622,92 @@
         "roleArn":{"shape":"RoleArn"},
         "name":{"shape":"TableAlias"},
         "description":{"shape":"TableDescription"},
+        "analysisRuleTypes":{"shape":"ConfiguredTableAssociationAnalysisRuleTypeList"},
         "createTime":{"shape":"Timestamp"},
         "updateTime":{"shape":"Timestamp"}
       }
+    },
+    "ConfiguredTableAssociationAnalysisRule":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "configuredTableAssociationId",
+        "configuredTableAssociationArn",
+        "policy",
+        "type",
+        "createTime",
+        "updateTime"
+      ],
+      "members":{
+        "membershipIdentifier":{"shape":"MembershipIdentifier"},
+        "configuredTableAssociationId":{"shape":"ConfiguredTableAssociationIdentifier"},
+        "configuredTableAssociationArn":{"shape":"ConfiguredTableAssociationArn"},
+        "policy":{"shape":"ConfiguredTableAssociationAnalysisRulePolicy"},
+        "type":{"shape":"ConfiguredTableAssociationAnalysisRuleType"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"}
+      }
+    },
+    "ConfiguredTableAssociationAnalysisRuleAggregation":{
+      "type":"structure",
+      "members":{
+        "allowedResultReceivers":{"shape":"AllowedResultReceivers"},
+        "allowedAdditionalAnalyses":{"shape":"AllowedAdditionalAnalyses"}
+      }
+    },
+    "ConfiguredTableAssociationAnalysisRuleCustom":{
+      "type":"structure",
+      "members":{
+        "allowedResultReceivers":{"shape":"AllowedResultReceivers"},
+        "allowedAdditionalAnalyses":{"shape":"AllowedAdditionalAnalyses"}
+      }
+    },
+    "ConfiguredTableAssociationAnalysisRuleList":{
+      "type":"structure",
+      "members":{
+        "allowedResultReceivers":{"shape":"AllowedResultReceivers"},
+        "allowedAdditionalAnalyses":{"shape":"AllowedAdditionalAnalyses"}
+      }
+    },
+    "ConfiguredTableAssociationAnalysisRulePolicy":{
+      "type":"structure",
+      "members":{
+        "v1":{"shape":"ConfiguredTableAssociationAnalysisRulePolicyV1"}
+      },
+      "union":true
+    },
+    "ConfiguredTableAssociationAnalysisRulePolicyV1":{
+      "type":"structure",
+      "members":{
+        "list":{"shape":"ConfiguredTableAssociationAnalysisRuleList"},
+        "aggregation":{"shape":"ConfiguredTableAssociationAnalysisRuleAggregation"},
+        "custom":{"shape":"ConfiguredTableAssociationAnalysisRuleCustom"}
+      },
+      "union":true
+    },
+    "ConfiguredTableAssociationAnalysisRuleType":{
+      "type":"string",
+      "enum":[
+        "AGGREGATION",
+        "LIST",
+        "CUSTOM"
+      ]
+    },
+    "ConfiguredTableAssociationAnalysisRuleTypeList":{
+      "type":"list",
+      "member":{"shape":"ConfiguredTableAssociationAnalysisRuleType"}
     },
     "ConfiguredTableAssociationArn":{
       "type":"string",
       "max":100,
       "min":0,
-      "pattern":"arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:configuredTableAssociation/[\\d\\w-]+/[\\d\\w-]+"
+      "pattern":"arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:configuredtableassociation/[\\d\\w-]+/[\\d\\w-]+"
     },
     "ConfiguredTableAssociationIdentifier":{
       "type":"string",
       "max":36,
       "min":36,
-      "pattern":".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*"
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     },
     "ConfiguredTableAssociationSummary":{
       "type":"structure",
@@ -1103,7 +2740,7 @@
       "type":"string",
       "max":36,
       "min":36,
-      "pattern":".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*"
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     },
     "ConfiguredTableSummary":{
       "type":"structure",
@@ -1152,6 +2789,35 @@
         "INVALID_STATE"
       ]
     },
+    "CreateAnalysisTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "name",
+        "format",
+        "source"
+      ],
+      "members":{
+        "description":{"shape":"ResourceDescription"},
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "name":{"shape":"TableAlias"},
+        "format":{"shape":"AnalysisFormat"},
+        "source":{"shape":"AnalysisSource"},
+        "tags":{"shape":"TagMap"},
+        "analysisParameters":{"shape":"AnalysisParameterList"}
+      }
+    },
+    "CreateAnalysisTemplateOutput":{
+      "type":"structure",
+      "required":["analysisTemplate"],
+      "members":{
+        "analysisTemplate":{"shape":"AnalysisTemplate"}
+      }
+    },
     "CreateCollaborationInput":{
       "type":"structure",
       "required":[
@@ -1167,9 +2833,13 @@
         "name":{"shape":"CollaborationName"},
         "description":{"shape":"CollaborationDescription"},
         "creatorMemberAbilities":{"shape":"MemberAbilities"},
+        "creatorMLMemberAbilities":{"shape":"MLMemberAbilities"},
         "creatorDisplayName":{"shape":"DisplayName"},
         "dataEncryptionMetadata":{"shape":"DataEncryptionMetadata"},
-        "queryLogStatus":{"shape":"CollaborationQueryLogStatus"}
+        "queryLogStatus":{"shape":"CollaborationQueryLogStatus"},
+        "tags":{"shape":"TagMap"},
+        "creatorPaymentConfiguration":{"shape":"PaymentConfiguration"},
+        "analyticsEngine":{"shape":"AnalyticsEngine"}
       }
     },
     "CreateCollaborationOutput":{
@@ -1177,6 +2847,34 @@
       "required":["collaboration"],
       "members":{
         "collaboration":{"shape":"Collaboration"}
+      }
+    },
+    "CreateConfiguredAudienceModelAssociationInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "configuredAudienceModelArn",
+        "configuredAudienceModelAssociationName",
+        "manageResourcePolicies"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "configuredAudienceModelArn":{"shape":"ConfiguredAudienceModelArn"},
+        "configuredAudienceModelAssociationName":{"shape":"ConfiguredAudienceModelAssociationName"},
+        "manageResourcePolicies":{"shape":"Boolean"},
+        "tags":{"shape":"TagMap"},
+        "description":{"shape":"ResourceDescription"}
+      }
+    },
+    "CreateConfiguredAudienceModelAssociationOutput":{
+      "type":"structure",
+      "required":["configuredAudienceModelAssociation"],
+      "members":{
+        "configuredAudienceModelAssociation":{"shape":"ConfiguredAudienceModelAssociation"}
       }
     },
     "CreateConfiguredTableAnalysisRuleInput":{
@@ -1203,6 +2901,36 @@
         "analysisRule":{"shape":"ConfiguredTableAnalysisRule"}
       }
     },
+    "CreateConfiguredTableAssociationAnalysisRuleInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "configuredTableAssociationIdentifier",
+        "analysisRuleType",
+        "analysisRulePolicy"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "configuredTableAssociationIdentifier":{
+          "shape":"ConfiguredTableAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredTableAssociationIdentifier"
+        },
+        "analysisRuleType":{"shape":"ConfiguredTableAssociationAnalysisRuleType"},
+        "analysisRulePolicy":{"shape":"ConfiguredTableAssociationAnalysisRulePolicy"}
+      }
+    },
+    "CreateConfiguredTableAssociationAnalysisRuleOutput":{
+      "type":"structure",
+      "required":["analysisRule"],
+      "members":{
+        "analysisRule":{"shape":"ConfiguredTableAssociationAnalysisRule"}
+      }
+    },
     "CreateConfiguredTableAssociationInput":{
       "type":"structure",
       "required":[
@@ -1220,7 +2948,8 @@
           "locationName":"membershipIdentifier"
         },
         "configuredTableIdentifier":{"shape":"ConfiguredTableIdentifier"},
-        "roleArn":{"shape":"RoleArn"}
+        "roleArn":{"shape":"RoleArn"},
+        "tags":{"shape":"TagMap"}
       }
     },
     "CreateConfiguredTableAssociationOutput":{
@@ -1243,7 +2972,8 @@
         "description":{"shape":"TableDescription"},
         "tableReference":{"shape":"TableReference"},
         "allowedColumns":{"shape":"AllowedColumnList"},
-        "analysisMethod":{"shape":"AnalysisMethod"}
+        "analysisMethod":{"shape":"AnalysisMethod"},
+        "tags":{"shape":"TagMap"}
       }
     },
     "CreateConfiguredTableOutput":{
@@ -1251,6 +2981,60 @@
       "required":["configuredTable"],
       "members":{
         "configuredTable":{"shape":"ConfiguredTable"}
+      }
+    },
+    "CreateIdMappingTableInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "name",
+        "inputReferenceConfig"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "name":{"shape":"ResourceAlias"},
+        "description":{"shape":"ResourceDescription"},
+        "inputReferenceConfig":{"shape":"IdMappingTableInputReferenceConfig"},
+        "tags":{"shape":"TagMap"},
+        "kmsKeyArn":{"shape":"KMSKeyArn"}
+      }
+    },
+    "CreateIdMappingTableOutput":{
+      "type":"structure",
+      "required":["idMappingTable"],
+      "members":{
+        "idMappingTable":{"shape":"IdMappingTable"}
+      }
+    },
+    "CreateIdNamespaceAssociationInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "inputReferenceConfig",
+        "name"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "inputReferenceConfig":{"shape":"IdNamespaceAssociationInputReferenceConfig"},
+        "tags":{"shape":"TagMap"},
+        "name":{"shape":"GenericResourceName"},
+        "description":{"shape":"ResourceDescription"},
+        "idMappingConfig":{"shape":"IdMappingConfig"}
+      }
+    },
+    "CreateIdNamespaceAssociationOutput":{
+      "type":"structure",
+      "required":["idNamespaceAssociation"],
+      "members":{
+        "idNamespaceAssociation":{"shape":"IdNamespaceAssociation"}
       }
     },
     "CreateMembershipInput":{
@@ -1261,7 +3045,10 @@
       ],
       "members":{
         "collaborationIdentifier":{"shape":"CollaborationIdentifier"},
-        "queryLogStatus":{"shape":"MembershipQueryLogStatus"}
+        "queryLogStatus":{"shape":"MembershipQueryLogStatus"},
+        "tags":{"shape":"TagMap"},
+        "defaultResultConfiguration":{"shape":"MembershipProtectedQueryResultConfiguration"},
+        "paymentConfiguration":{"shape":"MembershipPaymentConfiguration"}
       }
     },
     "CreateMembershipOutput":{
@@ -1270,6 +3057,45 @@
       "members":{
         "membership":{"shape":"Membership"}
       }
+    },
+    "CreatePrivacyBudgetTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "autoRefresh",
+        "privacyBudgetType",
+        "parameters"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "autoRefresh":{"shape":"PrivacyBudgetTemplateAutoRefresh"},
+        "privacyBudgetType":{"shape":"PrivacyBudgetType"},
+        "parameters":{"shape":"PrivacyBudgetTemplateParametersInput"},
+        "tags":{"shape":"TagMap"}
+      }
+    },
+    "CreatePrivacyBudgetTemplateOutput":{
+      "type":"structure",
+      "required":["privacyBudgetTemplate"],
+      "members":{
+        "privacyBudgetTemplate":{"shape":"PrivacyBudgetTemplate"}
+      }
+    },
+    "CustomMLMemberAbilities":{
+      "type":"list",
+      "member":{"shape":"CustomMLMemberAbility"},
+      "min":1
+    },
+    "CustomMLMemberAbility":{
+      "type":"string",
+      "enum":[
+        "CAN_RECEIVE_MODEL_OUTPUT",
+        "CAN_RECEIVE_INFERENCE_OUTPUT"
+      ]
     },
     "DataEncryptionMetadata":{
       "type":"structure",
@@ -1286,6 +3112,30 @@
         "preserveNulls":{"shape":"Boolean"}
       }
     },
+    "DeleteAnalysisTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "analysisTemplateIdentifier"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "analysisTemplateIdentifier":{
+          "shape":"AnalysisTemplateIdentifier",
+          "location":"uri",
+          "locationName":"analysisTemplateIdentifier"
+        }
+      }
+    },
+    "DeleteAnalysisTemplateOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DeleteCollaborationInput":{
       "type":"structure",
       "required":["collaborationIdentifier"],
@@ -1298,6 +3148,30 @@
       }
     },
     "DeleteCollaborationOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DeleteConfiguredAudienceModelAssociationInput":{
+      "type":"structure",
+      "required":[
+        "configuredAudienceModelAssociationIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "configuredAudienceModelAssociationIdentifier":{
+          "shape":"ConfiguredAudienceModelAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredAudienceModelAssociationIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "DeleteConfiguredAudienceModelAssociationOutput":{
       "type":"structure",
       "members":{
       }
@@ -1322,6 +3196,36 @@
       }
     },
     "DeleteConfiguredTableAnalysisRuleOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DeleteConfiguredTableAssociationAnalysisRuleInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "configuredTableAssociationIdentifier",
+        "analysisRuleType"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "configuredTableAssociationIdentifier":{
+          "shape":"ConfiguredTableAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredTableAssociationIdentifier"
+        },
+        "analysisRuleType":{
+          "shape":"ConfiguredTableAssociationAnalysisRuleType",
+          "location":"uri",
+          "locationName":"analysisRuleType"
+        }
+      }
+    },
+    "DeleteConfiguredTableAssociationAnalysisRuleOutput":{
       "type":"structure",
       "members":{
       }
@@ -1366,6 +3270,54 @@
       "members":{
       }
     },
+    "DeleteIdMappingTableInput":{
+      "type":"structure",
+      "required":[
+        "idMappingTableIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idMappingTableIdentifier":{
+          "shape":"UUID",
+          "location":"uri",
+          "locationName":"idMappingTableIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "DeleteIdMappingTableOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DeleteIdNamespaceAssociationInput":{
+      "type":"structure",
+      "required":[
+        "idNamespaceAssociationIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idNamespaceAssociationIdentifier":{
+          "shape":"IdNamespaceAssociationIdentifier",
+          "location":"uri",
+          "locationName":"idNamespaceAssociationIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "DeleteIdNamespaceAssociationOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DeleteMemberInput":{
       "type":"structure",
       "required":[
@@ -1406,15 +3358,227 @@
       "members":{
       }
     },
+    "DeletePrivacyBudgetTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "privacyBudgetTemplateIdentifier"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "privacyBudgetTemplateIdentifier":{
+          "shape":"PrivacyBudgetTemplateIdentifier",
+          "location":"uri",
+          "locationName":"privacyBudgetTemplateIdentifier"
+        }
+      }
+    },
+    "DeletePrivacyBudgetTemplateOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DifferentialPrivacyAggregationExpression":{
+      "type":"string",
+      "min":1
+    },
+    "DifferentialPrivacyAggregationType":{
+      "type":"string",
+      "enum":[
+        "AVG",
+        "COUNT",
+        "COUNT_DISTINCT",
+        "SUM",
+        "STDDEV"
+      ]
+    },
+    "DifferentialPrivacyColumn":{
+      "type":"structure",
+      "required":["name"],
+      "members":{
+        "name":{"shape":"String"}
+      }
+    },
+    "DifferentialPrivacyColumnList":{
+      "type":"list",
+      "member":{"shape":"DifferentialPrivacyColumn"},
+      "max":1,
+      "min":1
+    },
+    "DifferentialPrivacyConfiguration":{
+      "type":"structure",
+      "required":["columns"],
+      "members":{
+        "columns":{"shape":"DifferentialPrivacyColumnList"}
+      }
+    },
+    "DifferentialPrivacyParameters":{
+      "type":"structure",
+      "required":["sensitivityParameters"],
+      "members":{
+        "sensitivityParameters":{"shape":"DifferentialPrivacySensitivityParametersList"}
+      }
+    },
+    "DifferentialPrivacyPreviewAggregation":{
+      "type":"structure",
+      "required":[
+        "type",
+        "maxCount"
+      ],
+      "members":{
+        "type":{"shape":"DifferentialPrivacyAggregationType"},
+        "maxCount":{"shape":"DifferentialPrivacyPreviewAggregationMaxCountInteger"}
+      }
+    },
+    "DifferentialPrivacyPreviewAggregationList":{
+      "type":"list",
+      "member":{"shape":"DifferentialPrivacyPreviewAggregation"}
+    },
+    "DifferentialPrivacyPreviewAggregationMaxCountInteger":{
+      "type":"integer",
+      "box":true,
+      "min":0
+    },
+    "DifferentialPrivacyPreviewParametersInput":{
+      "type":"structure",
+      "required":[
+        "epsilon",
+        "usersNoisePerQuery"
+      ],
+      "members":{
+        "epsilon":{"shape":"Epsilon"},
+        "usersNoisePerQuery":{"shape":"UsersNoisePerQuery"}
+      }
+    },
+    "DifferentialPrivacyPrivacyBudget":{
+      "type":"structure",
+      "required":[
+        "aggregations",
+        "epsilon"
+      ],
+      "members":{
+        "aggregations":{"shape":"DifferentialPrivacyPrivacyBudgetAggregationList"},
+        "epsilon":{"shape":"Epsilon"}
+      }
+    },
+    "DifferentialPrivacyPrivacyBudgetAggregation":{
+      "type":"structure",
+      "required":[
+        "type",
+        "maxCount",
+        "remainingCount"
+      ],
+      "members":{
+        "type":{"shape":"DifferentialPrivacyAggregationType"},
+        "maxCount":{"shape":"DifferentialPrivacyPrivacyBudgetAggregationMaxCountInteger"},
+        "remainingCount":{"shape":"DifferentialPrivacyPrivacyBudgetAggregationRemainingCountInteger"}
+      }
+    },
+    "DifferentialPrivacyPrivacyBudgetAggregationList":{
+      "type":"list",
+      "member":{"shape":"DifferentialPrivacyPrivacyBudgetAggregation"}
+    },
+    "DifferentialPrivacyPrivacyBudgetAggregationMaxCountInteger":{
+      "type":"integer",
+      "box":true,
+      "min":0
+    },
+    "DifferentialPrivacyPrivacyBudgetAggregationRemainingCountInteger":{
+      "type":"integer",
+      "box":true,
+      "min":0
+    },
+    "DifferentialPrivacyPrivacyImpact":{
+      "type":"structure",
+      "required":["aggregations"],
+      "members":{
+        "aggregations":{"shape":"DifferentialPrivacyPreviewAggregationList"}
+      }
+    },
+    "DifferentialPrivacySensitivityParameters":{
+      "type":"structure",
+      "required":[
+        "aggregationType",
+        "aggregationExpression",
+        "userContributionLimit"
+      ],
+      "members":{
+        "aggregationType":{"shape":"DifferentialPrivacyAggregationType"},
+        "aggregationExpression":{"shape":"DifferentialPrivacyAggregationExpression"},
+        "userContributionLimit":{"shape":"DifferentialPrivacySensitivityParametersUserContributionLimitInteger"},
+        "minColumnValue":{"shape":"Float"},
+        "maxColumnValue":{"shape":"Float"}
+      }
+    },
+    "DifferentialPrivacySensitivityParametersList":{
+      "type":"list",
+      "member":{"shape":"DifferentialPrivacySensitivityParameters"}
+    },
+    "DifferentialPrivacySensitivityParametersUserContributionLimitInteger":{
+      "type":"integer",
+      "box":true,
+      "min":0
+    },
+    "DifferentialPrivacyTemplateParametersInput":{
+      "type":"structure",
+      "required":[
+        "epsilon",
+        "usersNoisePerQuery"
+      ],
+      "members":{
+        "epsilon":{"shape":"Epsilon"},
+        "usersNoisePerQuery":{"shape":"UsersNoisePerQuery"}
+      }
+    },
+    "DifferentialPrivacyTemplateParametersOutput":{
+      "type":"structure",
+      "required":[
+        "epsilon",
+        "usersNoisePerQuery"
+      ],
+      "members":{
+        "epsilon":{"shape":"Epsilon"},
+        "usersNoisePerQuery":{"shape":"UsersNoisePerQuery"}
+      }
+    },
+    "DifferentialPrivacyTemplateUpdateParameters":{
+      "type":"structure",
+      "members":{
+        "epsilon":{"shape":"Epsilon"},
+        "usersNoisePerQuery":{"shape":"UsersNoisePerQuery"}
+      }
+    },
+    "DirectAnalysisConfigurationDetails":{
+      "type":"structure",
+      "members":{
+        "receiverAccountIds":{"shape":"ReceiverAccountIds"}
+      }
+    },
     "DisplayName":{
       "type":"string",
       "max":100,
       "min":1,
       "pattern":"(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*"
     },
+    "Document":{
+      "type":"structure",
+      "members":{
+      },
+      "document":true
+    },
     "Double":{
       "type":"double",
       "box":true
+    },
+    "Epsilon":{
+      "type":"integer",
+      "box":true,
+      "max":20,
+      "min":1
     },
     "FilterableMemberStatus":{
       "type":"string",
@@ -1422,6 +3586,120 @@
         "INVITED",
         "ACTIVE"
       ]
+    },
+    "Float":{
+      "type":"float",
+      "box":true
+    },
+    "GenericResourceName":{
+      "type":"string",
+      "max":100,
+      "min":1,
+      "pattern":"(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*"
+    },
+    "GetAnalysisTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "analysisTemplateIdentifier"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "analysisTemplateIdentifier":{
+          "shape":"AnalysisTemplateIdentifier",
+          "location":"uri",
+          "locationName":"analysisTemplateIdentifier"
+        }
+      }
+    },
+    "GetAnalysisTemplateOutput":{
+      "type":"structure",
+      "required":["analysisTemplate"],
+      "members":{
+        "analysisTemplate":{"shape":"AnalysisTemplate"}
+      }
+    },
+    "GetCollaborationAnalysisTemplateInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "analysisTemplateArn"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "analysisTemplateArn":{
+          "shape":"AnalysisTemplateArn",
+          "location":"uri",
+          "locationName":"analysisTemplateArn"
+        }
+      }
+    },
+    "GetCollaborationAnalysisTemplateOutput":{
+      "type":"structure",
+      "required":["collaborationAnalysisTemplate"],
+      "members":{
+        "collaborationAnalysisTemplate":{"shape":"CollaborationAnalysisTemplate"}
+      }
+    },
+    "GetCollaborationConfiguredAudienceModelAssociationInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "configuredAudienceModelAssociationIdentifier"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "configuredAudienceModelAssociationIdentifier":{
+          "shape":"ConfiguredAudienceModelAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredAudienceModelAssociationIdentifier"
+        }
+      }
+    },
+    "GetCollaborationConfiguredAudienceModelAssociationOutput":{
+      "type":"structure",
+      "required":["collaborationConfiguredAudienceModelAssociation"],
+      "members":{
+        "collaborationConfiguredAudienceModelAssociation":{"shape":"CollaborationConfiguredAudienceModelAssociation"}
+      }
+    },
+    "GetCollaborationIdNamespaceAssociationInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "idNamespaceAssociationIdentifier"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "idNamespaceAssociationIdentifier":{
+          "shape":"IdNamespaceAssociationIdentifier",
+          "location":"uri",
+          "locationName":"idNamespaceAssociationIdentifier"
+        }
+      }
+    },
+    "GetCollaborationIdNamespaceAssociationOutput":{
+      "type":"structure",
+      "required":["collaborationIdNamespaceAssociation"],
+      "members":{
+        "collaborationIdNamespaceAssociation":{"shape":"CollaborationIdNamespaceAssociation"}
+      }
     },
     "GetCollaborationInput":{
       "type":"structure",
@@ -1439,6 +3717,58 @@
       "required":["collaboration"],
       "members":{
         "collaboration":{"shape":"Collaboration"}
+      }
+    },
+    "GetCollaborationPrivacyBudgetTemplateInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "privacyBudgetTemplateIdentifier"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "privacyBudgetTemplateIdentifier":{
+          "shape":"PrivacyBudgetTemplateIdentifier",
+          "location":"uri",
+          "locationName":"privacyBudgetTemplateIdentifier"
+        }
+      }
+    },
+    "GetCollaborationPrivacyBudgetTemplateOutput":{
+      "type":"structure",
+      "required":["collaborationPrivacyBudgetTemplate"],
+      "members":{
+        "collaborationPrivacyBudgetTemplate":{"shape":"CollaborationPrivacyBudgetTemplate"}
+      }
+    },
+    "GetConfiguredAudienceModelAssociationInput":{
+      "type":"structure",
+      "required":[
+        "configuredAudienceModelAssociationIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "configuredAudienceModelAssociationIdentifier":{
+          "shape":"ConfiguredAudienceModelAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredAudienceModelAssociationIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "GetConfiguredAudienceModelAssociationOutput":{
+      "type":"structure",
+      "required":["configuredAudienceModelAssociation"],
+      "members":{
+        "configuredAudienceModelAssociation":{"shape":"ConfiguredAudienceModelAssociation"}
       }
     },
     "GetConfiguredTableAnalysisRuleInput":{
@@ -1465,6 +3795,38 @@
       "required":["analysisRule"],
       "members":{
         "analysisRule":{"shape":"ConfiguredTableAnalysisRule"}
+      }
+    },
+    "GetConfiguredTableAssociationAnalysisRuleInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "configuredTableAssociationIdentifier",
+        "analysisRuleType"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "configuredTableAssociationIdentifier":{
+          "shape":"ConfiguredTableAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredTableAssociationIdentifier"
+        },
+        "analysisRuleType":{
+          "shape":"ConfiguredTableAssociationAnalysisRuleType",
+          "location":"uri",
+          "locationName":"analysisRuleType"
+        }
+      }
+    },
+    "GetConfiguredTableAssociationAnalysisRuleOutput":{
+      "type":"structure",
+      "required":["analysisRule"],
+      "members":{
+        "analysisRule":{"shape":"ConfiguredTableAssociationAnalysisRule"}
       }
     },
     "GetConfiguredTableAssociationInput":{
@@ -1511,6 +3873,58 @@
         "configuredTable":{"shape":"ConfiguredTable"}
       }
     },
+    "GetIdMappingTableInput":{
+      "type":"structure",
+      "required":[
+        "idMappingTableIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idMappingTableIdentifier":{
+          "shape":"UUID",
+          "location":"uri",
+          "locationName":"idMappingTableIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "GetIdMappingTableOutput":{
+      "type":"structure",
+      "required":["idMappingTable"],
+      "members":{
+        "idMappingTable":{"shape":"IdMappingTable"}
+      }
+    },
+    "GetIdNamespaceAssociationInput":{
+      "type":"structure",
+      "required":[
+        "idNamespaceAssociationIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idNamespaceAssociationIdentifier":{
+          "shape":"IdNamespaceAssociationIdentifier",
+          "location":"uri",
+          "locationName":"idNamespaceAssociationIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "GetIdNamespaceAssociationOutput":{
+      "type":"structure",
+      "required":["idNamespaceAssociation"],
+      "members":{
+        "idNamespaceAssociation":{"shape":"IdNamespaceAssociation"}
+      }
+    },
     "GetMembershipInput":{
       "type":"structure",
       "required":["membershipIdentifier"],
@@ -1527,6 +3941,32 @@
       "required":["membership"],
       "members":{
         "membership":{"shape":"Membership"}
+      }
+    },
+    "GetPrivacyBudgetTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "privacyBudgetTemplateIdentifier"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "privacyBudgetTemplateIdentifier":{
+          "shape":"PrivacyBudgetTemplateIdentifier",
+          "location":"uri",
+          "locationName":"privacyBudgetTemplateIdentifier"
+        }
+      }
+    },
+    "GetPrivacyBudgetTemplateOutput":{
+      "type":"structure",
+      "required":["privacyBudgetTemplate"],
+      "members":{
+        "privacyBudgetTemplate":{"shape":"PrivacyBudgetTemplate"}
       }
     },
     "GetProtectedQueryInput":{
@@ -1613,7 +4053,13 @@
         "schema":{"shape":"Schema"}
       }
     },
-    "GlueResourceName":{
+    "GlueDatabaseName":{
+      "type":"string",
+      "max":128,
+      "min":0,
+      "pattern":"[a-zA-Z0-9_](([a-zA-Z0-9_]+-)*([a-zA-Z0-9_]+))?"
+    },
+    "GlueTableName":{
       "type":"string",
       "max":128,
       "min":0,
@@ -1626,9 +4072,256 @@
         "databaseName"
       ],
       "members":{
-        "tableName":{"shape":"GlueResourceName"},
-        "databaseName":{"shape":"GlueResourceName"}
+        "tableName":{"shape":"GlueTableName"},
+        "databaseName":{"shape":"GlueDatabaseName"}
       }
+    },
+    "IdMappingConfig":{
+      "type":"structure",
+      "required":["allowUseAsDimensionColumn"],
+      "members":{
+        "allowUseAsDimensionColumn":{"shape":"Boolean"}
+      }
+    },
+    "IdMappingTable":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "inputReferenceConfig",
+        "membershipId",
+        "membershipArn",
+        "collaborationId",
+        "collaborationArn",
+        "name",
+        "createTime",
+        "updateTime",
+        "inputReferenceProperties"
+      ],
+      "members":{
+        "id":{"shape":"UUID"},
+        "arn":{"shape":"IdMappingTableArn"},
+        "inputReferenceConfig":{"shape":"IdMappingTableInputReferenceConfig"},
+        "membershipId":{"shape":"UUID"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "description":{"shape":"ResourceDescription"},
+        "name":{"shape":"ResourceAlias"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "inputReferenceProperties":{"shape":"IdMappingTableInputReferenceProperties"},
+        "kmsKeyArn":{"shape":"KMSKeyArn"}
+      }
+    },
+    "IdMappingTableArn":{
+      "type":"string",
+      "max":200,
+      "min":0,
+      "pattern":"arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/idmappingtable/[\\d\\w-]+"
+    },
+    "IdMappingTableInputReferenceArn":{
+      "type":"string",
+      "max":2048,
+      "min":20,
+      "pattern":"arn:(aws|aws-us-gov|aws-cn):entityresolution:.*:[0-9]+:(idmappingworkflow/.*)"
+    },
+    "IdMappingTableInputReferenceConfig":{
+      "type":"structure",
+      "required":[
+        "inputReferenceArn",
+        "manageResourcePolicies"
+      ],
+      "members":{
+        "inputReferenceArn":{"shape":"IdMappingTableInputReferenceArn"},
+        "manageResourcePolicies":{"shape":"Boolean"}
+      }
+    },
+    "IdMappingTableInputReferenceProperties":{
+      "type":"structure",
+      "required":["idMappingTableInputSource"],
+      "members":{
+        "idMappingTableInputSource":{"shape":"IdMappingTableInputSourceList"}
+      }
+    },
+    "IdMappingTableInputSource":{
+      "type":"structure",
+      "required":[
+        "idNamespaceAssociationId",
+        "type"
+      ],
+      "members":{
+        "idNamespaceAssociationId":{"shape":"String"},
+        "type":{"shape":"IdNamespaceType"}
+      }
+    },
+    "IdMappingTableInputSourceList":{
+      "type":"list",
+      "member":{"shape":"IdMappingTableInputSource"},
+      "max":2,
+      "min":2
+    },
+    "IdMappingTableSchemaTypeProperties":{
+      "type":"structure",
+      "required":["idMappingTableInputSource"],
+      "members":{
+        "idMappingTableInputSource":{"shape":"IdMappingTableInputSourceList"}
+      }
+    },
+    "IdMappingTableSummary":{
+      "type":"structure",
+      "required":[
+        "collaborationArn",
+        "collaborationId",
+        "membershipId",
+        "membershipArn",
+        "createTime",
+        "updateTime",
+        "id",
+        "arn",
+        "inputReferenceConfig",
+        "name"
+      ],
+      "members":{
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "membershipId":{"shape":"MembershipIdentifier"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "id":{"shape":"UUID"},
+        "arn":{"shape":"IdMappingTableArn"},
+        "description":{"shape":"ResourceDescription"},
+        "inputReferenceConfig":{"shape":"IdMappingTableInputReferenceConfig"},
+        "name":{"shape":"ResourceAlias"}
+      }
+    },
+    "IdMappingTableSummaryList":{
+      "type":"list",
+      "member":{"shape":"IdMappingTableSummary"}
+    },
+    "IdMappingWorkflowsSupported":{
+      "type":"list",
+      "member":{"shape":"Document"}
+    },
+    "IdNamespaceAssociation":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "membershipId",
+        "membershipArn",
+        "collaborationId",
+        "collaborationArn",
+        "name",
+        "createTime",
+        "updateTime",
+        "inputReferenceConfig",
+        "inputReferenceProperties"
+      ],
+      "members":{
+        "id":{"shape":"IdNamespaceAssociationIdentifier"},
+        "arn":{"shape":"IdNamespaceAssociationArn"},
+        "membershipId":{"shape":"UUID"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "name":{"shape":"GenericResourceName"},
+        "description":{"shape":"ResourceDescription"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "inputReferenceConfig":{"shape":"IdNamespaceAssociationInputReferenceConfig"},
+        "inputReferenceProperties":{"shape":"IdNamespaceAssociationInputReferenceProperties"},
+        "idMappingConfig":{"shape":"IdMappingConfig"}
+      }
+    },
+    "IdNamespaceAssociationArn":{
+      "type":"string",
+      "max":256,
+      "min":0,
+      "pattern":"arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/idnamespaceassociation/[\\d\\w-]+"
+    },
+    "IdNamespaceAssociationIdentifier":{
+      "type":"string",
+      "max":36,
+      "min":36,
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "IdNamespaceAssociationInputReferenceArn":{
+      "type":"string",
+      "max":256,
+      "min":0,
+      "pattern":"arn:aws:entityresolution:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:idnamespace/[\\d\\w-]+"
+    },
+    "IdNamespaceAssociationInputReferenceConfig":{
+      "type":"structure",
+      "required":[
+        "inputReferenceArn",
+        "manageResourcePolicies"
+      ],
+      "members":{
+        "inputReferenceArn":{"shape":"IdNamespaceAssociationInputReferenceArn"},
+        "manageResourcePolicies":{"shape":"Boolean"}
+      }
+    },
+    "IdNamespaceAssociationInputReferenceProperties":{
+      "type":"structure",
+      "required":[
+        "idNamespaceType",
+        "idMappingWorkflowsSupported"
+      ],
+      "members":{
+        "idNamespaceType":{"shape":"IdNamespaceType"},
+        "idMappingWorkflowsSupported":{"shape":"IdMappingWorkflowsSupported"}
+      }
+    },
+    "IdNamespaceAssociationInputReferencePropertiesSummary":{
+      "type":"structure",
+      "required":["idNamespaceType"],
+      "members":{
+        "idNamespaceType":{"shape":"IdNamespaceType"}
+      }
+    },
+    "IdNamespaceAssociationSummary":{
+      "type":"structure",
+      "required":[
+        "membershipId",
+        "membershipArn",
+        "collaborationArn",
+        "collaborationId",
+        "createTime",
+        "updateTime",
+        "id",
+        "arn",
+        "inputReferenceConfig",
+        "name",
+        "inputReferenceProperties"
+      ],
+      "members":{
+        "membershipId":{"shape":"MembershipIdentifier"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "collaborationId":{"shape":"UUID"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "id":{"shape":"UUID"},
+        "arn":{"shape":"IdNamespaceAssociationArn"},
+        "inputReferenceConfig":{"shape":"IdNamespaceAssociationInputReferenceConfig"},
+        "name":{"shape":"GenericResourceName"},
+        "description":{"shape":"ResourceDescription"},
+        "inputReferenceProperties":{"shape":"IdNamespaceAssociationInputReferencePropertiesSummary"}
+      }
+    },
+    "IdNamespaceAssociationSummaryList":{
+      "type":"list",
+      "member":{"shape":"IdNamespaceAssociationSummary"}
+    },
+    "IdNamespaceType":{
+      "type":"string",
+      "enum":[
+        "SOURCE",
+        "TARGET"
+      ]
     },
     "InternalServerException":{
       "type":"structure",
@@ -1639,13 +4332,216 @@
       "exception":true,
       "fault":true
     },
+    "JoinOperator":{
+      "type":"string",
+      "enum":[
+        "OR",
+        "AND"
+      ]
+    },
+    "JoinOperatorsList":{
+      "type":"list",
+      "member":{"shape":"JoinOperator"},
+      "max":2,
+      "min":0
+    },
     "JoinRequiredOption":{
       "type":"string",
       "enum":["QUERY_RUNNER"]
     },
+    "KMSKeyArn":{
+      "type":"string",
+      "max":2048,
+      "min":20,
+      "pattern":"arn:aws:kms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:key/[a-zA-Z0-9-]+"
+    },
     "KeyPrefix":{
       "type":"string",
-      "pattern":"[\\w!.*/-]*"
+      "max":512,
+      "min":0,
+      "pattern":"[\\w!.=*/-]*"
+    },
+    "ListAnalysisTemplatesInput":{
+      "type":"structure",
+      "required":["membershipIdentifier"],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListAnalysisTemplatesOutput":{
+      "type":"structure",
+      "required":["analysisTemplateSummaries"],
+      "members":{
+        "nextToken":{"shape":"PaginationToken"},
+        "analysisTemplateSummaries":{"shape":"AnalysisTemplateSummaryList"}
+      }
+    },
+    "ListCollaborationAnalysisTemplatesInput":{
+      "type":"structure",
+      "required":["collaborationIdentifier"],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListCollaborationAnalysisTemplatesOutput":{
+      "type":"structure",
+      "required":["collaborationAnalysisTemplateSummaries"],
+      "members":{
+        "nextToken":{"shape":"PaginationToken"},
+        "collaborationAnalysisTemplateSummaries":{"shape":"CollaborationAnalysisTemplateSummaryList"}
+      }
+    },
+    "ListCollaborationConfiguredAudienceModelAssociationsInput":{
+      "type":"structure",
+      "required":["collaborationIdentifier"],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListCollaborationConfiguredAudienceModelAssociationsOutput":{
+      "type":"structure",
+      "required":["collaborationConfiguredAudienceModelAssociationSummaries"],
+      "members":{
+        "collaborationConfiguredAudienceModelAssociationSummaries":{"shape":"CollaborationConfiguredAudienceModelAssociationSummaryList"},
+        "nextToken":{"shape":"PaginationToken"}
+      }
+    },
+    "ListCollaborationIdNamespaceAssociationsInput":{
+      "type":"structure",
+      "required":["collaborationIdentifier"],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListCollaborationIdNamespaceAssociationsOutput":{
+      "type":"structure",
+      "required":["collaborationIdNamespaceAssociationSummaries"],
+      "members":{
+        "nextToken":{"shape":"PaginationToken"},
+        "collaborationIdNamespaceAssociationSummaries":{"shape":"CollaborationIdNamespaceAssociationSummaryList"}
+      }
+    },
+    "ListCollaborationPrivacyBudgetTemplatesInput":{
+      "type":"structure",
+      "required":["collaborationIdentifier"],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListCollaborationPrivacyBudgetTemplatesOutput":{
+      "type":"structure",
+      "required":["collaborationPrivacyBudgetTemplateSummaries"],
+      "members":{
+        "nextToken":{"shape":"PaginationToken"},
+        "collaborationPrivacyBudgetTemplateSummaries":{"shape":"CollaborationPrivacyBudgetTemplateSummaryList"}
+      }
+    },
+    "ListCollaborationPrivacyBudgetsInput":{
+      "type":"structure",
+      "required":[
+        "collaborationIdentifier",
+        "privacyBudgetType"
+      ],
+      "members":{
+        "collaborationIdentifier":{
+          "shape":"CollaborationIdentifier",
+          "location":"uri",
+          "locationName":"collaborationIdentifier"
+        },
+        "privacyBudgetType":{
+          "shape":"PrivacyBudgetType",
+          "location":"querystring",
+          "locationName":"privacyBudgetType"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "ListCollaborationPrivacyBudgetsOutput":{
+      "type":"structure",
+      "required":["collaborationPrivacyBudgetSummaries"],
+      "members":{
+        "collaborationPrivacyBudgetSummaries":{"shape":"CollaborationPrivacyBudgetSummaryList"},
+        "nextToken":{"shape":"PaginationToken"}
+      }
     },
     "ListCollaborationsInput":{
       "type":"structure",
@@ -1673,6 +4569,35 @@
       "members":{
         "nextToken":{"shape":"PaginationToken"},
         "collaborationList":{"shape":"CollaborationSummaryList"}
+      }
+    },
+    "ListConfiguredAudienceModelAssociationsInput":{
+      "type":"structure",
+      "required":["membershipIdentifier"],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListConfiguredAudienceModelAssociationsOutput":{
+      "type":"structure",
+      "required":["configuredAudienceModelAssociationSummaries"],
+      "members":{
+        "configuredAudienceModelAssociationSummaries":{"shape":"ConfiguredAudienceModelAssociationSummaryList"},
+        "nextToken":{"shape":"PaginationToken"}
       }
     },
     "ListConfiguredTableAssociationsInput":{
@@ -1725,6 +4650,64 @@
       "members":{
         "configuredTableSummaries":{"shape":"ConfiguredTableSummaryList"},
         "nextToken":{"shape":"PaginationToken"}
+      }
+    },
+    "ListIdMappingTablesInput":{
+      "type":"structure",
+      "required":["membershipIdentifier"],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListIdMappingTablesOutput":{
+      "type":"structure",
+      "required":["idMappingTableSummaries"],
+      "members":{
+        "idMappingTableSummaries":{"shape":"IdMappingTableSummaryList"},
+        "nextToken":{"shape":"PaginationToken"}
+      }
+    },
+    "ListIdNamespaceAssociationsInput":{
+      "type":"structure",
+      "required":["membershipIdentifier"],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListIdNamespaceAssociationsOutput":{
+      "type":"structure",
+      "required":["idNamespaceAssociationSummaries"],
+      "members":{
+        "nextToken":{"shape":"PaginationToken"},
+        "idNamespaceAssociationSummaries":{"shape":"IdNamespaceAssociationSummaryList"}
       }
     },
     "ListMembersInput":{
@@ -1782,6 +4765,72 @@
       "members":{
         "nextToken":{"shape":"PaginationToken"},
         "membershipSummaries":{"shape":"MembershipSummaryList"}
+      }
+    },
+    "ListPrivacyBudgetTemplatesInput":{
+      "type":"structure",
+      "required":["membershipIdentifier"],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListPrivacyBudgetTemplatesOutput":{
+      "type":"structure",
+      "required":["privacyBudgetTemplateSummaries"],
+      "members":{
+        "nextToken":{"shape":"PaginationToken"},
+        "privacyBudgetTemplateSummaries":{"shape":"PrivacyBudgetTemplateSummaryList"}
+      }
+    },
+    "ListPrivacyBudgetsInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "privacyBudgetType"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "privacyBudgetType":{
+          "shape":"PrivacyBudgetType",
+          "location":"querystring",
+          "locationName":"privacyBudgetType"
+        },
+        "nextToken":{
+          "shape":"PaginationToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        }
+      }
+    },
+    "ListPrivacyBudgetsOutput":{
+      "type":"structure",
+      "required":["privacyBudgetSummaries"],
+      "members":{
+        "privacyBudgetSummaries":{"shape":"PrivacyBudgetSummaryList"},
+        "nextToken":{"shape":"PaginationToken"}
       }
     },
     "ListProtectedQueriesInput":{
@@ -1852,9 +4901,41 @@
         "nextToken":{"shape":"PaginationToken"}
       }
     },
+    "ListTagsForResourceInput":{
+      "type":"structure",
+      "required":["resourceArn"],
+      "members":{
+        "resourceArn":{
+          "shape":"CleanroomsArn",
+          "location":"uri",
+          "locationName":"resourceArn"
+        }
+      }
+    },
+    "ListTagsForResourceOutput":{
+      "type":"structure",
+      "required":["tags"],
+      "members":{
+        "tags":{"shape":"TagMap"}
+      }
+    },
     "Long":{
       "type":"long",
       "box":true
+    },
+    "MLMemberAbilities":{
+      "type":"structure",
+      "required":["customMLMemberAbilities"],
+      "members":{
+        "customMLMemberAbilities":{"shape":"CustomMLMemberAbilities"}
+      }
+    },
+    "MLPaymentConfig":{
+      "type":"structure",
+      "members":{
+        "modelTraining":{"shape":"ModelTrainingPaymentConfig"},
+        "modelInference":{"shape":"ModelInferencePaymentConfig"}
+      }
     },
     "MaxResults":{
       "type":"integer",
@@ -1889,7 +4970,9 @@
       "members":{
         "accountId":{"shape":"AccountId"},
         "memberAbilities":{"shape":"MemberAbilities"},
-        "displayName":{"shape":"DisplayName"}
+        "mlMemberAbilities":{"shape":"MLMemberAbilities"},
+        "displayName":{"shape":"DisplayName"},
+        "paymentConfiguration":{"shape":"PaymentConfiguration"}
       }
     },
     "MemberStatus":{
@@ -1909,17 +4992,20 @@
         "displayName",
         "abilities",
         "createTime",
-        "updateTime"
+        "updateTime",
+        "paymentConfiguration"
       ],
       "members":{
         "accountId":{"shape":"AccountId"},
         "status":{"shape":"MemberStatus"},
         "displayName":{"shape":"DisplayName"},
         "abilities":{"shape":"MemberAbilities"},
+        "mlAbilities":{"shape":"MLMemberAbilities"},
         "createTime":{"shape":"Timestamp"},
         "updateTime":{"shape":"Timestamp"},
         "membershipId":{"shape":"UUID"},
-        "membershipArn":{"shape":"MembershipArn"}
+        "membershipArn":{"shape":"MembershipArn"},
+        "paymentConfiguration":{"shape":"PaymentConfiguration"}
       }
     },
     "MemberSummaryList":{
@@ -1940,7 +5026,8 @@
         "updateTime",
         "status",
         "memberAbilities",
-        "queryLogStatus"
+        "queryLogStatus",
+        "paymentConfiguration"
       ],
       "members":{
         "id":{"shape":"UUID"},
@@ -1954,7 +5041,10 @@
         "updateTime":{"shape":"Timestamp"},
         "status":{"shape":"MembershipStatus"},
         "memberAbilities":{"shape":"MemberAbilities"},
-        "queryLogStatus":{"shape":"MembershipQueryLogStatus"}
+        "mlMemberAbilities":{"shape":"MLMemberAbilities"},
+        "queryLogStatus":{"shape":"MembershipQueryLogStatus"},
+        "defaultResultConfiguration":{"shape":"MembershipProtectedQueryResultConfiguration"},
+        "paymentConfiguration":{"shape":"MembershipPaymentConfiguration"}
       }
     },
     "MembershipArn":{
@@ -1967,7 +5057,58 @@
       "type":"string",
       "max":36,
       "min":36,
-      "pattern":".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*"
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "MembershipMLPaymentConfig":{
+      "type":"structure",
+      "members":{
+        "modelTraining":{"shape":"MembershipModelTrainingPaymentConfig"},
+        "modelInference":{"shape":"MembershipModelInferencePaymentConfig"}
+      }
+    },
+    "MembershipModelInferencePaymentConfig":{
+      "type":"structure",
+      "required":["isResponsible"],
+      "members":{
+        "isResponsible":{"shape":"Boolean"}
+      }
+    },
+    "MembershipModelTrainingPaymentConfig":{
+      "type":"structure",
+      "required":["isResponsible"],
+      "members":{
+        "isResponsible":{"shape":"Boolean"}
+      }
+    },
+    "MembershipPaymentConfiguration":{
+      "type":"structure",
+      "required":["queryCompute"],
+      "members":{
+        "queryCompute":{"shape":"MembershipQueryComputePaymentConfig"},
+        "machineLearning":{"shape":"MembershipMLPaymentConfig"}
+      }
+    },
+    "MembershipProtectedQueryOutputConfiguration":{
+      "type":"structure",
+      "members":{
+        "s3":{"shape":"ProtectedQueryS3OutputConfiguration"}
+      },
+      "union":true
+    },
+    "MembershipProtectedQueryResultConfiguration":{
+      "type":"structure",
+      "required":["outputConfiguration"],
+      "members":{
+        "outputConfiguration":{"shape":"MembershipProtectedQueryOutputConfiguration"},
+        "roleArn":{"shape":"RoleArn"}
+      }
+    },
+    "MembershipQueryComputePaymentConfig":{
+      "type":"structure",
+      "required":["isResponsible"],
+      "members":{
+        "isResponsible":{"shape":"Boolean"}
+      }
     },
     "MembershipQueryLogStatus":{
       "type":"string",
@@ -1997,7 +5138,8 @@
         "createTime",
         "updateTime",
         "status",
-        "memberAbilities"
+        "memberAbilities",
+        "paymentConfiguration"
       ],
       "members":{
         "id":{"shape":"UUID"},
@@ -2010,17 +5152,294 @@
         "createTime":{"shape":"Timestamp"},
         "updateTime":{"shape":"Timestamp"},
         "status":{"shape":"MembershipStatus"},
-        "memberAbilities":{"shape":"MemberAbilities"}
+        "memberAbilities":{"shape":"MemberAbilities"},
+        "mlMemberAbilities":{"shape":"MLMemberAbilities"},
+        "paymentConfiguration":{"shape":"MembershipPaymentConfiguration"}
       }
     },
     "MembershipSummaryList":{
       "type":"list",
       "member":{"shape":"MembershipSummary"}
     },
+    "ModelInferencePaymentConfig":{
+      "type":"structure",
+      "required":["isResponsible"],
+      "members":{
+        "isResponsible":{"shape":"Boolean"}
+      }
+    },
+    "ModelTrainingPaymentConfig":{
+      "type":"structure",
+      "required":["isResponsible"],
+      "members":{
+        "isResponsible":{"shape":"Boolean"}
+      }
+    },
     "PaginationToken":{
       "type":"string",
       "max":10240,
       "min":0
+    },
+    "ParameterMap":{
+      "type":"map",
+      "key":{"shape":"ParameterName"},
+      "value":{"shape":"ParameterValue"}
+    },
+    "ParameterName":{
+      "type":"string",
+      "max":100,
+      "min":1,
+      "pattern":"[0-9a-zA-Z_]+"
+    },
+    "ParameterType":{
+      "type":"string",
+      "enum":[
+        "SMALLINT",
+        "INTEGER",
+        "BIGINT",
+        "DECIMAL",
+        "REAL",
+        "DOUBLE_PRECISION",
+        "BOOLEAN",
+        "CHAR",
+        "VARCHAR",
+        "DATE",
+        "TIMESTAMP",
+        "TIMESTAMPTZ",
+        "TIME",
+        "TIMETZ",
+        "VARBYTE",
+        "BINARY",
+        "BYTE",
+        "CHARACTER",
+        "DOUBLE",
+        "FLOAT",
+        "INT",
+        "LONG",
+        "NUMERIC",
+        "SHORT",
+        "STRING",
+        "TIMESTAMP_LTZ",
+        "TIMESTAMP_NTZ",
+        "TINYINT"
+      ]
+    },
+    "ParameterValue":{
+      "type":"string",
+      "max":250,
+      "min":0
+    },
+    "PaymentConfiguration":{
+      "type":"structure",
+      "required":["queryCompute"],
+      "members":{
+        "queryCompute":{"shape":"QueryComputePaymentConfig"},
+        "machineLearning":{"shape":"MLPaymentConfig"}
+      }
+    },
+    "PopulateIdMappingTableInput":{
+      "type":"structure",
+      "required":[
+        "idMappingTableIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idMappingTableIdentifier":{
+          "shape":"UUID",
+          "location":"uri",
+          "locationName":"idMappingTableIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        }
+      }
+    },
+    "PopulateIdMappingTableOutput":{
+      "type":"structure",
+      "required":["idMappingJobId"],
+      "members":{
+        "idMappingJobId":{"shape":"UUID"}
+      }
+    },
+    "PreviewPrivacyImpactInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "parameters"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "parameters":{"shape":"PreviewPrivacyImpactParametersInput"}
+      }
+    },
+    "PreviewPrivacyImpactOutput":{
+      "type":"structure",
+      "required":["privacyImpact"],
+      "members":{
+        "privacyImpact":{"shape":"PrivacyImpact"}
+      }
+    },
+    "PreviewPrivacyImpactParametersInput":{
+      "type":"structure",
+      "members":{
+        "differentialPrivacy":{"shape":"DifferentialPrivacyPreviewParametersInput"}
+      },
+      "union":true
+    },
+    "PrivacyBudget":{
+      "type":"structure",
+      "members":{
+        "differentialPrivacy":{"shape":"DifferentialPrivacyPrivacyBudget"}
+      },
+      "union":true
+    },
+    "PrivacyBudgetSummary":{
+      "type":"structure",
+      "required":[
+        "id",
+        "privacyBudgetTemplateId",
+        "privacyBudgetTemplateArn",
+        "membershipId",
+        "membershipArn",
+        "collaborationId",
+        "collaborationArn",
+        "type",
+        "createTime",
+        "updateTime",
+        "budget"
+      ],
+      "members":{
+        "id":{"shape":"UUID"},
+        "privacyBudgetTemplateId":{"shape":"PrivacyBudgetTemplateIdentifier"},
+        "privacyBudgetTemplateArn":{"shape":"PrivacyBudgetTemplateArn"},
+        "membershipId":{"shape":"MembershipIdentifier"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "type":{"shape":"PrivacyBudgetType"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "budget":{"shape":"PrivacyBudget"}
+      }
+    },
+    "PrivacyBudgetSummaryList":{
+      "type":"list",
+      "member":{"shape":"PrivacyBudgetSummary"}
+    },
+    "PrivacyBudgetTemplate":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "membershipId",
+        "membershipArn",
+        "collaborationId",
+        "collaborationArn",
+        "createTime",
+        "updateTime",
+        "privacyBudgetType",
+        "autoRefresh",
+        "parameters"
+      ],
+      "members":{
+        "id":{"shape":"PrivacyBudgetTemplateIdentifier"},
+        "arn":{"shape":"PrivacyBudgetTemplateArn"},
+        "membershipId":{"shape":"UUID"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"},
+        "privacyBudgetType":{"shape":"PrivacyBudgetType"},
+        "autoRefresh":{"shape":"PrivacyBudgetTemplateAutoRefresh"},
+        "parameters":{"shape":"PrivacyBudgetTemplateParametersOutput"}
+      }
+    },
+    "PrivacyBudgetTemplateArn":{
+      "type":"string",
+      "max":100,
+      "min":0,
+      "pattern":"arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:privacybudgettemplate/[\\d\\w-]+"
+    },
+    "PrivacyBudgetTemplateAutoRefresh":{
+      "type":"string",
+      "enum":[
+        "CALENDAR_MONTH",
+        "NONE"
+      ]
+    },
+    "PrivacyBudgetTemplateIdentifier":{
+      "type":"string",
+      "max":36,
+      "min":36,
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "PrivacyBudgetTemplateParametersInput":{
+      "type":"structure",
+      "members":{
+        "differentialPrivacy":{"shape":"DifferentialPrivacyTemplateParametersInput"}
+      },
+      "union":true
+    },
+    "PrivacyBudgetTemplateParametersOutput":{
+      "type":"structure",
+      "members":{
+        "differentialPrivacy":{"shape":"DifferentialPrivacyTemplateParametersOutput"}
+      },
+      "union":true
+    },
+    "PrivacyBudgetTemplateSummary":{
+      "type":"structure",
+      "required":[
+        "id",
+        "arn",
+        "membershipId",
+        "membershipArn",
+        "collaborationId",
+        "collaborationArn",
+        "privacyBudgetType",
+        "createTime",
+        "updateTime"
+      ],
+      "members":{
+        "id":{"shape":"PrivacyBudgetTemplateIdentifier"},
+        "arn":{"shape":"PrivacyBudgetTemplateArn"},
+        "membershipId":{"shape":"UUID"},
+        "membershipArn":{"shape":"MembershipArn"},
+        "collaborationId":{"shape":"UUID"},
+        "collaborationArn":{"shape":"CollaborationArn"},
+        "privacyBudgetType":{"shape":"PrivacyBudgetType"},
+        "createTime":{"shape":"Timestamp"},
+        "updateTime":{"shape":"Timestamp"}
+      }
+    },
+    "PrivacyBudgetTemplateSummaryList":{
+      "type":"list",
+      "member":{"shape":"PrivacyBudgetTemplateSummary"}
+    },
+    "PrivacyBudgetTemplateUpdateParameters":{
+      "type":"structure",
+      "members":{
+        "differentialPrivacy":{"shape":"DifferentialPrivacyTemplateUpdateParameters"}
+      },
+      "union":true
+    },
+    "PrivacyBudgetType":{
+      "type":"string",
+      "enum":["DIFFERENTIAL_PRIVACY"]
+    },
+    "PrivacyImpact":{
+      "type":"structure",
+      "members":{
+        "differentialPrivacy":{"shape":"DifferentialPrivacyPrivacyImpact"}
+      },
+      "union":true
     },
     "ProtectedQuery":{
       "type":"structure",
@@ -2029,9 +5448,7 @@
         "membershipId",
         "membershipArn",
         "createTime",
-        "sqlParameters",
-        "status",
-        "resultConfiguration"
+        "status"
       ],
       "members":{
         "id":{"shape":"UUID"},
@@ -2043,7 +5460,9 @@
         "resultConfiguration":{"shape":"ProtectedQueryResultConfiguration"},
         "statistics":{"shape":"ProtectedQueryStatistics"},
         "result":{"shape":"ProtectedQueryResult"},
-        "error":{"shape":"ProtectedQueryError"}
+        "error":{"shape":"ProtectedQueryError"},
+        "differentialPrivacy":{"shape":"DifferentialPrivacyParameters"},
+        "computeConfiguration":{"shape":"ComputeConfiguration"}
       }
     },
     "ProtectedQueryError":{
@@ -2060,20 +5479,33 @@
     "ProtectedQueryIdentifier":{
       "type":"string",
       "max":36,
-      "min":1,
-      "pattern":".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*"
+      "min":36,
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "ProtectedQueryMemberOutputConfiguration":{
+      "type":"structure",
+      "required":["accountId"],
+      "members":{
+        "accountId":{"shape":"AccountId"}
+      }
+    },
+    "ProtectedQueryMemberOutputList":{
+      "type":"list",
+      "member":{"shape":"ProtectedQuerySingleMemberOutput"}
     },
     "ProtectedQueryOutput":{
       "type":"structure",
       "members":{
-        "s3":{"shape":"ProtectedQueryS3Output"}
+        "s3":{"shape":"ProtectedQueryS3Output"},
+        "memberList":{"shape":"ProtectedQueryMemberOutputList"}
       },
       "union":true
     },
     "ProtectedQueryOutputConfiguration":{
       "type":"structure",
       "members":{
-        "s3":{"shape":"ProtectedQueryS3OutputConfiguration"}
+        "s3":{"shape":"ProtectedQueryS3OutputConfiguration"},
+        "member":{"shape":"ProtectedQueryMemberOutputConfiguration"}
       },
       "union":true
     },
@@ -2107,7 +5539,8 @@
       "members":{
         "resultFormat":{"shape":"ResultFormat"},
         "bucket":{"shape":"ProtectedQueryS3OutputConfigurationBucketString"},
-        "keyPrefix":{"shape":"KeyPrefix"}
+        "keyPrefix":{"shape":"KeyPrefix"},
+        "singleFileOutput":{"shape":"Boolean"}
       }
     },
     "ProtectedQueryS3OutputConfigurationBucketString":{
@@ -2118,21 +5551,30 @@
     },
     "ProtectedQuerySQLParameters":{
       "type":"structure",
-      "required":["queryString"],
       "members":{
-        "queryString":{"shape":"ProtectedQuerySQLParametersQueryStringString"}
+        "queryString":{"shape":"ProtectedQuerySQLParametersQueryStringString"},
+        "analysisTemplateArn":{"shape":"AnalysisTemplateArn"},
+        "parameters":{"shape":"ParameterMap"}
       },
       "sensitive":true
     },
     "ProtectedQuerySQLParametersQueryStringString":{
       "type":"string",
-      "max":15000,
+      "max":500000,
       "min":0
+    },
+    "ProtectedQuerySingleMemberOutput":{
+      "type":"structure",
+      "required":["accountId"],
+      "members":{
+        "accountId":{"shape":"AccountId"}
+      }
     },
     "ProtectedQueryStatistics":{
       "type":"structure",
       "members":{
-        "totalDurationInMillis":{"shape":"Long"}
+        "totalDurationInMillis":{"shape":"Long"},
+        "billedResourceUtilization":{"shape":"BilledResourceUtilization"}
       }
     },
     "ProtectedQueryStatus":{
@@ -2154,14 +5596,16 @@
         "membershipId",
         "membershipArn",
         "createTime",
-        "status"
+        "status",
+        "receiverConfigurations"
       ],
       "members":{
         "id":{"shape":"UUID"},
         "membershipId":{"shape":"UUID"},
         "membershipArn":{"shape":"MembershipArn"},
         "createTime":{"shape":"Timestamp"},
-        "status":{"shape":"ProtectedQueryStatus"}
+        "status":{"shape":"ProtectedQueryStatus"},
+        "receiverConfigurations":{"shape":"ReceiverConfigurationsList"}
       }
     },
     "ProtectedQuerySummaryList":{
@@ -2171,6 +5615,64 @@
     "ProtectedQueryType":{
       "type":"string",
       "enum":["SQL"]
+    },
+    "QueryComputePaymentConfig":{
+      "type":"structure",
+      "required":["isResponsible"],
+      "members":{
+        "isResponsible":{"shape":"Boolean"}
+      }
+    },
+    "QueryConstraint":{
+      "type":"structure",
+      "members":{
+        "requireOverlap":{"shape":"QueryConstraintRequireOverlap"}
+      },
+      "union":true
+    },
+    "QueryConstraintList":{
+      "type":"list",
+      "member":{"shape":"QueryConstraint"},
+      "max":1,
+      "min":0
+    },
+    "QueryConstraintRequireOverlap":{
+      "type":"structure",
+      "members":{
+        "columns":{"shape":"AnalysisRuleColumnList"}
+      }
+    },
+    "QueryTables":{
+      "type":"list",
+      "member":{"shape":"TableAlias"}
+    },
+    "ReceiverAccountIds":{
+      "type":"list",
+      "member":{"shape":"AccountId"}
+    },
+    "ReceiverConfiguration":{
+      "type":"structure",
+      "required":["analysisType"],
+      "members":{
+        "analysisType":{"shape":"AnalysisType"},
+        "configurationDetails":{"shape":"ConfigurationDetails"}
+      }
+    },
+    "ReceiverConfigurationsList":{
+      "type":"list",
+      "member":{"shape":"ReceiverConfiguration"}
+    },
+    "ResourceAlias":{
+      "type":"string",
+      "max":128,
+      "min":0,
+      "pattern":"[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?"
+    },
+    "ResourceDescription":{
+      "type":"string",
+      "max":255,
+      "min":0,
+      "pattern":"[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*"
     },
     "ResourceNotFoundException":{
       "type":"structure",
@@ -2210,24 +5712,35 @@
       "type":"string",
       "max":512,
       "min":32,
-      "pattern":"arn:aws:iam::[\\w]+:role/[\\w+=,./@-]+"
+      "pattern":"arn:aws:iam::[\\w]+:role/[\\w+=./@-]+"
     },
     "ScalarFunctions":{
       "type":"string",
       "enum":[
-        "TRUNC",
         "ABS",
+        "CAST",
         "CEILING",
+        "COALESCE",
+        "CONVERT",
+        "CURRENT_DATE",
+        "DATEADD",
+        "EXTRACT",
         "FLOOR",
+        "GETDATE",
         "LN",
         "LOG",
-        "ROUND",
-        "SQRT",
-        "CAST",
         "LOWER",
+        "ROUND",
         "RTRIM",
-        "UPPER",
-        "COALESCE"
+        "SQRT",
+        "SUBSTRING",
+        "TO_CHAR",
+        "TO_DATE",
+        "TO_NUMBER",
+        "TO_TIMESTAMP",
+        "TRIM",
+        "TRUNC",
+        "UPPER"
       ]
     },
     "ScalarFunctionsList":{
@@ -2247,7 +5760,8 @@
         "description",
         "createTime",
         "updateTime",
-        "type"
+        "type",
+        "schemaStatusDetails"
       ],
       "members":{
         "columns":{"shape":"ColumnList"},
@@ -2261,14 +5775,103 @@
         "description":{"shape":"TableDescription"},
         "createTime":{"shape":"Timestamp"},
         "updateTime":{"shape":"Timestamp"},
-        "type":{"shape":"SchemaType"}
+        "type":{"shape":"SchemaType"},
+        "schemaStatusDetails":{"shape":"SchemaStatusDetailList"},
+        "schemaTypeProperties":{"shape":"SchemaTypeProperties"}
       }
+    },
+    "SchemaAnalysisRuleList":{
+      "type":"list",
+      "member":{"shape":"AnalysisRule"},
+      "max":25,
+      "min":0
+    },
+    "SchemaAnalysisRuleRequest":{
+      "type":"structure",
+      "required":[
+        "name",
+        "type"
+      ],
+      "members":{
+        "name":{"shape":"TableAlias"},
+        "type":{"shape":"AnalysisRuleType"}
+      }
+    },
+    "SchemaAnalysisRuleRequestList":{
+      "type":"list",
+      "member":{"shape":"SchemaAnalysisRuleRequest"},
+      "max":25,
+      "min":1
+    },
+    "SchemaConfiguration":{
+      "type":"string",
+      "enum":["DIFFERENTIAL_PRIVACY"]
+    },
+    "SchemaConfigurationList":{
+      "type":"list",
+      "member":{"shape":"SchemaConfiguration"}
     },
     "SchemaList":{
       "type":"list",
       "member":{"shape":"Schema"},
       "max":25,
       "min":0
+    },
+    "SchemaStatus":{
+      "type":"string",
+      "enum":[
+        "READY",
+        "NOT_READY"
+      ]
+    },
+    "SchemaStatusDetail":{
+      "type":"structure",
+      "required":[
+        "status",
+        "analysisType"
+      ],
+      "members":{
+        "status":{"shape":"SchemaStatus"},
+        "reasons":{"shape":"SchemaStatusReasonList"},
+        "analysisRuleType":{"shape":"AnalysisRuleType"},
+        "configurations":{"shape":"SchemaConfigurationList"},
+        "analysisType":{"shape":"AnalysisType"}
+      }
+    },
+    "SchemaStatusDetailList":{
+      "type":"list",
+      "member":{"shape":"SchemaStatusDetail"}
+    },
+    "SchemaStatusReason":{
+      "type":"structure",
+      "required":[
+        "code",
+        "message"
+      ],
+      "members":{
+        "code":{"shape":"SchemaStatusReasonCode"},
+        "message":{"shape":"String"}
+      }
+    },
+    "SchemaStatusReasonCode":{
+      "type":"string",
+      "enum":[
+        "ANALYSIS_RULE_MISSING",
+        "ANALYSIS_TEMPLATES_NOT_CONFIGURED",
+        "ANALYSIS_PROVIDERS_NOT_CONFIGURED",
+        "DIFFERENTIAL_PRIVACY_POLICY_NOT_CONFIGURED",
+        "ID_MAPPING_TABLE_NOT_POPULATED",
+        "COLLABORATION_ANALYSIS_RULE_NOT_CONFIGURED",
+        "ADDITIONAL_ANALYSES_NOT_CONFIGURED",
+        "RESULT_RECEIVERS_NOT_CONFIGURED",
+        "ADDITIONAL_ANALYSES_NOT_ALLOWED",
+        "RESULT_RECEIVERS_NOT_ALLOWED",
+        "ANALYSIS_RULE_TYPES_NOT_COMPATIBLE"
+      ]
+    },
+    "SchemaStatusReasonList":{
+      "type":"list",
+      "member":{"shape":"SchemaStatusReason"}
     },
     "SchemaSummary":{
       "type":"structure",
@@ -2300,7 +5903,23 @@
     },
     "SchemaType":{
       "type":"string",
-      "enum":["TABLE"]
+      "enum":[
+        "TABLE",
+        "ID_MAPPING_TABLE"
+      ]
+    },
+    "SchemaTypeProperties":{
+      "type":"structure",
+      "members":{
+        "idMappingTable":{"shape":"IdMappingTableSchemaTypeProperties"}
+      },
+      "union":true
+    },
+    "SecretsManagerArn":{
+      "type":"string",
+      "max":256,
+      "min":0,
+      "pattern":"arn:aws:secretsmanager:[a-z]{2}-[a-z]+-[0-9]:\\d{12}:secret:.*"
     },
     "ServiceQuotaExceededException":{
       "type":"structure",
@@ -2320,13 +5939,79 @@
       },
       "exception":true
     },
+    "SnowflakeAccountIdentifier":{
+      "type":"string",
+      "max":256,
+      "min":3,
+      "pattern":"[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}.]+"
+    },
+    "SnowflakeDatabaseName":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}]+"
+    },
+    "SnowflakeSchemaName":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}]+"
+    },
+    "SnowflakeTableName":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}]+"
+    },
+    "SnowflakeTableReference":{
+      "type":"structure",
+      "required":[
+        "secretArn",
+        "accountIdentifier",
+        "databaseName",
+        "tableName",
+        "schemaName",
+        "tableSchema"
+      ],
+      "members":{
+        "secretArn":{"shape":"SecretsManagerArn"},
+        "accountIdentifier":{"shape":"SnowflakeAccountIdentifier"},
+        "databaseName":{"shape":"SnowflakeDatabaseName"},
+        "tableName":{"shape":"SnowflakeTableName"},
+        "schemaName":{"shape":"SnowflakeSchemaName"},
+        "tableSchema":{"shape":"SnowflakeTableSchema"}
+      }
+    },
+    "SnowflakeTableSchema":{
+      "type":"structure",
+      "members":{
+        "v1":{"shape":"SnowflakeTableSchemaList"}
+      },
+      "union":true
+    },
+    "SnowflakeTableSchemaList":{
+      "type":"list",
+      "member":{"shape":"SnowflakeTableSchemaV1"},
+      "max":250,
+      "min":1
+    },
+    "SnowflakeTableSchemaV1":{
+      "type":"structure",
+      "required":[
+        "columnName",
+        "columnType"
+      ],
+      "members":{
+        "columnName":{"shape":"ColumnName"},
+        "columnType":{"shape":"ColumnTypeString"}
+      }
+    },
     "StartProtectedQueryInput":{
       "type":"structure",
       "required":[
         "type",
         "membershipIdentifier",
-        "sqlParameters",
-        "resultConfiguration"
+        "sqlParameters"
       ],
       "members":{
         "type":{"shape":"ProtectedQueryType"},
@@ -2336,7 +6021,8 @@
           "locationName":"membershipIdentifier"
         },
         "sqlParameters":{"shape":"ProtectedQuerySQLParameters"},
-        "resultConfiguration":{"shape":"ProtectedQueryResultConfiguration"}
+        "resultConfiguration":{"shape":"ProtectedQueryResultConfiguration"},
+        "computeConfiguration":{"shape":"ComputeConfiguration"}
       }
     },
     "StartProtectedQueryOutput":{
@@ -2368,9 +6054,52 @@
     "TableReference":{
       "type":"structure",
       "members":{
-        "glue":{"shape":"GlueTableReference"}
+        "glue":{"shape":"GlueTableReference"},
+        "snowflake":{"shape":"SnowflakeTableReference"},
+        "athena":{"shape":"AthenaTableReference"}
       },
       "union":true
+    },
+    "TagKey":{
+      "type":"string",
+      "max":128,
+      "min":1
+    },
+    "TagKeys":{
+      "type":"list",
+      "member":{"shape":"TagKey"}
+    },
+    "TagMap":{
+      "type":"map",
+      "key":{"shape":"TagKey"},
+      "value":{"shape":"TagValue"},
+      "max":200,
+      "min":0
+    },
+    "TagResourceInput":{
+      "type":"structure",
+      "required":[
+        "resourceArn",
+        "tags"
+      ],
+      "members":{
+        "resourceArn":{
+          "shape":"CleanroomsArn",
+          "location":"uri",
+          "locationName":"resourceArn"
+        },
+        "tags":{"shape":"TagMap"}
+      }
+    },
+    "TagResourceOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "TagValue":{
+      "type":"string",
+      "max":256,
+      "min":0
     },
     "TargetProtectedQueryStatus":{
       "type":"string",
@@ -2392,7 +6121,58 @@
       "type":"string",
       "max":36,
       "min":36,
-      "pattern":".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*"
+      "pattern":"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    },
+    "UntagResourceInput":{
+      "type":"structure",
+      "required":[
+        "resourceArn",
+        "tagKeys"
+      ],
+      "members":{
+        "resourceArn":{
+          "shape":"CleanroomsArn",
+          "location":"uri",
+          "locationName":"resourceArn"
+        },
+        "tagKeys":{
+          "shape":"TagKeys",
+          "location":"querystring",
+          "locationName":"tagKeys"
+        }
+      }
+    },
+    "UntagResourceOutput":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "UpdateAnalysisTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "analysisTemplateIdentifier"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "analysisTemplateIdentifier":{
+          "shape":"AnalysisTemplateIdentifier",
+          "location":"uri",
+          "locationName":"analysisTemplateIdentifier"
+        },
+        "description":{"shape":"ResourceDescription"}
+      }
+    },
+    "UpdateAnalysisTemplateOutput":{
+      "type":"structure",
+      "required":["analysisTemplate"],
+      "members":{
+        "analysisTemplate":{"shape":"AnalysisTemplate"}
+      }
     },
     "UpdateCollaborationInput":{
       "type":"structure",
@@ -2412,6 +6192,34 @@
       "required":["collaboration"],
       "members":{
         "collaboration":{"shape":"Collaboration"}
+      }
+    },
+    "UpdateConfiguredAudienceModelAssociationInput":{
+      "type":"structure",
+      "required":[
+        "configuredAudienceModelAssociationIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "configuredAudienceModelAssociationIdentifier":{
+          "shape":"ConfiguredAudienceModelAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredAudienceModelAssociationIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "description":{"shape":"ResourceDescription"},
+        "name":{"shape":"ConfiguredAudienceModelAssociationName"}
+      }
+    },
+    "UpdateConfiguredAudienceModelAssociationOutput":{
+      "type":"structure",
+      "required":["configuredAudienceModelAssociation"],
+      "members":{
+        "configuredAudienceModelAssociation":{"shape":"ConfiguredAudienceModelAssociation"}
       }
     },
     "UpdateConfiguredTableAnalysisRuleInput":{
@@ -2440,6 +6248,40 @@
       "required":["analysisRule"],
       "members":{
         "analysisRule":{"shape":"ConfiguredTableAnalysisRule"}
+      }
+    },
+    "UpdateConfiguredTableAssociationAnalysisRuleInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "configuredTableAssociationIdentifier",
+        "analysisRuleType",
+        "analysisRulePolicy"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "configuredTableAssociationIdentifier":{
+          "shape":"ConfiguredTableAssociationIdentifier",
+          "location":"uri",
+          "locationName":"configuredTableAssociationIdentifier"
+        },
+        "analysisRuleType":{
+          "shape":"ConfiguredTableAssociationAnalysisRuleType",
+          "location":"uri",
+          "locationName":"analysisRuleType"
+        },
+        "analysisRulePolicy":{"shape":"ConfiguredTableAssociationAnalysisRulePolicy"}
+      }
+    },
+    "UpdateConfiguredTableAssociationAnalysisRuleOutput":{
+      "type":"structure",
+      "required":["analysisRule"],
+      "members":{
+        "analysisRule":{"shape":"ConfiguredTableAssociationAnalysisRule"}
       }
     },
     "UpdateConfiguredTableAssociationInput":{
@@ -2490,6 +6332,63 @@
         "configuredTable":{"shape":"ConfiguredTable"}
       }
     },
+    "UpdateIdMappingTableInput":{
+      "type":"structure",
+      "required":[
+        "idMappingTableIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idMappingTableIdentifier":{
+          "shape":"UUID",
+          "location":"uri",
+          "locationName":"idMappingTableIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "description":{"shape":"ResourceDescription"},
+        "kmsKeyArn":{"shape":"KMSKeyArn"}
+      }
+    },
+    "UpdateIdMappingTableOutput":{
+      "type":"structure",
+      "required":["idMappingTable"],
+      "members":{
+        "idMappingTable":{"shape":"IdMappingTable"}
+      }
+    },
+    "UpdateIdNamespaceAssociationInput":{
+      "type":"structure",
+      "required":[
+        "idNamespaceAssociationIdentifier",
+        "membershipIdentifier"
+      ],
+      "members":{
+        "idNamespaceAssociationIdentifier":{
+          "shape":"IdNamespaceAssociationIdentifier",
+          "location":"uri",
+          "locationName":"idNamespaceAssociationIdentifier"
+        },
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "name":{"shape":"GenericResourceName"},
+        "description":{"shape":"ResourceDescription"},
+        "idMappingConfig":{"shape":"IdMappingConfig"}
+      }
+    },
+    "UpdateIdNamespaceAssociationOutput":{
+      "type":"structure",
+      "required":["idNamespaceAssociation"],
+      "members":{
+        "idNamespaceAssociation":{"shape":"IdNamespaceAssociation"}
+      }
+    },
     "UpdateMembershipInput":{
       "type":"structure",
       "required":["membershipIdentifier"],
@@ -2499,7 +6398,8 @@
           "location":"uri",
           "locationName":"membershipIdentifier"
         },
-        "queryLogStatus":{"shape":"MembershipQueryLogStatus"}
+        "queryLogStatus":{"shape":"MembershipQueryLogStatus"},
+        "defaultResultConfiguration":{"shape":"MembershipProtectedQueryResultConfiguration"}
       }
     },
     "UpdateMembershipOutput":{
@@ -2507,6 +6407,35 @@
       "required":["membership"],
       "members":{
         "membership":{"shape":"Membership"}
+      }
+    },
+    "UpdatePrivacyBudgetTemplateInput":{
+      "type":"structure",
+      "required":[
+        "membershipIdentifier",
+        "privacyBudgetTemplateIdentifier",
+        "privacyBudgetType"
+      ],
+      "members":{
+        "membershipIdentifier":{
+          "shape":"MembershipIdentifier",
+          "location":"uri",
+          "locationName":"membershipIdentifier"
+        },
+        "privacyBudgetTemplateIdentifier":{
+          "shape":"PrivacyBudgetTemplateIdentifier",
+          "location":"uri",
+          "locationName":"privacyBudgetTemplateIdentifier"
+        },
+        "privacyBudgetType":{"shape":"PrivacyBudgetType"},
+        "parameters":{"shape":"PrivacyBudgetTemplateUpdateParameters"}
+      }
+    },
+    "UpdatePrivacyBudgetTemplateOutput":{
+      "type":"structure",
+      "required":["privacyBudgetTemplate"],
+      "members":{
+        "privacyBudgetTemplate":{"shape":"PrivacyBudgetTemplate"}
       }
     },
     "UpdateProtectedQueryInput":{
@@ -2536,6 +6465,12 @@
       "members":{
         "protectedQuery":{"shape":"ProtectedQuery"}
       }
+    },
+    "UsersNoisePerQuery":{
+      "type":"integer",
+      "box":true,
+      "max":100,
+      "min":10
     },
     "ValidationException":{
       "type":"structure",
@@ -2569,7 +6504,29 @@
       "type":"string",
       "enum":[
         "FIELD_VALIDATION_FAILED",
-        "INVALID_CONFIGURATION"
+        "INVALID_CONFIGURATION",
+        "INVALID_QUERY",
+        "IAM_SYNCHRONIZATION_DELAY"
+      ]
+    },
+    "WorkerComputeConfiguration":{
+      "type":"structure",
+      "members":{
+        "type":{"shape":"WorkerComputeType"},
+        "number":{"shape":"WorkerComputeConfigurationNumberInteger"}
+      }
+    },
+    "WorkerComputeConfigurationNumberInteger":{
+      "type":"integer",
+      "box":true,
+      "max":400,
+      "min":2
+    },
+    "WorkerComputeType":{
+      "type":"string",
+      "enum":[
+        "CR.1X",
+        "CR.4X"
       ]
     }
   }

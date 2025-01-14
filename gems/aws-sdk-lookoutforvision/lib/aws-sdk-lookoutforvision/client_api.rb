@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::LookoutforVision
   # @api private
   module ClientApi
@@ -552,9 +553,11 @@ module Aws::LookoutforVision
 
       api.metadata = {
         "apiVersion" => "2020-11-20",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "lookoutvision",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Lookout for Vision",
         "serviceId" => "LookoutVision",
         "signatureVersion" => "v4",

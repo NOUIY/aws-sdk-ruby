@@ -119,7 +119,9 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_option_groups(option_group_name: @name)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_option_groups(option_group_name: @name)
+      end
       @data = resp.option_groups_list[0]
       self
     end
@@ -234,7 +236,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -254,10 +258,13 @@ module Aws::RDS
     #   })
     # @param [Hash] options ({})
     # @option options [required, String] :engine_name
-    #   Specifies the name of the engine that this option group should be
-    #   associated with.
+    #   The name of the engine to associate this option group with.
     #
     #   Valid Values:
+    #
+    #   * `db2-ae`
+    #
+    #   * `db2-se`
     #
     #   * `mariadb`
     #
@@ -290,7 +297,9 @@ module Aws::RDS
     # @return [OptionGroup]
     def create(options = {})
       options = options.merge(option_group_name: @name)
-      resp = @client.create_option_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_option_group(options)
+      end
       OptionGroup.new(
         name: resp.data.option_group.option_group_name,
         data: resp.data.option_group,
@@ -328,16 +337,22 @@ module Aws::RDS
     # @option options [required, String] :target_option_group_description
     #   The description for the copied option group.
     # @option options [Array<Types::Tag>] :tags
-    #   A list of tags. For more information, see [Tagging Amazon RDS
-    #   Resources][1] in the *Amazon RDS User Guide.*
+    #   A list of tags.
+    #
+    #   For more information, see [Tagging Amazon RDS resources][1] in the
+    #   *Amazon RDS User Guide* or [Tagging Amazon Aurora and Amazon RDS
+    #   resources][2] in the *Amazon Aurora User Guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html
     # @return [OptionGroup]
     def copy(options = {})
       options = options.merge(source_option_group_identifier: @name)
-      resp = @client.copy_option_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.copy_option_group(options)
+      end
       OptionGroup.new(
         name: resp.data.option_group.option_group_name,
         data: resp.data.option_group,
@@ -352,7 +367,9 @@ module Aws::RDS
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(option_group_name: @name)
-      resp = @client.delete_option_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_option_group(options)
+      end
       resp.data
     end
 
@@ -392,13 +409,14 @@ module Aws::RDS
     # @option options [Array<String>] :options_to_remove
     #   Options in this list are removed from the option group.
     # @option options [Boolean] :apply_immediately
-    #   A value that indicates whether to apply the change immediately or
-    #   during the next maintenance window for each instance associated with
-    #   the option group.
+    #   Specifies whether to apply the change immediately or during the next
+    #   maintenance window for each instance associated with the option group.
     # @return [OptionGroup]
     def modify(options = {})
       options = options.merge(option_group_name: @name)
-      resp = @client.modify_option_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.modify_option_group(options)
+      end
       OptionGroup.new(
         name: resp.data.option_group.option_group_name,
         data: resp.data.option_group,

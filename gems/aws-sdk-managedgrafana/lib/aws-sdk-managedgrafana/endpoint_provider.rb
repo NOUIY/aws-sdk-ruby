@@ -32,7 +32,7 @@ module Aws::ManagedGrafana
             raise ArgumentError, "FIPS and DualStack are enabled, but this partition does not support one or both"
           end
           if Aws::Endpoints::Matchers.boolean_equals?(use_fips, true)
-            if Aws::Endpoints::Matchers.boolean_equals?(true, Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"))
+            if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"), true)
               return Aws::Endpoints::Endpoint.new(url: "https://grafana-fips.#{region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {})
             end
             raise ArgumentError, "FIPS is enabled but this partition does not support FIPS"
@@ -42,36 +42,6 @@ module Aws::ManagedGrafana
               return Aws::Endpoints::Endpoint.new(url: "https://grafana.#{region}.#{partition_result['dualStackDnsSuffix']}", headers: {}, properties: {})
             end
             raise ArgumentError, "DualStack is enabled but this partition does not support DualStack"
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "ap-northeast-1")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.ap-northeast-1.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "ap-northeast-2")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.ap-northeast-2.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "ap-southeast-1")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.ap-southeast-1.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "ap-southeast-2")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.ap-southeast-2.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "eu-central-1")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.eu-central-1.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "eu-west-1")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.eu-west-1.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "eu-west-2")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.eu-west-2.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "us-east-1")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.us-east-1.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "us-east-2")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.us-east-2.amazonaws.com", headers: {}, properties: {})
-          end
-          if Aws::Endpoints::Matchers.string_equals?(region, "us-west-2")
-            return Aws::Endpoints::Endpoint.new(url: "https://grafana.us-west-2.amazonaws.com", headers: {}, properties: {})
           end
           return Aws::Endpoints::Endpoint.new(url: "https://grafana.#{region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {})
         end

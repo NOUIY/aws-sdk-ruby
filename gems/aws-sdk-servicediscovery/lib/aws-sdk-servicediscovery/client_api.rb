@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ServiceDiscovery
   # @api private
   module ClientApi
@@ -31,12 +32,16 @@ module Aws::ServiceDiscovery
     CustomHealthStatus = Shapes::StringShape.new(name: 'CustomHealthStatus')
     DeleteNamespaceRequest = Shapes::StructureShape.new(name: 'DeleteNamespaceRequest')
     DeleteNamespaceResponse = Shapes::StructureShape.new(name: 'DeleteNamespaceResponse')
+    DeleteServiceAttributesRequest = Shapes::StructureShape.new(name: 'DeleteServiceAttributesRequest')
+    DeleteServiceAttributesResponse = Shapes::StructureShape.new(name: 'DeleteServiceAttributesResponse')
     DeleteServiceRequest = Shapes::StructureShape.new(name: 'DeleteServiceRequest')
     DeleteServiceResponse = Shapes::StructureShape.new(name: 'DeleteServiceResponse')
     DeregisterInstanceRequest = Shapes::StructureShape.new(name: 'DeregisterInstanceRequest')
     DeregisterInstanceResponse = Shapes::StructureShape.new(name: 'DeregisterInstanceResponse')
     DiscoverInstancesRequest = Shapes::StructureShape.new(name: 'DiscoverInstancesRequest')
     DiscoverInstancesResponse = Shapes::StructureShape.new(name: 'DiscoverInstancesResponse')
+    DiscoverInstancesRevisionRequest = Shapes::StructureShape.new(name: 'DiscoverInstancesRevisionRequest')
+    DiscoverInstancesRevisionResponse = Shapes::StructureShape.new(name: 'DiscoverInstancesRevisionResponse')
     DiscoverMaxResults = Shapes::IntegerShape.new(name: 'DiscoverMaxResults')
     DnsConfig = Shapes::StructureShape.new(name: 'DnsConfig')
     DnsConfigChange = Shapes::StructureShape.new(name: 'DnsConfigChange')
@@ -57,6 +62,8 @@ module Aws::ServiceDiscovery
     GetNamespaceResponse = Shapes::StructureShape.new(name: 'GetNamespaceResponse')
     GetOperationRequest = Shapes::StructureShape.new(name: 'GetOperationRequest')
     GetOperationResponse = Shapes::StructureShape.new(name: 'GetOperationResponse')
+    GetServiceAttributesRequest = Shapes::StructureShape.new(name: 'GetServiceAttributesRequest')
+    GetServiceAttributesResponse = Shapes::StructureShape.new(name: 'GetServiceAttributesResponse')
     GetServiceRequest = Shapes::StructureShape.new(name: 'GetServiceRequest')
     GetServiceResponse = Shapes::StructureShape.new(name: 'GetServiceResponse')
     HealthCheckConfig = Shapes::StructureShape.new(name: 'HealthCheckConfig')
@@ -137,11 +144,18 @@ module Aws::ServiceDiscovery
     ResourceLimitExceeded = Shapes::StructureShape.new(name: 'ResourceLimitExceeded')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourcePath = Shapes::StringShape.new(name: 'ResourcePath')
+    Revision = Shapes::IntegerShape.new(name: 'Revision')
     RoutingPolicy = Shapes::StringShape.new(name: 'RoutingPolicy')
     SOA = Shapes::StructureShape.new(name: 'SOA')
     SOAChange = Shapes::StructureShape.new(name: 'SOAChange')
     Service = Shapes::StructureShape.new(name: 'Service')
     ServiceAlreadyExists = Shapes::StructureShape.new(name: 'ServiceAlreadyExists')
+    ServiceAttributeKey = Shapes::StringShape.new(name: 'ServiceAttributeKey')
+    ServiceAttributeKeyList = Shapes::ListShape.new(name: 'ServiceAttributeKeyList')
+    ServiceAttributeValue = Shapes::StringShape.new(name: 'ServiceAttributeValue')
+    ServiceAttributes = Shapes::StructureShape.new(name: 'ServiceAttributes')
+    ServiceAttributesLimitExceededException = Shapes::StructureShape.new(name: 'ServiceAttributesLimitExceededException')
+    ServiceAttributesMap = Shapes::MapShape.new(name: 'ServiceAttributesMap')
     ServiceChange = Shapes::StructureShape.new(name: 'ServiceChange')
     ServiceFilter = Shapes::StructureShape.new(name: 'ServiceFilter')
     ServiceFilterName = Shapes::StringShape.new(name: 'ServiceFilterName')
@@ -170,6 +184,8 @@ module Aws::ServiceDiscovery
     UpdatePrivateDnsNamespaceResponse = Shapes::StructureShape.new(name: 'UpdatePrivateDnsNamespaceResponse')
     UpdatePublicDnsNamespaceRequest = Shapes::StructureShape.new(name: 'UpdatePublicDnsNamespaceRequest')
     UpdatePublicDnsNamespaceResponse = Shapes::StructureShape.new(name: 'UpdatePublicDnsNamespaceResponse')
+    UpdateServiceAttributesRequest = Shapes::StructureShape.new(name: 'UpdateServiceAttributesRequest')
+    UpdateServiceAttributesResponse = Shapes::StructureShape.new(name: 'UpdateServiceAttributesResponse')
     UpdateServiceRequest = Shapes::StructureShape.new(name: 'UpdateServiceRequest')
     UpdateServiceResponse = Shapes::StructureShape.new(name: 'UpdateServiceResponse')
 
@@ -229,6 +245,12 @@ module Aws::ServiceDiscovery
     DeleteNamespaceResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
     DeleteNamespaceResponse.struct_class = Types::DeleteNamespaceResponse
 
+    DeleteServiceAttributesRequest.add_member(:service_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "ServiceId"))
+    DeleteServiceAttributesRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: ServiceAttributeKeyList, required: true, location_name: "Attributes"))
+    DeleteServiceAttributesRequest.struct_class = Types::DeleteServiceAttributesRequest
+
+    DeleteServiceAttributesResponse.struct_class = Types::DeleteServiceAttributesResponse
+
     DeleteServiceRequest.add_member(:id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "Id"))
     DeleteServiceRequest.struct_class = Types::DeleteServiceRequest
 
@@ -250,7 +272,15 @@ module Aws::ServiceDiscovery
     DiscoverInstancesRequest.struct_class = Types::DiscoverInstancesRequest
 
     DiscoverInstancesResponse.add_member(:instances, Shapes::ShapeRef.new(shape: HttpInstanceSummaryList, location_name: "Instances"))
+    DiscoverInstancesResponse.add_member(:instances_revision, Shapes::ShapeRef.new(shape: Revision, location_name: "InstancesRevision"))
     DiscoverInstancesResponse.struct_class = Types::DiscoverInstancesResponse
+
+    DiscoverInstancesRevisionRequest.add_member(:namespace_name, Shapes::ShapeRef.new(shape: NamespaceName, required: true, location_name: "NamespaceName"))
+    DiscoverInstancesRevisionRequest.add_member(:service_name, Shapes::ShapeRef.new(shape: ServiceName, required: true, location_name: "ServiceName"))
+    DiscoverInstancesRevisionRequest.struct_class = Types::DiscoverInstancesRevisionRequest
+
+    DiscoverInstancesRevisionResponse.add_member(:instances_revision, Shapes::ShapeRef.new(shape: Revision, location_name: "InstancesRevision"))
+    DiscoverInstancesRevisionResponse.struct_class = Types::DiscoverInstancesRevisionResponse
 
     DnsConfig.add_member(:namespace_id, Shapes::ShapeRef.new(shape: ResourceId, deprecated: true, location_name: "NamespaceId", metadata: {"deprecatedMessage"=>"Top level attribute in request should be used to reference namespace-id"}))
     DnsConfig.add_member(:routing_policy, Shapes::ShapeRef.new(shape: RoutingPolicy, location_name: "RoutingPolicy"))
@@ -304,6 +334,12 @@ module Aws::ServiceDiscovery
 
     GetOperationResponse.add_member(:operation, Shapes::ShapeRef.new(shape: Operation, location_name: "Operation"))
     GetOperationResponse.struct_class = Types::GetOperationResponse
+
+    GetServiceAttributesRequest.add_member(:service_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "ServiceId"))
+    GetServiceAttributesRequest.struct_class = Types::GetServiceAttributesRequest
+
+    GetServiceAttributesResponse.add_member(:service_attributes, Shapes::ShapeRef.new(shape: ServiceAttributes, location_name: "ServiceAttributes"))
+    GetServiceAttributesResponse.struct_class = Types::GetServiceAttributesResponse
 
     GetServiceRequest.add_member(:id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "Id"))
     GetServiceRequest.struct_class = Types::GetServiceRequest
@@ -547,6 +583,18 @@ module Aws::ServiceDiscovery
     ServiceAlreadyExists.add_member(:service_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "ServiceId"))
     ServiceAlreadyExists.struct_class = Types::ServiceAlreadyExists
 
+    ServiceAttributeKeyList.member = Shapes::ShapeRef.new(shape: ServiceAttributeKey)
+
+    ServiceAttributes.add_member(:service_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "ServiceArn"))
+    ServiceAttributes.add_member(:attributes, Shapes::ShapeRef.new(shape: ServiceAttributesMap, location_name: "Attributes"))
+    ServiceAttributes.struct_class = Types::ServiceAttributes
+
+    ServiceAttributesLimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
+    ServiceAttributesLimitExceededException.struct_class = Types::ServiceAttributesLimitExceededException
+
+    ServiceAttributesMap.key = Shapes::ShapeRef.new(shape: ServiceAttributeKey)
+    ServiceAttributesMap.value = Shapes::ShapeRef.new(shape: ServiceAttributeValue)
+
     ServiceChange.add_member(:description, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "Description"))
     ServiceChange.add_member(:dns_config, Shapes::ShapeRef.new(shape: DnsConfigChange, location_name: "DnsConfig"))
     ServiceChange.add_member(:health_check_config, Shapes::ShapeRef.new(shape: HealthCheckConfig, location_name: "HealthCheckConfig"))
@@ -629,6 +677,12 @@ module Aws::ServiceDiscovery
     UpdatePublicDnsNamespaceResponse.add_member(:operation_id, Shapes::ShapeRef.new(shape: OperationId, location_name: "OperationId"))
     UpdatePublicDnsNamespaceResponse.struct_class = Types::UpdatePublicDnsNamespaceResponse
 
+    UpdateServiceAttributesRequest.add_member(:service_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "ServiceId"))
+    UpdateServiceAttributesRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: ServiceAttributesMap, required: true, location_name: "Attributes"))
+    UpdateServiceAttributesRequest.struct_class = Types::UpdateServiceAttributesRequest
+
+    UpdateServiceAttributesResponse.struct_class = Types::UpdateServiceAttributesResponse
+
     UpdateServiceRequest.add_member(:id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "Id"))
     UpdateServiceRequest.add_member(:service, Shapes::ShapeRef.new(shape: ServiceChange, required: true, location_name: "Service"))
     UpdateServiceRequest.struct_class = Types::UpdateServiceRequest
@@ -644,9 +698,11 @@ module Aws::ServiceDiscovery
 
       api.metadata = {
         "apiVersion" => "2017-03-14",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "servicediscovery",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "ServiceDiscovery",
         "serviceFullName" => "AWS Cloud Map",
         "serviceId" => "ServiceDiscovery",
@@ -730,6 +786,16 @@ module Aws::ServiceDiscovery
         o.errors << Shapes::ShapeRef.new(shape: ResourceInUse)
       end)
 
+      api.add_operation(:delete_service_attributes, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteServiceAttributes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteServiceAttributesRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteServiceAttributesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
+      end)
+
       api.add_operation(:deregister_instance, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeregisterInstance"
         o.http_method = "POST"
@@ -752,6 +818,21 @@ module Aws::ServiceDiscovery
         }
         o.input = Shapes::ShapeRef.new(shape: DiscoverInstancesRequest)
         o.output = Shapes::ShapeRef.new(shape: DiscoverInstancesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
+        o.errors << Shapes::ShapeRef.new(shape: RequestLimitExceeded)
+      end)
+
+      api.add_operation(:discover_instances_revision, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DiscoverInstancesRevision"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "data-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DiscoverInstancesRevisionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DiscoverInstancesRevisionResponse)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
         o.errors << Shapes::ShapeRef.new(shape: NamespaceNotFound)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
@@ -812,6 +893,16 @@ module Aws::ServiceDiscovery
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: GetServiceRequest)
         o.output = Shapes::ShapeRef.new(shape: GetServiceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
+      end)
+
+      api.add_operation(:get_service_attributes, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetServiceAttributes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetServiceAttributesRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetServiceAttributesResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
       end)
@@ -978,6 +1069,17 @@ module Aws::ServiceDiscovery
         o.errors << Shapes::ShapeRef.new(shape: DuplicateRequest)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
         o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
+      end)
+
+      api.add_operation(:update_service_attributes, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateServiceAttributes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateServiceAttributesRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateServiceAttributesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInput)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceNotFound)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceAttributesLimitExceededException)
       end)
     end
 
